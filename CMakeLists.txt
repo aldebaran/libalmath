@@ -83,9 +83,19 @@ set(ALMATH_H
     almath/types/alvelocity6d.h
 )
 
+
+
+
+
 create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
 use_lib(almath ALCORE QI)
-install_header(ALMATH SUBFOLDER almath ${ALMATH_H})
+
+# make sure folders hierarchy is preserved.
+file(GLOB_RECURSE _headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.h)
+foreach(_header  ${_headers})
+  get_filename_component(_header_path ${_header} PATH)
+  install_header(ALMATH SUBFOLDER ${_header_path} "${_header}")
+endforeach()
 stage_lib(almath ALMATH)
 
 option(ALMATH_PYTHON_BINDING
