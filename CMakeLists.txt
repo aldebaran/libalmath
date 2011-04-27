@@ -84,7 +84,7 @@ set(ALMATH_H
 )
 
 create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
-use_lib(almath ALCORE)
+use_lib(almath ALCORE QI)
 install_header(ALMATH SUBFOLDER almath ${ALMATH_H})
 stage_lib(almath ALMATH)
 
