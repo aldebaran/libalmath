@@ -11,6 +11,8 @@
 #include <almath/types/alvelocity6d.h>
 #include <almath/tools/altransformhelpers.h>
 
+#include <iostream>
+
 namespace AL
 {
   namespace Math
@@ -160,11 +162,10 @@ namespace AL
       float getTimeFinalCartesian(
         const AL::Math::Transform& pHInit,
         const AL::Math::Transform& pHFinal,
-        const float&                 pMaxVelocity,
-        const float&                 pPeriod)
+        const float&               pMaxVelocity,
+        const float&               pPeriod)
       {
         float tFinal = 0.0f;
-
 
         AL::Math::Velocity6D pVelocityIn  = AL::Math::Velocity6D();
         AL::Math::Velocity6D pVelocity = AL::Math::Velocity6D();
@@ -174,17 +175,17 @@ namespace AL
         AL::Math::ChangeRepereVelocity6D(
           pHInit,         //const AL::Math::Transform& pH,
           pVelocityIn,    //const AL::Math::Velocity6D&  pVIn,
-          pVelocity);  //AL::Math::Velocity6D&        pVOut
+          pVelocity);     //AL::Math::Velocity6D&        pVOut
 
 
-        // 0.15 m.s-1, 2*pi rad.s-1
+        // 0.15 m.s-1, pi/2.0 rad.s-1
         AL::Math::Velocity6D pVelocityMax = AL::Math::Velocity6D(
             0.15f,
             0.15f,
             0.15f,
-            6.283185f,
-            6.283185f,
-            6.283185f);
+            6.283185f/4.0f,
+            6.283185f/4.0f,
+            6.283185f/4.0f);
 
         pVelocityMax = pMaxVelocity*pVelocityMax;
 
