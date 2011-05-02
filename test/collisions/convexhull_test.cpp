@@ -64,7 +64,7 @@ TEST(removeAlignedPoint, remove1)
 
   result.clear();
   AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(4, (int)result.size());
+  EXPECT_EQ(8, (int)result.size()); // was 4 if float epsilonAngle = sinf(0.3f*TO_RAD);
 }
 
 
@@ -93,50 +93,51 @@ TEST(isLeftBest, compare0)
   pA = pt.at(0);
   pB = pt.at(1);
   pC = pt.at(5);
-  EXPECT_EQ(-2, AL::Math::isLeftBest(pA, pB, pC));
+  EXPECT_EQ(-1, AL::Math::isLeftBest(pA, pB, pC)); // was -2 if float epsilonAngle = sinf(0.3f*TO_RAD);
 
   //  i: 0 j: 4 k: 5
   pA = pt.at(0);
   pB = pt.at(4);
   pC = pt.at(5);
-  EXPECT_EQ(-2, AL::Math::isLeftBest(pA, pB, pC));
+  EXPECT_EQ(1, AL::Math::isLeftBest(pA, pB, pC)); // was -2
 
   //  i: 0 j: 5 k: 1
   pA = pt.at(0);
   pB = pt.at(5);
   pC = pt.at(1);
-  EXPECT_EQ(-3, AL::Math::isLeftBest(pA, pB, pC));
+  EXPECT_EQ(1, AL::Math::isLeftBest(pA, pB, pC)); // was -3
 
   //  i: 3 j: 2 k: 6
   pA = pt.at(3);
   pB = pt.at(2);
   pC = pt.at(6);
-  EXPECT_EQ(-2, AL::Math::isLeftBest(pA, pB, pC));
+  EXPECT_EQ(-1, AL::Math::isLeftBest(pA, pB, pC)); // was -2
 
   //  i: 3 j: 6 k: 2
   pA = pt.at(3);
   pB = pt.at(6);
   pC = pt.at(2);
-  EXPECT_EQ(-3, AL::Math::isLeftBest(pA, pB, pC));
+  EXPECT_EQ(1, AL::Math::isLeftBest(pA, pB, pC)); // was -3
 
   //  i: 3 j: 7 k: 6
   pA = pt.at(3);
   pB = pt.at(7);
   pC = pt.at(6);
-  EXPECT_EQ(-2, AL::Math::isLeftBest(pA, pB, pC));
+  EXPECT_EQ(1, AL::Math::isLeftBest(pA, pB, pC)); // was -2
 
   //  i: 4 j: 0 k: 5
   pA = pt.at(4);
   pB = pt.at(0);
   pC = pt.at(5);
-  EXPECT_EQ(-3, AL::Math::isLeftBest(pA, pB, pC));
+  EXPECT_EQ(-1, AL::Math::isLeftBest(pA, pB, pC)); // was -3
 
   //  i: 6 j: 3 k: 2
   pA = pt.at(6);
   pB = pt.at(3);
   pC = pt.at(2);
-  EXPECT_EQ(-3, AL::Math::isLeftBest(pA, pB, pC));
-}
+  EXPECT_EQ(-1, AL::Math::isLeftBest(pA, pB, pC)); // was -3
+} // isLeftBest, compare0
+
 
 TEST(isLeftBest, compare1)
 {
@@ -399,7 +400,45 @@ TEST(isLeftBest, compare1)
   pB = AL::Math::Position2D(-0.0325009450316429138183594f, 0.0667377635836601257324219f);
   pC = AL::Math::Position2D(0.0254789683967828750610352f, 0.1625621467828750610351562f);
   EXPECT_EQ(-2, AL::Math::isLeftBest(pA, pB, pC));
-}
+} // isLeftBest compare1
+
+
+TEST(isLeftBest, compare2)
+{
+  // -4: at least two points are equal
+  // -3: points are nearly aligned but pB is not in the middle of pA, pC
+  // -2: points are aligned and pB is in the middle of pA, pC
+  // -1: pC is left
+  // +1: pC is right
+  AL::Math::Position2D pA;
+  AL::Math::Position2D pB;
+  AL::Math::Position2D pC;
+
+  //i: 77 j: 8 k: 41
+  pA = AL::Math::Position2D(0.0742930024862f, 0.215870693326f); // 77
+  pB = AL::Math::Position2D(0.975853681564f, 0.0119071817026f); // 8
+  pC = AL::Math::Position2D(0.826174616814f, 0.0483366213739f); // 41
+  EXPECT_EQ(1, AL::Math::isLeftBest(pA, pB, pC)); // was -3
+} // isLeftBest compare2
+
+TEST(isLeftBest, compare3)
+{
+  // -4: at least two points are equal
+  // -3: points are nearly aligned but pB is not in the middle of pA, pC
+  // -2: points are aligned and pB is in the middle of pA, pC
+  // -1: pC is left
+  // +1: pC is right
+  AL::Math::Position2D pA;
+  AL::Math::Position2D pB;
+  AL::Math::Position2D pC;
+
+  // i: 6 j: 396 k: 384 isLeft: -2
+  pA = AL::Math::Position2D(0.328404426575f, -1.0f); // 6
+  pB = AL::Math::Position2D(-1.0f, -1.0f); // 396
+  pC = AL::Math::Position2D(-1.0f, -0.995214521885f); // 384
+
+  EXPECT_EQ(-1, AL::Math::isLeftBest(pA, pB, pC));
+} // isLeftBest compare3
 
 
 TEST(sortPredicate, compare)
@@ -691,172 +730,6 @@ TEST(isLeftOld, test0)
 }
 
 
-TEST(ConvexhullTest, timeOut0)
-{
-  std::vector<AL::Math::Position2D> lContactPoints;
-  lContactPoints.resize(8);
-
-  lContactPoints.at(0) = AL::Math::Position2D( 0.1340611875057220458984375f, 0.0968693196773529052734375f);
-  lContactPoints.at(1) = AL::Math::Position2D( 0.0885055512189865112304688f, 0.0215787440538406372070312f);
-  lContactPoints.at(2) = AL::Math::Position2D( -0.0200766772031784057617188f, 0.0872715637087821960449219f);
-  lContactPoints.at(3) = AL::Math::Position2D( 0.0254789683967828750610352f, 0.1625621467828750610351562f);
-  lContactPoints.at(4) = AL::Math::Position2D( 0.0760812759399414062500000f, 0.0010449402034282684326172f);
-  lContactPoints.at(5) = AL::Math::Position2D( 0.0305256322026252746582031f, -0.0742456391453742980957031f);
-  lContactPoints.at(6) = AL::Math::Position2D( -0.0780565887689590454101562f, -0.0085528194904327392578125f);
-  lContactPoints.at(7) = AL::Math::Position2D( -0.0325009450316429138183594f, 0.0667377635836601257324219f);
-
-  std::vector<AL::Math::Position2D> result;
-  AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(4, (int)result.size());
-
-  lContactPoints = AL::Math::getConvexHull(lContactPoints);
-  EXPECT_EQ(5, (int)lContactPoints.size());
-}
-
-
-TEST(ConvexhullTest, timeOut1)
-{
-  std::vector<AL::Math::Position2D> lContactPoints;
-  lContactPoints.resize(8);
-
-  lContactPoints.at(0) = AL::Math::Position2D( -1.0f, -1.0f);
-  lContactPoints.at(1) = AL::Math::Position2D( -0.5f, -1.5f);
-  lContactPoints.at(2) = AL::Math::Position2D(  0.5f, -1.5f);
-  lContactPoints.at(3) = AL::Math::Position2D(  1.0f, -1.0f);
-  lContactPoints.at(4) = AL::Math::Position2D(  1.0f, 1.0f);
-  lContactPoints.at(5) = AL::Math::Position2D(  0.5f, 1.5f);
-  lContactPoints.at(6) = AL::Math::Position2D( -0.5f, 1.5f);
-  lContactPoints.at(7) = AL::Math::Position2D( -1.0f, 1.0f);
-
-  std::vector<AL::Math::Position2D> result;
-  AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(8, (int)result.size());
-
-  lContactPoints = AL::Math::getConvexHull(lContactPoints);
-  EXPECT_EQ(9, (int)lContactPoints.size());
-}
-
-TEST(ConvexhullTest, timeOut2)
-{
-  std::vector<AL::Math::Position2D> lContactPoints;
-  lContactPoints.resize(8);
-
-  lContactPoints.at(0) = AL::Math::Position2D( -1.0f, -1.0f); // pt 0
-  lContactPoints.at(1) = AL::Math::Position2D( -0.5f, -1.0f); // pt 1
-  lContactPoints.at(2) = AL::Math::Position2D(  0.5f, -1.0f); // pt 2
-  lContactPoints.at(3) = AL::Math::Position2D(  1.0f, -1.0f); // pt 3
-  lContactPoints.at(4) = AL::Math::Position2D(  1.0f, 1.0f); // pt 4
-  lContactPoints.at(5) = AL::Math::Position2D(  0.5f, 1.0f); // pt 5
-  lContactPoints.at(6) = AL::Math::Position2D( -0.5f, 1.0f); // pt 6
-  lContactPoints.at(7) = AL::Math::Position2D( -1.0f, 1.0f); // pt 7
-
-  std::vector<AL::Math::Position2D> result;
-  AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(4, (int)result.size());
-
-  lContactPoints = AL::Math::getConvexHull(lContactPoints);
-  EXPECT_EQ(5, (int)lContactPoints.size());
-}
-
-TEST(ConvexhullTest, timeOut3)
-{
-  std::vector<AL::Math::Position2D> lContactPoints;
-  lContactPoints.resize(8);
-
-  lContactPoints.at(1) = AL::Math::Position2D( -0.5f, -1.0f); // pt 1
-  lContactPoints.at(0) = AL::Math::Position2D( -1.0f, -1.0f); // pt 0
-  lContactPoints.at(5) = AL::Math::Position2D(  0.5f, 1.0f); // pt 5
-  lContactPoints.at(6) = AL::Math::Position2D( -0.5f, 1.0f); // pt 6
-  lContactPoints.at(2) = AL::Math::Position2D(  0.5f, -1.0f); // pt 2
-  lContactPoints.at(3) = AL::Math::Position2D(  1.0f, -1.0f); // pt 3
-  lContactPoints.at(4) = AL::Math::Position2D(  1.0f, 1.0f); // pt 4
-  lContactPoints.at(7) = AL::Math::Position2D( -1.0f, 1.0f); // pt 7
-  //  std::cout << "    pt0 = [" << std::endl;
-  //  for (unsigned int i=0; i<lContactPoints.size(); i++)
-  //  {
-  //    std::cout << "[ " << lContactPoints.at(i).x << ", " << lContactPoints.at(i).y << "]," << std::endl;
-  //  }
-  //  std::cout << "]" << std::endl;
-
-  std::vector<AL::Math::Position2D> result;
-  AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(4, (int)result.size());
-
-  lContactPoints = AL::Math::getConvexHull(lContactPoints);
-  EXPECT_EQ(5, (int)lContactPoints.size());
-  //  std::cout << "    pt1 = [" << std::endl;
-  //  for (unsigned int i=0; i<result.size(); i++)
-  //  {
-  //    std::cout << "[ " << result.at(i).x << ", " << result.at(i).y << "]," << std::endl;
-  //  }
-  //  std::cout << "]" << std::endl;
-  //  std::cout << std::endl;
-}
-
-TEST(ConvexhullTest, timeOut4)
-{
-  std::vector<AL::Math::Position2D> lContactPoints;
-  lContactPoints.resize(8);
-  lContactPoints.at(0) = AL::Math::Position2D(0.134061f, 0.0968693f);
-  lContactPoints.at(1) = AL::Math::Position2D(0.0885056f, 0.0215787f);
-  lContactPoints.at(2) = AL::Math::Position2D(-0.0200767f, 0.0872716f);
-  lContactPoints.at(3) = AL::Math::Position2D(0.025479f, 0.162562f);
-  lContactPoints.at(4) = AL::Math::Position2D(0.0760813f, 0.00104494f);
-  lContactPoints.at(5) = AL::Math::Position2D(0.0305256f, -0.0742456f);
-  lContactPoints.at(6) = AL::Math::Position2D(-0.0780566f, -0.00855282f);
-  lContactPoints.at(7) = AL::Math::Position2D(-0.0325009f, 0.0667378f);
-
-  std::vector<AL::Math::Position2D> result;
-  AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(4, (int)result.size());
-
-  lContactPoints = AL::Math::getConvexHull(lContactPoints);
-  EXPECT_EQ(5, (int)lContactPoints.size());
-}
-
-TEST(ConvexhullTest, timeOut5)
-{
-  std::vector<AL::Math::Position2D> lContactPoints;
-  lContactPoints.resize(8);
-  lContactPoints.at(0) = AL::Math::Position2D(0.0800774842500686645507812f, 0.1515965759754180908203125f);
-  lContactPoints.at(1) = AL::Math::Position2D(0.0800782665610313415527344f, 0.0635965839028358459472656f);
-  lContactPoints.at(2) = AL::Math::Position2D(-0.0469217263162136077880859f, 0.0635954439640045166015625);
-  lContactPoints.at(3) = AL::Math::Position2D(-0.0469225160777568817138672f, 0.1515954434871673583984375);
-  lContactPoints.at(4) = AL::Math::Position2D(0.0800784975290298461914062f, 0.0395965911448001861572266);
-  lContactPoints.at(5) = AL::Math::Position2D(0.0800792798399925231933594f, -0.0484033934772014617919922);
-  lContactPoints.at(6) = AL::Math::Position2D(-0.0469207167625427246093750f, -0.0484045296907424926757812);
-  lContactPoints.at(7) = AL::Math::Position2D(-0.0469215027987957000732422f, 0.0395954549312591552734375);
-
-  std::vector<AL::Math::Position2D> result;
-  AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(4, (int)result.size());
-
-  lContactPoints = AL::Math::getConvexHull(lContactPoints);
-  EXPECT_EQ(5, (int)lContactPoints.size());
-}
-
-TEST(ConvexhullTest, timeOut6)
-{
-  std::vector<AL::Math::Position2D> lContactPoints;
-  lContactPoints.resize(8);
-  lContactPoints.at(0) = AL::Math::Position2D(-0.0469849556684494018554688f, 0.0607356913387775421142578f);
-  lContactPoints.at(1) = AL::Math::Position2D(-0.0469849556684494018554688f, 0.1487356722354888916015625f);
-  lContactPoints.at(2) = AL::Math::Position2D(-0.0469849519431591033935547f, -0.0512642934918403625488281f);
-  lContactPoints.at(3) = AL::Math::Position2D(-0.0469849519431591033935547f, 0.0367356948554515838623047f);
-  lContactPoints.at(4) = AL::Math::Position2D(0.0800150334835052490234375f, 0.0607356913387775421142578f);
-  lContactPoints.at(5) = AL::Math::Position2D(0.0800150334835052490234375f, 0.1487356722354888916015625f);
-  lContactPoints.at(6) = AL::Math::Position2D(0.0800150409340858459472656f, -0.0512642972171306610107422f);
-  lContactPoints.at(7) = AL::Math::Position2D(0.0800150409340858459472656f, 0.0367356948554515838623047f);
-
-  std::vector<AL::Math::Position2D> result;
-  AL::Math::removeAlignedPoint(lContactPoints, result);
-  EXPECT_EQ(4, (int)result.size());
-
-  lContactPoints = AL::Math::getConvexHull(lContactPoints);
-  EXPECT_EQ(5, (int)lContactPoints.size());
-}
-
-
 TEST(ConvexhullTest, isNotInside)
 {
   std::vector<AL::Math::Position2D> lContactPoints;
@@ -899,7 +772,8 @@ TEST(ConvexhullTest, isNotInside)
     }
   }
 
-}
+} // isNotInside
+
 
 TEST(ConvexhullTest, randomData0)
 {
@@ -1008,10 +882,10 @@ TEST(ConvexhullTest, randomData0)
 
   std::vector<AL::Math::Position2D> pPoints;
   AL::Math::removeAlignedPoint(data, pPoints);
-  EXPECT_EQ(12, (int)pPoints.size());
+  EXPECT_EQ(75, (int)pPoints.size()); // was 12
 
   std::vector<AL::Math::Position2D> result = AL::Math::getConvexHull(data);
-  EXPECT_EQ(10, (int)result.size());
+  EXPECT_EQ(11, (int)result.size()); // was 10
 
   AL::Math::deleteDoublesInNoneSortVector(data);
   EXPECT_EQ(100, (int)data.size());
@@ -1023,9 +897,487 @@ TEST(ConvexhullTest, randomData0)
 //              << pPoints.at(i).x << ", " << pPoints.at(i).y << "))" << std::endl;
 //  }
 
-}
+} // end randomData0
+
 
 TEST(ConvexhullTest, randomData1)
+{
+  std::vector<AL::Math::Position2D> data;
+  data.resize(400);
+  data.at(0)= AL::Math::Position2D(-1.0f, -0.446804851294f); // 0
+  data.at(1)= AL::Math::Position2D(1.0f, 0.831940710545f); // 1
+  data.at(2)= AL::Math::Position2D(-0.198347881436f, -1.0f); // 2
+  data.at(3)= AL::Math::Position2D(-0.122689545155f, 1.0f); // 3
+  data.at(4)= AL::Math::Position2D(-1.0f, -0.10264210403f); // 4
+  data.at(5)= AL::Math::Position2D(1.0f, -0.894295811653f); // 5
+  data.at(6)= AL::Math::Position2D(0.328404426575f, -1.0f); // 6
+  data.at(7)= AL::Math::Position2D(0.938923358917f, 1.0f); // 7
+  data.at(8)= AL::Math::Position2D(-1.0f, 0.219311073422f); // 8
+  data.at(9)= AL::Math::Position2D(1.0f, 0.367222636938f); // 9
+  data.at(10)= AL::Math::Position2D(0.580633223057f, -1.0f); // 10
+  data.at(11)= AL::Math::Position2D(-0.347913563251f, 1.0f); // 11
+  data.at(12)= AL::Math::Position2D(-1.0f, -0.603081882f); // 12
+  data.at(13)= AL::Math::Position2D(1.0f, -0.564284265041f); // 13
+  data.at(14)= AL::Math::Position2D(0.567598342896f, -1.0f); // 14
+  data.at(15)= AL::Math::Position2D(-0.243827432394f, 1.0f); // 15
+  data.at(16)= AL::Math::Position2D(-1.0f, -0.405109912157f); // 16
+  data.at(17)= AL::Math::Position2D(1.0f, 0.490473687649f); // 17
+  data.at(18)= AL::Math::Position2D(-0.051644705236f, -1.0f); // 18
+  data.at(19)= AL::Math::Position2D(-0.570603251457f, 1.0f); // 19
+  data.at(20)= AL::Math::Position2D(-1.0f, 0.126282319427f); // 20
+  data.at(21)= AL::Math::Position2D(1.0f, -0.427623778582f); // 21
+  data.at(22)= AL::Math::Position2D(0.639392793179f, -1.0f); // 22
+  data.at(23)= AL::Math::Position2D(-0.820161640644f, 1.0f); // 23
+  data.at(24)= AL::Math::Position2D(-1.0f, -0.214604735374f); // 24
+  data.at(25)= AL::Math::Position2D(1.0f, 0.676067650318f); // 25
+  data.at(26)= AL::Math::Position2D(-0.715437293053f, -1.0f); // 26
+  data.at(27)= AL::Math::Position2D(-0.0971464663744f, 1.0f); // 27
+  data.at(28)= AL::Math::Position2D(-1.0f, -0.504795968533f); // 28
+  data.at(29)= AL::Math::Position2D(1.0f, -0.805170297623f); // 29
+  data.at(30)= AL::Math::Position2D(0.255645334721f, -1.0f); // 30
+  data.at(31)= AL::Math::Position2D(0.519216895103f, 1.0f); // 31
+  data.at(32)= AL::Math::Position2D(-1.0f, 0.940836131573f); // 32
+  data.at(33)= AL::Math::Position2D(1.0f, 0.519241333008f); // 33
+  data.at(34)= AL::Math::Position2D(0.775143742561f, -1.0f); // 34
+  data.at(35)= AL::Math::Position2D(-0.0182752162218f, 1.0f); // 35
+  data.at(36)= AL::Math::Position2D(-1.0f, -0.855382680893f); // 36
+  data.at(37)= AL::Math::Position2D(1.0f, 0.876670539379f); // 37
+  data.at(38)= AL::Math::Position2D(0.0785210356116f, -1.0f); // 38
+  data.at(39)= AL::Math::Position2D(-0.650805592537f, 1.0f); // 39
+  data.at(40)= AL::Math::Position2D(-1.0f, -0.230878010392f); // 40
+  data.at(41)= AL::Math::Position2D(1.0f, 0.620259404182f); // 41
+  data.at(42)= AL::Math::Position2D(-0.415594786406f, -1.0f); // 42
+  data.at(43)= AL::Math::Position2D(-0.0357880964875f, 1.0f); // 43
+  data.at(44)= AL::Math::Position2D(-1.0f, -0.561155855656f); // 44
+  data.at(45)= AL::Math::Position2D(1.0f, 0.425160169601f); // 45
+  data.at(46)= AL::Math::Position2D(0.397685289383f, -1.0f); // 46
+  data.at(47)= AL::Math::Position2D(-0.271635770798f, 1.0f); // 47
+  data.at(48)= AL::Math::Position2D(-1.0f, 0.421557664871f); // 48
+  data.at(49)= AL::Math::Position2D(1.0f, -0.601459026337f); // 49
+  data.at(50)= AL::Math::Position2D(0.0724089816213f, -1.0f); // 50
+  data.at(51)= AL::Math::Position2D(-0.651813805103f, 1.0f); // 51
+  data.at(52)= AL::Math::Position2D(-1.0f, 0.0173651631922f); // 52
+  data.at(53)= AL::Math::Position2D(1.0f, -0.493654072285f); // 53
+  data.at(54)= AL::Math::Position2D(-0.226542130113f, -1.0f); // 54
+  data.at(55)= AL::Math::Position2D(0.999452471733f, 1.0f); // 55
+  data.at(56)= AL::Math::Position2D(-1.0f, -0.468002468348f); // 56
+  data.at(57)= AL::Math::Position2D(1.0f, 0.399474233389f); // 57
+  data.at(58)= AL::Math::Position2D(-0.709527671337f, -1.0f); // 58
+  data.at(59)= AL::Math::Position2D(-0.0704187527299f, 1.0f); // 59
+  data.at(60)= AL::Math::Position2D(-1.0f, -0.561790764332f); // 60
+  data.at(61)= AL::Math::Position2D(1.0f, -0.330915421247f); // 61
+  data.at(62)= AL::Math::Position2D(0.391036719084f, -1.0f); // 62
+  data.at(63)= AL::Math::Position2D(-0.620523393154f, 1.0f); // 63
+  data.at(64)= AL::Math::Position2D(-1.0f, 0.0376922599971f); // 64
+  data.at(65)= AL::Math::Position2D(1.0f, 0.268423467875f); // 65
+  data.at(66)= AL::Math::Position2D(-0.281400501728f, -1.0f); // 66
+  data.at(67)= AL::Math::Position2D(-0.0114410473034f, 1.0f); // 67
+  data.at(68)= AL::Math::Position2D(-1.0f, 0.0529104433954f); // 68
+  data.at(69)= AL::Math::Position2D(1.0f, 0.743270099163f); // 69
+  data.at(70)= AL::Math::Position2D(0.506779313087f, -1.0f); // 70
+  data.at(71)= AL::Math::Position2D(0.676407933235f, 1.0f); // 71
+  data.at(72)= AL::Math::Position2D(-1.0f, -0.214361384511f); // 72
+  data.at(73)= AL::Math::Position2D(1.0f, 0.442629098892f); // 73
+  data.at(74)= AL::Math::Position2D(-0.826814711094f, -1.0f); // 74
+  data.at(75)= AL::Math::Position2D(-0.582073271275f, 1.0f); // 75
+  data.at(76)= AL::Math::Position2D(-1.0f, 0.380002260208f); // 76
+  data.at(77)= AL::Math::Position2D(1.0f, -0.850284039974f); // 77
+  data.at(78)= AL::Math::Position2D(0.903813779354f, -1.0f); // 78
+  data.at(79)= AL::Math::Position2D(0.428320944309f, 1.0f); // 79
+  data.at(80)= AL::Math::Position2D(-1.0f, -0.686765193939f); // 80
+  data.at(81)= AL::Math::Position2D(1.0f, 0.407080739737f); // 81
+  data.at(82)= AL::Math::Position2D(0.954542517662f, -1.0f); // 82
+  data.at(83)= AL::Math::Position2D(-0.353682905436f, 1.0f); // 83
+  data.at(84)= AL::Math::Position2D(-1.0f, -0.0618978850543f); // 84
+  data.at(85)= AL::Math::Position2D(1.0f, -0.816445827484f); // 85
+  data.at(86)= AL::Math::Position2D(0.0806177556515f, -1.0f); // 86
+  data.at(87)= AL::Math::Position2D(-0.700315773487f, 1.0f); // 87
+  data.at(88)= AL::Math::Position2D(-1.0f, -0.488505989313f); // 88
+  data.at(89)= AL::Math::Position2D(1.0f, -0.637856125832f); // 89
+  data.at(90)= AL::Math::Position2D(0.567297697067f, -1.0f); // 90
+  data.at(91)= AL::Math::Position2D(-0.50206553936f, 1.0f); // 91
+  data.at(92)= AL::Math::Position2D(-1.0f, 0.813305437565f); // 92
+  data.at(93)= AL::Math::Position2D(1.0f, -0.00766856456175f); // 93
+  data.at(94)= AL::Math::Position2D(-0.0765049383044f, -1.0f); // 94
+  data.at(95)= AL::Math::Position2D(-0.546765387058f, 1.0f); // 95
+  data.at(96)= AL::Math::Position2D(-1.0f, -0.341696113348f); // 96
+  data.at(97)= AL::Math::Position2D(1.0f, 0.511673986912f); // 97
+  data.at(98)= AL::Math::Position2D(0.468416303396f, -1.0f); // 98
+  data.at(99)= AL::Math::Position2D(-0.585760891438f, 1.0f); // 99
+  data.at(100)= AL::Math::Position2D(-1.0f, -0.635513424873f); // 100
+  data.at(101)= AL::Math::Position2D(1.0f, 0.545143127441f); // 101
+  data.at(102)= AL::Math::Position2D(-0.673808455467f, -1.0f); // 102
+  data.at(103)= AL::Math::Position2D(-0.41132375598f, 1.0f); // 103
+  data.at(104)= AL::Math::Position2D(-1.0f, -0.858831524849f); // 104
+  data.at(105)= AL::Math::Position2D(1.0f, 0.0438254699111f); // 105
+  data.at(106)= AL::Math::Position2D(-0.358507752419f, -1.0f); // 106
+  data.at(107)= AL::Math::Position2D(0.698491156101f, 1.0f); // 107
+  data.at(108)= AL::Math::Position2D(-1.0f, -0.958425879478f); // 108
+  data.at(109)= AL::Math::Position2D(1.0f, 0.128347545862f); // 109
+  data.at(110)= AL::Math::Position2D(-0.219675481319f, -1.0f); // 110
+  data.at(111)= AL::Math::Position2D(-0.112247161567f, 1.0f); // 111
+  data.at(112)= AL::Math::Position2D(-1.0f, 0.372705072165f); // 112
+  data.at(113)= AL::Math::Position2D(1.0f, -0.613283038139f); // 113
+  data.at(114)= AL::Math::Position2D(0.115123219788f, -1.0f); // 114
+  data.at(115)= AL::Math::Position2D(0.919606804848f, 1.0f); // 115
+  data.at(116)= AL::Math::Position2D(-1.0f, -0.153443843126f); // 116
+  data.at(117)= AL::Math::Position2D(1.0f, 0.580471098423f); // 117
+  data.at(118)= AL::Math::Position2D(0.628908991814f, -1.0f); // 118
+  data.at(119)= AL::Math::Position2D(0.353942841291f, 1.0f); // 119
+  data.at(120)= AL::Math::Position2D(-1.0f, -0.586061537266f); // 120
+  data.at(121)= AL::Math::Position2D(1.0f, 0.78567135334f); // 121
+  data.at(122)= AL::Math::Position2D(0.958238124847f, -1.0f); // 122
+  data.at(123)= AL::Math::Position2D(-0.193119168282f, 1.0f); // 123
+  data.at(124)= AL::Math::Position2D(-1.0f, 0.0341553874314f); // 124
+  data.at(125)= AL::Math::Position2D(1.0f, -0.499334394932f); // 125
+  data.at(126)= AL::Math::Position2D(-0.188144624233f, -1.0f); // 126
+  data.at(127)= AL::Math::Position2D(0.0649817064404f, 1.0f); // 127
+  data.at(128)= AL::Math::Position2D(-1.0f, 0.969097614288f); // 128
+  data.at(129)= AL::Math::Position2D(1.0f, 0.771354734898f); // 129
+  data.at(130)= AL::Math::Position2D(-0.105910584331f, -1.0f); // 130
+  data.at(131)= AL::Math::Position2D(-0.452493965626f, 1.0f); // 131
+  data.at(132)= AL::Math::Position2D(-1.0f, -0.979184091091f); // 132
+  data.at(133)= AL::Math::Position2D(1.0f, -0.298536270857f); // 133
+  data.at(134)= AL::Math::Position2D(0.163637757301f, -1.0f); // 134
+  data.at(135)= AL::Math::Position2D(-0.555234014988f, 1.0f); // 135
+  data.at(136)= AL::Math::Position2D(-1.0f, 0.13957734406f); // 136
+  data.at(137)= AL::Math::Position2D(1.0f, 0.52682185173f); // 137
+  data.at(138)= AL::Math::Position2D(0.02250283584f, -1.0f); // 138
+  data.at(139)= AL::Math::Position2D(-0.676374793053f, 1.0f); // 139
+  data.at(140)= AL::Math::Position2D(-1.0f, -0.73066920042f); // 140
+  data.at(141)= AL::Math::Position2D(1.0f, 0.444440573454f); // 141
+  data.at(142)= AL::Math::Position2D(0.631085455418f, -1.0f); // 142
+  data.at(143)= AL::Math::Position2D(-0.167134568095f, 1.0f); // 143
+  data.at(144)= AL::Math::Position2D(-1.0f, -0.433526724577f); // 144
+  data.at(145)= AL::Math::Position2D(1.0f, 0.347336232662f); // 145
+  data.at(146)= AL::Math::Position2D(-0.0847209915519f, -1.0f); // 146
+  data.at(147)= AL::Math::Position2D(0.888176500797f, 1.0f); // 147
+  data.at(148)= AL::Math::Position2D(-1.0f, 0.122317411005f); // 148
+  data.at(149)= AL::Math::Position2D(1.0f, 0.809071183205f); // 149
+  data.at(150)= AL::Math::Position2D(-0.900987684727f, -1.0f); // 150
+  data.at(151)= AL::Math::Position2D(0.432181298733f, 1.0f); // 151
+  data.at(152)= AL::Math::Position2D(-1.0f, 0.608914554119f); // 152
+  data.at(153)= AL::Math::Position2D(1.0f, -0.00679517025128f); // 153
+  data.at(154)= AL::Math::Position2D(0.167569860816f, -1.0f); // 154
+  data.at(155)= AL::Math::Position2D(0.178124502301f, 1.0f); // 155
+  data.at(156)= AL::Math::Position2D(-1.0f, -0.99185782671f); // 156
+  data.at(157)= AL::Math::Position2D(1.0f, 0.619429469109f); // 157
+  data.at(158)= AL::Math::Position2D(-0.354623436928f, -1.0f); // 158
+  data.at(159)= AL::Math::Position2D(0.0269049331546f, 1.0f); // 159
+  data.at(160)= AL::Math::Position2D(-1.0f, -0.39569285512f); // 160
+  data.at(161)= AL::Math::Position2D(1.0f, -0.19713178277f); // 161
+  data.at(162)= AL::Math::Position2D(-0.640074789524f, -1.0f); // 162
+  data.at(163)= AL::Math::Position2D(0.769285142422f, 1.0f); // 163
+  data.at(164)= AL::Math::Position2D(-1.0f, -0.498618155718f); // 164
+  data.at(165)= AL::Math::Position2D(1.0f, -0.811736941338f); // 165
+  data.at(166)= AL::Math::Position2D(-0.168763056397f, -1.0f); // 166
+  data.at(167)= AL::Math::Position2D(0.233365729451f, 1.0f); // 167
+  data.at(168)= AL::Math::Position2D(-1.0f, -0.930927455425f); // 168
+  data.at(169)= AL::Math::Position2D(1.0f, -0.0252936724573f); // 169
+  data.at(170)= AL::Math::Position2D(0.045550622046f, -1.0f); // 170
+  data.at(171)= AL::Math::Position2D(-0.769372463226f, 1.0f); // 171
+  data.at(172)= AL::Math::Position2D(-1.0f, 0.956544816494f); // 172
+  data.at(173)= AL::Math::Position2D(1.0f, 0.351806938648f); // 173
+  data.at(174)= AL::Math::Position2D(0.878166913986f, -1.0f); // 174
+  data.at(175)= AL::Math::Position2D(-0.854134321213f, 1.0f); // 175
+  data.at(176)= AL::Math::Position2D(-1.0f, -0.367167562246f); // 176
+  data.at(177)= AL::Math::Position2D(1.0f, 0.849012494087f); // 177
+  data.at(178)= AL::Math::Position2D(-0.916960716248f, -1.0f); // 178
+  data.at(179)= AL::Math::Position2D(0.441826492548f, 1.0f); // 179
+  data.at(180)= AL::Math::Position2D(-1.0f, 0.631312251091f); // 180
+  data.at(181)= AL::Math::Position2D(1.0f, 0.0258876793087f); // 181
+  data.at(182)= AL::Math::Position2D(0.70799946785f, -1.0f); // 182
+  data.at(183)= AL::Math::Position2D(0.309800207615f, 1.0f); // 183
+  data.at(184)= AL::Math::Position2D(-1.0f, 0.939734578133f); // 184
+  data.at(185)= AL::Math::Position2D(1.0f, -0.885999381542f); // 185
+  data.at(186)= AL::Math::Position2D(-0.113305293024f, -1.0f); // 186
+  data.at(187)= AL::Math::Position2D(-0.231733962893f, 1.0f); // 187
+  data.at(188)= AL::Math::Position2D(-1.0f, -0.773718297482f); // 188
+  data.at(189)= AL::Math::Position2D(1.0f, 0.619028091431f); // 189
+  data.at(190)= AL::Math::Position2D(0.348928570747f, -1.0f); // 190
+  data.at(191)= AL::Math::Position2D(0.803607225418f, 1.0f); // 191
+  data.at(192)= AL::Math::Position2D(-1.0f, 0.463140189648f); // 192
+  data.at(193)= AL::Math::Position2D(1.0f, -0.793345451355f); // 193
+  data.at(194)= AL::Math::Position2D(-0.00414864066988f, -1.0f); // 194
+  data.at(195)= AL::Math::Position2D(-0.762422442436f, 1.0f); // 195
+  data.at(196)= AL::Math::Position2D(-1.0f, 0.392349839211f); // 196
+  data.at(197)= AL::Math::Position2D(1.0f, -0.948990225792f); // 197
+  data.at(198)= AL::Math::Position2D(-0.906333446503f, -1.0f); // 198
+  data.at(199)= AL::Math::Position2D(-0.937721610069f, 1.0f); // 199
+  data.at(200)= AL::Math::Position2D(-1.0f, 0.259398639202f); // 200
+  data.at(201)= AL::Math::Position2D(1.0f, 0.861361384392f); // 201
+  data.at(202)= AL::Math::Position2D(0.0608270019293f, -1.0f); // 202
+  data.at(203)= AL::Math::Position2D(0.159332439303f, 1.0f); // 203
+  data.at(204)= AL::Math::Position2D(-1.0f, 0.652806341648f); // 204
+  data.at(205)= AL::Math::Position2D(1.0f, -0.00800554361194f); // 205
+  data.at(206)= AL::Math::Position2D(0.0985623374581f, -1.0f); // 206
+  data.at(207)= AL::Math::Position2D(0.0578101426363f, 1.0f); // 207
+  data.at(208)= AL::Math::Position2D(-1.0f, -0.444664716721f); // 208
+  data.at(209)= AL::Math::Position2D(1.0f, 0.568272173405f); // 209
+  data.at(210)= AL::Math::Position2D(0.92127507925f, -1.0f); // 210
+  data.at(211)= AL::Math::Position2D(0.929978132248f, 1.0f); // 211
+  data.at(212)= AL::Math::Position2D(-1.0f, -0.780300319195f); // 212
+  data.at(213)= AL::Math::Position2D(1.0f, 0.753322184086f); // 213
+  data.at(214)= AL::Math::Position2D(0.117532208562f, -1.0f); // 214
+  data.at(215)= AL::Math::Position2D(-0.216102614999f, 1.0f); // 215
+  data.at(216)= AL::Math::Position2D(-1.0f, 0.507620573044f); // 216
+  data.at(217)= AL::Math::Position2D(1.0f, -0.294957488775f); // 217
+  data.at(218)= AL::Math::Position2D(-0.0888517647982f, -1.0f); // 218
+  data.at(219)= AL::Math::Position2D(-0.987100601196f, 1.0f); // 219
+  data.at(220)= AL::Math::Position2D(-1.0f, -0.417905151844f); // 220
+  data.at(221)= AL::Math::Position2D(1.0f, 0.848590493202f); // 221
+  data.at(222)= AL::Math::Position2D(0.435161739588f, -1.0f); // 222
+  data.at(223)= AL::Math::Position2D(-0.93688172102f, 1.0f); // 223
+  data.at(224)= AL::Math::Position2D(-1.0f, 0.595445513725f); // 224
+  data.at(225)= AL::Math::Position2D(1.0f, -0.180838853121f); // 225
+  data.at(226)= AL::Math::Position2D(0.741573154926f, -1.0f); // 226
+  data.at(227)= AL::Math::Position2D(-0.474747359753f, 1.0f); // 227
+  data.at(228)= AL::Math::Position2D(-1.0f, -0.826177477837f); // 228
+  data.at(229)= AL::Math::Position2D(1.0f, 0.637075543404f); // 229
+  data.at(230)= AL::Math::Position2D(-0.966842293739f, -1.0f); // 230
+  data.at(231)= AL::Math::Position2D(0.740065217018f, 1.0f); // 231
+  data.at(232)= AL::Math::Position2D(-1.0f, 0.381835430861f); // 232
+  data.at(233)= AL::Math::Position2D(1.0f, -0.242213994265f); // 233
+  data.at(234)= AL::Math::Position2D(-0.0371092446148f, -1.0f); // 234
+  data.at(235)= AL::Math::Position2D(0.890082597733f, 1.0f); // 235
+  data.at(236)= AL::Math::Position2D(-1.0f, 0.324445039034f); // 236
+  data.at(237)= AL::Math::Position2D(1.0f, 0.141750186682f); // 237
+  data.at(238)= AL::Math::Position2D(0.977463424206f, -1.0f); // 238
+  data.at(239)= AL::Math::Position2D(-0.550112783909f, 1.0f); // 239
+  data.at(240)= AL::Math::Position2D(-1.0f, 0.443135172129f); // 240
+  data.at(241)= AL::Math::Position2D(1.0f, -0.599870681763f); // 241
+  data.at(242)= AL::Math::Position2D(-0.832208573818f, -1.0f); // 242
+  data.at(243)= AL::Math::Position2D(0.465709835291f, 1.0f); // 243
+  data.at(244)= AL::Math::Position2D(-1.0f, 0.401599287987f); // 244
+  data.at(245)= AL::Math::Position2D(1.0f, 0.433333963156f); // 245
+  data.at(246)= AL::Math::Position2D(-0.432613492012f, -1.0f); // 246
+  data.at(247)= AL::Math::Position2D(-0.609803557396f, 1.0f); // 247
+  data.at(248)= AL::Math::Position2D(-1.0f, 0.216377228498f); // 248
+  data.at(249)= AL::Math::Position2D(1.0f, -0.251437455416f); // 249
+  data.at(250)= AL::Math::Position2D(0.408884525299f, -1.0f); // 250
+  data.at(251)= AL::Math::Position2D(0.0578557215631f, 1.0f); // 251
+  data.at(252)= AL::Math::Position2D(-1.0f, 0.34742462635f); // 252
+  data.at(253)= AL::Math::Position2D(1.0f, 0.140886887908f); // 253
+  data.at(254)= AL::Math::Position2D(-0.610124647617f, -1.0f); // 254
+  data.at(255)= AL::Math::Position2D(0.95994412899f, 1.0f); // 255
+  data.at(256)= AL::Math::Position2D(-1.0f, -0.887269198895f); // 256
+  data.at(257)= AL::Math::Position2D(1.0f, -0.900830626488f); // 257
+  data.at(258)= AL::Math::Position2D(-0.780239701271f, -1.0f); // 258
+  data.at(259)= AL::Math::Position2D(-0.699071764946f, 1.0f); // 259
+  data.at(260)= AL::Math::Position2D(-1.0f, 0.903883159161f); // 260
+  data.at(261)= AL::Math::Position2D(1.0f, -0.352707117796f); // 261
+  data.at(262)= AL::Math::Position2D(-0.237847417593f, -1.0f); // 262
+  data.at(263)= AL::Math::Position2D(-0.78850799799f, 1.0f); // 263
+  data.at(264)= AL::Math::Position2D(-1.0f, -0.732275545597f); // 264
+  data.at(265)= AL::Math::Position2D(1.0f, 0.950554311275f); // 265
+  data.at(266)= AL::Math::Position2D(0.582848370075f, -1.0f); // 266
+  data.at(267)= AL::Math::Position2D(-0.603211760521f, 1.0f); // 267
+  data.at(268)= AL::Math::Position2D(-1.0f, 0.868995249271f); // 268
+  data.at(269)= AL::Math::Position2D(1.0f, -0.928301393986f); // 269
+  data.at(270)= AL::Math::Position2D(-0.589914679527f, -1.0f); // 270
+  data.at(271)= AL::Math::Position2D(-0.479908406734f, 1.0f); // 271
+  data.at(272)= AL::Math::Position2D(-1.0f, -0.0218683090061f); // 272
+  data.at(273)= AL::Math::Position2D(1.0f, -0.93544703722f); // 273
+  data.at(274)= AL::Math::Position2D(0.258973926306f, -1.0f); // 274
+  data.at(275)= AL::Math::Position2D(-0.755312025547f, 1.0f); // 275
+  data.at(276)= AL::Math::Position2D(-1.0f, 0.598847270012f); // 276
+  data.at(277)= AL::Math::Position2D(1.0f, 0.681121408939f); // 277
+  data.at(278)= AL::Math::Position2D(0.172919034958f, -1.0f); // 278
+  data.at(279)= AL::Math::Position2D(0.764219760895f, 1.0f); // 279
+  data.at(280)= AL::Math::Position2D(-1.0f, 0.656599164009f); // 280
+  data.at(281)= AL::Math::Position2D(1.0f, -0.271122515202f); // 281
+  data.at(282)= AL::Math::Position2D(-0.121350988746f, -1.0f); // 282
+  data.at(283)= AL::Math::Position2D(0.957195997238f, 1.0f); // 283
+  data.at(284)= AL::Math::Position2D(-1.0f, 0.327833026648f); // 284
+  data.at(285)= AL::Math::Position2D(1.0f, -0.841997623444f); // 285
+  data.at(286)= AL::Math::Position2D(0.824572503567f, -1.0f); // 286
+  data.at(287)= AL::Math::Position2D(0.454606682062f, 1.0f); // 287
+  data.at(288)= AL::Math::Position2D(-1.0f, 0.765862286091f); // 288
+  data.at(289)= AL::Math::Position2D(1.0f, 0.794291198254f); // 289
+  data.at(290)= AL::Math::Position2D(-0.423808813095f, -1.0f); // 290
+  data.at(291)= AL::Math::Position2D(-0.339033663273f, 1.0f); // 291
+  data.at(292)= AL::Math::Position2D(-1.0f, 0.298035055399f); // 292
+  data.at(293)= AL::Math::Position2D(1.0f, 0.670941948891f); // 293
+  data.at(294)= AL::Math::Position2D(-0.664223372936f, -1.0f); // 294
+  data.at(295)= AL::Math::Position2D(-0.492598891258f, 1.0f); // 295
+  data.at(296)= AL::Math::Position2D(-1.0f, -0.357796162367f); // 296
+  data.at(297)= AL::Math::Position2D(1.0f, -0.370494872332f); // 297
+  data.at(298)= AL::Math::Position2D(0.871116995811f, -1.0f); // 298
+  data.at(299)= AL::Math::Position2D(0.333215385675f, 1.0f); // 299
+  data.at(300)= AL::Math::Position2D(-1.0f, -0.668628573418f); // 300
+  data.at(301)= AL::Math::Position2D(1.0f, -0.503084659576f); // 301
+  data.at(302)= AL::Math::Position2D(-0.41406339407f, -1.0f); // 302
+  data.at(303)= AL::Math::Position2D(0.746048867702f, 1.0f); // 303
+  data.at(304)= AL::Math::Position2D(-1.0f, -0.191886022687f); // 304
+  data.at(305)= AL::Math::Position2D(1.0f, 0.791168630123f); // 305
+  data.at(306)= AL::Math::Position2D(0.493341356516f, -1.0f); // 306
+  data.at(307)= AL::Math::Position2D(-0.983940780163f, 1.0f); // 307
+  data.at(308)= AL::Math::Position2D(-1.0f, 0.969746351242f); // 308
+  data.at(309)= AL::Math::Position2D(1.0f, -0.10306148231f); // 309
+  data.at(310)= AL::Math::Position2D(0.618602275848f, -1.0f); // 310
+  data.at(311)= AL::Math::Position2D(0.900610089302f, 1.0f); // 311
+  data.at(312)= AL::Math::Position2D(-1.0f, -0.784377515316f); // 312
+  data.at(313)= AL::Math::Position2D(1.0f, 0.451298445463f); // 313
+  data.at(314)= AL::Math::Position2D(0.638666391373f, -1.0f); // 314
+  data.at(315)= AL::Math::Position2D(-0.285782158375f, 1.0f); // 315
+  data.at(316)= AL::Math::Position2D(-1.0f, -0.174402222037f); // 316
+  data.at(317)= AL::Math::Position2D(1.0f, 0.389386385679f); // 317
+  data.at(318)= AL::Math::Position2D(0.572149574757f, -1.0f); // 318
+  data.at(319)= AL::Math::Position2D(0.399224162102f, 1.0f); // 319
+  data.at(320)= AL::Math::Position2D(-1.0f, -0.909424066544f); // 320
+  data.at(321)= AL::Math::Position2D(1.0f, 0.500375986099f); // 321
+  data.at(322)= AL::Math::Position2D(-0.803614974022f, -1.0f); // 322
+  data.at(323)= AL::Math::Position2D(0.071489572525f, 1.0f); // 323
+  data.at(324)= AL::Math::Position2D(-1.0f, 0.0382244847715f); // 324
+  data.at(325)= AL::Math::Position2D(1.0f, 0.15051163733f); // 325
+  data.at(326)= AL::Math::Position2D(-0.108196355402f, -1.0f); // 326
+  data.at(327)= AL::Math::Position2D(0.30141338706f, 1.0f); // 327
+  data.at(328)= AL::Math::Position2D(-1.0f, -0.409922450781f); // 328
+  data.at(329)= AL::Math::Position2D(1.0f, -0.710368394852f); // 329
+  data.at(330)= AL::Math::Position2D(-0.836511552334f, -1.0f); // 330
+  data.at(331)= AL::Math::Position2D(0.780612945557f, 1.0f); // 331
+  data.at(332)= AL::Math::Position2D(-1.0f, -0.719608068466f); // 332
+  data.at(333)= AL::Math::Position2D(1.0f, 0.892438828945f); // 333
+  data.at(334)= AL::Math::Position2D(-0.236840128899f, -1.0f); // 334
+  data.at(335)= AL::Math::Position2D(-0.280815422535f, 1.0f); // 335
+  data.at(336)= AL::Math::Position2D(-1.0f, 0.1400629282f); // 336
+  data.at(337)= AL::Math::Position2D(1.0f, 0.426683604717f); // 337
+  data.at(338)= AL::Math::Position2D(-0.446151286364f, -1.0f); // 338
+  data.at(339)= AL::Math::Position2D(-0.295199006796f, 1.0f); // 339
+  data.at(340)= AL::Math::Position2D(-1.0f, 0.997077465057f); // 340
+  data.at(341)= AL::Math::Position2D(1.0f, 0.0180927608162f); // 341
+  data.at(342)= AL::Math::Position2D(-0.118684470654f, -1.0f); // 342
+  data.at(343)= AL::Math::Position2D(-0.896330177784f, 1.0f); // 343
+  data.at(344)= AL::Math::Position2D(-1.0f, 0.237224668264f); // 344
+  data.at(345)= AL::Math::Position2D(1.0f, -0.86908197403f); // 345
+  data.at(346)= AL::Math::Position2D(0.855087518692f, -1.0f); // 346
+  data.at(347)= AL::Math::Position2D(0.0292538926005f, 1.0f); // 347
+  data.at(348)= AL::Math::Position2D(-1.0f, 0.305737704039f); // 348
+  data.at(349)= AL::Math::Position2D(1.0f, 0.670632898808f); // 349
+  data.at(350)= AL::Math::Position2D(-0.319678455591f, -1.0f); // 350
+  data.at(351)= AL::Math::Position2D(0.778663873672f, 1.0f); // 351
+  data.at(352)= AL::Math::Position2D(-1.0f, -0.159202516079f); // 352
+  data.at(353)= AL::Math::Position2D(1.0f, 0.215545028448f); // 353
+  data.at(354)= AL::Math::Position2D(-0.835422217846f, -1.0f); // 354
+  data.at(355)= AL::Math::Position2D(-0.733416318893f, 1.0f); // 355
+  data.at(356)= AL::Math::Position2D(-1.0f, -0.852869093418f); // 356
+  data.at(357)= AL::Math::Position2D(1.0f, 0.419420868158f); // 357
+  data.at(358)= AL::Math::Position2D(-0.5707654953f, -1.0f); // 358
+  data.at(359)= AL::Math::Position2D(0.762228667736f, 1.0f); // 359
+  data.at(360)= AL::Math::Position2D(-1.0f, -0.924536883831f); // 360
+  data.at(361)= AL::Math::Position2D(1.0f, 0.797517836094f); // 361
+  data.at(362)= AL::Math::Position2D(0.718494772911f, -1.0f); // 362
+  data.at(363)= AL::Math::Position2D(0.977685809135f, 1.0f); // 363
+  data.at(364)= AL::Math::Position2D(-1.0f, 0.0121186915785f); // 364
+  data.at(365)= AL::Math::Position2D(1.0f, 0.487579137087f); // 365
+  data.at(366)= AL::Math::Position2D(0.493166893721f, -1.0f); // 366
+  data.at(367)= AL::Math::Position2D(0.816378772259f, 1.0f); // 367
+  data.at(368)= AL::Math::Position2D(-1.0f, 0.572971105576f); // 368
+  data.at(369)= AL::Math::Position2D(1.0f, -0.637290358543f); // 369
+  data.at(370)= AL::Math::Position2D(0.616978228092f, -1.0f); // 370
+  data.at(371)= AL::Math::Position2D(0.431884586811f, 1.0f); // 371
+  data.at(372)= AL::Math::Position2D(-1.0f, -0.313541322947f); // 372
+  data.at(373)= AL::Math::Position2D(1.0f, 0.265510469675f); // 373
+  data.at(374)= AL::Math::Position2D(-0.967637717724f, -1.0f); // 374
+  data.at(375)= AL::Math::Position2D(-0.851829230785f, 1.0f); // 375
+  data.at(376)= AL::Math::Position2D(-1.0f, -0.0240753572434f); // 376
+  data.at(377)= AL::Math::Position2D(1.0f, -0.62074804306f); // 377
+  data.at(378)= AL::Math::Position2D(-0.716103315353f, -1.0f); // 378
+  data.at(379)= AL::Math::Position2D(0.764843344688f, 1.0f); // 379
+  data.at(380)= AL::Math::Position2D(-1.0f, 0.237947180867f); // 380
+  data.at(381)= AL::Math::Position2D(1.0f, 0.970929265022f); // 381
+  data.at(382)= AL::Math::Position2D(0.175047710538f, -1.0f); // 382
+  data.at(383)= AL::Math::Position2D(0.865338563919f, 1.0f); // 383
+  data.at(384)= AL::Math::Position2D(-1.0f, -0.995214521885f); // 384
+  data.at(385)= AL::Math::Position2D(1.0f, -0.588854670525f); // 385
+  data.at(386)= AL::Math::Position2D(-0.599455475807f, -1.0f); // 386
+  data.at(387)= AL::Math::Position2D(-0.672585964203f, 1.0f); // 387
+  data.at(388)= AL::Math::Position2D(-1.0f, -0.440914571285f); // 388
+  data.at(389)= AL::Math::Position2D(1.0f, -0.113261073828f); // 389
+  data.at(390)= AL::Math::Position2D(-0.883921265602f, -1.0f); // 390
+  data.at(391)= AL::Math::Position2D(0.758514046669f, 1.0f); // 391
+  data.at(392)= AL::Math::Position2D(-1.0f, 0.0125746848062f); // 392
+  data.at(393)= AL::Math::Position2D(1.0f, 0.305404067039f); // 393
+  data.at(394)= AL::Math::Position2D(-0.402139306068f, -1.0f); // 394
+  data.at(395)= AL::Math::Position2D(0.325373709202f, 1.0f); // 395
+//  data.at(396)= AL::Math::Position2D(-1.0f, 0.257173955441f); // 396
+//  data.at(397)= AL::Math::Position2D(1.0f, -0.932736873627f); // 397
+//  data.at(398)= AL::Math::Position2D(0.091488994658f, -1.0f); // 398
+//  data.at(399)= AL::Math::Position2D(0.0367580987513f, 1.0f); // 399
+
+  // possible solution
+  data.at(396)= AL::Math::Position2D(-1.0f, -1.0f); // 396
+  data.at(397)= AL::Math::Position2D(-1.0f, 1.0f); // 397
+  data.at(398)= AL::Math::Position2D(1.0f, -1.0f); // 398
+  data.at(399)= AL::Math::Position2D(1.0f, 1.0f); // 399
+
+//  data.at(207)= AL::Math::Position2D(0.0578101426363f, 1.0f); // 207
+//  data.at(251)= AL::Math::Position2D(0.0578557215631f, 1.0f); // 251
+//  data.at(3)= AL::Math::Position2D(-0.122689545155f, 1.0f); // 3
+//  data.at(396)= AL::Math::Position2D(-1.0f, -1.0f); // 396
+//  data.at(339)= AL::Math::Position2D(-0.295199006796f, 1.0f); // 339
+
+//  AL::Math::deleteDoublesInNoneSortVector(data);
+//  EXPECT_EQ(399, (int)data.size());
+
+//  std::vector<AL::Math::Position2D> pPoints;
+//  AL::Math::removeAlignedPoint(data, pPoints);
+//  EXPECT_EQ(4, (int)pPoints.size());
+
+  std::vector<AL::Math::Position2D> result = AL::Math::getConvexHull(data);
+  EXPECT_EQ(5, (int)result.size());
+
+  std::vector<AL::Math::Position2D> solutionExpected;
+  solutionExpected.push_back(AL::Math::Position2D(-1.0f, -1.0f));
+  solutionExpected.push_back(AL::Math::Position2D(-1.0f, 1.0f));
+  solutionExpected.push_back(AL::Math::Position2D(1.0f, -1.0f));
+  solutionExpected.push_back(AL::Math::Position2D(1.0f, 1.0f));
+  bool isInSolution = false;
+  for (unsigned int i=0; i<solutionExpected.size(); i++)
+  {
+    isInSolution = false;
+    for (unsigned int j=0; j<result.size(); j++)
+    {
+      if (solutionExpected.at(i).isNear(result.at(j), 0.000001f))
+      {
+        isInSolution = true;
+      }
+    }
+
+    EXPECT_TRUE(isInSolution);
+  }
+
+  // Usefull for plot in python
+  //  std::cout << "result of removeAlignedPoint" << std::endl;
+  //  for (unsigned int i=0; i<pPoints.size(); i++)
+  //  {
+  //    std::cout << "data.append(almath.Position2D("
+  //              << pPoints.at(i).x << ", " << pPoints.at(i).y << "))" << std::endl;
+  //  }
+
+  //  // Usefull for plot in python
+  //  std::cout << "result of getConvexHull" << std::endl;
+  //  for (unsigned int i=0; i<result.size(); i++)
+  //  {
+  //    std::cout << "data.append(almath.Position2D("
+  //              << result.at(i).x << ", " << result.at(i).y << "))" << std::endl;
+
+  //  float angle = 45.0*TO_RAD;
+  //  AL::Math::Rotation2D rot = AL::Math::Rotation2D::fromAngle(angle);
+  //  for (unsigned int i=0; i<data.size(); i++)
+  //  {
+  //    data.at(i) = rot*data.at(i);
+  //  }
+
+  //  AL::Math::removeAlignedPoint(data, pPoints);
+  //  EXPECT_EQ(4, (int)pPoints.size());
+
+  //  AL::Math::deleteDoublesInNoneSortVector(data);
+  //  EXPECT_EQ(400, (int)data.size());
+} // end randomData1
+
+
+TEST(ConvexhullTest, randomData2)
 {
   std::vector<AL::Math::Position2D> data;
   data.resize(500);
@@ -1530,15 +1882,15 @@ TEST(ConvexhullTest, randomData1)
   data.at(498)= AL::Math::Position2D(0.901395618916f, 0.211026832461f); // 498
   data.at(499)= AL::Math::Position2D(0.869735181332f, 0.579254627228f); // 499
 
-//  std::vector<AL::Math::Position2D> pPoints;
-//  AL::Math::removeAlignedPoint(data, pPoints);
-//  EXPECT_EQ(13, (int)pPoints.size());
+  std::vector<AL::Math::Position2D> pPoints;
+  AL::Math::removeAlignedPoint(data, pPoints);
+  EXPECT_EQ(54, (int)pPoints.size()); // was 13
 
-//  std::vector<AL::Math::Position2D> result = AL::Math::getConvexHull(data);
-//  EXPECT_EQ(14, (int)result.size());
+  std::vector<AL::Math::Position2D> result = AL::Math::getConvexHull(data);
+  EXPECT_EQ(17, (int)result.size()); // was 14
 
-//  AL::Math::deleteDoublesInNoneSortVector(data);
-//  EXPECT_EQ(500, (int)data.size());
+  AL::Math::deleteDoublesInNoneSortVector(data);
+  EXPECT_EQ(500, (int)data.size());
 
   // Usefull for plot in python
   //    for (unsigned int i=0; i<result.size(); i++)
@@ -1547,496 +1899,170 @@ TEST(ConvexhullTest, randomData1)
   //      << result.at(i).x << ", " << result.at(i).y << "))" << std::endl;
   //    }
 
-}
+} // randomData2
 
-
-//TEST(ConvexhullTest, randomData2)
-//{
-//  std::vector<AL::Math::Position2D> data;
-//  data.resize(400);
-//  data.at(0)= AL::Math::Position2D(-1.0f, -0.446804851294f); // 0
-//  data.at(1)= AL::Math::Position2D(1.0f, 0.831940710545f); // 1
-//  data.at(2)= AL::Math::Position2D(-0.198347881436f, -1.0f); // 2
-//  data.at(3)= AL::Math::Position2D(-0.122689545155f, 1.0f); // 3
-//  data.at(4)= AL::Math::Position2D(-1.0f, -0.10264210403f); // 4
-//  data.at(5)= AL::Math::Position2D(1.0f, -0.894295811653f); // 5
-//  data.at(6)= AL::Math::Position2D(0.328404426575f, -1.0f); // 6
-//  data.at(7)= AL::Math::Position2D(0.938923358917f, 1.0f); // 7
-//  data.at(8)= AL::Math::Position2D(-1.0f, 0.219311073422f); // 8
-//  data.at(9)= AL::Math::Position2D(1.0f, 0.367222636938f); // 9
-//  data.at(10)= AL::Math::Position2D(0.580633223057f, -1.0f); // 10
-//  data.at(11)= AL::Math::Position2D(-0.347913563251f, 1.0f); // 11
-//  data.at(12)= AL::Math::Position2D(-1.0f, -0.603081882f); // 12
-//  data.at(13)= AL::Math::Position2D(1.0f, -0.564284265041f); // 13
-//  data.at(14)= AL::Math::Position2D(0.567598342896f, -1.0f); // 14
-//  data.at(15)= AL::Math::Position2D(-0.243827432394f, 1.0f); // 15
-//  data.at(16)= AL::Math::Position2D(-1.0f, -0.405109912157f); // 16
-//  data.at(17)= AL::Math::Position2D(1.0f, 0.490473687649f); // 17
-//  data.at(18)= AL::Math::Position2D(-0.051644705236f, -1.0f); // 18
-//  data.at(19)= AL::Math::Position2D(-0.570603251457f, 1.0f); // 19
-//  data.at(20)= AL::Math::Position2D(-1.0f, 0.126282319427f); // 20
-//  data.at(21)= AL::Math::Position2D(1.0f, -0.427623778582f); // 21
-//  data.at(22)= AL::Math::Position2D(0.639392793179f, -1.0f); // 22
-//  data.at(23)= AL::Math::Position2D(-0.820161640644f, 1.0f); // 23
-//  data.at(24)= AL::Math::Position2D(-1.0f, -0.214604735374f); // 24
-//  data.at(25)= AL::Math::Position2D(1.0f, 0.676067650318f); // 25
-//  data.at(26)= AL::Math::Position2D(-0.715437293053f, -1.0f); // 26
-//  data.at(27)= AL::Math::Position2D(-0.0971464663744f, 1.0f); // 27
-//  data.at(28)= AL::Math::Position2D(-1.0f, -0.504795968533f); // 28
-//  data.at(29)= AL::Math::Position2D(1.0f, -0.805170297623f); // 29
-//  data.at(30)= AL::Math::Position2D(0.255645334721f, -1.0f); // 30
-//  data.at(31)= AL::Math::Position2D(0.519216895103f, 1.0f); // 31
-//  data.at(32)= AL::Math::Position2D(-1.0f, 0.940836131573f); // 32
-//  data.at(33)= AL::Math::Position2D(1.0f, 0.519241333008f); // 33
-//  data.at(34)= AL::Math::Position2D(0.775143742561f, -1.0f); // 34
-//  data.at(35)= AL::Math::Position2D(-0.0182752162218f, 1.0f); // 35
-//  data.at(36)= AL::Math::Position2D(-1.0f, -0.855382680893f); // 36
-//  data.at(37)= AL::Math::Position2D(1.0f, 0.876670539379f); // 37
-//  data.at(38)= AL::Math::Position2D(0.0785210356116f, -1.0f); // 38
-//  data.at(39)= AL::Math::Position2D(-0.650805592537f, 1.0f); // 39
-//  data.at(40)= AL::Math::Position2D(-1.0f, -0.230878010392f); // 40
-//  data.at(41)= AL::Math::Position2D(1.0f, 0.620259404182f); // 41
-//  data.at(42)= AL::Math::Position2D(-0.415594786406f, -1.0f); // 42
-//  data.at(43)= AL::Math::Position2D(-0.0357880964875f, 1.0f); // 43
-//  data.at(44)= AL::Math::Position2D(-1.0f, -0.561155855656f); // 44
-//  data.at(45)= AL::Math::Position2D(1.0f, 0.425160169601f); // 45
-//  data.at(46)= AL::Math::Position2D(0.397685289383f, -1.0f); // 46
-//  data.at(47)= AL::Math::Position2D(-0.271635770798f, 1.0f); // 47
-//  data.at(48)= AL::Math::Position2D(-1.0f, 0.421557664871f); // 48
-//  data.at(49)= AL::Math::Position2D(1.0f, -0.601459026337f); // 49
-//  data.at(50)= AL::Math::Position2D(0.0724089816213f, -1.0f); // 50
-//  data.at(51)= AL::Math::Position2D(-0.651813805103f, 1.0f); // 51
-//  data.at(52)= AL::Math::Position2D(-1.0f, 0.0173651631922f); // 52
-//  data.at(53)= AL::Math::Position2D(1.0f, -0.493654072285f); // 53
-//  data.at(54)= AL::Math::Position2D(-0.226542130113f, -1.0f); // 54
-//  data.at(55)= AL::Math::Position2D(0.999452471733f, 1.0f); // 55
-//  data.at(56)= AL::Math::Position2D(-1.0f, -0.468002468348f); // 56
-//  data.at(57)= AL::Math::Position2D(1.0f, 0.399474233389f); // 57
-//  data.at(58)= AL::Math::Position2D(-0.709527671337f, -1.0f); // 58
-//  data.at(59)= AL::Math::Position2D(-0.0704187527299f, 1.0f); // 59
-//  data.at(60)= AL::Math::Position2D(-1.0f, -0.561790764332f); // 60
-//  data.at(61)= AL::Math::Position2D(1.0f, -0.330915421247f); // 61
-//  data.at(62)= AL::Math::Position2D(0.391036719084f, -1.0f); // 62
-//  data.at(63)= AL::Math::Position2D(-0.620523393154f, 1.0f); // 63
-//  data.at(64)= AL::Math::Position2D(-1.0f, 0.0376922599971f); // 64
-//  data.at(65)= AL::Math::Position2D(1.0f, 0.268423467875f); // 65
-//  data.at(66)= AL::Math::Position2D(-0.281400501728f, -1.0f); // 66
-//  data.at(67)= AL::Math::Position2D(-0.0114410473034f, 1.0f); // 67
-//  data.at(68)= AL::Math::Position2D(-1.0f, 0.0529104433954f); // 68
-//  data.at(69)= AL::Math::Position2D(1.0f, 0.743270099163f); // 69
-//  data.at(70)= AL::Math::Position2D(0.506779313087f, -1.0f); // 70
-//  data.at(71)= AL::Math::Position2D(0.676407933235f, 1.0f); // 71
-//  data.at(72)= AL::Math::Position2D(-1.0f, -0.214361384511f); // 72
-//  data.at(73)= AL::Math::Position2D(1.0f, 0.442629098892f); // 73
-//  data.at(74)= AL::Math::Position2D(-0.826814711094f, -1.0f); // 74
-//  data.at(75)= AL::Math::Position2D(-0.582073271275f, 1.0f); // 75
-//  data.at(76)= AL::Math::Position2D(-1.0f, 0.380002260208f); // 76
-//  data.at(77)= AL::Math::Position2D(1.0f, -0.850284039974f); // 77
-//  data.at(78)= AL::Math::Position2D(0.903813779354f, -1.0f); // 78
-//  data.at(79)= AL::Math::Position2D(0.428320944309f, 1.0f); // 79
-//  data.at(80)= AL::Math::Position2D(-1.0f, -0.686765193939f); // 80
-//  data.at(81)= AL::Math::Position2D(1.0f, 0.407080739737f); // 81
-//  data.at(82)= AL::Math::Position2D(0.954542517662f, -1.0f); // 82
-//  data.at(83)= AL::Math::Position2D(-0.353682905436f, 1.0f); // 83
-//  data.at(84)= AL::Math::Position2D(-1.0f, -0.0618978850543f); // 84
-//  data.at(85)= AL::Math::Position2D(1.0f, -0.816445827484f); // 85
-//  data.at(86)= AL::Math::Position2D(0.0806177556515f, -1.0f); // 86
-//  data.at(87)= AL::Math::Position2D(-0.700315773487f, 1.0f); // 87
-//  data.at(88)= AL::Math::Position2D(-1.0f, -0.488505989313f); // 88
-//  data.at(89)= AL::Math::Position2D(1.0f, -0.637856125832f); // 89
-//  data.at(90)= AL::Math::Position2D(0.567297697067f, -1.0f); // 90
-//  data.at(91)= AL::Math::Position2D(-0.50206553936f, 1.0f); // 91
-//  data.at(92)= AL::Math::Position2D(-1.0f, 0.813305437565f); // 92
-//  data.at(93)= AL::Math::Position2D(1.0f, -0.00766856456175f); // 93
-//  data.at(94)= AL::Math::Position2D(-0.0765049383044f, -1.0f); // 94
-//  data.at(95)= AL::Math::Position2D(-0.546765387058f, 1.0f); // 95
-//  data.at(96)= AL::Math::Position2D(-1.0f, -0.341696113348f); // 96
-//  data.at(97)= AL::Math::Position2D(1.0f, 0.511673986912f); // 97
-//  data.at(98)= AL::Math::Position2D(0.468416303396f, -1.0f); // 98
-//  data.at(99)= AL::Math::Position2D(-0.585760891438f, 1.0f); // 99
-//  data.at(100)= AL::Math::Position2D(-1.0f, -0.635513424873f); // 100
-//  data.at(101)= AL::Math::Position2D(1.0f, 0.545143127441f); // 101
-//  data.at(102)= AL::Math::Position2D(-0.673808455467f, -1.0f); // 102
-//  data.at(103)= AL::Math::Position2D(-0.41132375598f, 1.0f); // 103
-//  data.at(104)= AL::Math::Position2D(-1.0f, -0.858831524849f); // 104
-//  data.at(105)= AL::Math::Position2D(1.0f, 0.0438254699111f); // 105
-//  data.at(106)= AL::Math::Position2D(-0.358507752419f, -1.0f); // 106
-//  data.at(107)= AL::Math::Position2D(0.698491156101f, 1.0f); // 107
-//  data.at(108)= AL::Math::Position2D(-1.0f, -0.958425879478f); // 108
-//  data.at(109)= AL::Math::Position2D(1.0f, 0.128347545862f); // 109
-//  data.at(110)= AL::Math::Position2D(-0.219675481319f, -1.0f); // 110
-//  data.at(111)= AL::Math::Position2D(-0.112247161567f, 1.0f); // 111
-//  data.at(112)= AL::Math::Position2D(-1.0f, 0.372705072165f); // 112
-//  data.at(113)= AL::Math::Position2D(1.0f, -0.613283038139f); // 113
-//  data.at(114)= AL::Math::Position2D(0.115123219788f, -1.0f); // 114
-//  data.at(115)= AL::Math::Position2D(0.919606804848f, 1.0f); // 115
-//  data.at(116)= AL::Math::Position2D(-1.0f, -0.153443843126f); // 116
-//  data.at(117)= AL::Math::Position2D(1.0f, 0.580471098423f); // 117
-//  data.at(118)= AL::Math::Position2D(0.628908991814f, -1.0f); // 118
-//  data.at(119)= AL::Math::Position2D(0.353942841291f, 1.0f); // 119
-//  data.at(120)= AL::Math::Position2D(-1.0f, -0.586061537266f); // 120
-//  data.at(121)= AL::Math::Position2D(1.0f, 0.78567135334f); // 121
-//  data.at(122)= AL::Math::Position2D(0.958238124847f, -1.0f); // 122
-//  data.at(123)= AL::Math::Position2D(-0.193119168282f, 1.0f); // 123
-//  data.at(124)= AL::Math::Position2D(-1.0f, 0.0341553874314f); // 124
-//  data.at(125)= AL::Math::Position2D(1.0f, -0.499334394932f); // 125
-//  data.at(126)= AL::Math::Position2D(-0.188144624233f, -1.0f); // 126
-//  data.at(127)= AL::Math::Position2D(0.0649817064404f, 1.0f); // 127
-//  data.at(128)= AL::Math::Position2D(-1.0f, 0.969097614288f); // 128
-//  data.at(129)= AL::Math::Position2D(1.0f, 0.771354734898f); // 129
-//  data.at(130)= AL::Math::Position2D(-0.105910584331f, -1.0f); // 130
-//  data.at(131)= AL::Math::Position2D(-0.452493965626f, 1.0f); // 131
-//  data.at(132)= AL::Math::Position2D(-1.0f, -0.979184091091f); // 132
-//  data.at(133)= AL::Math::Position2D(1.0f, -0.298536270857f); // 133
-//  data.at(134)= AL::Math::Position2D(0.163637757301f, -1.0f); // 134
-//  data.at(135)= AL::Math::Position2D(-0.555234014988f, 1.0f); // 135
-//  data.at(136)= AL::Math::Position2D(-1.0f, 0.13957734406f); // 136
-//  data.at(137)= AL::Math::Position2D(1.0f, 0.52682185173f); // 137
-//  data.at(138)= AL::Math::Position2D(0.02250283584f, -1.0f); // 138
-//  data.at(139)= AL::Math::Position2D(-0.676374793053f, 1.0f); // 139
-//  data.at(140)= AL::Math::Position2D(-1.0f, -0.73066920042f); // 140
-//  data.at(141)= AL::Math::Position2D(1.0f, 0.444440573454f); // 141
-//  data.at(142)= AL::Math::Position2D(0.631085455418f, -1.0f); // 142
-//  data.at(143)= AL::Math::Position2D(-0.167134568095f, 1.0f); // 143
-//  data.at(144)= AL::Math::Position2D(-1.0f, -0.433526724577f); // 144
-//  data.at(145)= AL::Math::Position2D(1.0f, 0.347336232662f); // 145
-//  data.at(146)= AL::Math::Position2D(-0.0847209915519f, -1.0f); // 146
-//  data.at(147)= AL::Math::Position2D(0.888176500797f, 1.0f); // 147
-//  data.at(148)= AL::Math::Position2D(-1.0f, 0.122317411005f); // 148
-//  data.at(149)= AL::Math::Position2D(1.0f, 0.809071183205f); // 149
-//  data.at(150)= AL::Math::Position2D(-0.900987684727f, -1.0f); // 150
-//  data.at(151)= AL::Math::Position2D(0.432181298733f, 1.0f); // 151
-//  data.at(152)= AL::Math::Position2D(-1.0f, 0.608914554119f); // 152
-//  data.at(153)= AL::Math::Position2D(1.0f, -0.00679517025128f); // 153
-//  data.at(154)= AL::Math::Position2D(0.167569860816f, -1.0f); // 154
-//  data.at(155)= AL::Math::Position2D(0.178124502301f, 1.0f); // 155
-//  data.at(156)= AL::Math::Position2D(-1.0f, -0.99185782671f); // 156
-//  data.at(157)= AL::Math::Position2D(1.0f, 0.619429469109f); // 157
-//  data.at(158)= AL::Math::Position2D(-0.354623436928f, -1.0f); // 158
-//  data.at(159)= AL::Math::Position2D(0.0269049331546f, 1.0f); // 159
-//  data.at(160)= AL::Math::Position2D(-1.0f, -0.39569285512f); // 160
-//  data.at(161)= AL::Math::Position2D(1.0f, -0.19713178277f); // 161
-//  data.at(162)= AL::Math::Position2D(-0.640074789524f, -1.0f); // 162
-//  data.at(163)= AL::Math::Position2D(0.769285142422f, 1.0f); // 163
-//  data.at(164)= AL::Math::Position2D(-1.0f, -0.498618155718f); // 164
-//  data.at(165)= AL::Math::Position2D(1.0f, -0.811736941338f); // 165
-//  data.at(166)= AL::Math::Position2D(-0.168763056397f, -1.0f); // 166
-//  data.at(167)= AL::Math::Position2D(0.233365729451f, 1.0f); // 167
-//  data.at(168)= AL::Math::Position2D(-1.0f, -0.930927455425f); // 168
-//  data.at(169)= AL::Math::Position2D(1.0f, -0.0252936724573f); // 169
-//  data.at(170)= AL::Math::Position2D(0.045550622046f, -1.0f); // 170
-//  data.at(171)= AL::Math::Position2D(-0.769372463226f, 1.0f); // 171
-//  data.at(172)= AL::Math::Position2D(-1.0f, 0.956544816494f); // 172
-//  data.at(173)= AL::Math::Position2D(1.0f, 0.351806938648f); // 173
-//  data.at(174)= AL::Math::Position2D(0.878166913986f, -1.0f); // 174
-//  data.at(175)= AL::Math::Position2D(-0.854134321213f, 1.0f); // 175
-//  data.at(176)= AL::Math::Position2D(-1.0f, -0.367167562246f); // 176
-//  data.at(177)= AL::Math::Position2D(1.0f, 0.849012494087f); // 177
-//  data.at(178)= AL::Math::Position2D(-0.916960716248f, -1.0f); // 178
-//  data.at(179)= AL::Math::Position2D(0.441826492548f, 1.0f); // 179
-//  data.at(180)= AL::Math::Position2D(-1.0f, 0.631312251091f); // 180
-//  data.at(181)= AL::Math::Position2D(1.0f, 0.0258876793087f); // 181
-//  data.at(182)= AL::Math::Position2D(0.70799946785f, -1.0f); // 182
-//  data.at(183)= AL::Math::Position2D(0.309800207615f, 1.0f); // 183
-//  data.at(184)= AL::Math::Position2D(-1.0f, 0.939734578133f); // 184
-//  data.at(185)= AL::Math::Position2D(1.0f, -0.885999381542f); // 185
-//  data.at(186)= AL::Math::Position2D(-0.113305293024f, -1.0f); // 186
-//  data.at(187)= AL::Math::Position2D(-0.231733962893f, 1.0f); // 187
-//  data.at(188)= AL::Math::Position2D(-1.0f, -0.773718297482f); // 188
-//  data.at(189)= AL::Math::Position2D(1.0f, 0.619028091431f); // 189
-//  data.at(190)= AL::Math::Position2D(0.348928570747f, -1.0f); // 190
-//  data.at(191)= AL::Math::Position2D(0.803607225418f, 1.0f); // 191
-//  data.at(192)= AL::Math::Position2D(-1.0f, 0.463140189648f); // 192
-//  data.at(193)= AL::Math::Position2D(1.0f, -0.793345451355f); // 193
-//  data.at(194)= AL::Math::Position2D(-0.00414864066988f, -1.0f); // 194
-//  data.at(195)= AL::Math::Position2D(-0.762422442436f, 1.0f); // 195
-//  data.at(196)= AL::Math::Position2D(-1.0f, 0.392349839211f); // 196
-//  data.at(197)= AL::Math::Position2D(1.0f, -0.948990225792f); // 197
-//  data.at(198)= AL::Math::Position2D(-0.906333446503f, -1.0f); // 198
-//  data.at(199)= AL::Math::Position2D(-0.937721610069f, 1.0f); // 199
-//  data.at(200)= AL::Math::Position2D(-1.0f, 0.259398639202f); // 200
-//  data.at(201)= AL::Math::Position2D(1.0f, 0.861361384392f); // 201
-//  data.at(202)= AL::Math::Position2D(0.0608270019293f, -1.0f); // 202
-//  data.at(203)= AL::Math::Position2D(0.159332439303f, 1.0f); // 203
-//  data.at(204)= AL::Math::Position2D(-1.0f, 0.652806341648f); // 204
-//  data.at(205)= AL::Math::Position2D(1.0f, -0.00800554361194f); // 205
-//  data.at(206)= AL::Math::Position2D(0.0985623374581f, -1.0f); // 206
-//  data.at(207)= AL::Math::Position2D(0.0578101426363f, 1.0f); // 207
-//  data.at(208)= AL::Math::Position2D(-1.0f, -0.444664716721f); // 208
-//  data.at(209)= AL::Math::Position2D(1.0f, 0.568272173405f); // 209
-//  data.at(210)= AL::Math::Position2D(0.92127507925f, -1.0f); // 210
-//  data.at(211)= AL::Math::Position2D(0.929978132248f, 1.0f); // 211
-//  data.at(212)= AL::Math::Position2D(-1.0f, -0.780300319195f); // 212
-//  data.at(213)= AL::Math::Position2D(1.0f, 0.753322184086f); // 213
-//  data.at(214)= AL::Math::Position2D(0.117532208562f, -1.0f); // 214
-//  data.at(215)= AL::Math::Position2D(-0.216102614999f, 1.0f); // 215
-//  data.at(216)= AL::Math::Position2D(-1.0f, 0.507620573044f); // 216
-//  data.at(217)= AL::Math::Position2D(1.0f, -0.294957488775f); // 217
-//  data.at(218)= AL::Math::Position2D(-0.0888517647982f, -1.0f); // 218
-//  data.at(219)= AL::Math::Position2D(-0.987100601196f, 1.0f); // 219
-//  data.at(220)= AL::Math::Position2D(-1.0f, -0.417905151844f); // 220
-//  data.at(221)= AL::Math::Position2D(1.0f, 0.848590493202f); // 221
-//  data.at(222)= AL::Math::Position2D(0.435161739588f, -1.0f); // 222
-//  data.at(223)= AL::Math::Position2D(-0.93688172102f, 1.0f); // 223
-//  data.at(224)= AL::Math::Position2D(-1.0f, 0.595445513725f); // 224
-//  data.at(225)= AL::Math::Position2D(1.0f, -0.180838853121f); // 225
-//  data.at(226)= AL::Math::Position2D(0.741573154926f, -1.0f); // 226
-//  data.at(227)= AL::Math::Position2D(-0.474747359753f, 1.0f); // 227
-//  data.at(228)= AL::Math::Position2D(-1.0f, -0.826177477837f); // 228
-//  data.at(229)= AL::Math::Position2D(1.0f, 0.637075543404f); // 229
-//  data.at(230)= AL::Math::Position2D(-0.966842293739f, -1.0f); // 230
-//  data.at(231)= AL::Math::Position2D(0.740065217018f, 1.0f); // 231
-//  data.at(232)= AL::Math::Position2D(-1.0f, 0.381835430861f); // 232
-//  data.at(233)= AL::Math::Position2D(1.0f, -0.242213994265f); // 233
-//  data.at(234)= AL::Math::Position2D(-0.0371092446148f, -1.0f); // 234
-//  data.at(235)= AL::Math::Position2D(0.890082597733f, 1.0f); // 235
-//  data.at(236)= AL::Math::Position2D(-1.0f, 0.324445039034f); // 236
-//  data.at(237)= AL::Math::Position2D(1.0f, 0.141750186682f); // 237
-//  data.at(238)= AL::Math::Position2D(0.977463424206f, -1.0f); // 238
-//  data.at(239)= AL::Math::Position2D(-0.550112783909f, 1.0f); // 239
-//  data.at(240)= AL::Math::Position2D(-1.0f, 0.443135172129f); // 240
-//  data.at(241)= AL::Math::Position2D(1.0f, -0.599870681763f); // 241
-//  data.at(242)= AL::Math::Position2D(-0.832208573818f, -1.0f); // 242
-//  data.at(243)= AL::Math::Position2D(0.465709835291f, 1.0f); // 243
-//  data.at(244)= AL::Math::Position2D(-1.0f, 0.401599287987f); // 244
-//  data.at(245)= AL::Math::Position2D(1.0f, 0.433333963156f); // 245
-//  data.at(246)= AL::Math::Position2D(-0.432613492012f, -1.0f); // 246
-//  data.at(247)= AL::Math::Position2D(-0.609803557396f, 1.0f); // 247
-//  data.at(248)= AL::Math::Position2D(-1.0f, 0.216377228498f); // 248
-//  data.at(249)= AL::Math::Position2D(1.0f, -0.251437455416f); // 249
-//  data.at(250)= AL::Math::Position2D(0.408884525299f, -1.0f); // 250
-//  data.at(251)= AL::Math::Position2D(0.0578557215631f, 1.0f); // 251
-//  data.at(252)= AL::Math::Position2D(-1.0f, 0.34742462635f); // 252
-//  data.at(253)= AL::Math::Position2D(1.0f, 0.140886887908f); // 253
-//  data.at(254)= AL::Math::Position2D(-0.610124647617f, -1.0f); // 254
-//  data.at(255)= AL::Math::Position2D(0.95994412899f, 1.0f); // 255
-//  data.at(256)= AL::Math::Position2D(-1.0f, -0.887269198895f); // 256
-//  data.at(257)= AL::Math::Position2D(1.0f, -0.900830626488f); // 257
-//  data.at(258)= AL::Math::Position2D(-0.780239701271f, -1.0f); // 258
-//  data.at(259)= AL::Math::Position2D(-0.699071764946f, 1.0f); // 259
-//  data.at(260)= AL::Math::Position2D(-1.0f, 0.903883159161f); // 260
-//  data.at(261)= AL::Math::Position2D(1.0f, -0.352707117796f); // 261
-//  data.at(262)= AL::Math::Position2D(-0.237847417593f, -1.0f); // 262
-//  data.at(263)= AL::Math::Position2D(-0.78850799799f, 1.0f); // 263
-//  data.at(264)= AL::Math::Position2D(-1.0f, -0.732275545597f); // 264
-//  data.at(265)= AL::Math::Position2D(1.0f, 0.950554311275f); // 265
-//  data.at(266)= AL::Math::Position2D(0.582848370075f, -1.0f); // 266
-//  data.at(267)= AL::Math::Position2D(-0.603211760521f, 1.0f); // 267
-//  data.at(268)= AL::Math::Position2D(-1.0f, 0.868995249271f); // 268
-//  data.at(269)= AL::Math::Position2D(1.0f, -0.928301393986f); // 269
-//  data.at(270)= AL::Math::Position2D(-0.589914679527f, -1.0f); // 270
-//  data.at(271)= AL::Math::Position2D(-0.479908406734f, 1.0f); // 271
-//  data.at(272)= AL::Math::Position2D(-1.0f, -0.0218683090061f); // 272
-//  data.at(273)= AL::Math::Position2D(1.0f, -0.93544703722f); // 273
-//  data.at(274)= AL::Math::Position2D(0.258973926306f, -1.0f); // 274
-//  data.at(275)= AL::Math::Position2D(-0.755312025547f, 1.0f); // 275
-//  data.at(276)= AL::Math::Position2D(-1.0f, 0.598847270012f); // 276
-//  data.at(277)= AL::Math::Position2D(1.0f, 0.681121408939f); // 277
-//  data.at(278)= AL::Math::Position2D(0.172919034958f, -1.0f); // 278
-//  data.at(279)= AL::Math::Position2D(0.764219760895f, 1.0f); // 279
-//  data.at(280)= AL::Math::Position2D(-1.0f, 0.656599164009f); // 280
-//  data.at(281)= AL::Math::Position2D(1.0f, -0.271122515202f); // 281
-//  data.at(282)= AL::Math::Position2D(-0.121350988746f, -1.0f); // 282
-//  data.at(283)= AL::Math::Position2D(0.957195997238f, 1.0f); // 283
-//  data.at(284)= AL::Math::Position2D(-1.0f, 0.327833026648f); // 284
-//  data.at(285)= AL::Math::Position2D(1.0f, -0.841997623444f); // 285
-//  data.at(286)= AL::Math::Position2D(0.824572503567f, -1.0f); // 286
-//  data.at(287)= AL::Math::Position2D(0.454606682062f, 1.0f); // 287
-//  data.at(288)= AL::Math::Position2D(-1.0f, 0.765862286091f); // 288
-//  data.at(289)= AL::Math::Position2D(1.0f, 0.794291198254f); // 289
-//  data.at(290)= AL::Math::Position2D(-0.423808813095f, -1.0f); // 290
-//  data.at(291)= AL::Math::Position2D(-0.339033663273f, 1.0f); // 291
-//  data.at(292)= AL::Math::Position2D(-1.0f, 0.298035055399f); // 292
-//  data.at(293)= AL::Math::Position2D(1.0f, 0.670941948891f); // 293
-//  data.at(294)= AL::Math::Position2D(-0.664223372936f, -1.0f); // 294
-//  data.at(295)= AL::Math::Position2D(-0.492598891258f, 1.0f); // 295
-//  data.at(296)= AL::Math::Position2D(-1.0f, -0.357796162367f); // 296
-//  data.at(297)= AL::Math::Position2D(1.0f, -0.370494872332f); // 297
-//  data.at(298)= AL::Math::Position2D(0.871116995811f, -1.0f); // 298
-//  data.at(299)= AL::Math::Position2D(0.333215385675f, 1.0f); // 299
-//  data.at(300)= AL::Math::Position2D(-1.0f, -0.668628573418f); // 300
-//  data.at(301)= AL::Math::Position2D(1.0f, -0.503084659576f); // 301
-//  data.at(302)= AL::Math::Position2D(-0.41406339407f, -1.0f); // 302
-//  data.at(303)= AL::Math::Position2D(0.746048867702f, 1.0f); // 303
-//  data.at(304)= AL::Math::Position2D(-1.0f, -0.191886022687f); // 304
-//  data.at(305)= AL::Math::Position2D(1.0f, 0.791168630123f); // 305
-//  data.at(306)= AL::Math::Position2D(0.493341356516f, -1.0f); // 306
-//  data.at(307)= AL::Math::Position2D(-0.983940780163f, 1.0f); // 307
-//  data.at(308)= AL::Math::Position2D(-1.0f, 0.969746351242f); // 308
-//  data.at(309)= AL::Math::Position2D(1.0f, -0.10306148231f); // 309
-//  data.at(310)= AL::Math::Position2D(0.618602275848f, -1.0f); // 310
-//  data.at(311)= AL::Math::Position2D(0.900610089302f, 1.0f); // 311
-//  data.at(312)= AL::Math::Position2D(-1.0f, -0.784377515316f); // 312
-//  data.at(313)= AL::Math::Position2D(1.0f, 0.451298445463f); // 313
-//  data.at(314)= AL::Math::Position2D(0.638666391373f, -1.0f); // 314
-//  data.at(315)= AL::Math::Position2D(-0.285782158375f, 1.0f); // 315
-//  data.at(316)= AL::Math::Position2D(-1.0f, -0.174402222037f); // 316
-//  data.at(317)= AL::Math::Position2D(1.0f, 0.389386385679f); // 317
-//  data.at(318)= AL::Math::Position2D(0.572149574757f, -1.0f); // 318
-//  data.at(319)= AL::Math::Position2D(0.399224162102f, 1.0f); // 319
-//  data.at(320)= AL::Math::Position2D(-1.0f, -0.909424066544f); // 320
-//  data.at(321)= AL::Math::Position2D(1.0f, 0.500375986099f); // 321
-//  data.at(322)= AL::Math::Position2D(-0.803614974022f, -1.0f); // 322
-//  data.at(323)= AL::Math::Position2D(0.071489572525f, 1.0f); // 323
-//  data.at(324)= AL::Math::Position2D(-1.0f, 0.0382244847715f); // 324
-//  data.at(325)= AL::Math::Position2D(1.0f, 0.15051163733f); // 325
-//  data.at(326)= AL::Math::Position2D(-0.108196355402f, -1.0f); // 326
-//  data.at(327)= AL::Math::Position2D(0.30141338706f, 1.0f); // 327
-//  data.at(328)= AL::Math::Position2D(-1.0f, -0.409922450781f); // 328
-//  data.at(329)= AL::Math::Position2D(1.0f, -0.710368394852f); // 329
-//  data.at(330)= AL::Math::Position2D(-0.836511552334f, -1.0f); // 330
-//  data.at(331)= AL::Math::Position2D(0.780612945557f, 1.0f); // 331
-//  data.at(332)= AL::Math::Position2D(-1.0f, -0.719608068466f); // 332
-//  data.at(333)= AL::Math::Position2D(1.0f, 0.892438828945f); // 333
-//  data.at(334)= AL::Math::Position2D(-0.236840128899f, -1.0f); // 334
-//  data.at(335)= AL::Math::Position2D(-0.280815422535f, 1.0f); // 335
-//  data.at(336)= AL::Math::Position2D(-1.0f, 0.1400629282f); // 336
-//  data.at(337)= AL::Math::Position2D(1.0f, 0.426683604717f); // 337
-//  data.at(338)= AL::Math::Position2D(-0.446151286364f, -1.0f); // 338
-//  data.at(339)= AL::Math::Position2D(-0.295199006796f, 1.0f); // 339
-//  data.at(340)= AL::Math::Position2D(-1.0f, 0.997077465057f); // 340
-//  data.at(341)= AL::Math::Position2D(1.0f, 0.0180927608162f); // 341
-//  data.at(342)= AL::Math::Position2D(-0.118684470654f, -1.0f); // 342
-//  data.at(343)= AL::Math::Position2D(-0.896330177784f, 1.0f); // 343
-//  data.at(344)= AL::Math::Position2D(-1.0f, 0.237224668264f); // 344
-//  data.at(345)= AL::Math::Position2D(1.0f, -0.86908197403f); // 345
-//  data.at(346)= AL::Math::Position2D(0.855087518692f, -1.0f); // 346
-//  data.at(347)= AL::Math::Position2D(0.0292538926005f, 1.0f); // 347
-//  data.at(348)= AL::Math::Position2D(-1.0f, 0.305737704039f); // 348
-//  data.at(349)= AL::Math::Position2D(1.0f, 0.670632898808f); // 349
-//  data.at(350)= AL::Math::Position2D(-0.319678455591f, -1.0f); // 350
-//  data.at(351)= AL::Math::Position2D(0.778663873672f, 1.0f); // 351
-//  data.at(352)= AL::Math::Position2D(-1.0f, -0.159202516079f); // 352
-//  data.at(353)= AL::Math::Position2D(1.0f, 0.215545028448f); // 353
-//  data.at(354)= AL::Math::Position2D(-0.835422217846f, -1.0f); // 354
-//  data.at(355)= AL::Math::Position2D(-0.733416318893f, 1.0f); // 355
-//  data.at(356)= AL::Math::Position2D(-1.0f, -0.852869093418f); // 356
-//  data.at(357)= AL::Math::Position2D(1.0f, 0.419420868158f); // 357
-//  data.at(358)= AL::Math::Position2D(-0.5707654953f, -1.0f); // 358
-//  data.at(359)= AL::Math::Position2D(0.762228667736f, 1.0f); // 359
-//  data.at(360)= AL::Math::Position2D(-1.0f, -0.924536883831f); // 360
-//  data.at(361)= AL::Math::Position2D(1.0f, 0.797517836094f); // 361
-//  data.at(362)= AL::Math::Position2D(0.718494772911f, -1.0f); // 362
-//  data.at(363)= AL::Math::Position2D(0.977685809135f, 1.0f); // 363
-//  data.at(364)= AL::Math::Position2D(-1.0f, 0.0121186915785f); // 364
-//  data.at(365)= AL::Math::Position2D(1.0f, 0.487579137087f); // 365
-//  data.at(366)= AL::Math::Position2D(0.493166893721f, -1.0f); // 366
-//  data.at(367)= AL::Math::Position2D(0.816378772259f, 1.0f); // 367
-//  data.at(368)= AL::Math::Position2D(-1.0f, 0.572971105576f); // 368
-//  data.at(369)= AL::Math::Position2D(1.0f, -0.637290358543f); // 369
-//  data.at(370)= AL::Math::Position2D(0.616978228092f, -1.0f); // 370
-//  data.at(371)= AL::Math::Position2D(0.431884586811f, 1.0f); // 371
-//  data.at(372)= AL::Math::Position2D(-1.0f, -0.313541322947f); // 372
-//  data.at(373)= AL::Math::Position2D(1.0f, 0.265510469675f); // 373
-//  data.at(374)= AL::Math::Position2D(-0.967637717724f, -1.0f); // 374
-//  data.at(375)= AL::Math::Position2D(-0.851829230785f, 1.0f); // 375
-//  data.at(376)= AL::Math::Position2D(-1.0f, -0.0240753572434f); // 376
-//  data.at(377)= AL::Math::Position2D(1.0f, -0.62074804306f); // 377
-//  data.at(378)= AL::Math::Position2D(-0.716103315353f, -1.0f); // 378
-//  data.at(379)= AL::Math::Position2D(0.764843344688f, 1.0f); // 379
-//  data.at(380)= AL::Math::Position2D(-1.0f, 0.237947180867f); // 380
-//  data.at(381)= AL::Math::Position2D(1.0f, 0.970929265022f); // 381
-//  data.at(382)= AL::Math::Position2D(0.175047710538f, -1.0f); // 382
-//  data.at(383)= AL::Math::Position2D(0.865338563919f, 1.0f); // 383
-//  data.at(384)= AL::Math::Position2D(-1.0f, -0.995214521885f); // 384
-//  data.at(385)= AL::Math::Position2D(1.0f, -0.588854670525f); // 385
-//  data.at(386)= AL::Math::Position2D(-0.599455475807f, -1.0f); // 386
-//  data.at(387)= AL::Math::Position2D(-0.672585964203f, 1.0f); // 387
-//  data.at(388)= AL::Math::Position2D(-1.0f, -0.440914571285f); // 388
-//  data.at(389)= AL::Math::Position2D(1.0f, -0.113261073828f); // 389
-//  data.at(390)= AL::Math::Position2D(-0.883921265602f, -1.0f); // 390
-//  data.at(391)= AL::Math::Position2D(0.758514046669f, 1.0f); // 391
-//  data.at(392)= AL::Math::Position2D(-1.0f, 0.0125746848062f); // 392
-//  data.at(393)= AL::Math::Position2D(1.0f, 0.305404067039f); // 393
-//  data.at(394)= AL::Math::Position2D(-0.402139306068f, -1.0f); // 394
-//  data.at(395)= AL::Math::Position2D(0.325373709202f, 1.0f); // 395
-//  data.at(396)= AL::Math::Position2D(-1.0f, 0.257173955441f); // 396
-//  data.at(397)= AL::Math::Position2D(1.0f, -0.932736873627f); // 397
-//  data.at(398)= AL::Math::Position2D(0.091488994658f, -1.0f); // 398
-//  data.at(399)= AL::Math::Position2D(0.0367580987513f, 1.0f); // 399
-
-//  // possible solution
-//  //  data.at(396)= AL::Math::Position2D(-1.0f, -1.0f); // 396
-//  //  data.at(397)= AL::Math::Position2D(-1.0f, 1.0f); // 397
-//  //  data.at(398)= AL::Math::Position2D(1.0f, -1.0f); // 398
-//  //  data.at(399)= AL::Math::Position2D(1.0f, 1.0f); // 399
-
-//  std::vector<AL::Math::Position2D> pPoints;
-//  AL::Math::removeAlignedPoint(data, pPoints);
-//  EXPECT_EQ(4, (int)pPoints.size());
-
-//  // Usefull for plot in python
-//  std::cout << "result of removeAlignedPoint" << std::endl;
-//  for (unsigned int i=0; i<pPoints.size(); i++)
-//  {
-//    std::cout << "data.append(almath.Position2D("
-//              << pPoints.at(i).x << ", " << pPoints.at(i).y << "))" << std::endl;
-//  }
-
-//  AL::Math::deleteDoublesInNoneSortVector(data);
-//  EXPECT_EQ(400, (int)data.size());
-
-//  std::vector<AL::Math::Position2D> result = AL::Math::getConvexHull(data);
-//  EXPECT_EQ(5, (int)result.size());
-
-//  // Usefull for plot in python
-//  std::cout << "result of getConvexHull" << std::endl;
-//  for (unsigned int i=0; i<result.size(); i++)
-//  {
-//    std::cout << "data.append(almath.Position2D("
-//              << result.at(i).x << ", " << result.at(i).y << "))" << std::endl;
-//  }
-
-////  std::vector<AL::Math::Position2D> solutionExpected;
-////  solutionExpected.push_back(AL::Math::Position2D(-1.0f, -1.0f));
-////  solutionExpected.push_back(AL::Math::Position2D(-1.0f, 1.0f));
-////  solutionExpected.push_back(AL::Math::Position2D(1.0f, -1.0f));
-////  solutionExpected.push_back(AL::Math::Position2D(1.0f, 1.0f));
-////  bool isInSolution = false;
-////  for (unsigned int i=0; i<solutionExpected.size(); i++)
-////  {
-////    isInSolution = false;
-////    for (unsigned int j=0; j<result.size(); j++)
-////    {
-////      if (solutionExpected.at(i).isNear(result.at(j), 0.000001f))
-////      {
-////        isInSolution = true;
-////      }
-////    }
-
-////    EXPECT_TRUE(isInSolution);
-////  }
-
-
-//  float angle = 45.0*TO_RAD;
-//  AL::Math::Rotation2D rot = AL::Math::Rotation2D::fromAngle(angle);
-//  for (unsigned int i=0; i<data.size(); i++)
-//  {
-//    data.at(i) = rot*data.at(i);
-//  }
-
-//  AL::Math::removeAlignedPoint(data, pPoints);
-//  EXPECT_EQ(4, (int)pPoints.size());
-
-//  AL::Math::deleteDoublesInNoneSortVector(data);
-//  EXPECT_EQ(400, (int)data.size());
-//}
-
-
-TEST(isLeftBest, compare2)
+TEST(ConvexhullTest, timeOut0)
 {
-  // -4: at least two points are equal
-  // -3: points are nearly aligned but pB is not in the middle of pA, pC
-  // -2: points are aligned and pB is in the middle of pA, pC
-  // -1: pC is left
-  // +1: pC is right
-  AL::Math::Position2D pA;
-  AL::Math::Position2D pB;
-  AL::Math::Position2D pC;
+  std::vector<AL::Math::Position2D> lContactPoints;
+  lContactPoints.resize(8);
 
-  //i: 77 j: 8 k: 41
-  pA = AL::Math::Position2D(0.0742930024862f, 0.215870693326f); // 77
-  pB = AL::Math::Position2D(0.975853681564f, 0.0119071817026f); // 8
-  pC = AL::Math::Position2D(0.826174616814f, 0.0483366213739f); // 41
-  EXPECT_EQ(-3, AL::Math::isLeftBest(pA, pB, pC));
+  lContactPoints.at(0) = AL::Math::Position2D( 0.1340611875057220458984375f, 0.0968693196773529052734375f);
+  lContactPoints.at(1) = AL::Math::Position2D( 0.0885055512189865112304688f, 0.0215787440538406372070312f);
+  lContactPoints.at(2) = AL::Math::Position2D( -0.0200766772031784057617188f, 0.0872715637087821960449219f);
+  lContactPoints.at(3) = AL::Math::Position2D( 0.0254789683967828750610352f, 0.1625621467828750610351562f);
+  lContactPoints.at(4) = AL::Math::Position2D( 0.0760812759399414062500000f, 0.0010449402034282684326172f);
+  lContactPoints.at(5) = AL::Math::Position2D( 0.0305256322026252746582031f, -0.0742456391453742980957031f);
+  lContactPoints.at(6) = AL::Math::Position2D( -0.0780565887689590454101562f, -0.0085528194904327392578125f);
+  lContactPoints.at(7) = AL::Math::Position2D( -0.0325009450316429138183594f, 0.0667377635836601257324219f);
+
+  std::vector<AL::Math::Position2D> result;
+  AL::Math::removeAlignedPoint(lContactPoints, result);
+  EXPECT_EQ(4, (int)result.size());
+
+  lContactPoints = AL::Math::getConvexHull(lContactPoints);
+  EXPECT_EQ(5, (int)lContactPoints.size());
 }
+
+
+TEST(ConvexhullTest, timeOut1)
+{
+  std::vector<AL::Math::Position2D> lContactPoints;
+  lContactPoints.resize(8);
+
+  lContactPoints.at(0) = AL::Math::Position2D( -1.0f, -1.0f);
+  lContactPoints.at(1) = AL::Math::Position2D( -0.5f, -1.5f);
+  lContactPoints.at(2) = AL::Math::Position2D(  0.5f, -1.5f);
+  lContactPoints.at(3) = AL::Math::Position2D(  1.0f, -1.0f);
+  lContactPoints.at(4) = AL::Math::Position2D(  1.0f, 1.0f);
+  lContactPoints.at(5) = AL::Math::Position2D(  0.5f, 1.5f);
+  lContactPoints.at(6) = AL::Math::Position2D( -0.5f, 1.5f);
+  lContactPoints.at(7) = AL::Math::Position2D( -1.0f, 1.0f);
+
+  std::vector<AL::Math::Position2D> result;
+  AL::Math::removeAlignedPoint(lContactPoints, result);
+  EXPECT_EQ(8, (int)result.size());
+
+  lContactPoints = AL::Math::getConvexHull(lContactPoints);
+  EXPECT_EQ(9, (int)lContactPoints.size());
+}
+
+TEST(ConvexhullTest, timeOut2)
+{
+  std::vector<AL::Math::Position2D> lContactPoints;
+  lContactPoints.resize(8);
+
+  lContactPoints.at(0) = AL::Math::Position2D( -1.0f, -1.0f); // pt 0
+  lContactPoints.at(1) = AL::Math::Position2D( -0.5f, -1.0f); // pt 1
+  lContactPoints.at(2) = AL::Math::Position2D(  0.5f, -1.0f); // pt 2
+  lContactPoints.at(3) = AL::Math::Position2D(  1.0f, -1.0f); // pt 3
+  lContactPoints.at(4) = AL::Math::Position2D(  1.0f, 1.0f); // pt 4
+  lContactPoints.at(5) = AL::Math::Position2D(  0.5f, 1.0f); // pt 5
+  lContactPoints.at(6) = AL::Math::Position2D( -0.5f, 1.0f); // pt 6
+  lContactPoints.at(7) = AL::Math::Position2D( -1.0f, 1.0f); // pt 7
+
+  std::vector<AL::Math::Position2D> result;
+  AL::Math::removeAlignedPoint(lContactPoints, result);
+  EXPECT_EQ(4, (int)result.size());
+
+  lContactPoints = AL::Math::getConvexHull(lContactPoints);
+  EXPECT_EQ(5, (int)lContactPoints.size());
+}
+
+TEST(ConvexhullTest, timeOut3)
+{
+  std::vector<AL::Math::Position2D> lContactPoints;
+  lContactPoints.resize(8);
+
+  lContactPoints.at(1) = AL::Math::Position2D( -0.5f, -1.0f); // pt 1
+  lContactPoints.at(0) = AL::Math::Position2D( -1.0f, -1.0f); // pt 0
+  lContactPoints.at(5) = AL::Math::Position2D(  0.5f, 1.0f); // pt 5
+  lContactPoints.at(6) = AL::Math::Position2D( -0.5f, 1.0f); // pt 6
+  lContactPoints.at(2) = AL::Math::Position2D(  0.5f, -1.0f); // pt 2
+  lContactPoints.at(3) = AL::Math::Position2D(  1.0f, -1.0f); // pt 3
+  lContactPoints.at(4) = AL::Math::Position2D(  1.0f, 1.0f); // pt 4
+  lContactPoints.at(7) = AL::Math::Position2D( -1.0f, 1.0f); // pt 7
+  //  std::cout << "    pt0 = [" << std::endl;
+  //  for (unsigned int i=0; i<lContactPoints.size(); i++)
+  //  {
+  //    std::cout << "[ " << lContactPoints.at(i).x << ", " << lContactPoints.at(i).y << "]," << std::endl;
+  //  }
+  //  std::cout << "]" << std::endl;
+
+  std::vector<AL::Math::Position2D> result;
+  AL::Math::removeAlignedPoint(lContactPoints, result);
+  EXPECT_EQ(4, (int)result.size());
+
+  lContactPoints = AL::Math::getConvexHull(lContactPoints);
+  EXPECT_EQ(5, (int)lContactPoints.size());
+  //  std::cout << "    pt1 = [" << std::endl;
+  //  for (unsigned int i=0; i<result.size(); i++)
+  //  {
+  //    std::cout << "[ " << result.at(i).x << ", " << result.at(i).y << "]," << std::endl;
+  //  }
+  //  std::cout << "]" << std::endl;
+  //  std::cout << std::endl;
+}
+
+TEST(ConvexhullTest, timeOut4)
+{
+  std::vector<AL::Math::Position2D> lContactPoints;
+  lContactPoints.resize(8);
+  lContactPoints.at(0) = AL::Math::Position2D(0.134061f, 0.0968693f);
+  lContactPoints.at(1) = AL::Math::Position2D(0.0885056f, 0.0215787f);
+  lContactPoints.at(2) = AL::Math::Position2D(-0.0200767f, 0.0872716f);
+  lContactPoints.at(3) = AL::Math::Position2D(0.025479f, 0.162562f);
+  lContactPoints.at(4) = AL::Math::Position2D(0.0760813f, 0.00104494f);
+  lContactPoints.at(5) = AL::Math::Position2D(0.0305256f, -0.0742456f);
+  lContactPoints.at(6) = AL::Math::Position2D(-0.0780566f, -0.00855282f);
+  lContactPoints.at(7) = AL::Math::Position2D(-0.0325009f, 0.0667378f);
+
+  std::vector<AL::Math::Position2D> result;
+  AL::Math::removeAlignedPoint(lContactPoints, result);
+  EXPECT_EQ(4, (int)result.size());
+
+  lContactPoints = AL::Math::getConvexHull(lContactPoints);
+  EXPECT_EQ(5, (int)lContactPoints.size());
+}
+
+TEST(ConvexhullTest, timeOut5)
+{
+  std::vector<AL::Math::Position2D> lContactPoints;
+  lContactPoints.resize(8);
+  lContactPoints.at(0) = AL::Math::Position2D(0.0800774842500686645507812f, 0.1515965759754180908203125f);
+  lContactPoints.at(1) = AL::Math::Position2D(0.0800782665610313415527344f, 0.0635965839028358459472656f);
+  lContactPoints.at(2) = AL::Math::Position2D(-0.0469217263162136077880859f, 0.0635954439640045166015625);
+  lContactPoints.at(3) = AL::Math::Position2D(-0.0469225160777568817138672f, 0.1515954434871673583984375);
+  lContactPoints.at(4) = AL::Math::Position2D(0.0800784975290298461914062f, 0.0395965911448001861572266);
+  lContactPoints.at(5) = AL::Math::Position2D(0.0800792798399925231933594f, -0.0484033934772014617919922);
+  lContactPoints.at(6) = AL::Math::Position2D(-0.0469207167625427246093750f, -0.0484045296907424926757812);
+  lContactPoints.at(7) = AL::Math::Position2D(-0.0469215027987957000732422f, 0.0395954549312591552734375);
+
+  std::vector<AL::Math::Position2D> result;
+  AL::Math::removeAlignedPoint(lContactPoints, result);
+  EXPECT_EQ(4, (int)result.size());
+
+  lContactPoints = AL::Math::getConvexHull(lContactPoints);
+  EXPECT_EQ(5, (int)lContactPoints.size());
+}
+
+TEST(ConvexhullTest, timeOut6)
+{
+  std::vector<AL::Math::Position2D> lContactPoints;
+  lContactPoints.resize(8);
+  lContactPoints.at(0) = AL::Math::Position2D(-0.0469849556684494018554688f, 0.0607356913387775421142578f);
+  lContactPoints.at(1) = AL::Math::Position2D(-0.0469849556684494018554688f, 0.1487356722354888916015625f);
+  lContactPoints.at(2) = AL::Math::Position2D(-0.0469849519431591033935547f, -0.0512642934918403625488281f);
+  lContactPoints.at(3) = AL::Math::Position2D(-0.0469849519431591033935547f, 0.0367356948554515838623047f);
+  lContactPoints.at(4) = AL::Math::Position2D(0.0800150334835052490234375f, 0.0607356913387775421142578f);
+  lContactPoints.at(5) = AL::Math::Position2D(0.0800150334835052490234375f, 0.1487356722354888916015625f);
+  lContactPoints.at(6) = AL::Math::Position2D(0.0800150409340858459472656f, -0.0512642972171306610107422f);
+  lContactPoints.at(7) = AL::Math::Position2D(0.0800150409340858459472656f, 0.0367356948554515838623047f);
+
+  std::vector<AL::Math::Position2D> result;
+  AL::Math::removeAlignedPoint(lContactPoints, result);
+  EXPECT_EQ(4, (int)result.size());
+
+  lContactPoints = AL::Math::getConvexHull(lContactPoints);
+  EXPECT_EQ(5, (int)lContactPoints.size());
+}
+

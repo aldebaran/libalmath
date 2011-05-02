@@ -11,6 +11,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <almath/tools/almathio.h>
+
 //#define DEBUG_CONVEX
 
 namespace AL
@@ -172,7 +174,7 @@ namespace AL
       AL::Math::crossProduct(d1, d2, sinAngle);
 
       // point are nearly aligned angle = 0.3 degree
-      float epsilonAngle = sinf(0.3f*TO_RAD);
+      float epsilonAngle = sinf(0.01f*TO_RAD); // was 0.3
 
       if (sinAngle < -epsilonAngle) // was 0.0f
       {
@@ -295,37 +297,47 @@ namespace AL
       const std::vector<AL::Math::Position2D>& pPoints,
       std::vector<AL::Math::Position2D>&       pOut)
     {
+      unsigned int nbPts = pPoints.size();
       std::vector<bool> isInList;
       //isInList.resize(pPoints.size());
-      isInList.reserve(pPoints.size());
-      isInList.assign(pPoints.size(), false);
+      isInList.reserve(nbPts);
+      isInList.assign(nbPts, false);
 
       // possible optimization:
       pOut.clear();
       //std::vector<unsigned short> isInTheMiddle;
-      for (unsigned int j=0; j<pPoints.size(); j++)
+      for (unsigned int j=0; j<nbPts; j++)
       {
-        for (unsigned int i=0; i<pPoints.size(); i++)
+        for (unsigned int i=0; i<nbPts; i++)
         {
-          for (unsigned int k=i+1; k<pPoints.size(); k++) // k = i+1
+          for (unsigned int k=i+1; k<nbPts; k++) // k = i+1
           {
             if ((i != j) && (j != k)) //(i != k)
             {
               if (AL::Math::isLeftBest(pPoints.at(i), pPoints.at(j), pPoints.at(k)) == -2)
               {
                 isInList.at(j) = true;
-//                if (!AL::Math::isIndexInList(j, isInTheMiddle))
+//                if (
+//                    ((j == 396) || (j == 397) || (j == 398) || (j == 399))
+//                    )
 //                {
-//                  //std::cout << "i: " << i << " j: " << j << " k: " << k << std::endl;
-//                  isInTheMiddle.push_back(j);
+//                  std::cout << "i: " << i << " j: " << j << " k: " << k << " isLeft: " << AL::Math::isLeftBest(pPoints.at(i), pPoints.at(j), pPoints.at(k)) << std::endl;
+//                  std::cout << "i: " << i << " " << pPoints.at(i) << std::endl;
+//                  std::cout << "j: " << j << " " << pPoints.at(j) << std::endl;
+//                  std::cout << "k: " << k << " " << pPoints.at(k) << std::endl;
 //                }
+
+                // if (!AL::Math::isIndexInList(j, isInTheMiddle))
+                // {
+                //   isInTheMiddle.push_back(j);
+                // }
               }
             }
           }
         }
       }
 
-      for (unsigned int i=0; i<pPoints.size(); i++)
+      for (unsigned int i=0; i<nbPts; i++)
       {
         if (!isInList.at(i))
         {
