@@ -86,3 +86,25 @@ TEST(ALPose2DTest, distanceSquared)
   EXPECT_NEAR(pPos2D.distanceSquared(AL::Math::Pose2D(0.0f, 0.0f, 0.0f)), 5.0f, 0.0001f);
 }
 
+TEST(ALPose2DTest, inverse)
+{
+  AL::Math::Pose2D pPose2D = AL::Math::Pose2D(0.1f, -0.1f, -0.5f);
+  AL::Math::Pose2D pResult = AL::Math::Pose2D(-0.135701f, 0.0398157f, 0.5f);
+  AL::Math::Pose2D pInverse = pPose2D.inverse();
+  EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
+  EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
+  EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
+
+  pInverse = AL::Math::Pose2D();
+  pInverse = AL::Math::Pose2DInverse(pPose2D);
+  EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
+  EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
+  EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
+
+  pInverse = AL::Math::Pose2D();
+  AL::Math::Pose2DInverse(pPose2D, pInverse);
+  EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
+  EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
+  EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
+}
+

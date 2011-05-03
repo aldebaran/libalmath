@@ -66,7 +66,10 @@ namespace AL {
 
       std::vector<float> toVector() const;
 
+      Pose2D inverse() const;
+
     }; // end struct
+
 
     float distanceSquared(
         const Pose2D& pPos1,
@@ -75,6 +78,11 @@ namespace AL {
     float distance(
         const Pose2D& pPos1,
         const Pose2D& pPos2);
+
+
+    Pose2D Pose2DInverse(const Pose2D& pIn);
+    void Pose2DInverse( const Pose2D& pIn,
+                        Pose2D&       pOut);
 
   } // end namespace math
 } // end namespace AL

@@ -161,7 +161,11 @@ class TestPose2D(unittest.TestCase):
         self.assertAlmostEqual(p0.distance(p1), p1.x)
 
 
-
+    def test_inverse(self):
+        p0 = almath.Pose2D(0.1, -0.1, -0.5)
+	p1 = p0.inverse()
+	pResult = almath.Pose2D(-0.135701, 0.0398157, 0.5)
+	self.assertTrue(p1.isNear(pResult))
 
 class TestALInterpolationArticular(unittest.TestCase):
     def test_init(self):

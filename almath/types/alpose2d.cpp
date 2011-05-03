@@ -120,7 +120,7 @@ namespace AL {
 
     bool Pose2D::isNear(
       const Pose2D& pPos,
-      const float&     pEpsilon)const
+      const float&     pEpsilon) const
     {
 
       if (
@@ -136,7 +136,29 @@ namespace AL {
       }
     }
 
+    Pose2D Pose2D::inverse() const
+    {
+      return Math::Pose2DInverse(*this);
+    }
 
+    void Pose2DInverse(
+      const Pose2D& pIn,
+      Pose2D&       pOut)
+    {
+      pOut.theta = -pIn.theta;
 
+      float cos = cosf(pOut.theta);
+      float sin = sinf(pOut.theta);
+
+      pOut.x = -( pIn.x*cos - pIn.y*sin);
+      pOut.y = -( pIn.y*cos + pIn.x*sin);
+    }
+
+    Pose2D Pose2DInverse(const Pose2D& pIn)
+    {
+      Pose2D pOut;
+      Pose2DInverse(pIn, pOut);
+      return pOut;
+    }
   } // end namespace math
 } // end namespace AL
