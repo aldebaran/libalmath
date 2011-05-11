@@ -1882,15 +1882,15 @@ TEST(ConvexhullTest, randomData2)
   data.at(498)= AL::Math::Position2D(0.901395618916f, 0.211026832461f); // 498
   data.at(499)= AL::Math::Position2D(0.869735181332f, 0.579254627228f); // 499
 
-  std::vector<AL::Math::Position2D> pPoints;
-  AL::Math::removeAlignedPoint(data, pPoints);
-  EXPECT_EQ(54, (int)pPoints.size()); // was 13
+  //std::vector<AL::Math::Position2D> pPoints;
+  //AL::Math::removeAlignedPoint(data, pPoints);
+  //EXPECT_EQ(54, (int)pPoints.size()); // was 13
 
   std::vector<AL::Math::Position2D> result = AL::Math::getConvexHull(data);
   EXPECT_EQ(17, (int)result.size()); // was 14
 
-  AL::Math::deleteDoublesInNoneSortVector(data);
-  EXPECT_EQ(500, (int)data.size());
+  //AL::Math::deleteDoublesInNoneSortVector(data);
+  //EXPECT_EQ(500, (int)data.size());
 
   // Usefull for plot in python
   //    for (unsigned int i=0; i<result.size(); i++)

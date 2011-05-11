@@ -76,7 +76,7 @@ namespace AL
       {
         if (isDouble.at(i))
         {
-          pPoints.erase(pPoints.begin()+i-nbDeleted);
+          pPoints.erase(pPoints.begin()+(i-nbDeleted));
           nbDeleted++;
         }
       }
