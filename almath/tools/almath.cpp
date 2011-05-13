@@ -347,19 +347,19 @@ namespace AL
       return result;
     }
 
-    Position6D POSITION6D(
-      const Position3D& pPos,
-      const Rotation3D& pRot)
-    {
-      Position6D result;
-      result.x  = pPos.x;
-      result.y  = pPos.y;
-      result.z  = pPos.z;
-      result.wx = pRot.wx;
-      result.wy = pRot.wy;
-      result.wz = pRot.wz;
-      return result;
-    }
+//    Position6D POSITION6D(
+//      const Position3D& pPos,
+//      const Rotation3D& pRot)
+//    {
+//      Position6D result;
+//      result.x  = pPos.x;
+//      result.y  = pPos.y;
+//      result.z  = pPos.z;
+//      result.wx = pRot.wx;
+//      result.wy = pRot.wy;
+//      result.wz = pRot.wz;
+//      return result;
+//    }
 
 
     float computeGradiant(

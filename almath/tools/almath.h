@@ -127,13 +127,13 @@ namespace AL {
       const Position2D& pPos);
 
 
-    /**
-    * Helper method to compose a position 6D from
-    * a Position3D and a rotation 3D
-    */
-    Position6D POSITION6D(
-      const Position3D& pPos,
-      const Rotation3D& pRot);
+//    /**
+//    * Helper method to compose a position 6D from
+//    * a Position3D and a rotation 3D
+//    */
+//    Position6D POSITION6D(
+//      const Position3D& pPos,
+//      const Rotation3D& pRot);
 
 
     /**

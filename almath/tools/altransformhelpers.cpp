@@ -661,20 +661,20 @@ namespace AL {
     }
 
 
-    Position6D POSITION6D(
-      const Position3D& pPos,
-      const Transform&  pHRot)
-    {
-      Position6D result;
-      Rotation3D pRot = Rotation3DFromTransform(pHRot);
-      result.x = pPos.x;
-      result.y = pPos.y;
-      result.z = pPos.z;
-      result.wx = pRot.wx;
-      result.wy = pRot.wy;
-      result.wz = pRot.wz;
-      return result;
-    }
+//    Position6D POSITION6D(
+//      const Position3D& pPos,
+//      const Transform&  pHRot)
+//    {
+//      Position6D result;
+//      Rotation3D pRot = Rotation3DFromTransform(pHRot);
+//      result.x = pPos.x;
+//      result.y = pPos.y;
+//      result.z = pPos.z;
+//      result.wx = pRot.wx;
+//      result.wy = pRot.wy;
+//      result.wz = pRot.wz;
+//      return result;
+//    }
 
 
     void AxisRotationProjection(
