@@ -28,12 +28,36 @@ namespace AL {
       return res;
     }
 
+    Position2D Position2D::operator+ () const
+    {
+      Position2D res;
+      res.x = x;
+      res.y = y;
+      return res;
+    }
+
+    Position2D Position2D::operator- () const
+    {
+      Position2D res;
+      res.x = -x;
+      res.y = -y;
+      return res;
+    }
+
     Position2D& Position2D::operator+= (const Position2D& pPos2)
     {
       x += pPos2.x;
       y += pPos2.y;
       return *this;
     }
+
+    Position2D& Position2D::operator-= (const Position2D& pPos2)
+    {
+      x -= pPos2.x;
+      y -= pPos2.y;
+      return *this;
+    }
+
 
     bool Position2D::operator!=(const Position2D& pPos2) const
     {

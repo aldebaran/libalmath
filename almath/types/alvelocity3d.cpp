@@ -30,11 +30,39 @@ namespace AL {
       return res;
     }
 
+    Velocity3D Velocity3D::operator+ () const
+    {
+      Velocity3D res;
+      res.xd = xd;
+      res.yd = yd;
+      res.zd = zd;
+      return res;
+    }
+
+
+    Velocity3D Velocity3D::operator- () const
+    {
+      Velocity3D res;
+      res.xd = -xd;
+      res.yd = -yd;
+      res.zd = -zd;
+      return res;
+    }
+
+
     Velocity3D& Velocity3D::operator+= (const Velocity3D& pVel2)
     {
       xd += pVel2.xd;
       yd += pVel2.yd;
       zd += pVel2.zd;
+      return *this;
+    }
+
+    Velocity3D& Velocity3D::operator-= (const Velocity3D& pVel2)
+    {
+      xd -= pVel2.xd;
+      yd -= pVel2.yd;
+      zd -= pVel2.zd;
       return *this;
     }
 

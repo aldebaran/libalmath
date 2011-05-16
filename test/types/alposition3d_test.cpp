@@ -83,16 +83,38 @@ TEST(ALPosition3DTest, crossProduct)
 
 TEST(ALPosition3DTest, Divers)
 {
-  //std::cout << "-------------- soustraction 0 --------------" << std::endl;
+  //std::cout << "-------------- soustraction 0 (-a) --------------" << std::endl;
+  pPos3D1 = AL::Math::Position3D(+1.2f, -1.3f, 0.2f);
+  pPos3D2 = -pPos3D1;
+  comparePosition3D(pPos3D2, AL::Math::Position3D(-1.2f, +1.3f, -0.2f));
+
+  //std::cout << "-------------- soustraction 0 (a-b) --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D(+1.2f, 1.3f, 0.2f);
   pPos3D2 = AL::Math::Position3D(-0.5f, 0.2f, 0.4f);
   comparePosition3D((pPos3D2-pPos3D1), AL::Math::Position3D(-1.7f, -1.1f, 0.2f));
 
+  //std::cout << "-------------- soustraction 0 (a-=b) --------------" << std::endl;
+  pPos3D1 = AL::Math::Position3D(-1.2f, +1.3f, -0.2f);
+  pPos3D2 = AL::Math::Position3D(+1.2f, -1.3f, 0.2f);
+  pPos3D2 -= pPos3D1;
+  comparePosition3D(pPos3D2, AL::Math::Position3D(2.4f, -2.6f, 0.4f));
 
-  //std::cout << "-------------- addition 0 --------------" << std::endl;
+  //std::cout << "-------------- addition 0 (+a) --------------" << std::endl;
+  pPos3D1 = AL::Math::Position3D(+1.2f, 1.3f, 0.3f);
+  pPos3D2 = +pPos3D1;
+  comparePosition3D(pPos3D2, AL::Math::Position3D(1.2f, 1.3f, 0.3f));
+
+  //std::cout << "-------------- addition 0 (a+b) --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D(+1.2f, 1.3f, 0.3f);
   pPos3D2 = AL::Math::Position3D(-0.5f, 0.2f, 0.2f);
   comparePosition3D((pPos3D1+pPos3D2), AL::Math::Position3D(0.7f, 1.5f, 0.5f));
+
+
+  //std::cout << "-------------- addition 0 (a+=b) --------------" << std::endl;
+  pPos3D1 = AL::Math::Position3D(+1.5f, 1.3f, 0.3f);
+  pPos3D2 = AL::Math::Position3D(-0.5f, 0.2f, 0.2f);
+  pPos3D2 += pPos3D1;
+  comparePosition3D(pPos3D2, AL::Math::Position3D(1.0f, 1.5f, 0.5f));
 
 
   //std::cout << "-------------- multiplication 0 --------------" << std::endl;

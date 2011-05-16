@@ -36,6 +36,29 @@ namespace AL {
       return res;
     }
 
+    Velocity6D Velocity6D::operator+ () const
+    {
+      Velocity6D res;
+      res.xd  = xd;
+      res.yd  = yd;
+      res.zd  = zd;
+      res.wxd = wxd;
+      res.wyd = wyd;
+      res.wzd = wzd;
+      return res;
+    }
+
+    Velocity6D Velocity6D::operator- () const
+    {
+      Velocity6D res;
+      res.xd  = -xd;
+      res.yd  = -yd;
+      res.zd  = -zd;
+      res.wxd = -wxd;
+      res.wyd = -wyd;
+      res.wzd = -wzd;
+      return res;
+    }
 
     bool Velocity6D::isNear(
       const Velocity6D& pVel,

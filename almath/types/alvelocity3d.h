@@ -52,7 +52,12 @@ namespace AL {
 
       Velocity3D operator+ (const Velocity3D& pVel2) const;
       Velocity3D operator- (const Velocity3D& pVel2) const;
+
+      Velocity3D operator+ () const;
+      Velocity3D operator- () const;
+
       Velocity3D& operator+= (const Velocity3D& pVel2);
+      Velocity3D& operator-= (const Velocity3D& pVel2);
 
       bool isNear(
         const Velocity3D& pVel,

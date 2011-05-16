@@ -20,11 +20,17 @@ TEST(ALPose2DTest, basicOperator)
   EXPECT_TRUE(pPos2D1 == pPos2D2);
   EXPECT_FALSE(pPos2D1 == AL::Math::Pose2D());
 
-  // operator +
+  // operator + (a+b)
   pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D2 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D = pPos2D1 + pPos2D2;
   comparePose2D(pPos2D, AL::Math::Pose2D(1.0f, -0.6f, 0.2f), 0.001f);
+
+  // operator + (+a)
+  pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
+  pPos2D  = AL::Math::Pose2D();
+  pPos2D = +pPos2D1;
+  comparePose2D(pPos2D, AL::Math::Pose2D(0.5f, -0.3f, 0.1f), 0.001f);
 
   // operator +=
   pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
@@ -32,11 +38,17 @@ TEST(ALPose2DTest, basicOperator)
   pPos2D1 += pPos2D2;
   comparePose2D(pPos2D1, AL::Math::Pose2D(1.0f, -0.6f, 0.2f), 0.001f);
 
-  // operator -
+  // operator - (a-b)
   pPos2D1 = AL::Math::Pose2D(0.5f, +0.3f, 0.1f);
   pPos2D2 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D = pPos2D2 - pPos2D1;
   comparePose2D(pPos2D, AL::Math::Pose2D(0.0f, -0.6f, 0.0f), 0.001f);
+
+  // operator - (-a)
+  pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
+  pPos2D  = AL::Math::Pose2D();
+  pPos2D  = - pPos2D1;
+  comparePose2D(pPos2D, AL::Math::Pose2D(-0.5f, 0.3f, -0.1f), 0.001f);
 
   // operator -=
   pPos2D1 = AL::Math::Pose2D(0.6f, -0.4f, 0.2f);

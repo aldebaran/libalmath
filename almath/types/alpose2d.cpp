@@ -27,6 +27,24 @@ namespace AL {
       return res;
     }
 
+    Pose2D Pose2D::operator+ () const
+    {
+      Pose2D res;
+      res.x = x;
+      res.y = y;
+      res.theta = theta;
+      return res;
+    }
+
+    Pose2D Pose2D::operator- () const
+    {
+      Pose2D res;
+      res.x = -x;
+      res.y = -y;
+      res.theta = -theta;
+      return res;
+    }
+
     Pose2D Pose2D::operator* (const Pose2D& pPos2) const
     {
       Pose2D pOut;

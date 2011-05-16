@@ -73,7 +73,11 @@ namespace AL {
       Position6D operator+ (const Position6D& pPos2) const;
       Position6D operator- (const Position6D& pPos2) const;
 
+      Position6D operator+ () const;
+      Position6D operator- () const;
+
       Position6D& operator+= (const Position6D& pPos2);
+      Position6D& operator-= (const Position6D& pPos2);
 
       bool isNear(
         const Position6D& pPos,

@@ -48,6 +48,9 @@ namespace AL {
       Pose2D operator+ (const Pose2D& pPos2) const;
       Pose2D operator- (const Pose2D& pPos2) const;
 
+      Pose2D operator+ () const;
+      Pose2D operator- () const;
+
       Pose2D& operator+= (const Pose2D& pPos2);
       Pose2D& operator-= (const Pose2D& pPos2);
 

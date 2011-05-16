@@ -42,7 +42,11 @@ namespace AL {
       Position3D operator+ (const Position3D& pPos2) const;
       Position3D operator- (const Position3D& pPos2) const;
 
+      Position3D operator+ () const;
+      Position3D operator- () const;
+
       Position3D& operator+= (const Position3D& pPos2);
+      Position3D& operator-= (const Position3D& pPos2);
 
       bool operator== (const Position3D& pPos2) const;
       bool operator!= (const Position3D& pPos2) const;

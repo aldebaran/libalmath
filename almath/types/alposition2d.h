@@ -40,7 +40,11 @@ namespace AL {
       Position2D operator+ (const Position2D& pPos2) const;
       Position2D operator- (const Position2D& pPos2) const;
 
+      Position2D operator+ () const;
+      Position2D operator- () const;
+
       Position2D& operator+= (const Position2D& pPos2);
+      Position2D& operator-= (const Position2D& pPos2);
 
       bool operator!=(const Position2D& pPos2) const;
 

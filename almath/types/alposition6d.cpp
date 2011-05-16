@@ -36,6 +36,30 @@ namespace AL {
       return res;
     }
 
+    Position6D Position6D::operator+ () const
+    {
+      Position6D res;
+      res.x  = x;
+      res.y  = y;
+      res.z  = z;
+      res.wx = wx;
+      res.wy = wy;
+      res.wz = wz;
+      return res;
+    }
+
+    Position6D Position6D::operator- () const
+    {
+      Position6D res;
+      res.x  = -x;
+      res.y  = -y;
+      res.z  = -z;
+      res.wx = -wx;
+      res.wy = -wy;
+      res.wz = -wz;
+      return res;
+    }
+
 
     Position6D& Position6D::operator+= (const Position6D& pPos2)
     {
@@ -47,6 +71,19 @@ namespace AL {
       wz += pPos2.wz;
       return *this;
     }
+
+
+    Position6D& Position6D::operator-= (const Position6D& pPos2)
+    {
+      x  -= pPos2.x;
+      y  -= pPos2.y;
+      z  -= pPos2.z;
+      wx -= pPos2.wx;
+      wy -= pPos2.wy;
+      wz -= pPos2.wz;
+      return *this;
+    }
+
 
     bool Position6D::isNear(
       const Position6D& pPos,

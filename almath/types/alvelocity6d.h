@@ -71,6 +71,9 @@ namespace AL {
       Velocity6D operator+ (const Velocity6D& pVel2) const;
       Velocity6D operator- (const Velocity6D& pVel2) const;
 
+      Velocity6D operator+ () const;
+      Velocity6D operator- () const;
+
       bool isNear(
         const Velocity6D& pVel,
         const float&      pEpsilon=0.0001f) const;
