@@ -140,6 +140,8 @@ namespace AL {
 
     Rotation RotationFromTransform(const Transform& pTransform);
 
+    Rotation3D Rotation3DFromRotation(const Rotation& pRotation1);
+
     /**
     * Extracts the position coordinates from a Matrix
     * into a Position3D struct
