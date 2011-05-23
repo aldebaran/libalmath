@@ -2,7 +2,7 @@
 * Copyright (c) Aldebaran Robotics 2009 All Rights Reserved \n
 */
 
-#include <almath/interpolation/alinterpolationspline.h>
+#include <almath/interpolations/alinterpolationspline.h>
 
 #include "math.h"
 #include <limits>

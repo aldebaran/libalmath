@@ -2,7 +2,7 @@
 * Copyright (c) Aldebaran Robotics 2009 All Rights Reserved \n
 */
 
-#include <almath/interpolation/alinterpolationsmooth.h>
+#include <almath/interpolations/alinterpolationsmooth.h>
 
 #include "math.h"
 #include <limits>

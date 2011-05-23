@@ -1,8 +1,12 @@
-/**
-* @author David GOUAILLIER
-* Aldebaran Robotics (c) 2009 All Rights Reserved
+/*
+** Author(s):
+**  - Chris Kilner
+**  - Cyrille Collette
+**  - David Gouaillier
+**
+** Copyright (C) 2011 Aldebaran Robotics
 */
-//#pragma once
+
 #pragma once
 
 #ifndef _LIB_ALMATH_ALMATH_ALINTERPOLATIONCUBICSPLINE_H_

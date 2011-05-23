@@ -3,7 +3,7 @@
 * Aldebaran Robotics (c) 2009 All Rights Reserved
 *
 */
-#include <almath/interpolation/alinterpolationcartesian.h>
+#include <almath/interpolations/alinterpolationcartesian.h>
 #include "../almathtestutils.h"
 
 AL::Math::Interpolation::ALInterpolationCartesian interpolatorCartesian;

@@ -8,10 +8,10 @@
 * 1998 pp.2922-2927
 */
 
-#include <almath/interpolation/alinterpolationcartesian.h>
+#include <almath/interpolations/alinterpolationcartesian.h>
 
 #include <stdexcept>
-#include <almath/interpolation/alinterpolationutils.h>
+#include <almath/interpolations/alinterpolationutils.h>
 #include <almath/tools/almath.h>
 #include <almath/tools/altransformhelpers.h>
 

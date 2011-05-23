@@ -3,7 +3,7 @@
 *
 */
 
-#include <almath/interpolation/alinterpolationutils.h>
+#include <almath/interpolations/alinterpolationutils.h>
 
 #include "math.h"
 

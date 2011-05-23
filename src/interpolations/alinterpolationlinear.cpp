@@ -3,7 +3,7 @@
 * Copyright (c) Aldebaran Robotics 2009 All Rights Reserved \n
 */
 
-#include <almath/interpolation/alinterpolationlinear.h>
+#include <almath/interpolations/alinterpolationlinear.h>
 
 #include "math.h"
 #include <limits>

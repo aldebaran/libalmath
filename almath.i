@@ -27,8 +27,8 @@
 #include "almath/tools/almath.h"
 
 #include "almath/collisions/convexhull.h"
-#include "almath/interpolation/alinterpolationarticular.h"
-#include "almath/interpolation/alinterpolationcartesian.h"
+#include "almath/interpolations/alinterpolationarticular.h"
+#include "almath/interpolations/alinterpolationcartesian.h"
 
 %}
 
@@ -56,8 +56,8 @@
 %include "almath/tools/almath.h"
 
 %include "almath/collisions/convexhull.h"
-%include "almath/interpolation/alinterpolationarticular.h"
-%include "almath/interpolation/alinterpolationcartesian.h"
+%include "almath/interpolations/alinterpolationarticular.h"
+%include "almath/interpolations/alinterpolationcartesian.h"
 
 
 %extend AL::Math::Pose2D {

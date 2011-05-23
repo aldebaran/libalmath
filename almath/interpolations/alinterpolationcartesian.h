@@ -1,11 +1,13 @@
-/**
-* @author Cyrille Collette
-* Copyright (c) Aldebaran Robotics 2009 All Rights Reserved
-*
-* Milos Zefran and Vizay Kumar
-* Two Methods for Interpolating Rigid Body Motions
-* IEEE International Conference on Robotics and Automation
-* 1998 pp.2922-2927
+/*
+** Author(s):
+**  - Chris Kilner
+**  - Cyrille Collette
+**  - David Gouaillier
+**
+** Milos Zefran and Vizay Kumar
+** Two Methods for Interpolating Rigid Body Motions
+** IEEE International Conference on Robotics and Automation
+** 1998 pp.2922-2927
 */
 
 #pragma once

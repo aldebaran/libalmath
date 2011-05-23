@@ -1,8 +1,10 @@
-/**
-* @author Chris Kilner
-* Copyright (c) Aldebaran Robotics 2009 All Rights Reserved
-*
-* Concentrate the use of iostream into this file
+/*
+** Author(s):
+**  - Chris Kilner
+**  - Cyrille Collette
+**  - David Gouaillier
+**
+** Copyright (C) 2011 Aldebaran Robotics
 */
 
 #pragma once

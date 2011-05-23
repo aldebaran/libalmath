@@ -5,7 +5,7 @@
 * Inspired by paper : Algorithms for Cubic Spline Interpolation.pdf
 * \\sirius\documents\Biblio Motion\david\Interpolation\
 */
-#include <almath/interpolation/alinterpolationcubicspline.h>
+#include <almath/interpolations/alinterpolationcubicspline.h>
 
 namespace AL
 {

@@ -4,14 +4,14 @@
 * http://math.fullerton.edu/mathews/n2003/CubicSplinesMod.html
 */
 
-#include <almath/interpolation/alinterpolationarticular.h>
+#include <almath/interpolations/alinterpolationarticular.h>
 
 #include "math.h"
 #include <algorithm> // for copy
 #include <limits>
 #include <cstdlib>
 #include <stdexcept>
-#include <almath/interpolation/alinterpolationutils.h>
+#include <almath/interpolations/alinterpolationutils.h>
 
 using std::vector;
 

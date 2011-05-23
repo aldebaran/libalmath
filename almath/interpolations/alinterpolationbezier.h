@@ -1,5 +1,10 @@
-/**
-* Copyright (c) Aldebaran Robotics 2009 All Rights Reserved \n
+/*
+** Author(s):
+**  - Chris Kilner
+**  - Cyrille Collette
+**  - David Gouaillier
+**
+** Copyright (C) 2011 Aldebaran Robotics
 */
 
 #pragma once
@@ -8,7 +13,7 @@
 #define _LIB_ALMATH_ALMATH_ALINTERPOLATIONBEZIER_H_
 
 #include <almath/types/alposition3d.h>
-#include <almath/interpolation/alinterpolationtypes.h>
+#include <almath/interpolations/alinterpolationtypes.h>
 
 namespace AL
 {
