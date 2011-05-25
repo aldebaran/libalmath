@@ -10,7 +10,7 @@
 
 #include <almath/interpolation/alinterpolationcartesian.h>
 
-#include <alcore/alerror.h>
+#include <exception>
 #include <almath/interpolation/alinterpolationutils.h>
 #include <almath/tools/almath.h>
 #include <almath/tools/altransformhelpers.h>
@@ -166,10 +166,8 @@ namespace AL
         fIsFinished = false;
         if ( (pTime.size() != pHi.size() ) || (pVi.size() != 2) )
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationCartesian",
-            "Vectors have not same dimensions.");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationCartesian Vectors have not same dimensions.");
         }
 
         fTime = pTime;

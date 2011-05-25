@@ -8,7 +8,7 @@
 #include <limits>
 #include <cstdlib>
 
-#include <alcore/alerror.h>
+#include <exception>
 #include <almath/tools/almath.h>
 
 using std::vector;
@@ -31,18 +31,16 @@ namespace AL
 
           if ( pTime.size() != pValue.size() )
           {
-            throw ALERROR(
-              "ALMath",
-              "ALInterpolationSpline",
+            throw std::invalid_argument(
+              "ALMath: ALInterpolationSpline"
               "No equal size of vector of time and value for Spline Interpolator.");
             return returnInterpol;
           }
 
           if (pTime.size() < 3)
           {
-            throw ALERROR(
-              "ALMath",
-              "ALInterpolationSpline",
+            throw std::invalid_argument(
+              "ALMath: ALInterpolationSpline"
               "Not enough points (min=3) for Spline Interpolator.");
             return returnInterpol;
           }
@@ -126,18 +124,16 @@ namespace AL
 
           if (pTime.size() != pValue.size())
           {
-            throw ALERROR(
-              "ALMath",
-              "ALInterpolationSpline",
+            throw std::invalid_argument(
+              "ALMath: ALInterpolationSpline"
               "No equal size of vector of time and value for Spline Interpolator.");
             return returnInterpol;
           }
 
           if (pTime.size() < 3)
           {
-            throw ALERROR(
-              "ALMath",
-              "ALInterpolationSpline",
+            throw std::invalid_argument(
+              "ALMath: ALInterpolationSpline"
               "Not enough points (min=3) for Spline Interpolator.");
             return returnInterpol;
           }

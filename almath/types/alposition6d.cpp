@@ -4,10 +4,8 @@
 */
 
 #include <almath/types/alposition6d.h>
-
 #include "math.h"
-
-#include <alcore/alerror.h>
+#include <exception>
 
 namespace AL {
   namespace Math {
@@ -121,10 +119,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALPosition6D",
-          "operator/",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALPosition6D: operator/ Division by zeros.");
       }
       return *this * (1.0f/pM);
     }
@@ -144,10 +140,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALPosition6D",
-          "operator/=",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALPosition6D: operator/= Division by zeros.");
       }
       *this *= (1.0f/pM);
       return *this;
@@ -209,10 +203,8 @@ namespace AL {
 
       if (tmpNorm == 0.0f)
       {
-        throw ALERROR(
-          "ALPosition6D",
-          "normalize",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALPosition6D: normalize Division by zeros.");
       }
 
       ret /= tmpNorm;

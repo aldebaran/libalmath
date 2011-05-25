@@ -62,7 +62,7 @@ TEST(avoidFootCollisionTest, Log)
   EXPECT_TRUE(xIsTwoBoxesAreInCollision(pRFootBoundingBox, pTmpBoundingBoxe));
 
   //std::cout << "***** xIsTwoBoxesAreInCollision *****" << std::endl;
-  pMove = AL::Math::Pose2D( 0.0f, 0.085f, 0.17453);
+  pMove = AL::Math::Pose2D( 0.0f, 0.085f, 0.17453f);
   pTmpBoundingBoxe = xComputeBoxe(pLFootBoundingBox, pMove);
   EXPECT_FALSE(xIsTwoBoxesAreInCollision(pRFootBoundingBox, pTmpBoundingBoxe));
 

@@ -7,7 +7,7 @@
 
 #include "math.h"
 
-#include <alcore/alerror.h>
+#include <exception>
 #include <almath/types/alvelocity6d.h>
 #include <almath/tools/altransformhelpers.h>
 
@@ -49,9 +49,8 @@ namespace AL
 
       if (pVelocityMaxAbs <= 0.0f)
       {
-        throw ALERROR(
-          "ALMath",
-          "ALInterpolationArticular",
+        throw std::invalid_argument(
+          "ALMath: ALInterpolationArticular"
           "pVelocityMaxAbs must be strictly positive.");
       }
 

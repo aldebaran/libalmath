@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include <algorithm>
 
-#include <alcore/alerror.h>
+#include <exception>
 #include <almath/tools/alpolynomialsolver.h>
 
 using std::vector;
@@ -66,9 +66,8 @@ namespace AL
 
         if (pP3.x < pP0.x)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationBezier",
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationBezier "
             "Last control point must have higher abscissa than the first one.");
         }
 
@@ -118,10 +117,8 @@ namespace AL
 
         if (pDuration <= 0.0f)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationBezier",
-            "Duration must be strictly positive.");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationBezier Duration must be strictly positive.");
         }
 
         fSampleDuration      = pSampleDuration;
@@ -301,10 +298,8 @@ namespace AL
       {
         if (pdt <= 0.0f)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationBezier",
-            "Sample interval must be strictly positive.");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationBezier Sample interval must be strictly positive.");
         }
 
         //Note JB Desmottes 18-05-09 : We use here pdt to determine the

@@ -9,7 +9,7 @@
 #include <iostream>
 #include <cstdlib>
 
-#include <alcore/alerror.h>
+#include <exception>
 #include <almath/tools/almath.h>
 
 using std::vector;
@@ -102,10 +102,8 @@ namespace AL
 
           if (pStartVal.size() != pEndVal.size())
           {
-            throw ALERROR(
-              "ALMath",
-              "ALInterpolationSmooth",
-              "StartValues EndValues have different size.");
+            throw std::invalid_argument(
+              "ALMath: ALInterpolationSmooth StartValues EndValues have different size.");
             return returnInterpolation;
           }
           else
@@ -171,10 +169,8 @@ namespace AL
 
           if (pStartVal.size() != pEndVal.size())
           {
-            throw ALERROR(
-              "ALMath",
-              "ALInterpolationSmooth",
-              "StartValues EndValues have different size.");
+            throw std::invalid_argument(
+              "ALMath: ALInterpolationSmooth StartValues EndValues have different size.");
             return returnInterpolation;
           }
           else

@@ -7,7 +7,7 @@
 
 #include "math.h"
 
-#include <alcore/alerror.h>
+#include <exception>
 
 namespace AL {
   namespace Math {
@@ -104,10 +104,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALPosition3D",
-          "operator/",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALPosition3D: operator/ Division by zeros.");
       }
       return *this * (1.0f/pM);
     }
@@ -118,10 +116,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALPosition3D",
-          "operator/",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALPosition3D: operator/ Division by zeros.");
       }
       return (1.0f/pM) * pPos1;
     }
@@ -138,10 +134,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALPosition3D",
-          "operator/=",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALPosition3D: operator/= Division by zeros.");
       }
       *this *= (1.0f/pM);
       return *this;
@@ -239,10 +233,8 @@ namespace AL {
 
       if (tmpNorm == 0.0f)
       {
-        throw ALERROR(
-          "ALPosition3D",
-          "normalize",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALPosition3D: normalize Division by zeros.");
       }
 
       ret /= tmpNorm;

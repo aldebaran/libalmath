@@ -11,7 +11,7 @@
 #include <limits>
 #include <cstdlib>
 
-#include <alcore/alerror.h>
+#include <exception>
 #include <almath/interpolation/alinterpolationutils.h>
 
 using std::vector;
@@ -69,18 +69,14 @@ namespace AL
       {
         if (pVelocityMaxAbs <= 0.0f)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationArticular",
-            "pVelocityMaxAbs must be strictly positive.");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationArticular pVelocityMaxAbs must be strictly positive.");
         }
 
         if (pTimeFinal <= pTimeInit)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationArticular",
-            "pTimeFinal <= pTimeInit");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationArticular pTimeFinal <= pTimeInit");
         }
 
         float TimeFinalTmp     = pTimeFinal;
@@ -305,44 +301,34 @@ namespace AL
       {
         if (pVelocity.size() != 2)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationArticular",
-            "pVelocity.size() != 2");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationArticular pVelocity.size() != 2");
         }
 
         if (pTime.size() < 2)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationArticular",
-            "pTime.size() < 2");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationArticular pTime.size() < 2");
         }
 
         if (pPoint.size() < 2)
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationArticular",
-            "pPoint.size() < 2");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationArticular pPoint.size() < 2");
         }
 
         if (pTime.size() != pPoint.size())
         {
-          throw ALERROR(
-            "ALMath",
-            "ALInterpolationArticular",
-            "pTime.size() != pPoint.size()");
+          throw std::invalid_argument(
+            "ALMath: ALInterpolationArticular pTime.size() != pPoint.size()");
         }
 
         for (unsigned int i=0; i<pTime.size()-1; i++)
         {
           if (pTime[i] >= pTime[i+1])
           {
-            throw ALERROR(
-              "ALMath",
-              "ALInterpolationArticular",
-              "pTime[i] >= pTime[i+1]");
+            throw std::invalid_argument(
+              "ALMath: ALInterpolationArticular pTime[i] >= pTime[i+1]");
           }
         }
 

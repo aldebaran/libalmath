@@ -5,10 +5,8 @@
 */
 
 #include <almath/types/alrotation3d.h>
-
 #include "math.h"
-
-#include <alcore/alerror.h>
+#include <exception>
 
 namespace AL {
   namespace Math {
@@ -71,10 +69,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALRotation3D",
-          "operator/",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALRotation3D: operator/ Division by zeros.");
       }
       return (*this) * (1.0f/pM);
     }
@@ -91,10 +87,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALRotation3D",
-          "operator/=",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALRotation3D: operator/= Division by zeros.");
       }
       (*this) *= (1.0f/pM);
       return *this;

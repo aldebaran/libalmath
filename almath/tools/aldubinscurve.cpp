@@ -7,7 +7,7 @@
 
 #include "float.h" // for FLT_MAX
 
-#include <alcore/alerror.h>
+#include <exception>
 
 
 namespace AL {
@@ -20,16 +20,13 @@ namespace AL {
 
       if (pTangents.size() != 4)
       {
-        throw ALERROR("ALDubinsCurve",
-          "computeBestTangent",
-          "Input Tangent must be size 4.");
+        throw std::invalid_argument("ALDubinsCurve: computeBestTangent Input Tangent must be size 4.");
       }
 
       if (pBestTangent.size() != 2)
       {
-        throw ALERROR(
-          "ALDubinsCurve",
-          "computeBestTangent",
+        throw std::invalid_argument(
+          "ALDubinsCurve: computeBestTangent "
           "Input Best Tangent must be size 2.");
       }
 
@@ -64,10 +61,8 @@ namespace AL {
 
       if (pTangent.size() != 2)
       {
-        throw ALERROR(
-          "ALDubinsCurve",
-          "computeTangent",
-          "Input must be size 2.");
+        throw std::invalid_argument(
+          "ALDubinsCurve: computeTangent Input must be size 2.");
       }
 
       float dist; // distance between two center of circle
@@ -127,10 +122,8 @@ namespace AL {
 
       if (pTangents.size() != 4)
       {
-        throw ALERROR(
-          "ALDubinsCurve",
-          "getTangents",
-          "Input must be size 4.");
+        throw std::invalid_argument(
+          "ALDubinsCurve: getTangents Input must be size 4.");
       }
 
       /**
@@ -196,10 +189,8 @@ namespace AL {
 
       if (pCircles.size() != 4)
       {
-        throw ALERROR(
-          "ALDubinsCurve",
-          "getCircles",
-          "Input must be size 4.");
+        throw std::invalid_argument(
+          "ALDubinsCurve: getCircles Input must be size 4.");
       }
 
       AL::Math::Position2D tmpCircle;

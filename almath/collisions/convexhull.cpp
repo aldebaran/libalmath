@@ -3,11 +3,8 @@
 #include "float.h"
 #include <algorithm>
 #include <vector>
-
 #include <almath/tools/almath.h>
-
-#include <alcore/alerror.h>
-
+#include <exception>
 #include <iostream>
 #include <sstream>
 
@@ -156,7 +153,7 @@ namespace AL
       {
         d1 = AL::Math::normalize(d1);
       }
-      catch(AL::ALError e)
+      catch(const std::exception e)
       {
         return -4;
       }
@@ -165,7 +162,7 @@ namespace AL
       {
         d2 = AL::Math::normalize(d2);
       }
-      catch(AL::ALError e)
+      catch(const std::exception e)
       {
         return -4;
       }
@@ -191,7 +188,7 @@ namespace AL
         {
           d1 = AL::Math::normalize(d1);
         }
-        catch(AL::ALError e)
+        catch(const std::exception e)
         {
           return -4;
         }
@@ -200,7 +197,7 @@ namespace AL
         {
           d2 = AL::Math::normalize(d2);
         }
-        catch(AL::ALError e)
+        catch(const std::exception e)
         {
           return -4;
         }
@@ -256,7 +253,7 @@ namespace AL
       {
         d1 = AL::Math::normalize(d1);
       }
-      catch(AL::ALError e)
+      catch(const std::exception e)
       {
         return 0;
       }
@@ -265,7 +262,7 @@ namespace AL
       {
         d2 = AL::Math::normalize(d2);
       }
-      catch(AL::ALError e)
+      catch(const std::exception)
       {
         return 0;
       }

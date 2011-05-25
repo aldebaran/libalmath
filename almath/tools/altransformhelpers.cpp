@@ -3,10 +3,8 @@
 */
 
 #include <almath/tools/altransformhelpers.h>
-
-#include <alcore/alerror.h>
+#include <exception>
 #include <almath/tools/altrigonometry.h>
-
 #include <almath/tools/almathio.h> // tmp TODO
 
 namespace AL {
@@ -346,10 +344,8 @@ namespace AL {
     {
       if ((pDist>1.0f) && (pDist<0.0f))
       {
-        throw ALERROR(
-          "ALMath",
-          "TransformMean",
-          "Distance must be between 0 and 1.");
+        throw std::invalid_argument(
+          "ALMath: TransformMean Distance must be between 0 and 1.");
       }
 
       AL::Math::Velocity6D pV;
@@ -740,10 +736,8 @@ namespace AL {
       float inw = norm(pAxis);
       if (inw == 0.0f)
       {
-        throw ALERROR(
-          "ALMath",
-          "AxisRotationProjectionInPlace",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALMath: AxisRotationProjectionInPlace Division by zeros.");
       }
 
       inw = 1.0f/inw;
@@ -775,10 +769,8 @@ namespace AL {
 
       if (d2<0)
       {
-        throw ALERROR(
-          "ALMath",
-          "AxisRotationProjectionInPlace",
-          "d2 < 0");
+        throw std::runtime_error(
+          "ALMath: AxisRotationProjectionInPlace d2 < 0");
         return;
       }
 
@@ -847,10 +839,8 @@ namespace AL {
       float inw = norm(pAxis);
       if (inw == 0.0f)
       {
-        throw ALERROR(
-          "ALMath",
-          "AxisRotationProjectionInPlace",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALMath: AxisRotationProjectionInPlace Division by zeros.");
       }
 
       inw = 1.0f/inw;
@@ -882,10 +872,8 @@ namespace AL {
 
       if (d2<0)
       {
-        throw ALERROR(
-          "ALMath",
-          "AxisRotationProjectionInPlace",
-          "d2 < 0");
+        throw std::runtime_error(
+          "ALMath: AxisRotationProjectionInPlace d2 < 0");
         return;
       }
 

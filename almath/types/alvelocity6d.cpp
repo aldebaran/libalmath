@@ -4,10 +4,8 @@
 */
 
 #include <almath/types/alvelocity6d.h>
-
 #include "math.h"
-
-#include <alcore/alerror.h>
+#include <exception>
 
 namespace AL {
   namespace Math {
@@ -98,10 +96,8 @@ namespace AL {
     {
       if (pVal == 0.0f)
       {
-        throw ALERROR(
-          "ALVelocity6D",
-          "operator/",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALVelocity6D: operator/ Division by zeros.");
       }
       return  (*this) * (1.0f/pVal);
     }
@@ -124,10 +120,8 @@ namespace AL {
     {
       if (pM == 0.0f)
       {
-        throw ALERROR(
-          "ALVelocity6D",
-          "operator/=",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALVelocity6D: operator/= Division by zeros.");
       }
       (*this) *= (1.0f/pM);
       return *this;
@@ -188,10 +182,8 @@ namespace AL {
 
       if (tmpNorm == 0.0f)
       {
-        throw ALERROR(
-          "ALVelocity6D",
-          "normalize",
-          "Division by zeros.");
+        throw std::runtime_error(
+          "ALVelocity6D: normalize Division by zeros.");
       }
 
       ret /= tmpNorm;
