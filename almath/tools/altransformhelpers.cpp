@@ -3,7 +3,7 @@
 */
 
 #include <almath/tools/altransformhelpers.h>
-#include <exception>
+#include <stdexcept>
 #include <almath/tools/altrigonometry.h>
 #include <almath/tools/almathio.h> // tmp TODO
 

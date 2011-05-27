@@ -8,8 +8,7 @@
 #include <limits>
 #include <cstdlib>
 #include <algorithm>
-
-#include <exception>
+#include <stdexcept>
 #include <almath/tools/alpolynomialsolver.h>
 
 using std::vector;

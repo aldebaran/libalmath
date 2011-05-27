@@ -7,10 +7,9 @@
 
 #include "math.h"
 
-#include <exception>
+#include <stdexcept>
 #include <almath/types/alvelocity6d.h>
 #include <almath/tools/altransformhelpers.h>
-
 #include <iostream>
 
 namespace AL

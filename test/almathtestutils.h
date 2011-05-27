@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 #include <almath/tools/almath.h>
-#include <alcore/alerror.h>
+#include <stdexcept>
 
 static const float kEpsilon = 1.0e-4f;
 

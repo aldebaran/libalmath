@@ -6,8 +6,7 @@
 #include <almath/tools/aldubinscurve.h>
 
 #include "float.h" // for FLT_MAX
-
-#include <exception>
+#include <stdexcept>
 
 
 namespace AL {

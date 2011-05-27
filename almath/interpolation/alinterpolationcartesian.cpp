@@ -10,7 +10,7 @@
 
 #include <almath/interpolation/alinterpolationcartesian.h>
 
-#include <exception>
+#include <stdexcept>
 #include <almath/interpolation/alinterpolationutils.h>
 #include <almath/tools/almath.h>
 #include <almath/tools/altransformhelpers.h>

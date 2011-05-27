@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <almath/tools/almath.h>
-#include <exception>
+#include <stdexcept>
 #include <iostream>
 #include <sstream>
 

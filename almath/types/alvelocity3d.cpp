@@ -5,7 +5,7 @@
 
 #include <almath/types/alvelocity3d.h>
 #include "math.h"
-#include <exception>
+#include <stdexcept>
 
 namespace AL {
   namespace Math {

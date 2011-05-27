@@ -10,8 +10,7 @@
 #include <algorithm> // for copy
 #include <limits>
 #include <cstdlib>
-
-#include <exception>
+#include <stdexcept>
 #include <almath/interpolation/alinterpolationutils.h>
 
 using std::vector;

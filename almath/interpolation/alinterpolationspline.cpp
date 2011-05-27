@@ -8,7 +8,7 @@
 #include <limits>
 #include <cstdlib>
 
-#include <exception>
+#include <stdexcept>
 #include <almath/tools/almath.h>
 
 using std::vector;
