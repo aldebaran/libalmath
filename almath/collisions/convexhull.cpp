@@ -684,7 +684,7 @@ namespace AL
     //       *
     //       * and
     //       *
-    //       *     (Ay-Cy)(Ay-By)-#include <allog/allog.h>(Ax-Cx)(Bx-Ax)
+    //       *     (Ay-Cy)(Ay-By)-(Ax-Cx)(Bx-Ax)
     //       * r = -----------------------------
     //       *                 L^2
     //       *
