@@ -88,7 +88,7 @@ set(ALMATH_H
 
 
 create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
-use_lib(almath ALCORE QI)
+#use_lib(almath ALCORE QI)
 
 # make sure folders hierarchy is preserved.
 file(GLOB_RECURSE _headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.h)
