@@ -71,7 +71,7 @@ namespace AL {
       Position2D& operator-= (const Position2D& pPos2);
 
       bool operator==(const Position2D& pPos) const;
-      bool operator!=(const Position2D& pPos2) const;      
+      bool operator!=(const Position2D& pPos2) const;
 
       Position2D operator* (float pM) const;
       Position2D operator/ (float pM) const;
@@ -159,9 +159,9 @@ namespace AL {
     };
 
     // TODO : Need this ?
-//    Position2D operator* (
-//      const float       pM,
-//      const Position2D& pPos1);
+    Position2D operator* (
+      const float       pM,
+      const Position2D& pPos1);
 
     /// <summary>
     /// compute the squared distance between two Position2D

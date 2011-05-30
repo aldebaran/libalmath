@@ -183,14 +183,14 @@ namespace AL {
     };
 
     // TODO : Need this ?
-//    Position3D operator* (
-//      const float       pM,
-//      const Position3D& pPos1);
+    Position3D operator* (
+      const float       pM,
+      const Position3D& pPos1);
 
-//    // Does it make sense to define 2.0 / Position3D() ??
-//    Position3D operator/ (
-//      const float       pM,
-//      const Position3D& pPos1);
+    // Does it make sense to define 2.0 / Position3D() ??
+    Position3D operator/ (
+      const float       pM,
+      const Position3D& pPos1);
 
     /// <summary>
     /// compute the squared distance between two Position3D
