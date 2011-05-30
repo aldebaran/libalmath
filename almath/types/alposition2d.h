@@ -20,7 +20,7 @@ namespace AL {
     /// <summary>
     /// Create and play with a Position2D.
     ///
-    /// A positio2D is just defined by x and y.
+    /// A Position2D is just defined by x and y.
     /// </summary>
     /// \ingroup Types
     struct Position2D
@@ -37,7 +37,7 @@ namespace AL {
       /// create a Position2D initialize with explicit value.
       /// </summary>
       /// <param name="pX"> the float value for x </param>
-      /// <param name="pY"> the float value for y </par
+      /// <param name="pY"> the float value for y </param>
       Position2D(float pX, float pY) : x(pX), y(pY) {}
 
       /// <summary>
@@ -70,35 +70,103 @@ namespace AL {
       Position2D& operator+= (const Position2D& pPos2);
       Position2D& operator-= (const Position2D& pPos2);
 
-      bool operator!=(const Position2D& pPos2) const;
-
       bool operator==(const Position2D& pPos) const;
+      bool operator!=(const Position2D& pPos2) const;      
 
       Position2D operator* (float pM) const;
       Position2D operator/ (float pM) const;
       Position2D& operator*= (float pM);
       Position2D& operator/= (float pM);
 
-      float distanceSquared(const Position2D& pPos) const;
-      float distance(const Position2D& pPos) const;
-      bool isNear(
-        const Position2D& pPos,
-        const float&      pEpsilon=0.0001f) const;
-      float norm() const;
-      Position2D normalize() const;
-      float crossProduct(const Position2D& pPos) const;
+      /// <summary>
+      /// compute the squared distance between the actual
+      /// Position2D and the one give in argument
+      ///
+      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
+      /// <returns>
+      /// the float squared distance between the two Position2D
+      /// </returns>
+      /// \ingroup Types
+      float distanceSquared(const Position2D& pPos2) const;
 
+      /// <summary>
+      /// compute the distance between the actual
+      /// Position2D and the one give in argument
+      ///
+      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²)
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
+      /// <returns>
+      /// the float distance between the two Position2D
+      /// </returns>
+      /// \ingroup Types
+      float distance(const Position2D& pPos2) const;
+
+      /// <summary>
+      /// check if the actual Position2D is Near the one
+      /// give in argument.
+      ///
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <returns>
+      /// true if the distance between the two Position2D is less than pEpsilon
+      /// </returns>
+      bool isNear(
+        const Position2D& pPos2,
+        const float&      pEpsilon=0.0001f) const;
+
+      /// <summary>
+      /// compute the norm of the actual Position2D
+      ///
+      /// sqrt((pPosx-pPos.x)²+(pPos.y-pPos-y)²)
+      /// </summary>
+      /// <returns>
+      /// the float norm of the Position2D
+      /// </returns>
+      /// \ingroup Types
+      float norm() const;
+
+      /// <summary>
+      /// normalize the actual Position2D
+      ///
+      /// pRes = pPos/ norm(pPos)
+      /// </summary>
+      /// <returns>
+      /// the Position2D normalized
+      /// </returns>
+      /// \ingroup Types
+      Position2D normalize() const;
+
+      /// <summary>
+      /// compute the cross Product between the actual
+      /// Position2D and the one give in argument
+      ///
+      /// pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
+      /// <returns>
+      /// the float cross product between the two Position2D
+      /// </returns>
+      float crossProduct(const Position2D& pPos2) const;
+
+      /// <summary>
+      /// return the Position2D as a vector of float [x, y]
+      /// </summary>
       std::vector<float> toVector() const;
     };
 
-    Position2D operator* (
-      const float       pM,
-      const Position2D& pPos1);
+    // TODO : Need this ?
+//    Position2D operator* (
+//      const float       pM,
+//      const Position2D& pPos1);
 
     /// <summary>
     /// compute the squared distance between two Position2D
     ///
-    /// (pA.x-pB.x)²+(pA.y-pB-y)²
+    /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²
     /// </summary>
     /// <param name="pPos1"> the first Position2D </param>
     /// <param name="pPos2"> the second Position2D </param>
@@ -113,7 +181,7 @@ namespace AL {
     /// <summary>
     /// compute the distance between two Position2D
     ///
-    /// sqrt((pA.x-pB.x)²+(pA.y-pB-y)²)
+    /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²)
     /// </summary>
     /// <param name="pPos1"> the first Position2D </param>
     /// <param name="pPos2"> the second Position2D </param>
@@ -125,21 +193,59 @@ namespace AL {
       const Position2D& pPos1,
       const Position2D& pPos2);
 
-    float norm(const Position2D& p);
+    /// <summary>
+    /// compute the norm of a Position2D
+    ///
+    /// sqrt((pPosx-pPos.x)²+(pPos.y-pPos-y)²)
+    /// </summary>
+    /// <param name="pPos"> the given Position2D </param>
+    /// <returns>
+    /// the float norm of the given Position2D
+    /// </returns>
+    /// \ingroup Types
+    float norm(const Position2D& pPos);
 
-    Position2D normalize(const Position2D& p);
+    /// <summary>
+    /// normalize a Position2D
+    ///
+    /// pRes = pPos/ norm(pPos)
+    /// </summary>
+    /// <param name="pPos"> the given Position2D </param>
+    /// <returns>
+    /// the given Position2D normalized
+    /// </returns>
+    /// \ingroup Types
+    Position2D normalize(const Position2D& pPos);
 
-    /*
-    * Produit vectoriel de 2 vecteurs V1 et V2
-    */
+    /// <summary>
+    /// compute the cross Product of two Position2D
+    ///
+    /// pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)
+    /// </summary>
+    /// <param name="pPos1"> the first Position2D </param>
+    /// <param name="pPos2"> the second Position2D </param>
+    /// <returns>
+    /// the float cross product between the two Position2D
+    /// </returns>
+    /// \ingroup Types
     float crossProduct(
       const Position2D& pPos1,
       const Position2D& pPos2);
 
+    /// <summary>
+    /// compute the cross Product of two Position2D
+    ///
+    /// pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)
+    /// </summary>
+    /// <param name="pPos1"> the first Position2D </param>
+    /// <param name="pPos2"> the second Position2D </param>
+    /// <param name="pRes">
+    /// the float cross product between the two Position2D </param>
+    /// \ingroup Types
     void crossProduct(
       const Position2D& pPos1,
       const Position2D& pPos2,
-      float&            result);
+      float&            pRes);
 
   } // end namespace math
 } // end namespace al
