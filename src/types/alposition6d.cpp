@@ -180,7 +180,9 @@ namespace AL {
       const Position6D& pPos1,
       const Position6D& pPos2)
     {
-      return (pPos1.x-pPos2.x)*(pPos1.x-pPos2.x)+(pPos1.y-pPos2.y)*(pPos1.y-pPos2.y)+(pPos1.z-pPos2.z)*(pPos1.z-pPos2.z);
+      return (pPos1.x-pPos2.x)*(pPos1.x-pPos2.x)+
+          (pPos1.y-pPos2.y)*(pPos1.y-pPos2.y)+
+          (pPos1.z-pPos2.z)*(pPos1.z-pPos2.z);
     }
 
     float distance(
@@ -192,7 +194,8 @@ namespace AL {
 
     float norm(const Position6D& p)
     {
-      return sqrtf( (p.x*p.x) + (p.y*p.y) + (p.z*p.z) + (p.wx*p.wx) + (p.wy*p.wy) + (p.wz*p.wz) );
+      return sqrtf( (p.x*p.x) + (p.y*p.y) + (p.z*p.z) +
+                   (p.wx*p.wx) + (p.wy*p.wy) + (p.wz*p.wz) );
     }
 
     Position6D normalize(const Position6D& p)
