@@ -38,15 +38,13 @@ namespace AL {
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
-      Position2D(
-        float pX,
-        float pY) : x(pX), y(pY) {}
+      Position2D(float pX, float pY) : x(pX), y(pY) {}
 
       /// <summary>
       /// create a Position2D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
-      /// An std::vector<float> of size 2 for respectively:
+      /// An std::vector<float> of size 2 for respectively :
       /// x and y
       /// </param>
       Position2D (const std::vector<float>& pFloats)
@@ -84,26 +82,24 @@ namespace AL {
       /// compute the squared distance between the actual
       /// Position2D and the one give in argument
       ///
-      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²
+      /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²\f$
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       /// <returns>
-      /// true if the difference of each float of the two Position2D is less than pEpsilon
+      /// the float squared distance between the two Position2D
       /// </returns>
-      /// \ingroup Types
       float distanceSquared(const Position2D& pPos2) const;
 
       /// <summary>
       /// compute the distance between the actual
       /// Position2D and the one give in argument
       ///
-      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²)
+      /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²}\f$
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       /// <returns>
       /// the float distance between the two Position2D
       /// </returns>
-      /// \ingroup Types
       float distance(const Position2D& pPos2) const;
 
       /// <summary>
@@ -112,7 +108,7 @@ namespace AL {
       ///
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
-      /// <param name="pEpsilon"> an optional epsilon distance </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
       /// <returns>
       /// true if the distance between the two Position2D is less than pEpsilon
       /// </returns>
@@ -123,30 +119,28 @@ namespace AL {
       /// <summary>
       /// compute the norm of the actual Position2D
       ///
-      /// sqrt(pPos.x² + pPos.y²)
+      /// \f$\sqrt{(pPos.x-pPos.x)²+(pPos.y-pPos.y)²}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Position2D
       /// </returns>
-      /// \ingroup Types
       float norm() const;
 
       /// <summary>
       /// normalize the actual Position2D
       ///
-      /// pRes = pPos/ norm(pPos)
+      /// \f$pRes = pPos/norm(pPos)\f$
       /// </summary>
       /// <returns>
       /// the Position2D normalized
       /// </returns>
-      /// \ingroup Types
       Position2D normalize() const;
 
       /// <summary>
       /// compute the cross Product between the actual
       /// Position2D and the one give in argument
       ///
-      /// pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)
+      /// \f$pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)\f$
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       /// <returns>
@@ -168,7 +162,7 @@ namespace AL {
     /// <summary>
     /// compute the squared distance between two Position2D
     ///
-    /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²
+    /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²\f$
     /// </summary>
     /// <param name="pPos1"> the first Position2D </param>
     /// <param name="pPos2"> the second Position2D </param>
@@ -183,7 +177,7 @@ namespace AL {
     /// <summary>
     /// compute the distance between two Position2D
     ///
-    /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²)
+    /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²}\f$
     /// </summary>
     /// <param name="pPos1"> the first Position2D </param>
     /// <param name="pPos2"> the second Position2D </param>
@@ -198,7 +192,7 @@ namespace AL {
     /// <summary>
     /// compute the norm of a Position2D
     ///
-    /// sqrt(pPos.x² + pPos.y²)
+    /// \f$\sqrt{(pPosx-pPos.x)²+(pPos.y-pPos-y)²}\f$
     /// </summary>
     /// <param name="pPos"> the given Position2D </param>
     /// <returns>
@@ -210,7 +204,7 @@ namespace AL {
     /// <summary>
     /// normalize a Position2D
     ///
-    /// pRes = pPos/ norm(pPos)
+    /// \f$pRes = pPos/norm(pPos)\f$
     /// </summary>
     /// <param name="pPos"> the given Position2D </param>
     /// <returns>
@@ -222,7 +216,7 @@ namespace AL {
     /// <summary>
     /// compute the cross Product of two Position2D
     ///
-    /// pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)
+    /// \f$pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)\f$
     /// </summary>
     /// <param name="pPos1"> the first Position2D </param>
     /// <param name="pPos2"> the second Position2D </param>
@@ -237,7 +231,7 @@ namespace AL {
     /// <summary>
     /// compute the cross Product of two Position2D
     ///
-    /// pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)
+    /// \f$pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)\f$
     /// </summary>
     /// <param name="pPos1"> the first Position2D </param>
     /// <param name="pPos2"> the second Position2D </param>

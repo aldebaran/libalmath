@@ -17,15 +17,22 @@
 namespace AL {
   namespace Math {
 
+    /// <summary>
+    /// Create and play with a Transform.
+    ///
+    /// A Position3D is just defined by x, y and z.
+    /// </summary>
+    /// <A HREF="http://en.wikipedia.org/wiki/Transformation_matrix">more information</A>
+    /// \ingroup Types
     struct Transform {
-      float r1_c1,r1_c2,r1_c3,r1_c4,
-        r2_c1,r2_c2,r2_c3,r2_c4,
-        r3_c1,r3_c2,r3_c3,r3_c4;
+      float r1_c1, r1_c2, r1_c3, r1_c4;
+      float r2_c1, r2_c2, r2_c3, r2_c4;
+      float r3_c1, r3_c2, r3_c3, r3_c4;
 
       /**
       * DEFAULT CONSTRUCTOR: create an identity matrix
       * (null Transform does not exist)
-      */
+      */g Standards </A>
       Transform(): r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f), r1_c4(0.0f),
         r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f), r2_c4(0.0f),
         r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f), r3_c4(0.0f) {}
