@@ -126,7 +126,7 @@ namespace AL {
       ///
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optional epsilon distance </param>
       /// <returns>
       /// true if the difference of each float of the two Pose2D is less than pEpsilon
       /// </returns>

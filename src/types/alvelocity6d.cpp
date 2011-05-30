@@ -170,7 +170,7 @@ namespace AL {
                     (p.zd*p.zd) +
                     (p.wxd*p.wxd) +
                     (p.wyd*p.wyd) +
-                    (p.wzd*p.wzd) );
+                    (p.wzd*p.wzd));
     }
 
 

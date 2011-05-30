@@ -15,19 +15,39 @@
 namespace AL {
   namespace Math {
 
-    /// <summary> Struct composed of a 1D position and a velocity </summary>
+    /// <summary>
+    /// Create and play with a PositionAndVelocity.
+    ///
+    /// A PositionAndVelocity is just defined by q and dq.
+    /// </summary>
+    /// \ingroup Types
     struct PositionAndVelocity
     {
       float q, dq;
 
+      /// <summary>
+      /// create a PositionAndVelocity initialize with explicit value.
+      /// </summary>
+      /// <param name="pq"> the float value for q (default value = 0.0f) </param>
+      /// <param name="pdq"> the float value for dq (default value = 0.0f) </param>
       PositionAndVelocity(
           const float pq  = 0.0f,
           const float pdq = 0.0f) :
           q(pq),
           dq(pdq) {}
 
+      /// <summary>
+      /// check if the actual PositionAndVelocity is Near the one
+      /// give in argument.
+      ///
+      /// </summary>
+      /// <param name="pDat2"> the second PositionAndVelocity </param>
+      /// <param name="pEpsilon"> an optional epsilon distance (default = 0.0001f) </param>
+      /// <returns>
+      /// true if the difference of each float of the two PositionAndVelocity is less than pEpsilon
+      /// </returns>
       bool isNear(
-        const PositionAndVelocity& pDat,
+        const PositionAndVelocity& pDat2,
         const float&               pEpsilon=0.0001f) const;
 
     };

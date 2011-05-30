@@ -38,7 +38,9 @@ namespace AL {
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
-      Position2D(float pX, float pY) : x(pX), y(pY) {}
+      Position2D(
+        float pX,
+        float pY) : x(pX), y(pY) {}
 
       /// <summary>
       /// create a Position2D with an std::vector.
@@ -110,7 +112,7 @@ namespace AL {
       ///
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optional epsilon distance </param>
       /// <returns>
       /// true if the distance between the two Position2D is less than pEpsilon
       /// </returns>

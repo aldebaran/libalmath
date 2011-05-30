@@ -74,7 +74,7 @@ namespace AL {
       /// create a Positio6D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
-      /// An std::vector<float> of size 6 for respectively :
+      /// An std::vector<float> of size 6 for respectively:
       /// x, y, z, wx, wy and wz
       /// </param>
       Position6D(const std::vector<float>& pFloats)
@@ -121,7 +121,7 @@ namespace AL {
       ///
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optional epsilon distance </param>
       /// <returns>
       /// true if the difference of each float of the two Position6D is less than pEpsilon
       /// </returns>
@@ -139,7 +139,6 @@ namespace AL {
       /// <returns>
       /// the float squared distance between the two Position6D
       /// </returns>
-      /// \ingroup Types
       float distanceSquared(const Position6D& pPos2) const;
 
       /// <summary>
@@ -152,7 +151,6 @@ namespace AL {
       /// <returns>
       /// the float distance between the two Position6D
       /// </returns>
-      /// \ingroup Types
       float distance(const Position6D& pPos2) const;
 
       /// <summary>
@@ -163,7 +161,6 @@ namespace AL {
       /// <returns>
       /// the float norm of the Position6D
       /// </returns>
-      /// \ingroup Types
       float norm() const;
 
       /// <summary>

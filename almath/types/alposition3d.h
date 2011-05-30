@@ -46,13 +46,16 @@ namespace AL {
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
       /// <param name="pZ"> the float value for z </param>
-      Position3D(float pX, float pY, float pZ) : x(pX), y(pY), z(pZ) {}
+      Position3D(
+        float pX,
+        float pY,
+        float pZ) : x(pX), y(pY), z(pZ) {}
 
       /// <summary>
       /// create a Positio3D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
-      /// An std::vector<float> of size 3 for respectively :
+      /// An std::vector<float> of size 3 for respectively:
       /// x, y and z
       /// </param>
       Position3D (const std::vector<float>& pFloats)
@@ -94,7 +97,7 @@ namespace AL {
       ///
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optional epsilon distance </param>
       /// <returns>
       /// true if the difference of each float of the two Position3D is less than pEpsilon
       /// </returns>
