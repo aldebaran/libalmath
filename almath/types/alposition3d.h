@@ -38,7 +38,7 @@ namespace AL {
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
-      Position3D(float pInit) : x(pInit), y(pInit), z(pInit) {}
+      explicit Position3D(float pInit) : x(pInit), y(pInit), z(pInit) {}
 
       /// <summary>
       /// create a Position3D initialize with explicit value.
@@ -89,10 +89,24 @@ namespace AL {
       Position3D& operator/= (float pM);
 
       /// <summary>
+      /// check if the actual Position3D is Near the one
+      /// give in argument.
+      ///
+      /// </summary>
+      /// <param name="pPos2"> the second Position3D </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <returns>
+      /// true if the difference of each float of the two Position3D is less than pEpsilon
+      /// </returns>
+      bool isNear(
+        const Position3D& pPos2,
+        const float&      pEpsilon=0.0001f) const;
+
+      /// <summary>
       /// compute the squared distance between the actual
       /// Position3D and the one give in argument
       ///
-      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²
+      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
       /// <returns>
@@ -105,7 +119,7 @@ namespace AL {
       /// compute the distance between the actual
       /// Position3D and the one give in argument
       ///
-      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²)
+      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²)
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
       /// <returns>
@@ -115,23 +129,9 @@ namespace AL {
       float distance(const Position3D& pPos2) const;
 
       /// <summary>
-      /// check if the actual Position3D is Near the one
-      /// give in argument.
-      ///
-      /// </summary>
-      /// <param name="pPos2"> the second Position3D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
-      /// <returns>
-      /// true if the distance between the two Position3D is less than pEpsilon
-      /// </returns>
-      bool isNear(
-        const Position3D& pPos2,
-        const float&      pEpsilon=0.0001f) const;
-
-      /// <summary>
       /// compute the norm of the actual Position3D
       ///
-      /// sqrt((pPosx-pPos.x)²+(pPos.y-pPos-y)²+(pPos.z-pPos-z)²)
+      /// sqrt(pPos.x² + pPos.y² + pPos.z²)
       /// </summary>
       /// <returns>
       /// the float norm of the Position3D
@@ -195,7 +195,7 @@ namespace AL {
     /// <summary>
     /// compute the squared distance between two Position3D
     ///
-    /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²
+    /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²
     /// </summary>
     /// <param name="pPos1"> the first Position3D </param>
     /// <param name="pPos2"> the second Position3D </param>
@@ -210,7 +210,7 @@ namespace AL {
     /// <summary>
     /// compute the distance between two Position3D
     ///
-    /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²)
+    /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²)
     /// </summary>
     /// <param name="pPos1"> the first Position3D </param>
     /// <param name="pPos2"> the second Position3D </param>
@@ -225,7 +225,7 @@ namespace AL {
     /// <summary>
     /// compute the norm of a Position3D
     ///
-    /// sqrt((pPosx-pPos.x)²+(pPos.y-pPos-y)²+(pPos.z-pPos-z)²)
+    /// sqrt(pPos.x² + pPos.y² + pPos.z²)
     /// </summary>
     /// <param name="pPos"> the given Position3D </param>
     /// <returns>

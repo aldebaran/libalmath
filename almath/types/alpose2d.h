@@ -57,7 +57,7 @@ namespace AL {
       /// create a Pose2D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
-      /// An std::vector<float> of size 3 for respectively :
+      /// An std::vector<float> of size 3 for respectively:
       /// x, y and theta
       /// </param>
       Pose2D (const std::vector<float>& pFloats)
@@ -95,7 +95,7 @@ namespace AL {
       /// compute the squared distance between the actual
       /// Pose2D and the one give in argument
       ///
-      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²
+      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       /// <returns>
@@ -107,7 +107,7 @@ namespace AL {
       /// compute the distance between the actual
       /// Pose2D and the one give in argument
       ///
-      /// sqrt((pPos1-pPos2.x)²+(pPos1-pPos2-y)²)
+      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²)
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       /// <returns>
@@ -128,7 +128,7 @@ namespace AL {
       /// <param name="pPos2"> the second Pose2D </param>
       /// <param name="pEpsilon"> an optionnal epsilon distance </param>
       /// <returns>
-      /// true if the distance between the two Pose2D is less than pEpsilon
+      /// true if the difference of each float of the two Pose2D is less than pEpsilon
       /// </returns>
       bool isNear(const Pose2D& pPos2,
                   const float&  pEpsilon=0.0001f) const;
@@ -144,7 +144,7 @@ namespace AL {
     /// <summary>
     /// compute the squared distance between two Pose2D
     ///
-    /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²
+    /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²
     /// </summary>
     /// <param name="pPos1"> the first Pose2D </param>
     /// <param name="pPos2"> the second Pose2D </param>
@@ -158,7 +158,7 @@ namespace AL {
     /// <summary>
     /// compute the distance between two Pose2D
     ///
-    /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²)
+    /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²)
     /// </summary>
     /// <param name="pPos1"> the first Pose2D </param>
     /// <param name="pPos2"> the second Pose2D </param>
@@ -183,8 +183,8 @@ namespace AL {
     /// <param name="pPos"> the initial Pose2D </param>
     /// <param name="pRes"> the inverse Pose2D </param>
     /// \ingroup Types
-    void Pose2DInverse( const Pose2D& pPos,
-                        Pose2D&       pRes);
+    void Pose2DInverse(const Pose2D& pPos,
+                       Pose2D&       pRes);
 
   } // end namespace math
 } // end namespace AL
