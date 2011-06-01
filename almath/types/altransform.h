@@ -33,7 +33,6 @@ namespace AL {
       * DEFAULT CONSTRUCTOR: create an identity matrix
       * (null Transform does not exist)
       */
-      */
       Transform(): r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f), r1_c4(0.0f),
         r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f), r2_c4(0.0f),
         r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f), r3_c4(0.0f) {}
