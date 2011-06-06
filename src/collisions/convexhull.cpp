@@ -300,10 +300,10 @@ namespace AL
       //std::vector<unsigned short> isInTheMiddle;
       for (unsigned int j=0; j<nbPts; j++)
       {
-        AL::Math::Position2D& posJ = pPoints.at(j);
+        const AL::Math::Position2D& posJ = pPoints.at(j);
         for (unsigned int i=0; i<nbPts; i++)
         {
-          AL::Math::Position2D& posI = pPoints.at(i);
+          const AL::Math::Position2D& posI = pPoints.at(i);
           for (unsigned int k=i+1; k<nbPts; k++) // k = i+1
           {
             if ((i != j) && (j != k)) //(i != k)
