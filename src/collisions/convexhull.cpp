@@ -163,8 +163,8 @@ namespace AL
       AL::Math::crossProduct(d1, d2, sinAngle);
 
       // point are nearly aligned angle = 0.3 degree
-      //float epsilonAngle = sinf(0.01f*TO_RAD); // was 0.3
-      const float epsilonAngle = 0.000003046f;
+      //float epsilonAngle1 = sinf(0.01f*TO_RAD); // was 0.3
+      const float epsilonAngle = 0.000174532921f;
 
       if (sinAngle < -epsilonAngle) // was 0.0f
       {
