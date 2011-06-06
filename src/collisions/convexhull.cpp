@@ -137,7 +137,7 @@ namespace AL
       // +1: pC is right
 
       // point are near with epsilonFloat = 0.00001f;
-      float epsilonFloat = 0.0001f;
+      const float epsilonFloat = 0.0001f;
 
       if (pA.isNear(pB, epsilonFloat) ||
           pA.isNear(pC, epsilonFloat) ||
@@ -152,14 +152,6 @@ namespace AL
       try
       {
         d1 = AL::Math::normalize(d1);
-      }
-      catch(const std::exception e)
-      {
-        return -4;
-      }
-
-      try
-      {
         d2 = AL::Math::normalize(d2);
       }
       catch(const std::exception e)
@@ -171,7 +163,8 @@ namespace AL
       AL::Math::crossProduct(d1, d2, sinAngle);
 
       // point are nearly aligned angle = 0.3 degree
-      float epsilonAngle = sinf(0.01f*TO_RAD); // was 0.3
+      //float epsilonAngle = sinf(0.01f*TO_RAD); // was 0.3
+      const float epsilonAngle = 0.000003046f;
 
       if (sinAngle < -epsilonAngle) // was 0.0f
       {
@@ -217,9 +210,11 @@ namespace AL
         //   return -2;
         // }
 
-        float distanceAB = AL::Math::distance(pA, pB);
-        float distanceAC = AL::Math::distance(pA, pC);
-        float distanceBC = AL::Math::distance(pB, pC);
+        // distanceSquared is fine for this computation,
+        // we don't want to call sqrtf
+        float distanceAB = AL::Math::distanceSquared(pA, pB);
+        float distanceAC = AL::Math::distanceSquared(pA, pC);
+        float distanceBC = AL::Math::distanceSquared(pB, pC);
         if (
             (distanceAB > distanceAC) ||
             (distanceBC > distanceAC))
@@ -305,13 +300,15 @@ namespace AL
       //std::vector<unsigned short> isInTheMiddle;
       for (unsigned int j=0; j<nbPts; j++)
       {
+        AL::Math::Position2D& posJ = pPoints.at(j);
         for (unsigned int i=0; i<nbPts; i++)
         {
+          AL::Math::Position2D& posI = pPoints.at(i);
           for (unsigned int k=i+1; k<nbPts; k++) // k = i+1
           {
             if ((i != j) && (j != k)) //(i != k)
             {
-              if (AL::Math::isLeftBest(pPoints.at(i), pPoints.at(j), pPoints.at(k)) == -2)
+              if (AL::Math::isLeftBest(posI, posJ, pPoints.at(k)) == -2)
               {
                 isInList.at(j) = true;
 //                if (
