@@ -73,10 +73,7 @@ namespace AL {
       {
         return false;
       }
-      else
-      {
-        return true;
-      }
+      return true;
     }
 
 
