@@ -117,7 +117,7 @@ namespace AL {
       if (pM == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition2D: operator/= Division by zeros.");
+          "ALPosition2D: operator/= Division by zero.");
       }
       *this *= (1.0f/pM);
       return *this;
