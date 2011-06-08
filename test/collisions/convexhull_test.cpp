@@ -466,44 +466,44 @@ TEST(sortPredicate, compare)
 
   // test 3
   //std::cout << "test 3" << std::endl;
-  p1 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
-  p2 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
+  p1 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
+  p2 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
   EXPECT_FALSE(sortPredicate(p1, p2));
 
   // test 4
   //std::cout << "test 4" << std::endl;
-  p1 = AL::Math::Position2D(sinf(3.0001*TO_RAD), sinf(5.0*TO_RAD));
-  p2 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
+  p1 = AL::Math::Position2D(sinf(3.0001f*TO_RAD), sinf(5.0f*TO_RAD));
+  p2 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
   EXPECT_FALSE(sortPredicate(p1, p2));
 
   // test 5
   //std::cout << "test 5" << std::endl;
-  p1 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
-  p2 = AL::Math::Position2D(sinf(3.0001*TO_RAD), sinf(5.0*TO_RAD));
+  p1 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
+  p2 = AL::Math::Position2D(sinf(3.0001f*TO_RAD), sinf(5.0f*TO_RAD));
   EXPECT_TRUE(sortPredicate(p1, p2));
 
   // test 6
   //std::cout << "test 6" << std::endl;
-  p1 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0001*TO_RAD));
-  p2 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
+  p1 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0001f*TO_RAD));
+  p2 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
   EXPECT_FALSE(sortPredicate(p1, p2));
 
   // test 7
   //std::cout << "test 7" << std::endl;
-  p1 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
-  p2 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0001*TO_RAD));
+  p1 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
+  p2 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0001f*TO_RAD));
   EXPECT_TRUE(sortPredicate(p1, p2));
 
   // test 8
   //std::cout << "test 8" << std::endl;
-  p1 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
-  p2 = AL::Math::Position2D(sinf(5.0*TO_RAD), sinf(3.0*TO_RAD));
+  p1 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
+  p2 = AL::Math::Position2D(sinf(5.0f*TO_RAD), sinf(3.0f*TO_RAD));
   EXPECT_TRUE(sortPredicate(p1, p2));
 
   // test 9
   //std::cout << "test 9" << std::endl;
-  p1 = AL::Math::Position2D(sinf(5.0*TO_RAD), sinf(3.0*TO_RAD));
-  p2 = AL::Math::Position2D(sinf(3.0*TO_RAD), sinf(5.0*TO_RAD));
+  p1 = AL::Math::Position2D(sinf(5.0f*TO_RAD), sinf(3.0f*TO_RAD));
+  p2 = AL::Math::Position2D(sinf(3.0f*TO_RAD), sinf(5.0f*TO_RAD));
   EXPECT_FALSE(sortPredicate(p1, p2));
 
 }

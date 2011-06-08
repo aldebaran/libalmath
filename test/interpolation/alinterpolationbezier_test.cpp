@@ -3,7 +3,7 @@
  * Aldebaran Robotics (c) 2009 All Rights Reserved
  *
  */
-#include <almath/interpolation/alinterpolationbezier.h>
+#include <almath/interpolations/alinterpolationbezier.h>
 #include "../almathtestutils.h"
 
 

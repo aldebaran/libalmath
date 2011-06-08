@@ -9,7 +9,7 @@
 
 TEST(ALVelocity3DTest, variousOperator)
 {
-  //Velocity3D operator+ (const Velocity3D& pVel2) const;
+  //Velocity3D operator+ (a=b+c) (const Velocity3D& pVel2) const;
   AL::Math::Velocity3D pVIn1 = AL::Math::Velocity3D(0.5f, 0.3f, 0.1f);
   AL::Math::Velocity3D pVIn2 = AL::Math::Velocity3D(1.5f, 1.3f, 1.1f);
   AL::Math::Velocity3D pVIn3 = AL::Math::Velocity3D();
@@ -18,12 +18,12 @@ TEST(ALVelocity3DTest, variousOperator)
   AL::Math::Velocity3D pVOut = AL::Math::Velocity3D(2.0f, 1.6f, 1.2f);
   compareVelocity3D(pVIn3, pVOut, 0.0001f);
 
-  //Velocity3D operator- (const Velocity3D& pVel2) const;
-  pVIn1 = AL::Math::Velocity3D(0.5f, 0.3f, 0.1f);
-  pVIn2 = AL::Math::Velocity3D(1.5f, 1.3f, 1.1f);
+  //Velocity3D operator+ (a = +b) (const Velocity3D& pVel2) const;
+  pVIn1 = AL::Math::Velocity3D(0.5f, -0.3f, 0.1f);
   pVIn3 = AL::Math::Velocity3D();
-  pVIn3 = pVIn2 - pVIn1;
-  pVOut = AL::Math::Velocity3D(1.0f, 1.0f, 1.0f);
+  pVIn3 = +pVIn1;
+
+  pVOut = AL::Math::Velocity3D(0.5f, -0.3f, 0.1f);
   compareVelocity3D(pVIn3, pVOut, 0.0001f);
 
   //Velocity3D& operator+= (const Velocity3D& pVel2);
@@ -31,6 +31,30 @@ TEST(ALVelocity3DTest, variousOperator)
   pVIn2 = AL::Math::Velocity3D(1.5f, 1.3f, 1.1f);
   pVIn1 += pVIn2;
   pVOut = AL::Math::Velocity3D(2.0f, 1.6f, 1.2f);
+  compareVelocity3D(pVIn1, pVOut, 0.0001f);
+
+
+  //Velocity3D operator- (a = b-c) (const Velocity3D& pVel2) const;
+  pVIn1 = AL::Math::Velocity3D(0.5f, 0.3f, 0.1f);
+  pVIn2 = AL::Math::Velocity3D(1.5f, 1.3f, 1.1f);
+  pVIn3 = AL::Math::Velocity3D();
+  pVIn3 = pVIn2 - pVIn1;
+  pVOut = AL::Math::Velocity3D(1.0f, 1.0f, 1.0f);
+  compareVelocity3D(pVIn3, pVOut, 0.0001f);
+
+
+  //Velocity3D operator- (a = -b) (const Velocity3D& pVel2) const;
+  pVIn1 = AL::Math::Velocity3D(0.5f, 0.3f, 0.1f);
+  pVIn3 = AL::Math::Velocity3D();
+  pVIn3 = -pVIn1;
+  pVOut = AL::Math::Velocity3D(-0.5f, -0.3f, -0.1f);
+  compareVelocity3D(pVIn3, pVOut, 0.0001f);
+
+  //Velocity3D& operator-= (const Velocity3D& pVel2);
+  pVIn1 = AL::Math::Velocity3D(0.5f, 0.3f, 0.1f);
+  pVIn2 = AL::Math::Velocity3D(1.5f, 1.3f, 1.1f);
+  pVIn1 -= pVIn2;
+  pVOut = AL::Math::Velocity3D(-1.0f, -1.0f, -1.0f);
   compareVelocity3D(pVIn1, pVOut, 0.0001f);
 
   //Velocity3D operator* (const float pM) const;
@@ -50,7 +74,7 @@ TEST(ALVelocity3DTest, variousOperator)
   compareVelocity3D(pVIn2, pVOut, 0.0001f);
 
   pVIn1 = AL::Math::Velocity3D(5.0f, 3.0f, 1.0f);
-  ASSERT_THROW(pVIn1/0.0f, AL::ALError);
+  ASSERT_THROW(pVIn1/0.0f, std::runtime_error);
 
   //Velocity3D& operator*= (const float pM);
   K = 10.0f;
@@ -67,7 +91,7 @@ TEST(ALVelocity3DTest, variousOperator)
   compareVelocity3D(pVIn1, pVOut, 0.0001f);
 
   pVIn1 = AL::Math::Velocity3D(5.0f, 3.0f, 1.0f);
-  ASSERT_THROW(pVIn1/=0.0f, AL::ALError);
+  ASSERT_THROW(pVIn1/=0.0f, std::runtime_error);
 }
 
 TEST(ALVelocity3DTest, isNear)
@@ -100,7 +124,7 @@ TEST(ALVelocity3DTest, normalize)
   compareVelocity3D(AL::Math::normalize(pVel3D1), AL::Math::Velocity3D(0.70710678118655f, -0.70710678118655f, 0.0f));
 
   pVel3D1 = AL::Math::Velocity3D(0.0f, 0.0f, 0.0f);
-  ASSERT_THROW(AL::Math::normalize(pVel3D1), AL::ALError);
+  ASSERT_THROW(AL::Math::normalize(pVel3D1), std::runtime_error);
 }
 
 
@@ -124,5 +148,5 @@ TEST(ALVelocity3DTest, Divers)
   compareVelocity3D((pVel3D1/2.0f), AL::Math::Velocity3D(1.0f, 1.0f, 1.0f));
 
   pVel3D1 = AL::Math::Velocity3D(2.0f, 2.0f, 2.0f);
-  ASSERT_THROW((pVel3D1/0.0f), AL::ALError);
+  ASSERT_THROW((pVel3D1/0.0f), std::runtime_error);
 }

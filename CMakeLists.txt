@@ -12,37 +12,37 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/bootstrap.cmake")
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set( ALMATH_SRCS
-    almath/collisions/allinecollisions.cpp
-    almath/collisions/convexhull.cpp
-    almath/collisions/isinsidepolygon.cpp
-    almath/collisions/avoidfootcollision.cpp
-    almath/interpolation/alinterpolationutils.cpp
-    almath/interpolation/alinterpolationarticular.cpp
-    almath/interpolation/alinterpolationbezier.cpp
-    almath/interpolation/alinterpolationcartesian.cpp
-    almath/interpolation/alinterpolationlinear.cpp
-    almath/interpolation/alinterpolationsmooth.cpp
-    almath/interpolation/alinterpolationspline.cpp
-    almath/interpolation/alinterpolationcubicspline.cpp
-    almath/tools/almath.cpp
-    almath/tools/almathio.cpp
-    almath/tools/alpolynomialsolver.cpp
-    almath/tools/altrigonometry.cpp
-    almath/tools/mersennetwister.cpp
-    almath/tools/aldubinscurve.cpp
-    almath/tools/altransformhelpers.cpp
-    almath/types/alpose2d.cpp
-    almath/types/alrotation2d.cpp
-    almath/types/alrotation3d.cpp
-    almath/types/alrotation.cpp
-    almath/types/alpositionandvelocity.cpp
-    almath/types/altransformandvelocity6d.cpp
-    almath/types/altransform.cpp
-    almath/types/alvelocity3d.cpp
-    almath/types/alvelocity6d.cpp
-    almath/types/alposition2d.cpp
-    almath/types/alposition3d.cpp
-    almath/types/alposition6d.cpp
+    src/collisions/allinecollisions.cpp
+    src/collisions/convexhull.cpp
+    src/collisions/isinsidepolygon.cpp
+    src/collisions/avoidfootcollision.cpp
+    src/interpolations/alinterpolationutils.cpp
+    src/interpolations/alinterpolationarticular.cpp
+    src/interpolations/alinterpolationbezier.cpp
+    src/interpolations/alinterpolationcartesian.cpp
+    src/interpolations/alinterpolationlinear.cpp
+    src/interpolations/alinterpolationsmooth.cpp
+    src/interpolations/alinterpolationspline.cpp
+    src/interpolations/alinterpolationcubicspline.cpp
+    src/tools/almath.cpp
+    src/tools/almathio.cpp
+    src/tools/alpolynomialsolver.cpp
+    src/tools/altrigonometry.cpp
+    src/tools/mersennetwister.cpp
+    src/tools/aldubinscurve.cpp
+    src/tools/altransformhelpers.cpp
+    src/types/alpose2d.cpp
+    src/types/alrotation2d.cpp
+    src/types/alrotation3d.cpp
+    src/types/alrotation.cpp
+    src/types/alpositionandvelocity.cpp
+    src/types/altransformandvelocity6d.cpp
+    src/types/altransform.cpp
+    src/types/alvelocity3d.cpp
+    src/types/alvelocity6d.cpp
+    src/types/alposition2d.cpp
+    src/types/alposition3d.cpp
+    src/types/alposition6d.cpp
 )
 
 set(ALMATH_H
@@ -50,16 +50,16 @@ set(ALMATH_H
     almath/collisions/convexhull.h
     almath/collisions/isinsidepolygon.h
     almath/collisions/avoidfootcollision.h
-    almath/interpolation/alinterpolationarticular.h
-    almath/interpolation/alinterpolationbezier.h
-    almath/interpolation/alinterpolationcartesian.h
-    almath/interpolation/alinterpolationcubicspline.h
-    almath/interpolation/alinterpolation.h
-    almath/interpolation/alinterpolationlinear.h
-    almath/interpolation/alinterpolationsmooth.h
-    almath/interpolation/alinterpolationspline.h
-    almath/interpolation/alinterpolationtypes.h
-    almath/interpolation/alinterpolationutils.h
+    almath/interpolations/alinterpolationarticular.h
+    almath/interpolations/alinterpolationbezier.h
+    almath/interpolations/alinterpolationcartesian.h
+    almath/interpolations/alinterpolationcubicspline.h
+    almath/interpolations/alinterpolation.h
+    almath/interpolations/alinterpolationlinear.h
+    almath/interpolations/alinterpolationsmooth.h
+    almath/interpolations/alinterpolationspline.h
+    almath/interpolations/alinterpolationtypes.h
+    almath/interpolations/alinterpolationutils.h
     almath/tools/aldubinscurve.h
     almath/tools/almath.h
     almath/tools/almathio.h
@@ -88,7 +88,7 @@ set(ALMATH_H
 
 
 create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
-use_lib(almath ALCORE QI)
+#use_lib(almath ALCORE QI)
 
 # make sure folders hierarchy is preserved.
 file(GLOB_RECURSE _headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.h)
@@ -108,7 +108,7 @@ if (ALMATH_PYTHON_BINDING STREQUAL "ON")
     use(PYTHON-TOOLS)
 
     wrap_python(almath almath.i SRCS
-        almath/types/alpose2d.cpp
+        src/types/alpose2d.cpp
         DEPENDENCIES ALMATH)
     add_python_test(TestALMathPy "${CMAKE_CURRENT_SOURCE_DIR}/test/almath_test.py")
 endif()

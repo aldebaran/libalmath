@@ -3,8 +3,8 @@
  * Aldebaran Robotics (c) 2009 All Rights Reserved
  *
  */
-#include <almath/interpolation/alinterpolationarticular.h>
-#include <almath/interpolation/alinterpolationutils.h>
+#include <almath/interpolations/alinterpolationarticular.h>
+#include <almath/interpolations/alinterpolationutils.h>
 #include "../almathtestutils.h"
 
 std::vector<float> pTime;

@@ -47,17 +47,27 @@ TEST(ALVelocity6DTest, normalize)
 
 TEST(ALVelocity6DTest, Divers)
 {
-  //std::cout << "-------------- soustraction 0 --------------" << std::endl;
+  //std::cout << "-------------- soustraction 0 (a = b-c) --------------" << std::endl;
   pVel6D1 = AL::Math::Velocity6D(+1.2f, 1.3f, 0.2f, +0.3f, 10.0f, -10.0f);
   pVel6D2 = AL::Math::Velocity6D(-0.5f, 0.2f, 0.4f, -0.5f,  0.2f,  +0.4f);
   compareVelocity6D((pVel6D2-pVel6D1), AL::Math::Velocity6D(-1.7f, -1.1f, 0.2f, -0.8f, -9.8f, +10.4f));
 
+  //std::cout << "-------------- soustraction 0 (a = -b) --------------" << std::endl;
+  pVel6D1 = AL::Math::Velocity6D(+1.2f, 1.3f, 0.2f, +0.3f, 10.0f, -10.0f);
+  pVel6D2 = AL::Math::Velocity6D();
+  pVel6D2 = -pVel6D1;
+  compareVelocity6D(pVel6D2, AL::Math::Velocity6D(-1.2f, -1.3f, -0.2f, -0.3f, -10.0f, +10.0f));
 
-  //std::cout << "-------------- addition 0 --------------" << std::endl;
+  //std::cout << "-------------- addition 0 (a = b+c) --------------" << std::endl;
   pVel6D1 = AL::Math::Velocity6D(+1.2f, 1.3f, 0.3f, +1.2f, 1.3f, 0.3f);
   pVel6D2 = AL::Math::Velocity6D(-0.5f, 0.2f, 0.2f, -0.5f, 0.2f, 0.2f);
   compareVelocity6D((pVel6D1+pVel6D2), AL::Math::Velocity6D(0.7f, 1.5f, 0.5f, 0.7f, 1.5f, 0.5f));
 
+  //std::cout << "-------------- addition 0 (a = +b) --------------" << std::endl;
+  pVel6D1 = AL::Math::Velocity6D(+1.2f, 1.3f, 0.3f, -1.2f, 1.3f, 0.3f);
+  pVel6D2 = AL::Math::Velocity6D();
+  pVel6D2 = +pVel6D1;
+  compareVelocity6D(pVel6D2, AL::Math::Velocity6D(+1.2f, 1.3f, 0.3f, -1.2f, 1.3f, 0.3f));
 
   //std::cout << "-------------- multiplication 0 --------------" << std::endl;
   pVel6D1 = AL::Math::Velocity6D(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);

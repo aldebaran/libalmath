@@ -68,17 +68,44 @@ TEST(ALPosition6DTest, normalize)
 
 TEST(ALPosition6DTest, Divers)
 {
-  //std::cout << "-------------- soustraction 0 --------------" << std::endl;
+  //std::cout << "-------------- soustraction 0 (a-b) --------------" << std::endl;
   pPos6D1 = AL::Math::Position6D(+1.2f, 1.3f, 0.2f, +0.3f, 10.0f, -10.0f);
   pPos6D2 = AL::Math::Position6D(-0.5f, 0.2f, 0.4f, -0.5f,  0.2f,  +0.4f);
   comparePosition6D((pPos6D2-pPos6D1), AL::Math::Position6D(-1.7f, -1.1f, 0.2f, -0.8f, -9.8f, +10.4f));
 
 
-  //std::cout << "-------------- addition 0 --------------" << std::endl;
+  //std::cout << "-------------- soustraction 0 (a = -b) --------------" << std::endl;
+  pPos6D1 = AL::Math::Position6D(+1.2f, 1.3f, 0.2f, +0.3f, 10.0f, -10.0f);
+  pPos6D2 = AL::Math::Position6D();
+  pPos6D2 = -pPos6D1;
+  comparePosition6D(pPos6D2, AL::Math::Position6D(-1.2f, -1.3f, -0.2f, -0.3f, -10.0f, +10.0f));
+
+
+  //std::cout << "-------------- soustraction 0 (a -= b) --------------" << std::endl;
+  pPos6D1 = AL::Math::Position6D(+1.2f, 1.3f, 0.2f, +0.3f, 10.0f, -10.0f);
+  pPos6D2 = AL::Math::Position6D(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+  pPos6D2 -= pPos6D1;
+  comparePosition6D(pPos6D2, AL::Math::Position6D(-0.2f, -0.3f, 0.8f, 0.7f, -9.0f, +11.0f));
+
+
+  //std::cout << "-------------- addition 0 (a+b)--------------" << std::endl;
   pPos6D1 = AL::Math::Position6D(+1.2f, 1.3f, 0.3f, +1.2f, 1.3f, 0.3f);
   pPos6D2 = AL::Math::Position6D(-0.5f, 0.2f, 0.2f, -0.5f, 0.2f, 0.2f);
   comparePosition6D((pPos6D1+pPos6D2), AL::Math::Position6D(0.7f, 1.5f, 0.5f, 0.7f, 1.5f, 0.5f));
 
+
+  //std::cout << "-------------- addition 0 (a = +b)--------------" << std::endl;
+  pPos6D1 = AL::Math::Position6D(+1.2f, 1.3f, 0.3f, +1.2f, 1.3f, 0.3f);
+  pPos6D2 = AL::Math::Position6D();
+  pPos6D2 = +pPos6D1;
+  comparePosition6D(pPos6D2, AL::Math::Position6D(1.2f, 1.3f, 0.3f, 1.2f, 1.3f, 0.3f));
+
+
+  //std::cout << "-------------- addition 0 (a += b)--------------" << std::endl;
+  pPos6D1 = AL::Math::Position6D(+1.2f, 1.3f, 0.3f, +1.2f, 1.3f, 0.3f);
+  pPos6D2 = AL::Math::Position6D(+1.2f, 1.3f, 0.3f, +1.2f, 1.3f, 0.3f);
+  pPos6D2 += pPos6D1;
+  comparePosition6D(pPos6D2, AL::Math::Position6D(2.4f, 2.6f, 0.6f, 2.4f, 2.6f, 0.6f));
 
   //std::cout << "-------------- multiplication 0 --------------" << std::endl;
   pPos6D1 = AL::Math::Position6D(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);

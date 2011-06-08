@@ -81,16 +81,43 @@ TEST(ALPosition2DTest, crossProduct)
 
 TEST(ALPosition2DTest, Divers)
 {
-  //std::cout << "-------------- soustraction 0 --------------" << std::endl;
+  //std::cout << "-------------- soustraction 0 (a-b) --------------" << std::endl;
   pPos2D1 = AL::Math::Position2D(+1.2f, 1.3f);
   pPos2D2 = AL::Math::Position2D(-0.5f, 0.2f);
   comparePosition2D((pPos2D2-pPos2D1), AL::Math::Position2D(-1.7f, -1.1f));
 
+  //std::cout << "-------------- soustraction 0 (-a) --------------" << std::endl;
+  pPos2D1 = AL::Math::Position2D(1.2f, -1.3f);
+  pPos2D2 = AL::Math::Position2D();
+  pPos2D2 = - pPos2D1;
+  comparePosition2D(pPos2D2, AL::Math::Position2D(-1.2f, 1.3f));
 
-  //std::cout << "-------------- addition 0 --------------" << std::endl;
+
+  //std::cout << "-------------- soustraction 0 (-=a)--------------" << std::endl;
+  pPos2D1 = AL::Math::Position2D(1.2f, -1.5f);
+  pPos2D2 = AL::Math::Position2D(-1.2f, +1.5f);
+  pPos2D2 -= pPos2D1;
+  comparePosition2D(pPos2D2, AL::Math::Position2D(-2.4f, +3.0f));
+
+
+  //std::cout << "-------------- addition 0 (a+b)--------------" << std::endl;
   pPos2D1 = AL::Math::Position2D(+1.2f, 1.3f);
   pPos2D2 = AL::Math::Position2D(-0.5f, 0.2f);
   comparePosition2D((pPos2D1+pPos2D2), AL::Math::Position2D(0.7f, 1.5f));
+
+
+  //std::cout << "-------------- addition 0 (+a)--------------" << std::endl;
+  pPos2D1 = AL::Math::Position2D(1.2f, -1.5f);
+  pPos2D2 = AL::Math::Position2D();
+  pPos2D2 = + pPos2D1;
+  comparePosition2D(pPos2D2, AL::Math::Position2D(1.2f, -1.5f));
+
+
+  //std::cout << "-------------- addition 0 (+=a)--------------" << std::endl;
+  pPos2D1 = AL::Math::Position2D(1.2f, -1.5f);
+  pPos2D2 = AL::Math::Position2D(1.2f, -1.5f);
+  pPos2D2 += pPos2D1;
+  comparePosition2D(pPos2D2, AL::Math::Position2D(2.4f, -3.0f));
 
 
   //std::cout << "-------------- multiplication 0 --------------" << std::endl;

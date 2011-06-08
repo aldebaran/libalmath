@@ -215,15 +215,15 @@ TEST(ALMathTest, variousOperator)
   comparePosition2D(pPos2DIn, pPos2DOut, 0.0001f);
 }
 
-TEST(ALMathTest, POSITION6D)
-{
-  AL::Math::Position3D pPos = AL::Math::Position3D(1.0f, 0.2f, -0.3f);
-  AL::Math::Rotation3D pRot = AL::Math::Rotation3D(0.1f, -0.6f, -0.9f);
-  AL::Math::Position6D pIn = AL::Math::POSITION6D(pPos, pRot);
+//TEST(ALMathTest, POSITION6D)
+//{
+//  AL::Math::Position3D pPos = AL::Math::Position3D(1.0f, 0.2f, -0.3f);
+//  AL::Math::Rotation3D pRot = AL::Math::Rotation3D(0.1f, -0.6f, -0.9f);
+//  AL::Math::Position6D pIn = AL::Math::POSITION6D(pPos, pRot);
 
-  AL::Math::Position6D pOut = AL::Math::Position6D(1.0f, 0.2f, -0.3f, 0.1f, -0.6f, -0.9f);
-  comparePosition6D(pIn, pOut, 0.0001f);
-}
+//  AL::Math::Position6D pOut = AL::Math::Position6D(1.0f, 0.2f, -0.3f, 0.1f, -0.6f, -0.9f);
+//  comparePosition6D(pIn, pOut, 0.0001f);
+//}
 
 TEST(ALMathTest, isLeft)
 {

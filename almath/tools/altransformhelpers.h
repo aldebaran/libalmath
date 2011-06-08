@@ -1,5 +1,10 @@
-/**
-* Copyright (c) Aldebaran Robotics 2010 All Rights Reserved
+/*
+** Author(s):
+**  - Chris Kilner
+**  - Cyrille Collette
+**  - David Gouaillier
+**
+** Copyright (C) 2011 Aldebaran Robotics
 */
 
 #pragma once
@@ -240,13 +245,13 @@ namespace AL {
       Transform&        pT,
       const Position3D& pPos);
 
-    /**
-    * Helper method to compose a position 6D from
-    * a Position3D and a Homogenous Transform
-    */
-    Position6D POSITION6D(
-      const Position3D& pPos,
-      const Transform&  pHRot);
+//    /**
+//    * Helper method to compose a position 6D from
+//    * a Position3D and a Homogenous Transform
+//    */
+//    Position6D POSITION6D(
+//      const Position3D& pPos,
+//      const Transform&  pHRot);
 
 
     /**
