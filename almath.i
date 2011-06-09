@@ -25,11 +25,6 @@
 #include "almath/types/alvelocity6d.h"
 
 #include "almath/tools/almath.h"
-
-#include "almath/collisions/convexhull.h"
-#include "almath/interpolations/alinterpolationarticular.h"
-#include "almath/interpolations/alinterpolationcartesian.h"
-
 %}
 
 %include "almath/types/alaxismask.h"
