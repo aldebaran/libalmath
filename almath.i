@@ -19,6 +19,7 @@
 #include "almath/types/altransformandvelocity6d.h"
 #include "almath/tools/altransformhelpers.h"
 
+#include "almath/tools/aldubinscurve.h"
 #include "almath/tools/altrigonometry.h"
 
 #include "almath/types/alvelocity3d.h"
@@ -43,6 +44,7 @@
 %include "almath/types/altransformandvelocity6d.h"
 %include "almath/tools/altransformhelpers.h"
 
+%include "almath/tools/aldubinscurve.h"
 %include "almath/tools/altrigonometry.h"
 
 %include "almath/types/alvelocity3d.h"
@@ -237,6 +239,7 @@
 namespace std {
    %template(vectorFloat) vector<float>;
    %template(vectorPosition2D) vector<AL::Math::Position2D>;
+   %template(vectorPose2D) vector<AL::Math::Pose2D>;
    %template(vectorPosition6D) vector<AL::Math::Position6D>;
 }
 
