@@ -130,21 +130,3 @@ print p2.x, p2.y, p2.theta
 p3 = p1 + p2
 
 print p3.x
-
-
-p0 = m.Position2D()
-p1 = m.Position2D(0.1, 0.0)
-p2 = m.Position2D(0.0, 0.1)
-
-points = m.vectorPosition2D([p0, p1, p2])
-
-for i in range(3):
-    print points[i].x, points[i].y
-
-
-hull = m.getConvexHull(points)
-print hull.size()
-
-for i in range(hull.size()):
-    print hull[i].x, hull[i].y
-
