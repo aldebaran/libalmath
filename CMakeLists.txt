@@ -1,5 +1,5 @@
 ##
-## Copyright (C) 2009 Aldebaran Robotics
+## Copyright (C) 2009, 2011 Aldebaran Robotics
 ##
 project(ALMATH)
 
@@ -54,19 +54,30 @@ set(ALMATH_H
     almath/types/alvelocity6d.h
 )
 
-
-
-
-
 create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
 
-# make sure folders hierarchy is preserved.
-file(GLOB_RECURSE _headers RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/almath *.h)
-foreach(_header  ${_headers})
-  get_filename_component(_header_path ${_header} PATH)
-  install_header(ALMATH SUBFOLDER almath${_header_path} "${_header}")
-endforeach()
 stage_lib(almath ALMATH)
+install_header(ALMATH SUBFOLDER almath/           almath/api.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alposition2d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alvelocity6d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alrotation.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alaxismask.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alpose2d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alrotation2d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alrotation3d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alposition6d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alpositionandvelocity.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/altransform.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/altransformandvelocity6d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alvelocity3d.h)
+install_header(ALMATH SUBFOLDER almath/types      almath/types/alposition3d.h)
+install_header(ALMATH SUBFOLDER almath/collisions almath/collisions/avoidfootcollision.h)
+install_header(ALMATH SUBFOLDER almath/tools      almath/tools/aldubinscurve.h)
+install_header(ALMATH SUBFOLDER almath/tools      almath/tools/altransformhelpers.h)
+install_header(ALMATH SUBFOLDER almath/tools      almath/tools/altrigonometry.h)
+install_header(ALMATH SUBFOLDER almath/tools      almath/tools/almathio.h)
+install_header(ALMATH SUBFOLDER almath/tools      almath/tools/almath.h)
+
 
 option(ALMATH_PYTHON_BINDING
     "Build almath python binding using Swig."
