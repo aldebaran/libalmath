@@ -19,17 +19,13 @@
 #include "almath/types/altransformandvelocity6d.h"
 #include "almath/tools/altransformhelpers.h"
 
+#include "almath/tools/aldubinscurve.h"
 #include "almath/tools/altrigonometry.h"
 
 #include "almath/types/alvelocity3d.h"
 #include "almath/types/alvelocity6d.h"
 
 #include "almath/tools/almath.h"
-
-#include "almath/collisions/convexhull.h"
-#include "almath/interpolations/alinterpolationarticular.h"
-#include "almath/interpolations/alinterpolationcartesian.h"
-
 %}
 
 %include "almath/types/alaxismask.h"
@@ -48,16 +44,13 @@
 %include "almath/types/altransformandvelocity6d.h"
 %include "almath/tools/altransformhelpers.h"
 
+%include "almath/tools/aldubinscurve.h"
 %include "almath/tools/altrigonometry.h"
 
 %include "almath/types/alvelocity3d.h"
 %include "almath/types/alvelocity6d.h"
 
 %include "almath/tools/almath.h"
-
-%include "almath/collisions/convexhull.h"
-%include "almath/interpolations/alinterpolationarticular.h"
-%include "almath/interpolations/alinterpolationcartesian.h"
 
 
 %extend AL::Math::Pose2D {
@@ -246,6 +239,7 @@
 namespace std {
    %template(vectorFloat) vector<float>;
    %template(vectorPosition2D) vector<AL::Math::Position2D>;
+   %template(vectorPose2D) vector<AL::Math::Pose2D>;
    %template(vectorPosition6D) vector<AL::Math::Position6D>;
 }
 

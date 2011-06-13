@@ -8,15 +8,9 @@ set(almath_tests_srcs
     almathtestutils.cpp
 
     collisions/avoidfootcollision_test.cpp
-    collisions/isinsidepolygon_test.cpp
-
-    interpolation/alinterpolationarticular_test.cpp
-    interpolation/alinterpolationbezier_test.cpp
-    interpolation/alinterpolationcartesian_test.cpp
 
     tools/aldubinscurve_test.cpp
     tools/almath_test.cpp
-    tools/alpolynomialsolver_test.cpp
     tools/altransformhelpers_test.cpp
 
     types/alpose2d_test.cpp
@@ -34,13 +28,5 @@ set(almath_tests_srcs
 
 )
 
-set(almath_convexhull_tests_srcs
-    almathtestutils.h
-    almathtestutils.cpp
-    collisions/convexhull_test.cpp
-)
-
 create_gtest(almath_tests SRC ${almath_tests_srcs} DEPENDENCIES GTEST ALMATH ALLOG)
-
-create_gtest(almath_convexhull_tests SRC ${almath_convexhull_tests_srcs} DEPENDENCIES GTEST ALMATH ALLOG TIMEOUT 120)
 

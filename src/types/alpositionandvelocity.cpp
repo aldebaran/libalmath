@@ -3,7 +3,7 @@
 */
 
 #include <almath/types/alpositionandvelocity.h>
-#include "math.h"
+#include <math.h>
 
 namespace AL {
   namespace Math {

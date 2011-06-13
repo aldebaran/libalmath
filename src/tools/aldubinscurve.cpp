@@ -220,6 +220,16 @@ namespace AL {
       const AL::Math::Pose2D& pTargetPose,
       const float             pCircleRadius)
     {
+      // protection around small distance
+      // in relation with circleRadius
+      float dist = sqrt(pTargetPose.x*pTargetPose.x +
+                        pTargetPose.y*pTargetPose.y );
+      if(dist < 4.0f*pCircleRadius)
+      {
+        throw std::invalid_argument(
+            "ALDubinsCurve: getDubinsSolutions pTargetPose.norm() < 4.0*pCircleRadius.");
+      }
+
       std::vector<AL::Math::Pose2D> solutions;
       AL::Math::Pose2D tmpSolution;
 
@@ -287,61 +297,61 @@ namespace AL {
       {
         solutions.at(1).theta = 2.0f * PI - angle2 + solutions.at(2).theta;
       }
-      // then look at this angle and check if >pi
-      angle1 = solutions.at(0).theta;
-      if (fabsf(angle1) >= PI)
-      {
-        // if more than pi, find new tangent in the middle
-        if(bestTangent.at(0).isLeft)
-        {
-          findNewSolutionFirst = true;
-          newSolutions.x = circles.at(0).x + pCircleRadius*sinf(angle1*0.5f);
-          newSolutions.y = circles.at(0).y - pCircleRadius*cosf(angle1*0.5f);
-          newSolutions.theta = angle1*0.5f;
-        }
-        else
-        {
-          findNewSolutionFirst = true;
-          newSolutions.x = circles.at(1).x + pCircleRadius*sinf(angle1*0.5f);
-          newSolutions.y = circles.at(1).y - pCircleRadius*cosf(angle1*0.5f);
-          newSolutions.theta = angle1*0.5f;
-        }
-      }
+//      // then look at this angle and check if >pi
+//      angle1 = solutions.at(0).theta;
+//      if (fabsf(angle1) >= PI)
+//      {
+//        // if more than pi, find new tangent in the middle
+//        if(bestTangent.at(0).isLeft)
+//        {
+//          findNewSolutionFirst = true;
+//          newSolutions.x = circles.at(0).x + pCircleRadius*sinf(angle1*0.5f);
+//          newSolutions.y = circles.at(0).y - pCircleRadius*cosf(angle1*0.5f);
+//          newSolutions.theta = angle1*0.5f;
+//        }
+//        else
+//        {
+//          findNewSolutionFirst = true;
+//          newSolutions.x = circles.at(1).x + pCircleRadius*sinf(angle1*0.5f);
+//          newSolutions.y = circles.at(1).y - pCircleRadius*cosf(angle1*0.5f);
+//          newSolutions.theta = angle1*0.5f;
+//        }
+//      }
 
-      // the same for the second tangent
-      angle2 = solutions.at(2).theta - solutions.at(1).theta;
-      if ( fabsf(angle2) >= PI)
-      {
-        if(bestTangent.at(1).isLeft)
-        {
-          findNewSolutionLast = true;
-          newSolutionsLast.x = circles.at(2).x +
-                               pCircleRadius*sinf(angle2*0.5f + solutions.at(1).theta);
-          newSolutionsLast.y = circles.at(2).y -
-                               pCircleRadius*cosf(angle2*0.5f + solutions.at(1).theta);
-          newSolutionsLast.theta = angle2*0.5f+solutions.at(1).theta;
-        }
-        else
-        {
-          findNewSolutionLast = true;
-          newSolutionsLast.x = circles.at(3).x +
-                               pCircleRadius*sinf(angle2*0.5f + solutions.at(1).theta);
-          newSolutionsLast.y = circles.at(3).y -
-                               pCircleRadius*cosf(angle2*0.5f + solutions.at(1).theta);
-          newSolutionsLast.theta = angle2*0.5f + solutions.at(1).theta;
-        }
-      }
+//      // the same for the second tangent
+//      angle2 = solutions.at(2).theta - solutions.at(1).theta;
+//      if ( fabsf(angle2) >= PI)
+//      {
+//        if(bestTangent.at(1).isLeft)
+//        {
+//          findNewSolutionLast = true;
+//          newSolutionsLast.x = circles.at(2).x +
+//                               pCircleRadius*sinf(angle2*0.5f + solutions.at(1).theta);
+//          newSolutionsLast.y = circles.at(2).y -
+//                               pCircleRadius*cosf(angle2*0.5f + solutions.at(1).theta);
+//          newSolutionsLast.theta = angle2*0.5f+solutions.at(1).theta;
+//        }
+//        else
+//        {
+//          findNewSolutionLast = true;
+//          newSolutionsLast.x = circles.at(3).x +
+//                               pCircleRadius*sinf(angle2*0.5f + solutions.at(1).theta);
+//          newSolutionsLast.y = circles.at(3).y -
+//                               pCircleRadius*cosf(angle2*0.5f + solutions.at(1).theta);
+//          newSolutionsLast.theta = angle2*0.5f + solutions.at(1).theta;
+//        }
+//      }
 
-      // incorporate newSolution in first Dubins Solution
-      if (findNewSolutionFirst)
-      {
-        solutions.insert(solutions.begin(), newSolutions);
-      }
-      if (findNewSolutionLast)
-      {
-        solutions.at(solutions.size()-1) = newSolutionsLast;
-        solutions.push_back(pTargetPose);
-      }
+//      // incorporate newSolution in first Dubins Solution
+//      if (findNewSolutionFirst)
+//      {
+//        solutions.insert(solutions.begin(), newSolutions);
+//      }
+//      if (findNewSolutionLast)
+//      {
+//        solutions.at(solutions.size()-1) = newSolutionsLast;
+//        solutions.push_back(pTargetPose);
+//      }
 
       return solutions;
     } // end getDubinsSolutions

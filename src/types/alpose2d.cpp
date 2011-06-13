@@ -4,7 +4,7 @@
 */
 
 #include <almath/types/alpose2d.h>
-#include "math.h"
+#include <math.h>
 
 namespace AL {
   namespace Math {

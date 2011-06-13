@@ -4,7 +4,7 @@
 */
 
 #include <almath/types/alvelocity6d.h>
-#include "math.h"
+#include <math.h>
 #include <stdexcept>
 
 namespace AL {
