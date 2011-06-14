@@ -623,6 +623,17 @@ namespace AL {
       return R;
     }
 
+    Rotation3D Rotation3DFromRotation(const Rotation& pR)
+    {
+      Rotation3D R;
+      R.wz = atan2(pR.r2_c1,pR.r1_c1);
+      float sy = sinf(R.wz);
+      float cy = cosf(R.wz);
+      R.wy = atan2(-pR.r3_c1, cy*pR.r1_c1+sy*pR.r2_c1);
+      R.wx = atan2(sy*pR.r1_c3-cy*pR.r2_c3, cy*pR.r2_c2-sy*pR.r1_c2);
+      return R;
+    }
+
     Position3D operator*(
       const Transform& pT,
       const Position3D&  pPos)

@@ -4,7 +4,7 @@
 */
 
 #include <almath/types/alposition3d.h>
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 
 namespace AL {

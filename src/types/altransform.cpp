@@ -4,7 +4,7 @@
 */
 
 #include <almath/types/altransform.h>
-#include <math.h>
+#include <cmath>
 
 namespace AL {
   namespace Math {

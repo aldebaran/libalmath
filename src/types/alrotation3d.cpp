@@ -5,7 +5,7 @@
 */
 
 #include <almath/types/alrotation3d.h>
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 
 namespace AL {

@@ -4,7 +4,7 @@
 */
 
 #include <almath/types/alposition6d.h>
-#include <math.h>
+#include <cmath>
 #include <stdexcept>
 
 namespace AL {
