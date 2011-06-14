@@ -13,7 +13,7 @@
 #ifndef _LIB_ALMATH_ALMATH_ALTRIGONOMETRY_H_
 #define _LIB_ALMATH_ALMATH_ALTRIGONOMETRY_H_
 
-#include <math.h>
+#include <cmath>
 
 static const float _4_PI_ = 12.56637056f;
 static const float _2_PI_ = 6.28318528f;
