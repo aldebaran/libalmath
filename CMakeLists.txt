@@ -57,31 +57,13 @@ set(ALMATH_H
 create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
 
 stage_lib(almath ALMATH)
-install_header(ALMATH SUBFOLDER almath/           almath/api.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alposition2d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alvelocity6d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alrotation.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alaxismask.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alpose2d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alrotation2d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alrotation3d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alposition6d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alpositionandvelocity.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/altransform.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/altransformandvelocity6d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alvelocity3d.h)
-install_header(ALMATH SUBFOLDER almath/types      almath/types/alposition3d.h)
-install_header(ALMATH SUBFOLDER almath/collisions almath/collisions/avoidfootcollision.h)
-install_header(ALMATH SUBFOLDER almath/tools      almath/tools/aldubinscurve.h)
-install_header(ALMATH SUBFOLDER almath/tools      almath/tools/altransformhelpers.h)
-install_header(ALMATH SUBFOLDER almath/tools      almath/tools/altrigonometry.h)
-install_header(ALMATH SUBFOLDER almath/tools      almath/tools/almathio.h)
-install_header(ALMATH SUBFOLDER almath/tools      almath/tools/almath.h)
-
 
 option(ALMATH_PYTHON_BINDING
     "Build almath python binding using Swig."
     ON)
+if(DEFINED QI_SDK_DIR)
+  qi_install_header("." KEEP_REL_PATHS ${ALMATH_H})
+endif()
 
 
 # ALMath python bindings. Optional for now.
@@ -94,4 +76,5 @@ if (ALMATH_PYTHON_BINDING STREQUAL "ON")
     add_python_test(TestALMathPy "${CMAKE_CURRENT_SOURCE_DIR}/test/almath_test.py")
 endif()
 
+add_subdirectory(almath)
 add_subdirectory(test)
