@@ -76,5 +76,4 @@ if (ALMATH_PYTHON_BINDING STREQUAL "ON")
     add_python_test(TestALMathPy "${CMAKE_CURRENT_SOURCE_DIR}/test/almath_test.py")
 endif()
 
-add_subdirectory(almath)
 add_subdirectory(test)
