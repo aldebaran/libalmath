@@ -92,7 +92,7 @@ namespace AL {
       /// compute the squared distance between the actual
       /// Pose2D and the one give in argument
       ///
-      /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²\f$
+      /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²\f$
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       /// <returns>
@@ -104,7 +104,7 @@ namespace AL {
       /// compute the distance between the actual
       /// Pose2D and the one give in argument
       ///
-      /// \f$\sqrt{(pPos1-pPos2.x)²+(pPos1-pPos2-y)²}\f$
+      /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²}\f$
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       /// <returns>
@@ -141,7 +141,7 @@ namespace AL {
     /// <summary>
     /// compute the squared distance between two Pose2D
     ///
-    /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²\f$
+    /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²\f$
     /// </summary>
     /// <param name="pPos1"> the first Pose2D </param>
     /// <param name="pPos2"> the second Pose2D </param>
@@ -155,7 +155,7 @@ namespace AL {
     /// <summary>
     /// compute the distance between two Pose2D
     ///
-    /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²}\f$
+    /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²}\f$
     /// </summary>
     /// <param name="pPos1"> the first Pose2D </param>
     /// <param name="pPos2"> the second Pose2D </param>

@@ -133,7 +133,7 @@ namespace AL {
       /// compute the squared distance of translation part (x, y and z)
       /// between the actual Position6D and the one give in argument
       ///
-      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²
+      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       /// <returns>
@@ -145,7 +145,7 @@ namespace AL {
       /// compute the distance of translation part (x, y and z) between the actual
       /// Position6D and the one give in argument
       ///
-      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²)
+      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²)
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       /// <returns>

@@ -52,7 +52,7 @@ namespace AL {
       /// create a Positio3D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
-      /// An std::vector<float> of size 3 for respectively :
+      /// An std::vector<float> of size 3 for respectively:
       /// x, y and z
       /// </param>
       Position3D (const std::vector<float>& pFloats)
@@ -92,7 +92,7 @@ namespace AL {
       /// compute the squared distance between the actual
       /// Position3D and the one give in argument
       ///
-      /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²\f$
+      /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²\f$
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
       /// <returns>
@@ -104,7 +104,7 @@ namespace AL {
       /// compute the distance between the actual
       /// Position3D and the one give in argument
       ///
-      /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²}\f$
+      /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²}\f$
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
       /// <returns>
@@ -129,7 +129,7 @@ namespace AL {
       /// <summary>
       /// compute the norm of the actual Position3D
       ///
-      /// \f$\sqrt{(pPosx-pPos.x)²+(pPos.y-pPos-y)²+(pPos.z-pPos-z)²}\f$
+      /// \f$\sqrt{pPos.x²+pPos.y²+pPos.z²}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Position3D
@@ -191,7 +191,7 @@ namespace AL {
     /// <summary>
     /// compute the squared distance between two Position3D
     ///
-    /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²\f$
+    /// \f$(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²\f$
     /// </summary>
     /// <param name="pPos1"> the first Position3D </param>
     /// <param name="pPos2"> the second Position3D </param>
@@ -206,7 +206,7 @@ namespace AL {
     /// <summary>
     /// compute the distance between two Position3D
     ///
-    /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2-y)²+(pPos1.z-pPos2.z)²}\f$
+    /// \f$\sqrt{(pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²}\f$
     /// </summary>
     /// <param name="pPos1"> the first Position3D </param>
     /// <param name="pPos2"> the second Position3D </param>
@@ -221,7 +221,7 @@ namespace AL {
     /// <summary>
     /// compute the norm of a Position3D
     ///
-    /// \f$sqrt{(pPosx-pPos.x)²+(pPos.y-pPos-y)²+(pPos.z-pPos-z)²}\f$
+    /// \f$sqrt{pPos.x²+pPos.y²+pPos.z²}\f$
     /// </summary>
     /// <param name="pPos"> the given Position3D </param>
     /// <returns>
