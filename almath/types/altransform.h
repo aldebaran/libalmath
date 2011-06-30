@@ -29,17 +29,23 @@ namespace AL {
       float r2_c1, r2_c2, r2_c3, r2_c4;
       float r3_c1, r3_c2, r3_c3, r3_c4;
 
-      /**
-      * DEFAULT CONSTRUCTOR: create an identity matrix
-      * (null Transform does not exist)
-      */
+      /// <summary>
+      /// create a Transform initialize to identity.
+      /// </summary>
       Transform(): r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f), r1_c4(0.0f),
         r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f), r2_c4(0.0f),
         r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f), r3_c4(0.0f) {}
 
-      /**
-      * CONSTRUCTOR: create an Transform from a std vector.
-      */
+      /// <summary>
+      /// create a Transform with an std::vector.
+      /// </summary>
+      /// <param name="pFloats">
+      /// An std::vector<float> of size 12 or 16 for respectively:
+      /// r1_c1, r1_c2, r1_c3, r1_c4,
+      /// r2_c1, r2_c2, r2_c3, r2_c4,
+      /// r3_c1, r3_c2, r3_c3, r3_c4,
+      /// 0.0f, 0.0f, 0.0f and 1.0f
+      /// </param>
       explicit Transform(const std::vector<float>& pFloats)
       {
         if (
@@ -80,9 +86,12 @@ namespace AL {
         }
       }
 
-      /**
-      * CONSTRUCTOR: create a Transform from an 3d position.
-      */
+      /// <summary>
+      /// create a Transform initialize with explicit value for translation part. Rotation part is set to identity.
+      /// </summary>
+      /// <param name="pPosX"> the float value for translation x </param>
+      /// <param name="pPosY"> the float value for translation y </param>
+      /// <param name="pPosZ"> the float value for translation z </param>
       Transform(
         const float& pPosX,
         const float& pPosY,
@@ -111,23 +120,94 @@ namespace AL {
       bool operator==(const Transform& pH) const;
       bool operator!=(const Transform& pH) const;
 
+
+      /// <summary>
+      /// check if the actual Transform is Near the one
+      /// give in argument.
+      ///
+      /// </summary>
+      /// <param name="pH2"> the second Transform </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <returns>
+      /// true if the distance between the two Transform is less than pEpsilon
+      /// </returns>
       bool isNear(
-        const Transform& pH,
+        const Transform& pH2,
         const float&     pEpsilon=0.0001f) const;
 
+      /// <summary>
+      /// check if the rotation part is correct
+      /// The condition check are:
+      /// R' * R = Identity
+      /// and
+      /// det(R) = 1
+      ///
+      /// </summary>
+      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <returns>
+      /// true if the Transform is correct
+      /// </returns>
       bool isTransform(
           const float& pEpsilon=0.0001f) const;
 
+      /// <summary>
+      /// compute the norm translation part of the actual Transform
+      ///
+      /// \f$\sqrt{pH.r1_c4²+pH.r2_c4²+pH.r3_c4²}\f$
+      /// </summary>
+      /// <returns>
+      /// the float norm of the Transform
+      /// </returns>
       float norm() const;
 
+      /// <summary>
+      /// compute the determinant of rotation part of the actual Transform
+      ///
+      /// \f$pH.r1_c1*pH.r2_c2*pH.r3_c3 + pH.r1_c2*pH.r2_c3*pH.r3_c1 + pH.r1_c3*pH.r2_c1 * pH.r3_c2 - pH.r1_c1*pH.r2_c3*pH.r3_c2 - pH.r1_c2*pH.r2_c1*pH.r3_c3 - pH.r1_c3*pH.r2_c2*pH.r3_c1\f$
+      /// </summary>
+      /// <returns>
+      /// the float determinant of rotation Transform part
+      /// </returns>
       float determinant() const;
+
+      /// <summary>
+      /// compute the transform inverse of the actual Transform
+      ///
+      /// </summary>
+      /// <returns>
+      /// the Transform inverse
+      /// </returns>
       Transform inverse() const;
 
+      /// <summary>
+      /// create a Transform initialize with explicit rotation around x axis.
+      /// 1.0 0.0        0.0         0.0
+      /// 0.0 cos(pRotX) -sin(pRotX) 0.0
+      /// 0.0 sin(pRotX) cos(pRotX)  0.0
+      /// 0.0 0.0        0.0         1.0
+      /// </summary>
+      /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
+      static Transform fromRotX(const float pRotX);
 
-      static Transform fromRotX(const float rotx);
-      static Transform fromRotY(const float roty);
-      static Transform fromRotZ(const float rotz);
+      /// <summary>
+      /// create a Transform initialize with explicit rotation around y axis.
+      /// cos(pRotY)  0.0 sin(pRotY) 0.0
+      /// 0.0         1.0 0.0        0.0
+      /// -sin(pRotY) 0.0 cos(pRotY) 0.0
+      /// 0.0         0.0 0.0        1.0
+      /// </summary>
+      /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
+      static Transform fromRotY(const float pRotY);
 
+      /// <summary>
+      /// create a Transform initialize with explicit rotation around z axis.
+      /// cos(pRotZ) -sin(pRotZ) 0.0 0.0
+      /// sin(pRotZ) cos(pRotZ)  0.0 0.0
+      /// 0.0        0.0         1.0 0.0
+      /// 0.0        0.0         0.0 1.0
+      /// </summary>
+      /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
+      static Transform fromRotZ(const float pRotZ);
 
       static Transform from3DRotation(
         const float& pWX,

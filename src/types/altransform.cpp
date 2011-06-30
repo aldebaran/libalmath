@@ -86,23 +86,23 @@ namespace AL {
 
 
     bool Transform::isNear(
-      const Transform& pH,
+      const Transform& pH2,
       const float&     pEpsilon)const
     {
 
       if (
-        (fabsf(r1_c1 - pH.r1_c1) > pEpsilon) ||
-        (fabsf(r1_c2 - pH.r1_c2) > pEpsilon) ||
-        (fabsf(r1_c3 - pH.r1_c3) > pEpsilon) ||
-        (fabsf(r2_c1 - pH.r2_c1) > pEpsilon) ||
-        (fabsf(r2_c2 - pH.r2_c2) > pEpsilon) ||
-        (fabsf(r2_c3 - pH.r2_c3) > pEpsilon) ||
-        (fabsf(r3_c1 - pH.r3_c1) > pEpsilon) ||
-        (fabsf(r3_c2 - pH.r3_c2) > pEpsilon) ||
-        (fabsf(r3_c3 - pH.r3_c3) > pEpsilon) ||
-        (fabsf(r1_c4 - pH.r1_c4) > pEpsilon) ||
-        (fabsf(r2_c4 - pH.r2_c4) > pEpsilon) ||
-        (fabsf(r3_c4 - pH.r3_c4) > pEpsilon))
+        (fabsf(r1_c1 - pH2.r1_c1) > pEpsilon) ||
+        (fabsf(r1_c2 - pH2.r1_c2) > pEpsilon) ||
+        (fabsf(r1_c3 - pH2.r1_c3) > pEpsilon) ||
+        (fabsf(r2_c1 - pH2.r2_c1) > pEpsilon) ||
+        (fabsf(r2_c2 - pH2.r2_c2) > pEpsilon) ||
+        (fabsf(r2_c3 - pH2.r2_c3) > pEpsilon) ||
+        (fabsf(r3_c1 - pH2.r3_c1) > pEpsilon) ||
+        (fabsf(r3_c2 - pH2.r3_c2) > pEpsilon) ||
+        (fabsf(r3_c3 - pH2.r3_c3) > pEpsilon) ||
+        (fabsf(r1_c4 - pH2.r1_c4) > pEpsilon) ||
+        (fabsf(r2_c4 - pH2.r2_c4) > pEpsilon) ||
+        (fabsf(r3_c4 - pH2.r3_c4) > pEpsilon))
       {
         return false;
       }
@@ -120,7 +120,7 @@ namespace AL {
       // The condition for this is:
       // R' * R = I
       // and
-      // det(R) =1
+      // det(R) = 1
 
       // det is defined here:
       // http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
@@ -400,10 +400,10 @@ namespace AL {
       return pOut;
     }
 
-    Transform TransformFromRotX(const float pTheta)
+    Transform TransformFromRotX(const float pRotX)
     {
-      float c = cosf(pTheta);
-      float s = sinf(pTheta);
+      float c = cosf(pRotX);
+      float s = sinf(pRotX);
       Transform T = Transform();
       T.r2_c2 = c;
       T.r2_c3 = -s;
@@ -412,10 +412,10 @@ namespace AL {
       return T;
     }
 
-    Transform TransformFromRotY(const float pTheta)
+    Transform TransformFromRotY(const float pRotY)
     {
-      float c = cosf(pTheta);
-      float s = sinf(pTheta);
+      float c = cosf(pRotY);
+      float s = sinf(pRotY);
       Transform T = Transform();
       T.r1_c1 = c;
       T.r1_c3 = s;
@@ -425,10 +425,10 @@ namespace AL {
     }
 
 
-    Transform TransformFromRotZ(const float pTheta)
+    Transform TransformFromRotZ(const float pRotZ)
     {
-      float c = cosf(pTheta);
-      float s = sinf(pTheta);
+      float c = cosf(pRotZ);
+      float s = sinf(pRotZ);
       Transform T = Transform();
       T.r1_c1 = c;
       T.r1_c2 = -s;
