@@ -228,7 +228,7 @@ namespace AL {
     }
 
 
-    Transform Transform::diff(const Transform &pT2) const
+    Transform Transform::diff(const Transform& pT2) const
     {
       return Math::TransformDiff(*this, pT2);
     }
@@ -358,17 +358,20 @@ namespace AL {
       return det;
     }
 
-    float Determinant(const std::vector<float>& pT)
+    float Determinant(const std::vector<float>& pFloats)
     {
-      float det;
-
-      det = pT[0] * pT[5] * pT[10] +
-        pT[1] * pT[6] * pT[8] +
-        pT[2] * pT[4] * pT[9] -
-        pT[0] * pT[6] * pT[9] -
-        pT[1] * pT[4] * pT[10] -
-        pT[2] * pT[5] * pT[8];
-
+      float det = 0.0f;
+      if (
+          (pFloats.size() == 12) ||
+          (pFloats.size() == 16))
+      {
+        det = pFloats[0] * pFloats[5] * pFloats[10] +
+            pFloats[1] * pFloats[6] * pFloats[8] +
+            pFloats[2] * pFloats[4] * pFloats[9] -
+            pFloats[0] * pFloats[6] * pFloats[9] -
+            pFloats[1] * pFloats[4] * pFloats[10] -
+            pFloats[2] * pFloats[5] * pFloats[8];
+      }
       return det;
     }
 
@@ -451,14 +454,14 @@ namespace AL {
     }
 
     Transform TransformFromPosition(
-      const float x,
-      const float y,
-      const float z)
+      const float& pX,
+      const float& pY,
+      const float& pZ)
     {
       Transform T = Transform();
-      T.r1_c4 = x;
-      T.r2_c4 = y;
-      T.r3_c4 = z;
+      T.r1_c4 = pX;
+      T.r2_c4 = pY;
+      T.r3_c4 = pZ;
       return T;
     }
 

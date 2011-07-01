@@ -161,7 +161,7 @@ namespace AL {
       float norm() const;
 
       /// <summary>
-      /// compute the determinant of rotation part of the actual Transform
+      /// compute the determinant of rotation part of the given Transform
       ///
       /// \f$pT.r1_c1*pT.r2_c2*pT.r3_c3 + pT.r1_c2*pT.r2_c3*pT.r3_c1 + pT.r1_c3*pT.r2_c1 * pT.r3_c2 - pT.r1_c1*pT.r2_c3*pT.r3_c2 - pT.r1_c2*pT.r2_c1*pT.r3_c3 - pT.r1_c3*pT.r2_c2*pT.r3_c1\f$
       /// </summary>
@@ -171,7 +171,9 @@ namespace AL {
       float determinant() const;
 
       /// <summary>
-      /// compute the transform inverse of the actual Transform
+      /// compute the transform inverse of the given Transform
+      /// pT    = [R        r ; 0 0 0 1]
+      /// pTOut = [R' (-R'*r) ; 0 0 0 1]
       ///
       /// </summary>
       /// <returns>
@@ -212,6 +214,7 @@ namespace AL {
       /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
       static Transform fromRotZ(const float pRotZ);
 
+
       /// <summary>
       /// create a Transform initialize with euler angle.
       /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
@@ -224,6 +227,7 @@ namespace AL {
         const float& pWX,
         const float& pWY,
         const float& pWZ);
+
 
       /// <summary>
       /// create a Transform initialize with explicit value for translation part.
@@ -272,6 +276,7 @@ namespace AL {
       /// <param name="pT2"> the second transform </param>
       Transform diff(const Transform& pT2) const;
 
+
       /// <summary>
       /// compute the squared distance between the actual
       /// Transform and the one give in argument (translation part)
@@ -283,6 +288,7 @@ namespace AL {
       /// the float squared distance between the two Transform: translation part
       /// </returns>
       float distanceSquared(const Transform& pT2) const;
+
 
       /// <summary>
       /// compute the distance between the actual
@@ -307,86 +313,212 @@ namespace AL {
 
     }; // end struct
 
+    /// <summary>
+    /// pTOut = pT*pTOut
+    ///
+    /// </summary>
+    /// <param name="pT"> the first constant Transform </param>
+    /// <param name="pTOut"> the second modified Transform </param>
+    /// \ingroup Types
     void TransformPreMultiply(
       const Transform& pT,
       Transform&       pTOut);
 
+    /// <summary>
+    /// compute the norm translation part of the actual Transform
+    ///
+    /// \f$\sqrt{pT.r1_c4²+pT.r2_c4²+pT.r3_c4²}\f$
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// <returns>
+    /// the float norm of the given Transform
+    /// </returns>
+    /// \ingroup Types
     float norm(const Transform& pT);
 
+
+    /// <summary>
+    /// copy the Transform in a vector of float
+    /// [r1_c1, r1_c2, r1_c3, r1_c4,
+    ///  r2_c1, r2_c2, r2_c3, r2_c4,
+    ///  r3_c1, r3_c2, r3_c3, r3_c4,
+    ///  0.0, 0.0, 0.0, 1.0]
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// <param name="pTOut"> the vector of float update to given transform value </param>
+    /// \ingroup Types
     void TransformToFloatVector(
       const Transform&    pT,
       std::vector<float>& pTOut);
 
+    /// <summary>
+    /// return the Transform in a vector of float
+    /// [r1_c1, r1_c2, r1_c3, r1_c4,
+    ///  r2_c1, r2_c2, r2_c3, r2_c4,
+    ///  r3_c1, r3_c2, r3_c3, r3_c4,
+    ///  0.0, 0.0, 0.0, 1.0]
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// <returns>
+    /// the vector of float update to given transform value
+    /// </returns>
+    /// \ingroup Types
     std::vector<float> TransformToFloatVector(
       const Transform& pT);
 
 
-    /** cyrille - 18/05/2009
-    * Function Determiant : compute determinant of rotation part of Transform
-    * @param  Transform H  = [R      r ; 0 0 0 1]
-    * @return float det
-    **/
+    /// <summary>
+    /// compute the determinant of rotation part of the given Transform
+    ///
+    /// \f$pT.r1_c1*pT.r2_c2*pT.r3_c3 + pT.r1_c2*pT.r2_c3*pT.r3_c1 + pT.r1_c3*pT.r2_c1 * pT.r3_c2 - pT.r1_c1*pT.r2_c3*pT.r3_c2 - pT.r1_c2*pT.r2_c1*pT.r3_c3 - pT.r1_c3*pT.r2_c2*pT.r3_c1\f$
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// <returns>
+    /// the float determinant of rotation Transform part
+    /// </returns>
+    /// \ingroup Types
     float Determinant(const Transform& pT);
 
-    float Determinant(const std::vector<float>& pT);
+    /// <summary>
+    /// compute the determinant of rotation part of the given vector of floats
+    ///
+    /// \f$pT[0]*pT[5]*pT[10] + pT[1]*pT[6]*pT[8] + pT[2]*pT[4]*pT[9] - pT[0]*pT[6]*pT[9] - pT[1]*pT[4]*pT[10] - pT[2]*pT[5]*pT[8]\f$
+    /// </summary>
+    /// <param name="pFloats"> the given vector of floats </param>
+    /// <returns>
+    /// the float determinant of rotation Transform part
+    /// </returns>
+    /// \ingroup Types
+    float Determinant(const std::vector<float>& pFloats);
 
-    /**
-    * Function Inverse of n Transform
-    * @param  Transform H  = [R      r ; 0 0 0 1]
-    * @return Transform Hi = [R' -R'*r ; 0 0 0 1];
-    **/
+    /// <summary>
+    /// return the transform inverse of the given Transform
+    /// pT    = [R        r ; 0 0 0 1]
+    /// pTOut = [R' (-R'*r) ; 0 0 0 1]
+    ///
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// <param name="pTOut"> the inverse of the given Transform </param>
+    /// \ingroup Types
     void TransformInverse(
       const Transform& pT,
       Transform&       pTOut);
 
-    Transform TransformInverse(const Transform& pIn);
+    /// <summary>
+    /// return the transform inverse of the given Transform
+    /// pT    = [R        r ; 0 0 0 1]
+    /// pTOut = [R' (-R'*r) ; 0 0 0 1]
+    ///
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// <returns>
+    /// the Transform inverse
+    /// </returns>
+    /// \ingroup Types
+    Transform TransformInverse(const Transform& pT);
 
-    /**
-    * Creates a 4*4 Homogeneous Matrix from a rotation
-    * about the X axis.
-    * @param pTheta The rotation
-    */
-    Transform TransformFromRotX(const float pTheta);
 
-    /**
-    * Creates a 4*4 Homogeneous Matrix from a rotation
-    * about the Y axis
-    * @param pTheta The rotation
-    */
-    Transform TransformFromRotY(const float pTheta);
+    /// <summary>
+    /// create a Transform initialize with explicit rotation around x axis.
+    /// 1.0 0.0        0.0         0.0
+    /// 0.0 cos(pRotX) -sin(pRotX) 0.0
+    /// 0.0 sin(pRotX) cos(pRotX)  0.0
+    /// 0.0 0.0        0.0         1.0
+    ///
+    /// </summary>
+    /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
+    /// <returns>
+    /// the Transform
+    /// </returns>
+    /// \ingroup Types
+    Transform TransformFromRotX(const float pRotX);
 
-    /**
-    * Creates a 4*4 Homogeneous Matrix from a rotation
-    *  about the Z axis
-    * @param pTheta The rotation
-    */
-    Transform TransformFromRotZ(const float pTheta);
+    /// <summary>
+    /// create a Transform initialize with explicit rotation around y axis.
+    /// cos(pRotY)  0.0 sin(pRotY) 0.0
+    /// 0.0         1.0 0.0        0.0
+    /// -sin(pRotY) 0.0 cos(pRotY) 0.0
+    /// 0.0         0.0 0.0        1.0
+    ///
+    /// </summary>
+    /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
+    /// <returns>
+    /// the Transform
+    /// </returns>
+    /// \ingroup Types
+    Transform TransformFromRotY(const float pRotY);
 
-    /**
-    * Creates a 4*4 Homogeneous Matrix from a Roll, Pitch and yaw Angle in radian
-    * pT = rotYaw(pWZ)*rotPitch(pWY)*rotRoll(pWX)
-    * @param pWX x rotation in radians
-    * @param pWY y rotation in radians
-    * @param pWZ z rotation in radians
-    */
+    /// <summary>
+    /// create a Transform initialize with explicit rotation around z axis.
+    /// cos(pRotZ) -sin(pRotZ) 0.0 0.0
+    /// sin(pRotZ) cos(pRotZ)  0.0 0.0
+    /// 0.0        0.0         1.0 0.0
+    /// 0.0        0.0         0.0 1.0
+    ///
+    /// </summary>
+    /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
+    /// <returns>
+    /// the Transform
+    /// </returns>
+    /// \ingroup Types
+    Transform TransformFromRotZ(const float pRotZ);
+
+
+    /// <summary>
+    /// create a Transform initialize with euler angle.
+    /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
+    ///
+    /// </summary>
+    /// <param name="pWX"> the float value for euler angle x in radian </param>
+    /// <param name="pWY"> the float value for euler angle y in radian </param>
+    /// <param name="pWZ"> the float value for euler angle z in radian </param>
+    /// <returns>
+    /// the Transform
+    /// </returns>
+    /// \ingroup Types
     Transform TransformFrom3DRotation(
       const float& pWX,
       const float& pWY,
       const float& pWZ);
 
-    /**
-    * Creates a 4*4 transform matrix from XYZ coordinates
-    * indicating the translational offsets.
-    */
+    /// <summary>
+    /// create a Transform initialize with explicit value for translation part.
+    /// 1.0 0.0 0.0 pX
+    /// 0.0 1.0 0.0 pY
+    /// 0.0 0.0 1.0 pZ
+    /// 0.0 0.0 0.0 1.0
+    ///
+    /// </summary>
+    /// <param name="pX"> the float value for translation axis x in meter (r1_c4) </param>
+    /// <param name="pY"> the float value for translation axis y in meter (r2_c4) </param>
+    /// <param name="pZ"> the float value for translation axis z in meter (r3_c4) </param>
+    /// <returns>
+    /// the Transform
+    /// </returns>
+    /// \ingroup Types
     Transform TransformFromPosition(
-      const float x,
-      const float y,
-      const float z);
+      const float& pX,
+      const float& pY,
+      const float& pZ);
 
-    /**
-    * Creates a 4*4 transform matrix from a rotation(RPY) and a position
-    * indicating the translational offsets.
-    */
+    /// <summary>
+    /// create a Transform initialize with explicit value for translation part and euler angle.
+    /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
+    /// H.r1_c4 = pX
+    /// H.r2_c4 = pY
+    /// H.r3_c4 = pZ
+    ///
+    /// </summary>
+    /// <param name="pX"> the float value for translation axis x in meter (r1_c4) </param>
+    /// <param name="pY"> the float value for translation axis y in meter (r2_c4) </param>
+    /// <param name="pZ"> the float value for translation axis z in meter (r3_c4) </param>
+    /// <param name="pWX"> the float value for euler angle x in radian </param>
+    /// <param name="pWY"> the float value for euler angle y in radian </param>
+    /// <param name="pWZ"> the float value for euler angle z in radian </param>
+    /// <returns>
+    /// the Transform
+    /// </returns>
+    /// \ingroup Types
     Transform TransformFromPosition(
       const float& pX,
       const float& pY,
@@ -395,19 +527,73 @@ namespace AL {
       const float& pWY,
       const float& pWZ);
 
+
+    /// <summary>
+    /// inverse the given Transform in place
+    ///
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// \ingroup Types
     void TransformInvertInPlace(Transform& pT);
 
-    /* Alternative name for Inverse */
+
+    /// <summary>
+    /// alternative name for inverse: return the transform inverse of the given Transform
+    /// pT    = [R        r ; 0 0 0 1]
+    /// pTOut = [R' (-R'*r) ; 0 0 0 1]
+    ///
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// <param name="pTOut"> the inverse of the given Transform </param>
+    /// \ingroup Types
     Transform pinv(const Transform& pT);
 
+
+    /// <summary>
+    /// compute the Transform between the actual
+    /// Transform and the one give in argument
+    /// result: inverse(pT1)*pT2
+    ///
+    /// </summary>
+    /// <param name="pT1"> the first transform </param>
+    /// <param name="pT2"> the second transform </param>
+    /// <returns>
+    /// the Transform
+    /// </returns>
+    /// \ingroup Types
     Transform TransformDiff(
       const Transform& pT1,
-      const Transform &pT2);
+      const Transform& pT2);
 
+    /// <summary>
+    /// compute the squared distance between the actual
+    /// Transform and the one give in argument (translation part)
+    ///
+    /// \f$(pT1.r1_c4-pT2.r1_C4)²+(pT1.r2_c4-pT2.r2_C4)²+(pT1.r3_c4-pT2.r3_C4)²\f$
+    /// </summary>
+    /// <param name="pT1"> the first Transform </param>
+    /// <param name="pT2"> the second Transform </param>
+    /// <returns>
+    /// the float squared distance between the two Transform: translation part
+    /// </returns>
+    /// \ingroup Types
     float TransformDistanceSquared(
       const Transform& pT1,
       const Transform& pT2);
 
+
+    /// <summary>
+    /// compute the distance between the actual
+    /// Transform and the one give in argument
+    ///
+    /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)²+(pT1.r2_c4-pT2.r2_c4)²+(pT1.r3_c4-pT2.r3_c4)²}\f$
+    /// </summary>
+    /// <param name="pT1"> the first Transform </param>
+    /// <param name="pT2"> the second Transform </param>
+    /// <returns>
+    /// the float distance between the two Transform
+    /// </returns>
+    /// \ingroup Types
     float TransformDistance(
       const Transform& pT1,
       const Transform& pT2);
