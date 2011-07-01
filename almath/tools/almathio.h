@@ -26,6 +26,9 @@
 #include <almath/types/alpose2d.h>
 #include <almath/types/alvelocity3d.h>
 
+
+/// The purpose of grouping ostream operations in one place, is to speed
+/// compilation times when not requiring output.
 namespace AL {
   namespace Math {
 

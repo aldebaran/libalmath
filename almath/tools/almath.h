@@ -23,7 +23,7 @@ namespace AL {
   namespace Math {
 
     /**
-    * if you want to avoid too small numbers (<5.10^-29 if using float):
+    * If you want to avoid too small numbers (<5.10^-29 if using float):
     * a = small_one;
     * a += killDeNormalNumber;
     * make_operations(a);
@@ -42,12 +42,11 @@ namespace AL {
       float re;
       float im;
 
-      // USEFULL CONSTRUCTOR
       Complex(
           const float pRe = 0.0f,
           const float pIm = 0.0f):
           re(pRe),
-          im(pIm){};
+          im(pIm) {};
     }; // end Complex
 
 
@@ -130,16 +129,6 @@ namespace AL {
     Position2D operator*(
       const Rotation2D& pR,
       const Position2D& pPos);
-
-
-//    /**
-//    * Helper method to compose a position 6D from
-//    * a Position3D and a rotation 3D
-//    */
-//    Position6D POSITION6D(
-//      const Position3D& pPos,
-//      const Rotation3D& pRot);
-
 
     /**
     * Function to compute the gradiant of a line 2D defined by 2 points
