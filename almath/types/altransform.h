@@ -117,8 +117,8 @@ namespace AL {
       Transform& operator*= (const Transform& pT2);
       Transform operator* (const Transform& pT2) const;
 
-      bool operator==(const Transform& pH) const;
-      bool operator!=(const Transform& pH) const;
+      bool operator==(const Transform& pT) const;
+      bool operator!=(const Transform& pT) const;
 
 
       /// <summary>
@@ -126,13 +126,13 @@ namespace AL {
       /// give in argument.
       ///
       /// </summary>
-      /// <param name="pH2"> the second Transform </param>
+      /// <param name="pT2"> the second Transform </param>
       /// <param name="pEpsilon"> an optionnal epsilon distance </param>
       /// <returns>
       /// true if the distance between the two Transform is less than pEpsilon
       /// </returns>
       bool isNear(
-        const Transform& pH2,
+        const Transform& pT2,
         const float&     pEpsilon=0.0001f) const;
 
       /// <summary>
@@ -153,7 +153,7 @@ namespace AL {
       /// <summary>
       /// compute the norm translation part of the actual Transform
       ///
-      /// \f$\sqrt{pH.r1_c4²+pH.r2_c4²+pH.r3_c4²}\f$
+      /// \f$\sqrt{pT.r1_c4²+pT.r2_c4²+pT.r3_c4²}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Transform
@@ -163,7 +163,7 @@ namespace AL {
       /// <summary>
       /// compute the determinant of rotation part of the actual Transform
       ///
-      /// \f$pH.r1_c1*pH.r2_c2*pH.r3_c3 + pH.r1_c2*pH.r2_c3*pH.r3_c1 + pH.r1_c3*pH.r2_c1 * pH.r3_c2 - pH.r1_c1*pH.r2_c3*pH.r3_c2 - pH.r1_c2*pH.r2_c1*pH.r3_c3 - pH.r1_c3*pH.r2_c2*pH.r3_c1\f$
+      /// \f$pT.r1_c1*pT.r2_c2*pT.r3_c3 + pT.r1_c2*pT.r2_c3*pT.r3_c1 + pT.r1_c3*pT.r2_c1 * pT.r3_c2 - pT.r1_c1*pT.r2_c3*pT.r3_c2 - pT.r1_c2*pT.r2_c1*pT.r3_c3 - pT.r1_c3*pT.r2_c2*pT.r3_c1\f$
       /// </summary>
       /// <returns>
       /// the float determinant of rotation Transform part
@@ -264,34 +264,61 @@ namespace AL {
         const float& pWZ);
 
       /// <summary>
-      /// create a Transform initialize with difference between two transforms.
+      /// compute the Transform between the actual
+      /// Transform and the one give in argument
       /// result: inverse(pT1)*pT2
       ///
       /// </summary>
-      /// <param name="pT2"> a transform </param>
+      /// <param name="pT2"> the second transform </param>
       Transform diff(const Transform& pT2) const;
 
-
+      /// <summary>
+      /// compute the squared distance between the actual
+      /// Transform and the one give in argument (translation part)
+      ///
+      /// \f$(pT1.r1_c4-pT2.r1_C4)²+(pT1.r2_c4-pT2.r2_C4)²+(pT1.r3_c4-pT2.r3_C4)²\f$
+      /// </summary>
+      /// <param name="pT2"> the second Transform </param>
+      /// <returns>
+      /// the float squared distance between the two Transform: translation part
+      /// </returns>
       float distanceSquared(const Transform& pT2) const;
 
+      /// <summary>
+      /// compute the distance between the actual
+      /// Transform and the one give in argument
+      ///
+      /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)²+(pT1.r2_c4-pT2.r2_c4)²+(pT1.r3_c4-pT2.r3_c4)²}\f$
+      /// </summary>
+      /// <param name="pT2"> the second Transform </param>
+      /// <returns>
+      /// the float distance between the two Transform
+      /// </returns>
       float distance(const Transform& pT2) const;
 
+      /// <summary>
+      /// return the Transform as a vector of float
+      /// [r1_c1, r1_c2, r1_c3, r1_c4,
+      ///  r2_c1, r2_c2, r2_c3, r2_c4,
+      ///  r3_c1, r3_c2, r3_c3, r3_c4,
+      ///  0.0, 0.0, 0.0, 1.0]
+      /// </summary>
       std::vector<float> toVector() const;
 
     }; // end struct
 
     void TransformPreMultiply(
-      const Transform& pT1,
-      Transform&       pResult);
+      const Transform& pT,
+      Transform&       pTOut);
 
-    float norm(const Transform& pH);
+    float norm(const Transform& pT);
 
     void TransformToFloatVector(
-      const Transform&  pT,
-      std::vector<float>& pOut);
+      const Transform&    pT,
+      std::vector<float>& pTOut);
 
     std::vector<float> TransformToFloatVector(
-      const Transform&  pT);
+      const Transform& pT);
 
 
     /** cyrille - 18/05/2009
@@ -299,9 +326,9 @@ namespace AL {
     * @param  Transform H  = [R      r ; 0 0 0 1]
     * @return float det
     **/
-    float Determinant(const Transform& pH);
+    float Determinant(const Transform& pT);
 
-    float Determinant(const std::vector<float>& pH);
+    float Determinant(const std::vector<float>& pT);
 
     /**
     * Function Inverse of n Transform
@@ -309,8 +336,8 @@ namespace AL {
     * @return Transform Hi = [R' -R'*r ; 0 0 0 1];
     **/
     void TransformInverse(
-      const Transform& pIn,
-      Transform&       pOut);
+      const Transform& pT,
+      Transform&       pTOut);
 
     Transform TransformInverse(const Transform& pIn);
 
@@ -337,7 +364,7 @@ namespace AL {
 
     /**
     * Creates a 4*4 Homogeneous Matrix from a Roll, Pitch and yaw Angle in radian
-    * pH = rotYaw(pWZ)*rotPitch(pWY)*rotRoll(pWX)
+    * pT = rotYaw(pWZ)*rotPitch(pWY)*rotRoll(pWX)
     * @param pWX x rotation in radians
     * @param pWY y rotation in radians
     * @param pWZ z rotation in radians

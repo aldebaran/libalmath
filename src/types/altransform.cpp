@@ -86,23 +86,23 @@ namespace AL {
 
 
     bool Transform::isNear(
-      const Transform& pH2,
+      const Transform& pT2,
       const float&     pEpsilon)const
     {
 
       if (
-        (fabsf(r1_c1 - pH2.r1_c1) > pEpsilon) ||
-        (fabsf(r1_c2 - pH2.r1_c2) > pEpsilon) ||
-        (fabsf(r1_c3 - pH2.r1_c3) > pEpsilon) ||
-        (fabsf(r2_c1 - pH2.r2_c1) > pEpsilon) ||
-        (fabsf(r2_c2 - pH2.r2_c2) > pEpsilon) ||
-        (fabsf(r2_c3 - pH2.r2_c3) > pEpsilon) ||
-        (fabsf(r3_c1 - pH2.r3_c1) > pEpsilon) ||
-        (fabsf(r3_c2 - pH2.r3_c2) > pEpsilon) ||
-        (fabsf(r3_c3 - pH2.r3_c3) > pEpsilon) ||
-        (fabsf(r1_c4 - pH2.r1_c4) > pEpsilon) ||
-        (fabsf(r2_c4 - pH2.r2_c4) > pEpsilon) ||
-        (fabsf(r3_c4 - pH2.r3_c4) > pEpsilon))
+        (fabsf(r1_c1 - pT2.r1_c1) > pEpsilon) ||
+        (fabsf(r1_c2 - pT2.r1_c2) > pEpsilon) ||
+        (fabsf(r1_c3 - pT2.r1_c3) > pEpsilon) ||
+        (fabsf(r2_c1 - pT2.r2_c1) > pEpsilon) ||
+        (fabsf(r2_c2 - pT2.r2_c2) > pEpsilon) ||
+        (fabsf(r2_c3 - pT2.r2_c3) > pEpsilon) ||
+        (fabsf(r3_c1 - pT2.r3_c1) > pEpsilon) ||
+        (fabsf(r3_c2 - pT2.r3_c2) > pEpsilon) ||
+        (fabsf(r3_c3 - pT2.r3_c3) > pEpsilon) ||
+        (fabsf(r1_c4 - pT2.r1_c4) > pEpsilon) ||
+        (fabsf(r2_c4 - pT2.r2_c4) > pEpsilon) ||
+        (fabsf(r3_c4 - pT2.r3_c4) > pEpsilon))
       {
         return false;
       }
@@ -184,19 +184,19 @@ namespace AL {
     }
 
 
-    Transform Transform::fromRotX(const float rotx)
+    Transform Transform::fromRotX(const float pRotX)
     {
-      return Math::TransformFromRotX(rotx);
+      return Math::TransformFromRotX(pRotX);
     }
 
-    Transform Transform::fromRotY(const float roty)
+    Transform Transform::fromRotY(const float pRotY)
     {
-      return Math::TransformFromRotY(roty);
+      return Math::TransformFromRotY(pRotY);
     }
 
-    Transform Transform::fromRotZ(const float rotz)
+    Transform Transform::fromRotZ(const float pRotZ)
     {
-      return Math::TransformFromRotZ(rotz);
+      return Math::TransformFromRotZ(pRotZ);
     }
 
 
@@ -270,134 +270,134 @@ namespace AL {
     }
 
     void TransformPreMultiply(
-      const Transform& pT1,
-      Transform&       pResult)
+      const Transform& pT,
+      Transform&       pTOut)
     {
-      float r1 = pResult.r1_c1;
-      float r2 = pResult.r2_c1;
-      pResult.r1_c1 = (pT1.r1_c1 * r1) + (pT1.r1_c2 * r2) + (pT1.r1_c3 * pResult.r3_c1);
-      pResult.r2_c1 = (pT1.r2_c1 * r1) + (pT1.r2_c2 * r2) + (pT1.r2_c3 * pResult.r3_c1);
-      pResult.r3_c1 = (pT1.r3_c1 * r1) + (pT1.r3_c2 * r2) + (pT1.r3_c3 * pResult.r3_c1);
+      float r1 = pTOut.r1_c1;
+      float r2 = pTOut.r2_c1;
+      pTOut.r1_c1 = (pT.r1_c1 * r1) + (pT.r1_c2 * r2) + (pT.r1_c3 * pTOut.r3_c1);
+      pTOut.r2_c1 = (pT.r2_c1 * r1) + (pT.r2_c2 * r2) + (pT.r2_c3 * pTOut.r3_c1);
+      pTOut.r3_c1 = (pT.r3_c1 * r1) + (pT.r3_c2 * r2) + (pT.r3_c3 * pTOut.r3_c1);
 
-      r1 = pResult.r1_c2;
-      r2 = pResult.r2_c2;
-      pResult.r1_c2 = (pT1.r1_c1 * r1) + (pT1.r1_c2 * r2) + (pT1.r1_c3 * pResult.r3_c2);
-      pResult.r2_c2 = (pT1.r2_c1 * r1) + (pT1.r2_c2 * r2) + (pT1.r2_c3 * pResult.r3_c2);
-      pResult.r3_c2 = (pT1.r3_c1 * r1) + (pT1.r3_c2 * r2) + (pT1.r3_c3 * pResult.r3_c2);
+      r1 = pTOut.r1_c2;
+      r2 = pTOut.r2_c2;
+      pTOut.r1_c2 = (pT.r1_c1 * r1) + (pT.r1_c2 * r2) + (pT.r1_c3 * pTOut.r3_c2);
+      pTOut.r2_c2 = (pT.r2_c1 * r1) + (pT.r2_c2 * r2) + (pT.r2_c3 * pTOut.r3_c2);
+      pTOut.r3_c2 = (pT.r3_c1 * r1) + (pT.r3_c2 * r2) + (pT.r3_c3 * pTOut.r3_c2);
 
-      r1 = pResult.r1_c3;
-      r2 = pResult.r2_c3;
-      pResult.r1_c3 = (pT1.r1_c1 * r1) + (pT1.r1_c2 * r2) + (pT1.r1_c3 * pResult.r3_c3);
-      pResult.r2_c3 = (pT1.r2_c1 * r1) + (pT1.r2_c2 * r2) + (pT1.r2_c3 * pResult.r3_c3);
-      pResult.r3_c3 = (pT1.r3_c1 * r1) + (pT1.r3_c2 * r2) + (pT1.r3_c3 * pResult.r3_c3);
+      r1 = pTOut.r1_c3;
+      r2 = pTOut.r2_c3;
+      pTOut.r1_c3 = (pT.r1_c1 * r1) + (pT.r1_c2 * r2) + (pT.r1_c3 * pTOut.r3_c3);
+      pTOut.r2_c3 = (pT.r2_c1 * r1) + (pT.r2_c2 * r2) + (pT.r2_c3 * pTOut.r3_c3);
+      pTOut.r3_c3 = (pT.r3_c1 * r1) + (pT.r3_c2 * r2) + (pT.r3_c3 * pTOut.r3_c3);
 
-      r1 = pResult.r1_c4;
-      r2 = pResult.r2_c4;
-      pResult.r1_c4 = (pT1.r1_c1 * r1) + (pT1.r1_c2 * r2) + (pT1.r1_c3 * pResult.r3_c4) + pT1.r1_c4;
-      pResult.r2_c4 = (pT1.r2_c1 * r1) + (pT1.r2_c2 * r2) + (pT1.r2_c3 * pResult.r3_c4) + pT1.r2_c4;
-      pResult.r3_c4 = (pT1.r3_c1 * r1) + (pT1.r3_c2 * r2) + (pT1.r3_c3 * pResult.r3_c4) + pT1.r3_c4;
+      r1 = pTOut.r1_c4;
+      r2 = pTOut.r2_c4;
+      pTOut.r1_c4 = (pT.r1_c1 * r1) + (pT.r1_c2 * r2) + (pT.r1_c3 * pTOut.r3_c4) + pT.r1_c4;
+      pTOut.r2_c4 = (pT.r2_c1 * r1) + (pT.r2_c2 * r2) + (pT.r2_c3 * pTOut.r3_c4) + pT.r2_c4;
+      pTOut.r3_c4 = (pT.r3_c1 * r1) + (pT.r3_c2 * r2) + (pT.r3_c3 * pTOut.r3_c4) + pT.r3_c4;
     }
 
 
-    float norm(const Transform& pH)
+    float norm(const Transform& pT)
     {
-      return sqrtf( (pH.r1_c4*pH.r1_c4) + (pH.r2_c4*pH.r2_c4) + (pH.r3_c4*pH.r3_c4) );
+      return sqrtf( (pT.r1_c4*pT.r1_c4) + (pT.r2_c4*pT.r2_c4) + (pT.r3_c4*pT.r3_c4) );
     }
 
 
     void TransformToFloatVector(
-      const Transform&  pT,
-      std::vector<float>& pOut)
+      const Transform&    pT,
+      std::vector<float>& pTOut)
     {
-      pOut.resize(12);
-      pOut[0]  = pT.r1_c1;
-      pOut[1]  = pT.r1_c2;
-      pOut[2]  = pT.r1_c3;
-      pOut[3]  = pT.r1_c4;
-      pOut[4]  = pT.r2_c1;
-      pOut[5]  = pT.r2_c2;
-      pOut[6]  = pT.r2_c3;
-      pOut[7]  = pT.r2_c4;
-      pOut[8]  = pT.r3_c1;
-      pOut[9]  = pT.r3_c2;
-      pOut[10] = pT.r3_c3;
-      pOut[11] = pT.r3_c4;
+      pTOut.resize(12);
+      pTOut[0]  = pT.r1_c1;
+      pTOut[1]  = pT.r1_c2;
+      pTOut[2]  = pT.r1_c3;
+      pTOut[3]  = pT.r1_c4;
+      pTOut[4]  = pT.r2_c1;
+      pTOut[5]  = pT.r2_c2;
+      pTOut[6]  = pT.r2_c3;
+      pTOut[7]  = pT.r2_c4;
+      pTOut[8]  = pT.r3_c1;
+      pTOut[9]  = pT.r3_c2;
+      pTOut[10] = pT.r3_c3;
+      pTOut[11] = pT.r3_c4;
     }
 
     std::vector<float> TransformToFloatVector(
       const Transform&  pT)
     {
-      std::vector<float> pOut;
-      pOut.resize(12);
-      pOut[0]  = pT.r1_c1;
-      pOut[1]  = pT.r1_c2;
-      pOut[2]  = pT.r1_c3;
-      pOut[3]  = pT.r1_c4;
-      pOut[4]  = pT.r2_c1;
-      pOut[5]  = pT.r2_c2;
-      pOut[6]  = pT.r2_c3;
-      pOut[7]  = pT.r2_c4;
-      pOut[8]  = pT.r3_c1;
-      pOut[9]  = pT.r3_c2;
-      pOut[10] = pT.r3_c3;
-      pOut[11] = pT.r3_c4;
-      return pOut;
+      std::vector<float> pTOut;
+      pTOut.resize(12);
+      pTOut[0]  = pT.r1_c1;
+      pTOut[1]  = pT.r1_c2;
+      pTOut[2]  = pT.r1_c3;
+      pTOut[3]  = pT.r1_c4;
+      pTOut[4]  = pT.r2_c1;
+      pTOut[5]  = pT.r2_c2;
+      pTOut[6]  = pT.r2_c3;
+      pTOut[7]  = pT.r2_c4;
+      pTOut[8]  = pT.r3_c1;
+      pTOut[9]  = pT.r3_c2;
+      pTOut[10] = pT.r3_c3;
+      pTOut[11] = pT.r3_c4;
+      return pTOut;
     }
 
-    float Determinant(const Transform& pH)
+    float Determinant(const Transform& pT)
     {
       float det;
 
-      det = pH.r1_c1 * pH.r2_c2 * pH.r3_c3 +
-        pH.r1_c2 * pH.r2_c3 * pH.r3_c1 +
-        pH.r1_c3 * pH.r2_c1 * pH.r3_c2 -
-        pH.r1_c1 * pH.r2_c3 * pH.r3_c2 -
-        pH.r1_c2 * pH.r2_c1 * pH.r3_c3 -
-        pH.r1_c3 * pH.r2_c2 * pH.r3_c1;
+      det = pT.r1_c1 * pT.r2_c2 * pT.r3_c3 +
+        pT.r1_c2 * pT.r2_c3 * pT.r3_c1 +
+        pT.r1_c3 * pT.r2_c1 * pT.r3_c2 -
+        pT.r1_c1 * pT.r2_c3 * pT.r3_c2 -
+        pT.r1_c2 * pT.r2_c1 * pT.r3_c3 -
+        pT.r1_c3 * pT.r2_c2 * pT.r3_c1;
 
       return det;
     }
 
-    float Determinant(const std::vector<float>& pH)
+    float Determinant(const std::vector<float>& pT)
     {
       float det;
 
-      det = pH[0] * pH[5] * pH[10] +
-        pH[1] * pH[6] * pH[8] +
-        pH[2] * pH[4] * pH[9] -
-        pH[0] * pH[6] * pH[9] -
-        pH[1] * pH[4] * pH[10] -
-        pH[2] * pH[5] * pH[8];
+      det = pT[0] * pT[5] * pT[10] +
+        pT[1] * pT[6] * pT[8] +
+        pT[2] * pT[4] * pT[9] -
+        pT[0] * pT[6] * pT[9] -
+        pT[1] * pT[4] * pT[10] -
+        pT[2] * pT[5] * pT[8];
 
       return det;
     }
 
     void TransformInverse(
-      const Transform& pIn,
-      Transform&       pOut)
+      const Transform& pT,
+      Transform&       pTOut)
     {
       // rotation Ri = R'
-      pOut.r1_c1 = pIn.r1_c1;
-      pOut.r1_c2 = pIn.r2_c1;
-      pOut.r1_c3 = pIn.r3_c1;
-      pOut.r2_c1 = pIn.r1_c2;
-      pOut.r2_c2 = pIn.r2_c2;
-      pOut.r2_c3 = pIn.r3_c2;
-      pOut.r3_c1 = pIn.r1_c3;
-      pOut.r3_c2 = pIn.r2_c3;
-      pOut.r3_c3 = pIn.r3_c3;
+      pTOut.r1_c1 = pT.r1_c1;
+      pTOut.r1_c2 = pT.r2_c1;
+      pTOut.r1_c3 = pT.r3_c1;
+      pTOut.r2_c1 = pT.r1_c2;
+      pTOut.r2_c2 = pT.r2_c2;
+      pTOut.r2_c3 = pT.r3_c2;
+      pTOut.r3_c1 = pT.r1_c3;
+      pTOut.r3_c2 = pT.r2_c3;
+      pTOut.r3_c3 = pT.r3_c3;
 
       // translation ri = -R'*r
-      pOut.r1_c4 = -( pIn.r1_c1*pIn.r1_c4 + pIn.r2_c1*pIn.r2_c4 + pIn.r3_c1*pIn.r3_c4 );
-      pOut.r2_c4 = -( pIn.r1_c2*pIn.r1_c4 + pIn.r2_c2*pIn.r2_c4 + pIn.r3_c2*pIn.r3_c4 );
-      pOut.r3_c4 = -( pIn.r1_c3*pIn.r1_c4 + pIn.r2_c3*pIn.r2_c4 + pIn.r3_c3*pIn.r3_c4 );
+      pTOut.r1_c4 = -( pT.r1_c1*pT.r1_c4 + pT.r2_c1*pT.r2_c4 + pT.r3_c1*pT.r3_c4 );
+      pTOut.r2_c4 = -( pT.r1_c2*pT.r1_c4 + pT.r2_c2*pT.r2_c4 + pT.r3_c2*pT.r3_c4 );
+      pTOut.r3_c4 = -( pT.r1_c3*pT.r1_c4 + pT.r2_c3*pT.r2_c4 + pT.r3_c3*pT.r3_c4 );
     }
 
-    Transform TransformInverse(const Transform& pIn)
+    Transform TransformInverse(const Transform& pT)
     {
-      Transform pOut;
-      TransformInverse(pIn, pOut);
-      return pOut;
+      Transform pTOut;
+      TransformInverse(pT, pTOut);
+      return pTOut;
     }
 
     Transform TransformFromRotX(const float pRotX)
