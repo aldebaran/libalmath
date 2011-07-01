@@ -185,6 +185,7 @@ namespace AL {
       /// 0.0 cos(pRotX) -sin(pRotX) 0.0
       /// 0.0 sin(pRotX) cos(pRotX)  0.0
       /// 0.0 0.0        0.0         1.0
+      ///
       /// </summary>
       /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
       static Transform fromRotX(const float pRotX);
@@ -195,6 +196,7 @@ namespace AL {
       /// 0.0         1.0 0.0        0.0
       /// -sin(pRotY) 0.0 cos(pRotY) 0.0
       /// 0.0         0.0 0.0        1.0
+      ///
       /// </summary>
       /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
       static Transform fromRotY(const float pRotY);
@@ -205,20 +207,54 @@ namespace AL {
       /// sin(pRotZ) cos(pRotZ)  0.0 0.0
       /// 0.0        0.0         1.0 0.0
       /// 0.0        0.0         0.0 1.0
+      ///
       /// </summary>
       /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
       static Transform fromRotZ(const float pRotZ);
 
+      /// <summary>
+      /// create a Transform initialize with euler angle.
+      /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
+      ///
+      /// </summary>
+      /// <param name="pWX"> the float value for euler angle x in radian </param>
+      /// <param name="pWY"> the float value for euler angle y in radian </param>
+      /// <param name="pWZ"> the float value for euler angle z in radian </param>
       static Transform from3DRotation(
         const float& pWX,
         const float& pWY,
         const float& pWZ);
 
+      /// <summary>
+      /// create a Transform initialize with explicit value for translation part.
+      /// 1.0 0.0 0.0 pX
+      /// 0.0 1.0 0.0 pY
+      /// 0.0 0.0 1.0 pZ
+      /// 0.0 0.0 0.0 1.0
+      ///
+      /// </summary>
+      /// <param name="pX"> the float value for translation axis x in meter (r1_c4) </param>
+      /// <param name="pY"> the float value for translation axis y in meter (r2_c4) </param>
+      /// <param name="pZ"> the float value for translation axis z in meter (r3_c4) </param>
       static Transform fromPosition(
-        const float x,
-        const float y,
-        const float z);
+        const float pX,
+        const float pY,
+        const float pZ);
 
+      /// <summary>
+      /// create a Transform initialize with explicit value for translation part and euler angle.
+      /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
+      /// H.r1_c4 = pX
+      /// H.r2_c4 = pY
+      /// H.r3_c4 = pZ
+      ///
+      /// </summary>
+      /// <param name="pX"> the float value for translation axis x in meter (r1_c4) </param>
+      /// <param name="pY"> the float value for translation axis y in meter (r2_c4) </param>
+      /// <param name="pZ"> the float value for translation axis z in meter (r3_c4) </param>
+      /// <param name="pWX"> the float value for euler angle x in radian </param>
+      /// <param name="pWY"> the float value for euler angle y in radian </param>
+      /// <param name="pWZ"> the float value for euler angle z in radian </param>
       static Transform fromPosition(
         const float& pX,
         const float& pY,
@@ -227,9 +263,17 @@ namespace AL {
         const float& pWY,
         const float& pWZ);
 
+      /// <summary>
+      /// create a Transform initialize with difference between two transforms.
+      /// result: inverse(pT1)*pT2
+      ///
+      /// </summary>
+      /// <param name="pT2"> a transform </param>
+      Transform diff(const Transform& pT2) const;
 
-      Transform diff(const Transform &pT2) const;
-      float squaredDistance(const Transform& pT2) const;
+
+      float distanceSquared(const Transform& pT2) const;
+
       float distance(const Transform& pT2) const;
 
       std::vector<float> toVector() const;
@@ -333,7 +377,7 @@ namespace AL {
       const Transform& pT1,
       const Transform &pT2);
 
-    float TransformSqaredDistance(
+    float TransformDistanceSquared(
       const Transform& pT1,
       const Transform& pT2);
 

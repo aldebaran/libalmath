@@ -233,9 +233,9 @@ namespace AL {
       return Math::TransformDiff(*this, pT2);
     }
 
-    float Transform::squaredDistance(const Transform& pT2) const
+    float Transform::distanceSquared(const Transform& pT2) const
     {
-      return Math::TransformSqaredDistance(*this, pT2);
+      return Math::TransformDistanceSquared(*this, pT2);
     }
 
     float Transform::distance(const Transform& pT2) const
@@ -516,34 +516,10 @@ namespace AL {
 
       TransformInvertInPlace(result);
       result *= pT2;
-
-      // bad code
-      //result.r1_c1 = 1.0f;
-      //result.r2_c2 = 1.0f;
-      //result.r3_c3 = 1.0f;
-
-      //result.r1_c4 = pT2.r1_c4 - pT1.r1_c4;
-      //result.r2_c4 = pT2.r2_c4 - pT1.r2_c4;
-      //result.r3_c4 = pT2.r3_c4 - pT1.r3_c4;
-
-      //result.r2_c3 = 0.5f * ( ((pT1.r2_c1 * pT2.r3_c1) - (pT1.r3_c1 * pT2.r2_c1)) +
-      //  ((pT1.r2_c2 * pT2.r3_c2) - (pT1.r3_c2 * pT2.r2_c2)) +
-      //  ((pT1.r2_c3 * pT2.r3_c3) - (pT1.r3_c3 * pT2.r2_c3)) );
-      //result.r3_c2 = -result.r2_c3;
-
-      //result.r1_c3 = 0.5f * ( ((pT1.r3_c1 * pT2.r1_c1) - (pT1.r1_c1 * pT2.r3_c1)) +
-      //  ((pT1.r3_c2 * pT2.r1_c2) - (pT1.r1_c2 * pT2.r3_c2)) +
-      //  ((pT1.r3_c3 * pT2.r1_c3) - (pT1.r1_c3 * pT2.r3_c3)) );
-      //result.r3_c1 = -result.r1_c3;
-
-      //result.r2_c1 = 0.5f * ( ((pT1.r1_c1 * pT2.r2_c1) - (pT1.r2_c1 * pT2.r1_c1)) +
-      //  ((pT1.r1_c2 * pT2.r2_c2) - (pT1.r2_c2 * pT2.r1_c2)) +
-      //  ((pT1.r1_c3 * pT2.r2_c3) - (pT1.r2_c3 * pT2.r1_c3)) );
-      //result.r1_c2 = - result.r2_c1;
       return result;
     }
 
-    float TransformSqaredDistance(
+    float TransformDistanceSquared(
       const Transform& pT1,
       const Transform& pT2)
     {
@@ -562,7 +538,7 @@ namespace AL {
       const Transform& pT1,
       const Transform& pT2)
     {
-      return sqrtf(TransformSqaredDistance(pT1, pT2));
+      return sqrtf(TransformDistanceSquared(pT1, pT2));
     } // end TransformDistance
 
   } // end namespace Math

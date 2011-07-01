@@ -484,11 +484,11 @@ TEST(TransformTest, diff)
 }
 
 
-TEST(TransformTest, squaredDistance)
+TEST(TransformTest, distanceSquared)
 {
   AL::Math::Transform pHIn1 = AL::Math::Transform::fromPosition(1.0f, 1.0f, 1.0f);
   AL::Math::Transform pHIn2 = AL::Math::Transform::fromPosition(0.0f, 0.0f, 0.0f);
-  EXPECT_NEAR(pHIn1.squaredDistance(pHIn2), 3.0f, 0.0001f);
+  EXPECT_NEAR(pHIn1.distanceSquared(pHIn2), 3.0f, 0.0001f);
 }
 
 
