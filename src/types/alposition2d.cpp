@@ -64,12 +64,12 @@ namespace AL {
 
 
     bool Position2D::isNear(
-      const Position2D& pPos,
+      const Position2D& pPos2,
       const float&      pEpsilon) const
     {
       if (
-        (fabsf(x - pPos.x) > pEpsilon) ||
-        (fabsf(y - pPos.y) > pEpsilon))
+        (fabsf(x - pPos2.x) > pEpsilon) ||
+        (fabsf(y - pPos2.y) > pEpsilon))
       {
         return false;
       }
@@ -77,73 +77,79 @@ namespace AL {
     }
 
 
-    Position2D Position2D::operator* (float pM) const
+    Position2D Position2D::operator* (float pVal) const
     {
       Position2D res;
-      res.x = x * pM;
-      res.y = y * pM;
+      res.x = x * pVal;
+      res.y = y * pVal;
       return res;
     }
 
     Position2D operator* (
-      const float       pM,
+      const float       pVal,
       const Position2D& pPos1)
     {
-      return pPos1*pM;
+      return pPos1*pVal;
     }
 
-    Position2D Position2D::operator/ (float pM) const
+    Position2D Position2D::operator/ (float pVal) const
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition2D: operator/ Division by zeros.");
       }
-      return *this * (1.0f/pM);
+      return *this * (1.0f/pVal);
     }
 
-    Position2D& Position2D::operator*= (float pM)
+    Position2D& Position2D::operator*= (float pVal)
     {
-      x *=pM;
-      y *=pM;
+      x *=pVal;
+      y *=pVal;
       return *this;
     }
 
-    Position2D& Position2D::operator/= (float pM)
+    Position2D& Position2D::operator/= (float pVal)
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition2D: operator/= Division by zero.");
       }
-      *this *= (1.0f/pM);
+      *this *= (1.0f/pVal);
       return *this;
     }
 
 
-    float Position2D::distanceSquared(const Position2D& pPos) const {
-      return Math::distanceSquared(*this, pPos);
+    float Position2D::distanceSquared(const Position2D& pPos2) const
+    {
+      return Math::distanceSquared(*this, pPos2);
     }
 
-    float Position2D::distance(const Position2D& pPos) const {
-      return Math::distance(*this, pPos);
+    float Position2D::distance(const Position2D& pPos2) const
+    {
+      return Math::distance(*this, pPos2);
     }
 
-    float Position2D::norm() const {
+    float Position2D::norm() const
+    {
       return Math::norm(*this);
     }
 
-    Position2D Position2D::normalize() const {
+    Position2D Position2D::normalize() const
+    {
       return Math::normalize(*this);
     }
 
-    float Position2D::crossProduct(const Position2D& pPos) const {
-      return Math::crossProduct(*this, pPos);
+    float Position2D::crossProduct(const Position2D& pPos2) const
+    {
+      return Math::crossProduct(*this, pPos2);
     }
 
-    bool Position2D::operator==(const Position2D& pPos) const
+    bool Position2D::operator==(const Position2D& pPos2) const
     {
-      if (x == pPos.x && y == pPos.y)
+      if ((x == pPos2.x) &&
+          (y == pPos2.y))
       {
         return true;
       }

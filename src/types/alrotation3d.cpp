@@ -38,14 +38,83 @@ namespace AL {
       return *this;
     }
 
+
+    Rotation3D& Rotation3D::operator-= (const Rotation3D& pRot2)
+    {
+      wx -= pRot2.wx;
+      wy -= pRot2.wy;
+      wz -= pRot2.wz;
+      return *this;
+    }
+
+
+    bool Rotation3D::operator== (const Rotation3D& pRot2) const
+    {
+      if(
+          (wx == pRot2.wx) &&
+          (wy == pRot2.wy) &&
+          (wz == pRot2.wz))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    bool Rotation3D::operator!= (const Rotation3D& pRot2) const
+    {
+      return !(*this==pRot2);
+    }
+
+    Rotation3D Rotation3D::operator* (const float pVal) const
+    {
+      Rotation3D res;
+      res.wx = wx * pVal;
+      res.wy = wy * pVal;
+      res.wz = wz * pVal;
+      return res;
+    }
+
+    Rotation3D Rotation3D::operator/ (const float pVal) const
+    {
+      if (pVal == 0.0f)
+      {
+        throw std::runtime_error(
+          "ALRotation3D: operator/ Division by zeros.");
+      }
+      return (*this) * (1.0f/pVal);
+    }
+
+    Rotation3D& Rotation3D::operator*= (const float pVal)
+    {
+      wx *= pVal;
+      wy *= pVal;
+      wz *= pVal;
+      return *this;
+    }
+
+    Rotation3D& Rotation3D::operator/= (const float pVal)
+    {
+      if (pVal == 0.0f)
+      {
+        throw std::runtime_error(
+          "ALRotation3D: operator/= Division by zeros.");
+      }
+      (*this) *= (1.0f/pVal);
+      return *this;
+    }
+
+
     bool Rotation3D::isNear(
-      const Rotation3D& pRot,
+      const Rotation3D& pRot2,
       const float&      pEpsilon) const
     {
       if (
-        (fabsf(wx - pRot.wx) > pEpsilon) ||
-        (fabsf(wy - pRot.wy) > pEpsilon) ||
-        (fabsf(wz - pRot.wz) > pEpsilon))
+        (fabsf(wx - pRot2.wx) > pEpsilon) ||
+        (fabsf(wy - pRot2.wy) > pEpsilon) ||
+        (fabsf(wz - pRot2.wz) > pEpsilon))
       {
         return false;
       }
@@ -54,46 +123,6 @@ namespace AL {
         return true;
       }
     }
-
-
-    Rotation3D Rotation3D::operator* (const float pM) const
-    {
-      Rotation3D res;
-      res.wx = wx * pM;
-      res.wy = wy * pM;
-      res.wz = wz * pM;
-      return res;
-    }
-
-    Rotation3D Rotation3D::operator/ (const float pM) const
-    {
-      if (pM == 0.0f)
-      {
-        throw std::runtime_error(
-          "ALRotation3D: operator/ Division by zeros.");
-      }
-      return (*this) * (1.0f/pM);
-    }
-
-    Rotation3D& Rotation3D::operator*= (const float pM)
-    {
-      wx *= pM;
-      wy *= pM;
-      wz *= pM;
-      return *this;
-    }
-
-    Rotation3D& Rotation3D::operator/= (const float pM)
-    {
-      if (pM == 0.0f)
-      {
-        throw std::runtime_error(
-          "ALRotation3D: operator/= Division by zeros.");
-      }
-      (*this) *= (1.0f/pM);
-      return *this;
-    }
-
 
     float Rotation3D::norm() const
     {
@@ -114,9 +143,9 @@ namespace AL {
     }
 
 
-    float norm(const Rotation3D& p)
+    float norm(const Rotation3D& pRot)
     {
-      return sqrtf( (p.wx*p.wx) + (p.wy*p.wy) + (p.wz*p.wz) );
+      return sqrtf( (pRot.wx*pRot.wx) + (pRot.wy*pRot.wy) + (pRot.wz*pRot.wz) );
     }
 
   } // end namespace Math

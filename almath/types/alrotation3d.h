@@ -58,15 +58,19 @@ namespace AL {
       Rotation3D operator- (const Rotation3D& pRot2) const;
 
       Rotation3D& operator+= (const Rotation3D& pRot2);
+      Rotation3D& operator-= (const Rotation3D& pRot2);
+
+      bool operator== (const Rotation3D& pRot2) const;
+      bool operator!= (const Rotation3D& pRot2) const;
+
+      Rotation3D operator* (const float pVal) const;
+      Rotation3D operator/ (const float pVal) const;
+      Rotation3D& operator*= (const float pVal);
+      Rotation3D& operator/= (const float pVal);
 
       bool isNear(
         const Rotation3D& pRot,
         const float&      pEpsilon=0.0001f) const;
-
-      Rotation3D operator* (const float pM) const;
-      Rotation3D operator/ (const float pM) const;
-      Rotation3D& operator*= (const float pM);
-      Rotation3D& operator/= (const float pM);
 
       float norm() const;
 

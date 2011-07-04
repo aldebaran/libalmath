@@ -66,13 +66,13 @@ namespace AL {
 
 
     bool Position3D::isNear(
-      const Position3D& pPos,
+      const Position3D& pPos2,
       const float&      pEpsilon) const
     {
       if (
-        (fabsf(x - pPos.x) > pEpsilon) ||
-        (fabsf(y - pPos.y) > pEpsilon) ||
-        (fabsf(z - pPos.z) > pEpsilon))
+        (fabsf(x - pPos2.x) > pEpsilon) ||
+        (fabsf(y - pPos2.y) > pEpsilon) ||
+        (fabsf(z - pPos2.z) > pEpsilon))
       {
         return false;
       }
@@ -82,60 +82,60 @@ namespace AL {
       }
     }
 
-    Position3D Position3D::operator* (float pM) const
+    Position3D Position3D::operator* (float pVal) const
     {
       Position3D res;
-      res.x = x * pM;
-      res.y = y * pM;
-      res.z = z * pM;
+      res.x = x * pVal;
+      res.y = y * pVal;
+      res.z = z * pVal;
       return res;
     }
 
     Position3D operator* (
-      const float       pM,
+      const float       pVal,
       const Position3D& pPos1)
     {
-      return pPos1 * pM;
+      return pPos1 * pVal;
     }
 
-    Position3D Position3D::operator/ (float pM) const
+    Position3D Position3D::operator/ (float pVal) const
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition3D: operator/ Division by zeros.");
       }
-      return *this * (1.0f/pM);
+      return *this * (1.0f/pVal);
     }
 
     Position3D operator/ (
-      const float       pM,
+      const float       pVal,
       const Position3D& pPos1)
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition3D: operator/ Division by zeros.");
       }
-      return (1.0f/pM) * pPos1;
+      return (1.0f/pVal) * pPos1;
     }
 
-    Position3D& Position3D::operator*= (float pM)
+    Position3D& Position3D::operator*= (float pVal)
     {
-      x *=pM;
-      y *=pM;
-      z *=pM;
+      x *= pVal;
+      y *= pVal;
+      z *= pVal;
       return *this;
     }
 
-    Position3D& Position3D::operator/= (float pM)
+    Position3D& Position3D::operator/= (float pVal)
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition3D: operator/= Division by zeros.");
       }
-      *this *= (1.0f/pM);
+      *this *= (1.0f/pVal);
       return *this;
     }
 
@@ -159,9 +159,9 @@ namespace AL {
       return !(*this==pPos2);
     }
 
-    float Position3D::distanceSquared(const Position3D& pPos) const
+    float Position3D::distanceSquared(const Position3D& pPos2) const
     {
-      return Math::distanceSquared(*this, pPos);
+      return Math::distanceSquared(*this, pPos2);
     }
 
     float Position3D::distance(const Position3D& pPos2) const
@@ -179,14 +179,14 @@ namespace AL {
       return Math::normalize(*this);
     }
 
-    float Position3D::dotProduct(const Position3D& p) const
+    float Position3D::dotProduct(const Position3D& pPos2) const
     {
-      return Math::dotProduct(*this, p);
+      return Math::dotProduct(*this, pPos2);
     }
 
-    Position3D Position3D::crossProduct(const Position3D& p) const
+    Position3D Position3D::crossProduct(const Position3D& pPos2) const
     {
-      return Math::crossProduct(*this, p);
+      return Math::crossProduct(*this, pPos2);
     }
 
     std::vector<float> Position3D::toVector() const
@@ -223,11 +223,11 @@ namespace AL {
       return sqrtf( (p.x*p.x) + (p.y*p.y) + (p.z*p.z) );
     }
 
-    Position3D normalize(const Position3D& p)
+    Position3D normalize(const Position3D& pPos)
     {
       Position3D ret;
-      ret = p;
-      float tmpNorm = norm(p);
+      ret = pPos;
+      float tmpNorm = norm(pPos);
 
       if (tmpNorm == 0.0f)
       {
@@ -240,28 +240,28 @@ namespace AL {
     }
 
     float dotProduct(
-      const Position3D& p1,
-      const Position3D& p2)
+      const Position3D& pPos1,
+      const Position3D& pPos2)
     {
-      return (p1.x * p2.x + p1.y * p2.y + p1.z * p2.z);
+      return (pPos1.x * pPos2.x + pPos1.y * pPos2.y + pPos1.z * pPos2.z);
     }
 
     void crossProduct(
-      const Position3D& p1,
-      const Position3D& p2,
+      const Position3D& pPos1,
+      const Position3D& pPos2,
       Position3D&       pRes)
     {
-      pRes.x = p1.y*p2.z - p1.z*p2.y;
-      pRes.y = p1.z*p2.x - p1.x*p2.z;
-      pRes.z = p1.x*p2.y - p1.y*p2.x;
+      pRes.x = pPos1.y*pPos2.z - pPos1.z*pPos2.y;
+      pRes.y = pPos1.z*pPos2.x - pPos1.x*pPos2.z;
+      pRes.z = pPos1.x*pPos2.y - pPos1.y*pPos2.x;
     }
 
     Position3D crossProduct(
-      const Position3D& p1,
-      const Position3D& p2)
+      const Position3D& pPos1,
+      const Position3D& pPos2)
     {
       Position3D res;
-      crossProduct(p1, p2, res);
+      crossProduct(pPos1, pPos2, res);
       return res;
     }
 

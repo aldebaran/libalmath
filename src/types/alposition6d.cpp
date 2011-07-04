@@ -84,16 +84,16 @@ namespace AL {
 
 
     bool Position6D::isNear(
-      const Position6D& pPos,
+      const Position6D& pPos2,
       const float&      pEpsilon) const
     {
       if (
-        (fabsf(x - pPos.x) > pEpsilon) ||
-        (fabsf(y - pPos.y) > pEpsilon) ||
-        (fabsf(z - pPos.z) > pEpsilon) ||
-        (fabsf(wx - pPos.wx) > pEpsilon) ||
-        (fabsf(wy - pPos.wy) > pEpsilon) ||
-        (fabsf(wz - pPos.wz) > pEpsilon))
+        (fabsf(x - pPos2.x) > pEpsilon) ||
+        (fabsf(y - pPos2.y) > pEpsilon) ||
+        (fabsf(z - pPos2.z) > pEpsilon) ||
+        (fabsf(wx - pPos2.wx) > pEpsilon) ||
+        (fabsf(wy - pPos2.wy) > pEpsilon) ||
+        (fabsf(wz - pPos2.wz) > pEpsilon))
       {
         return false;
       }
@@ -103,58 +103,81 @@ namespace AL {
       }
     }
 
-    Position6D Position6D::operator* (float pM) const
+    Position6D Position6D::operator* (float pVal) const
     {
       Position6D res;
-      res.x = x * pM;
-      res.y = y * pM;
-      res.z = z * pM;
-      res.wx = wx * pM;
-      res.wy = wy * pM;
-      res.wz = wz * pM;
+      res.x  = x * pVal;
+      res.y  = y * pVal;
+      res.z  = z * pVal;
+      res.wx = wx * pVal;
+      res.wy = wy * pVal;
+      res.wz = wz * pVal;
       return res;
     }
 
-    Position6D Position6D::operator/ (float pM) const
+    Position6D Position6D::operator/ (float pVal) const
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition6D: operator/ Division by zeros.");
       }
-      return *this * (1.0f/pM);
+      return *this * (1.0f/pVal);
     }
 
-    Position6D& Position6D::operator*= (const float pM)
+    bool Position6D::operator== (const Position6D& pPos2) const
     {
-      x *=pM;
-      y *=pM;
-      z *=pM;
-      wx *=pM;
-      wy *=pM;
-      wz *=pM;
+      if(
+          (x == pPos2.x) &&
+          (y == pPos2.y) &&
+          (z == pPos2.z) &&
+          (wx == pPos2.wx) &&
+          (wy == pPos2.wy) &&
+          (wz == pPos2.wz))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    bool Position6D::operator!= (const Position6D& pPos2) const
+    {
+      return !(*this==pPos2);
+    }
+
+    Position6D& Position6D::operator*= (const float pVal)
+    {
+      x  *= pVal;
+      y  *= pVal;
+      z  *= pVal;
+      wx *= pVal;
+      wy *= pVal;
+      wz *= pVal;
       return *this;
     }
 
-    Position6D& Position6D::operator/= (float pM)
+    Position6D& Position6D::operator/= (float pVal)
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition6D: operator/= Division by zeros.");
       }
-      *this *= (1.0f/pM);
+      *this *= (1.0f/pVal);
       return *this;
     }
 
-    float Position6D::distance(const Position6D& pPos) const
+    float Position6D::distance(const Position6D& pPos2) const
     {
-      return Math::distance(*this, pPos);
+      return Math::distance(*this, pPos2);
     }
 
-    float Position6D::distanceSquared(const Position6D& pPos) const
+    float Position6D::distanceSquared(const Position6D& pPos2) const
     {
-      return Math::distanceSquared(*this, pPos);
+      return Math::distanceSquared(*this, pPos2);
     }
 
     float Position6D::norm() const
@@ -192,17 +215,17 @@ namespace AL {
       return sqrtf(distanceSquared(pPos1, pPos2));
     }
 
-    float norm(const Position6D& p)
+    float norm(const Position6D& pPos)
     {
-      return sqrtf( (p.x*p.x) + (p.y*p.y) + (p.z*p.z) +
-                   (p.wx*p.wx) + (p.wy*p.wy) + (p.wz*p.wz) );
+      return sqrtf( (pPos.x*pPos.x) + (pPos.y*pPos.y) + (pPos.z*pPos.z) +
+                   (pPos.wx*pPos.wx) + (pPos.wy*pPos.wy) + (pPos.wz*pPos.wz) );
     }
 
-    Position6D normalize(const Position6D& p)
+    Position6D normalize(const Position6D& pPos)
     {
       Position6D ret;
-      ret = p;
-      float tmpNorm = norm(p);
+      ret = pPos;
+      float tmpNorm = norm(pPos);
 
       if (tmpNorm == 0.0f)
       {

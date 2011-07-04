@@ -66,13 +66,13 @@ namespace AL {
 
 
     bool Velocity3D::isNear(
-      const Velocity3D& pVel,
+      const Velocity3D& pVel2,
       const float&      pEpsilon) const
     {
       if (
-        (fabsf(xd - pVel.xd) > pEpsilon) ||
-        (fabsf(yd - pVel.yd) > pEpsilon) ||
-        (fabsf(zd - pVel.zd) > pEpsilon))
+        (fabsf(xd - pVel2.xd) > pEpsilon) ||
+        (fabsf(yd - pVel2.yd) > pEpsilon) ||
+        (fabsf(zd - pVel2.zd) > pEpsilon))
       {
         return false;
       }
@@ -83,50 +83,72 @@ namespace AL {
     }
 
 
-    Velocity3D Velocity3D::operator* (const float pM) const
+    Velocity3D Velocity3D::operator* (const float pVal) const
     {
       Velocity3D res;
-      res.xd = xd * pM;
-      res.yd = yd * pM;
-      res.zd = zd * pM;
+      res.xd = xd * pVal;
+      res.yd = yd * pVal;
+      res.zd = zd * pVal;
       return res;
     }
 
     Velocity3D operator* (
-      const float       pM,
-      const Velocity3D& pVel1)
+      const float       pVal,
+      const Velocity3D& pVel)
     {
-      return pVel1*pM;
+      return pVel*pVal;
     }
 
 
-    Velocity3D Velocity3D::operator/ (const float pM) const
+    Velocity3D Velocity3D::operator/ (const float pVal) const
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALVelocity3D: operator/ Division by zeros.");
       }
-      return (*this) * (1.0f/pM);
+      return (*this) * (1.0f/pVal);
     }
 
 
-    Velocity3D& Velocity3D::operator*= (const float pM)
+    bool Velocity3D::operator== (const Velocity3D& pVel2) const
     {
-      xd *=pM;
-      yd *=pM;
-      zd *=pM;
+      if(
+        (xd == pVel2.xd) &&
+        (yd == pVel2.yd) &&
+        (zd == pVel2.zd))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+
+    bool Velocity3D::operator!= (const Velocity3D& pVel2) const
+    {
+      return !(*this==pVel2);
+    }
+
+
+    Velocity3D& Velocity3D::operator*= (const float pVal)
+    {
+      xd *= pVal;
+      yd *= pVal;
+      zd *= pVal;
       return *this;
     }
 
-    Velocity3D& Velocity3D::operator/= (const float pM)
+    Velocity3D& Velocity3D::operator/= (const float pVal)
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALVelocity3D: operator/= Division by zeros.");
       }
-      (*this) *= (1.0f/pM);
+      (*this) *= (1.0f/pVal);
       return (*this);
     }
 
@@ -154,17 +176,17 @@ namespace AL {
     }
 
 
-    float norm (const Velocity3D& p)
+    float norm (const Velocity3D& pVel)
     {
-      return sqrtf( (p.xd*p.xd) + (p.yd*p.yd) + (p.zd*p.zd) );
+      return sqrtf( (pVel.xd*pVel.xd) + (pVel.yd*pVel.yd) + (pVel.zd*pVel.zd) );
     }
 
 
-    Velocity3D normalize(const Velocity3D& p)
+    Velocity3D normalize(const Velocity3D& pVel)
     {
       Velocity3D ret;
-      ret = p;
-      float tmpNorm = norm(p);
+      ret = pVel;
+      float tmpNorm = norm(pVel);
 
       if (tmpNorm == 0.0f)
       {

@@ -105,9 +105,9 @@ namespace AL {
       return Math::distanceSquared(*this, pPos);
     }
 
-    float Pose2D::distance(const Pose2D& pPos) const
+    float Pose2D::distance(const Pose2D& pPos2) const
     {
-      return Math::distance(*this, pPos);
+      return Math::distance(*this, pPos2);
     }
 
     std::vector<float> Pose2D::toVector() const
@@ -137,14 +137,14 @@ namespace AL {
 
 
     bool Pose2D::isNear(
-      const Pose2D& pPos,
+      const Pose2D& pPos2,
       const float&     pEpsilon) const
     {
 
       if (
-        (fabsf(x - pPos.x) > pEpsilon) ||
-        (fabsf(y - pPos.y) > pEpsilon) ||
-        (fabsf(theta - pPos.theta) > pEpsilon))
+        (fabsf(x - pPos2.x) > pEpsilon) ||
+        (fabsf(y - pPos2.y) > pEpsilon) ||
+        (fabsf(theta - pPos2.theta) > pEpsilon))
       {
         return false;
       }

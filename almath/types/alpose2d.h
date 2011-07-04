@@ -73,19 +73,62 @@ namespace AL {
         }
       }
 
+      /// <summary>
+      /// overloading of operator + for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       Pose2D operator+ (const Pose2D& pPos2) const;
+
+      /// <summary>
+      /// overloading of operator - for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       Pose2D operator- (const Pose2D& pPos2) const;
 
+      /// <summary>
+      /// overloading of operator + for Pose2D.
+      /// </summary>
       Pose2D operator+ () const;
+
+      /// <summary>
+      /// overloading of operator - for Pose2D.
+      /// </summary>
       Pose2D operator- () const;
 
+      /// <summary>
+      /// overloading of operator += for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       Pose2D& operator+= (const Pose2D& pPos2);
+
+      /// <summary>
+      /// overloading of operator -= for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       Pose2D& operator-= (const Pose2D& pPos2);
 
+      /// <summary>
+      /// overloading of operator *= for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       Pose2D& operator*= (const Pose2D& pPos2);
+
+      /// <summary>
+      /// overloading of operator * for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       Pose2D operator* (const Pose2D& pPos2) const;
 
+      /// <summary>
+      /// overloading of operator == for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       bool operator==(const Pose2D& pPos2) const;
+
+      /// <summary>
+      /// overloading of operator != for Pose2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
       bool operator!=(const Pose2D& pPos2) const;
 
       /// <summary>

@@ -78,6 +78,10 @@ namespace AL {
         }
       }
 
+      /// <summary>
+      /// overloading of operator + for Velocity3D.
+      /// </summary>
+      /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D operator+ (const Velocity3D& pVel2) const;
       Velocity3D operator- (const Velocity3D& pVel2) const;
 
@@ -87,10 +91,13 @@ namespace AL {
       Velocity3D& operator+= (const Velocity3D& pVel2);
       Velocity3D& operator-= (const Velocity3D& pVel2);
 
-      Velocity3D operator* (const float pM) const;
-      Velocity3D operator/ (const float pM) const;
-      Velocity3D& operator*= (const float pM);
-      Velocity3D& operator/= (const float pM);
+      bool operator== (const Velocity3D& pVel2) const;
+      bool operator!= (const Velocity3D& pVel2) const;
+
+      Velocity3D operator* (const float pVal) const;
+      Velocity3D operator/ (const float pVal) const;
+      Velocity3D& operator*= (const float pVal);
+      Velocity3D& operator/= (const float pVal);
 
       /// <summary>
       /// check if the actual Velocity3D is Near the one

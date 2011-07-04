@@ -61,22 +61,81 @@ namespace AL {
         }
       }
 
+      /// <summary>
+      /// overloading of operator + for Position2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
       Position2D operator+ (const Position2D& pPos2) const;
+
+      /// <summary>
+      /// overloading of operator - for Position2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
       Position2D operator- (const Position2D& pPos2) const;
 
+      /// <summary>
+      /// overloading of operator + for Position2D.
+      /// </summary>
       Position2D operator+ () const;
+
+      /// <summary>
+      /// overloading of operator - for Position2D.
+      /// </summary>
       Position2D operator- () const;
 
+      /// <summary>
+      /// overloading of operator += for Position2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
       Position2D& operator+= (const Position2D& pPos2);
+
+      /// <summary>
+      /// overloading of operator -= for Position2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
       Position2D& operator-= (const Position2D& pPos2);
 
-      bool operator==(const Position2D& pPos) const;
+      /// <summary>
+      /// overloading of operator == for Position2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
+      /// <returns>
+      /// true if each float of the two Position2D are equal
+      /// </returns>
+      bool operator==(const Position2D& pPos2) const;
+
+      /// <summary>
+      /// overloading of operator != for Position2D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
+      /// <returns>
+      /// true if one of each float of the two Position2D are not equal
+      /// </returns>
       bool operator!=(const Position2D& pPos2) const;
 
-      Position2D operator* (float pM) const;
-      Position2D operator/ (float pM) const;
-      Position2D& operator*= (float pM);
-      Position2D& operator/= (float pM);
+      /// <summary>
+      /// overloading of operator * for Position2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position2D operator* (float pVal) const;
+
+      /// <summary>
+      /// overloading of operator / for Position2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position2D operator/ (float pVal) const;
+
+      /// <summary>
+      /// overloading of operator *= for Position2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position2D& operator*= (float pVal);
+
+      /// <summary>
+      /// overloading of operator /= for Position2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position2D& operator/= (float pVal);
 
       /// <summary>
       /// compute the squared distance between the actual

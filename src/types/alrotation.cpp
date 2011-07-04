@@ -10,57 +10,57 @@
 namespace AL {
   namespace Math {
 
-    Rotation& Rotation::operator*= (const Rotation& pT2)
+    Rotation& Rotation::operator*= (const Rotation& pRot2)
     {
       float c1 = r1_c1;
       float c2 = r1_c2;
       float c3 = r1_c3;
 
-      r1_c1 = (c1 * pT2.r1_c1) + (c2 * pT2.r2_c1) + (c3 * pT2.r3_c1);
-      r1_c2 = (c1 * pT2.r1_c2) + (c2 * pT2.r2_c2) + (c3 * pT2.r3_c2);
-      r1_c3 = (c1 * pT2.r1_c3) + (c2 * pT2.r2_c3) + (c3 * pT2.r3_c3);
+      r1_c1 = (c1 * pRot2.r1_c1) + (c2 * pRot2.r2_c1) + (c3 * pRot2.r3_c1);
+      r1_c2 = (c1 * pRot2.r1_c2) + (c2 * pRot2.r2_c2) + (c3 * pRot2.r3_c2);
+      r1_c3 = (c1 * pRot2.r1_c3) + (c2 * pRot2.r2_c3) + (c3 * pRot2.r3_c3);
 
       c1 = r2_c1;
       c2 = r2_c2;
       c3 = r2_c3;
 
-      r2_c1 = (c1 * pT2.r1_c1) + (c2 * pT2.r2_c1) + (c3 * pT2.r3_c1);
-      r2_c2 = (c1 * pT2.r1_c2) + (c2 * pT2.r2_c2) + (c3 * pT2.r3_c2);
-      r2_c3 = (c1 * pT2.r1_c3) + (c2 * pT2.r2_c3) + (c3 * pT2.r3_c3);
+      r2_c1 = (c1 * pRot2.r1_c1) + (c2 * pRot2.r2_c1) + (c3 * pRot2.r3_c1);
+      r2_c2 = (c1 * pRot2.r1_c2) + (c2 * pRot2.r2_c2) + (c3 * pRot2.r3_c2);
+      r2_c3 = (c1 * pRot2.r1_c3) + (c2 * pRot2.r2_c3) + (c3 * pRot2.r3_c3);
 
       c1 = r3_c1;
       c2 = r3_c2;
       c3 = r3_c3;
 
-      r3_c1 = (c1 * pT2.r1_c1) + (c2 * pT2.r2_c1) + (c3 * pT2.r3_c1);
-      r3_c2 = (c1 * pT2.r1_c2) + (c2 * pT2.r2_c2) + (c3 * pT2.r3_c2);
-      r3_c3 = (c1 * pT2.r1_c3) + (c2 * pT2.r2_c3) + (c3 * pT2.r3_c3);
+      r3_c1 = (c1 * pRot2.r1_c1) + (c2 * pRot2.r2_c1) + (c3 * pRot2.r3_c1);
+      r3_c2 = (c1 * pRot2.r1_c2) + (c2 * pRot2.r2_c2) + (c3 * pRot2.r3_c2);
+      r3_c3 = (c1 * pRot2.r1_c3) + (c2 * pRot2.r2_c3) + (c3 * pRot2.r3_c3);
       return *this;
     }
 
 
-    Rotation Rotation::operator* (const Rotation& pT2) const
+    Rotation Rotation::operator* (const Rotation& pRot2) const
     {
       Rotation pOut = *this;
-      pOut *= pT2;
+      pOut *= pRot2;
       return pOut;
     }
 
 
     bool Rotation::isNear(
-      const Rotation& pRot,
+      const Rotation& pRot2,
       const float&    pEpsilon) const
     {
       if (
-        (fabsf(r1_c1 - pRot.r1_c1) > pEpsilon) ||
-        (fabsf(r1_c2 - pRot.r1_c2) > pEpsilon) ||
-        (fabsf(r1_c3 - pRot.r1_c3) > pEpsilon) ||
-        (fabsf(r2_c1 - pRot.r2_c1) > pEpsilon) ||
-        (fabsf(r2_c2 - pRot.r2_c2) > pEpsilon) ||
-        (fabsf(r2_c3 - pRot.r2_c3) > pEpsilon) ||
-        (fabsf(r3_c1 - pRot.r3_c1) > pEpsilon) ||
-        (fabsf(r3_c2 - pRot.r3_c2) > pEpsilon) ||
-        (fabsf(r3_c3 - pRot.r3_c3) > pEpsilon))
+        (fabsf(r1_c1 - pRot2.r1_c1) > pEpsilon) ||
+        (fabsf(r1_c2 - pRot2.r1_c2) > pEpsilon) ||
+        (fabsf(r1_c3 - pRot2.r1_c3) > pEpsilon) ||
+        (fabsf(r2_c1 - pRot2.r2_c1) > pEpsilon) ||
+        (fabsf(r2_c2 - pRot2.r2_c2) > pEpsilon) ||
+        (fabsf(r2_c3 - pRot2.r2_c3) > pEpsilon) ||
+        (fabsf(r3_c1 - pRot2.r3_c1) > pEpsilon) ||
+        (fabsf(r3_c2 - pRot2.r3_c2) > pEpsilon) ||
+        (fabsf(r3_c3 - pRot2.r3_c3) > pEpsilon))
       {
         return false;
       }
@@ -165,16 +165,16 @@ namespace AL {
     }
 
 
-    float Determinant(const Rotation& pM)
+    float Determinant(const Rotation& pRot)
     {
       float det;
 
-      det = pM.r1_c1 * pM.r2_c2 * pM.r3_c3 +
-        pM.r1_c2 * pM.r2_c3 * pM.r3_c1 +
-        pM.r1_c3 * pM.r2_c1 * pM.r3_c2 -
-        pM.r1_c1 * pM.r2_c3 * pM.r3_c2 -
-        pM.r1_c2 * pM.r2_c1 * pM.r3_c3 -
-        pM.r1_c3 * pM.r2_c2 * pM.r3_c1;
+      det = pRot.r1_c1 * pRot.r2_c2 * pRot.r3_c3 +
+        pRot.r1_c2 * pRot.r2_c3 * pRot.r3_c1 +
+        pRot.r1_c3 * pRot.r2_c1 * pRot.r3_c2 -
+        pRot.r1_c1 * pRot.r2_c3 * pRot.r3_c2 -
+        pRot.r1_c2 * pRot.r2_c1 * pRot.r3_c3 -
+        pRot.r1_c3 * pRot.r2_c2 * pRot.r3_c1;
 
       return det;
     }
@@ -242,24 +242,24 @@ namespace AL {
 
 
     void ApplyRotation(
-      AL::Math::Rotation &pRotation,
-      float & pX,
-      float & pY,
-      float & pZ)
+      const AL::Math::Rotation& pRot,
+      float& pX,
+      float& pY,
+      float& pZ)
     {
       float x = pX;
       float y = pY;
       float z = pZ;
-      pX = x*pRotation.r1_c1 + y*pRotation.r1_c2 + z*pRotation.r1_c3;
-      pY = x*pRotation.r2_c1 + y*pRotation.r2_c2 + z*pRotation.r2_c3;
-      pZ = x*pRotation.r3_c1 + y*pRotation.r3_c2 + z*pRotation.r3_c3;
+      pX = x*pRot.r1_c1 + y*pRot.r1_c2 + z*pRot.r1_c3;
+      pY = x*pRot.r2_c1 + y*pRot.r2_c2 + z*pRot.r2_c3;
+      pZ = x*pRot.r3_c1 + y*pRot.r3_c2 + z*pRot.r3_c3;
     }
 
 
-    Rotation RotationFromRotX(const float pTheta)
+    Rotation RotationFromRotX(const float pRotX)
     {
-      float c = cosf(pTheta);
-      float s = sinf(pTheta);
+      float c = cosf(pRotX);
+      float s = sinf(pRotX);
       Rotation T = Rotation();
       T.r2_c2 = c;
       T.r2_c3 = -s;
@@ -269,10 +269,10 @@ namespace AL {
     }
 
 
-    Rotation RotationFromRotY(const float pTheta)
+    Rotation RotationFromRotY(const float pRotY)
     {
-      float c = cosf(pTheta);
-      float s = sinf(pTheta);
+      float c = cosf(pRotY);
+      float s = sinf(pRotY);
       Rotation T = Rotation();
       T.r1_c1 = c;
       T.r1_c3 = s;
@@ -282,10 +282,10 @@ namespace AL {
     }
 
 
-    Rotation RotationFromRotZ(const float pTheta)
+    Rotation RotationFromRotZ(const float pRotZ)
     {
-      float c = cosf(pTheta);
-      float s = sinf(pTheta);
+      float c = cosf(pRotZ);
+      float s = sinf(pRotZ);
       Rotation T = Rotation();
       T.r1_c1 = c;
       T.r1_c2 = -s;

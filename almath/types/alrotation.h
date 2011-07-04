@@ -154,10 +154,10 @@ namespace AL {
 
 
     void ApplyRotation(
-      AL::Math::Rotation& pRotation,
-      float&              pX,
-      float&              pY,
-      float&              pZ);
+      const AL::Math::Rotation& pRotation,
+      float&                    pX,
+      float&                    pY,
+      float&                    pZ);
 
     /**
     * Creates a 3*3 Matrix from a rotation
