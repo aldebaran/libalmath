@@ -83,20 +83,69 @@ namespace AL {
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D operator+ (const Velocity3D& pVel2) const;
+
+      /// <summary>
+      /// overloading of operator - for Velocity3D.
+      /// </summary>
+      /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D operator- (const Velocity3D& pVel2) const;
 
+      /// <summary>
+      /// overloading of operator + for Velocity3D.
+      /// </summary>
       Velocity3D operator+ () const;
+
+      /// <summary>
+      /// overloading of operator - for Velocity3D.
+      /// </summary>
       Velocity3D operator- () const;
 
+      /// <summary>
+      /// overloading of operator += for Velocity3D.
+      /// </summary>
+      /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D& operator+= (const Velocity3D& pVel2);
+
+      /// <summary>
+      /// overloading of operator -= for Velocity3D.
+      /// </summary>
+      /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D& operator-= (const Velocity3D& pVel2);
 
+      /// <summary>
+      /// overloading of operator == for Velocity3D.
+      /// </summary>
+      /// <param name="pVel2"> the second Velocity3D </param>
       bool operator== (const Velocity3D& pVel2) const;
+
+      /// <summary>
+      /// overloading of operator != for Velocity3D.
+      /// </summary>
+      /// <param name="pVel2"> the second Velocity3D </param>
       bool operator!= (const Velocity3D& pVel2) const;
 
+      /// <summary>
+      /// overloading of operator * for Velocity3D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
       Velocity3D operator* (const float pVal) const;
+
+      /// <summary>
+      /// overloading of operator / for Velocity3D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
       Velocity3D operator/ (const float pVal) const;
+
+      /// <summary>
+      /// overloading of operator *= for Velocity3D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
       Velocity3D& operator*= (const float pVal);
+
+      /// <summary>
+      /// overloading of operator /= for Velocity3D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
       Velocity3D& operator/= (const float pVal);
 
       /// <summary>

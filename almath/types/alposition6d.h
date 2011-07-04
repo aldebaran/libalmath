@@ -101,22 +101,76 @@ namespace AL {
         }
       }
 
+      /// <summary>
+      /// overloading of operator + for Position6D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position6D </param>
       Position6D operator+ (const Position6D& pPos2) const;
+
+      /// <summary>
+      /// overloading of operator - for Position6D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position6D </param>
       Position6D operator- (const Position6D& pPos2) const;
 
+      /// <summary>
+      /// overloading of operator + for Position6D.
+      /// </summary>
       Position6D operator+ () const;
+
+      /// <summary>
+      /// overloading of operator - for Position6D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position6D </param>
       Position6D operator- () const;
 
+      /// <summary>
+      /// overloading of operator += for Position6D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position6D </param>
       Position6D& operator+= (const Position6D& pPos2);
+
+      /// <summary>
+      /// overloading of operator -= for Position6D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position6D </param>
       Position6D& operator-= (const Position6D& pPos2);
 
+      /// <summary>
+      /// overloading of operator == for Position6D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position6D </param>
       bool operator== (const Position6D& pPos2) const;
+
+      /// <summary>
+      /// overloading of operator != for Position6D.
+      /// </summary>
+      /// <param name="pPos2"> the second Position6D </param>
       bool operator!= (const Position6D& pPos2) const;
 
-      Position6D operator* (float pM) const;
-      Position6D operator/ (float pM) const;
-      Position6D& operator*= (float pM);
-      Position6D& operator/= (float pM);
+      /// <summary>
+      /// overloading of operator * for Position6D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position6D operator* (float pVal) const;
+
+      /// <summary>
+      /// overloading of operator / for Position6D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position6D operator/ (float pVal) const;
+
+      /// <summary>
+      /// overloading of operator *= for Position6D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position6D& operator*= (float pVal);
+
+      /// <summary>
+      /// overloading of operator /= for Position6D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Position6D& operator/= (float pVal);
 
       /// <summary>
       /// check if the actual Position6D is Near the one
