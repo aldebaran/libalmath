@@ -44,7 +44,7 @@ namespace AL {
       ///
       /// \f$ \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 & r1c4 \\ r2c1 & r2c2 & r2c3 & r2c4 \\ r3c1 & r3c2 & r3c3 & r3c4 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] = \left[\begin{array}{cccc}pFloats[00] & pFloats[01] & pFloats[02] & pFloats[03] \\ pFloats[04] & pFloats[05] & pFloats[06] & pFloats[07] \\ pFloats[08] & pFloats[09] & pFloats[10] & pFloats[11] \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
 //      ///
-//      /* \f[
+//      /** \f[
 //      * \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 & r1c4 \\
 //      *   r2c1 & r2c2 & r2c3 & r2c4 \\
 //      *   r3c1 & r3c2 & r3c3 & r3c4 \\
