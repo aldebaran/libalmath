@@ -110,7 +110,7 @@ namespace AL {
       /// <summary>
       /// compute the norm of the actual Velocity3D
       ///
-      /// sqrt(pVel.xd² + pVel.yd² + pVel.zd²)
+      /// \f$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Velocity3D
@@ -140,7 +140,7 @@ namespace AL {
     /// <summary>
     /// compute the norm of a Velocity3D
     ///
-    /// sqrt(pVel.xd² + pVel.yd² + pVel.zd²)
+    /// \f$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2}\f$
     /// </summary>
     /// <param name="pPos"> the given Velocity3D </param>
     /// <returns>
@@ -152,7 +152,7 @@ namespace AL {
     /// <summary>
     /// normalize a Velocity3D
     ///
-    /// pRes = pVel/ norm(pVel)
+    /// pRes = pVel/norm(pVel)
     /// </summary>
     /// <param name="pVel"> the given Velocity3D </param>
     /// <returns>

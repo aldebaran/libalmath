@@ -133,7 +133,7 @@ namespace AL {
       /// compute the squared distance of translation part (x, y and z)
       /// between the actual Position6D and the one give in argument
       ///
-      /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²
+      /// (pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       /// <returns>
@@ -145,7 +145,7 @@ namespace AL {
       /// compute the distance of translation part (x, y and z) between the actual
       /// Position6D and the one give in argument
       ///
-      /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²)
+      /// sqrt((pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2)
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       /// <returns>
@@ -156,7 +156,7 @@ namespace AL {
       /// <summary>
       /// compute the norm of the actual Position6D
       ///
-      /// sqrt(pPos.x² + pPos.y² + pPos.z² + pPos.wx² + pPos.wy² + pPos.wz²)
+      /// sqrt(pPos.x^2 + pPos.y^2 + pPos.z^2 + pPos.wx^2 + pPos.wy^2 + pPos.wz^2)
       /// </summary>
       /// <returns>
       /// the float norm of the Position6D
@@ -174,7 +174,7 @@ namespace AL {
     /// compute the squared distance of translation part (x, y and z)
     /// between two Position6D
     ///
-    /// (pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²
+    /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2\f$
     /// </summary>
     /// <param name="pPos1"> the first Position6D </param>
     /// <param name="pPos2"> the second Position6D </param>
@@ -190,7 +190,7 @@ namespace AL {
     /// <summary>
     /// compute the distance of translation part (x, y and z) between two Position6D
     ///
-    /// sqrt((pPos1.x-pPos2.x)²+(pPos1.y-pPos2.y)²+(pPos1.z-pPos2.z)²)
+    /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2}\f$
     /// </summary>
     /// <param name="pPos1"> the first Position6D </param>
     /// <param name="pPos2"> the second Position6D </param>
@@ -205,7 +205,7 @@ namespace AL {
     /// <summary>
     /// compute the norm of a Position6D
     ///
-    /// sqrt(pPos.x² + pPos.y² + pPos.z² + pPos.wx² + pPos.wy² + pPos.wz²)
+    /// \f$\sqrt{pPos.x^2 + pPos.y^2 + pPos.z^2 + pPos.wx^2 + pPos.wy^2 + pPos.wz^2}\f$
     /// </summary>
     /// <param name="pPos"> the given Position6D </param>
     /// <returns>

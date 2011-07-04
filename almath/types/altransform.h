@@ -153,7 +153,7 @@ namespace AL {
       /// <summary>
       /// compute the norm translation part of the actual Transform
       ///
-      /// \f$\sqrt{pT.r1_c4²+pT.r2_c4²+pT.r3_c4²}\f$
+      /// \f$\sqrt{pT.r1_c4^2+pT.r2_c4^2+pT.r3_c4^2}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Transform
@@ -172,7 +172,9 @@ namespace AL {
 
       /// <summary>
       /// compute the transform inverse of the given Transform
+      ///
       /// pT    = [R        r ; 0 0 0 1]
+      ///
       /// pTOut = [R' (-R'*r) ; 0 0 0 1]
       ///
       /// </summary>
@@ -183,9 +185,13 @@ namespace AL {
 
       /// <summary>
       /// create a Transform initialize with explicit rotation around x axis.
+      ///
       /// 1.0 0.0        0.0         0.0
+      ///
       /// 0.0 cos(pRotX) -sin(pRotX) 0.0
+      ///
       /// 0.0 sin(pRotX) cos(pRotX)  0.0
+      ///
       /// 0.0 0.0        0.0         1.0
       ///
       /// </summary>
@@ -194,9 +200,13 @@ namespace AL {
 
       /// <summary>
       /// create a Transform initialize with explicit rotation around y axis.
+      ///
       /// cos(pRotY)  0.0 sin(pRotY) 0.0
+      ///
       /// 0.0         1.0 0.0        0.0
+      ///
       /// -sin(pRotY) 0.0 cos(pRotY) 0.0
+      ///
       /// 0.0         0.0 0.0        1.0
       ///
       /// </summary>
@@ -205,9 +215,13 @@ namespace AL {
 
       /// <summary>
       /// create a Transform initialize with explicit rotation around z axis.
+      ///
       /// cos(pRotZ) -sin(pRotZ) 0.0 0.0
+      ///
       /// sin(pRotZ) cos(pRotZ)  0.0 0.0
+      ///
       /// 0.0        0.0         1.0 0.0
+      ///
       /// 0.0        0.0         0.0 1.0
       ///
       /// </summary>
@@ -231,9 +245,13 @@ namespace AL {
 
       /// <summary>
       /// create a Transform initialize with explicit value for translation part.
+      ///
       /// 1.0 0.0 0.0 pX
+      ///
       /// 0.0 1.0 0.0 pY
+      ///
       /// 0.0 0.0 1.0 pZ
+      ///
       /// 0.0 0.0 0.0 1.0
       ///
       /// </summary>
@@ -247,9 +265,13 @@ namespace AL {
 
       /// <summary>
       /// create a Transform initialize with explicit value for translation part and euler angle.
+      ///
       /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
+      ///
       /// H.r1_c4 = pX
+      ///
       /// H.r2_c4 = pY
+      ///
       /// H.r3_c4 = pZ
       ///
       /// </summary>
@@ -281,7 +303,7 @@ namespace AL {
       /// compute the squared distance between the actual
       /// Transform and the one give in argument (translation part)
       ///
-      /// \f$(pT1.r1_c4-pT2.r1_C4)²+(pT1.r2_c4-pT2.r2_C4)²+(pT1.r3_c4-pT2.r3_C4)²\f$
+      /// \f$(pT1.r1_c4-pT2.r1_C4)^2+(pT1.r2_c4-pT2.r2_C4)^2+(pT1.r3_c4-pT2.r3_C4)^2\f$
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       /// <returns>
@@ -294,7 +316,7 @@ namespace AL {
       /// compute the distance between the actual
       /// Transform and the one give in argument
       ///
-      /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)²+(pT1.r2_c4-pT2.r2_c4)²+(pT1.r3_c4-pT2.r3_c4)²}\f$
+      /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)^2+(pT1.r2_c4-pT2.r2_c4)^2+(pT1.r3_c4-pT2.r3_c4)^2}\f$
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       /// <returns>
@@ -304,9 +326,13 @@ namespace AL {
 
       /// <summary>
       /// return the Transform as a vector of float
+      ///
       /// [r1_c1, r1_c2, r1_c3, r1_c4,
+      ///
       ///  r2_c1, r2_c2, r2_c3, r2_c4,
+      ///
       ///  r3_c1, r3_c2, r3_c3, r3_c4,
+      ///
       ///  0.0, 0.0, 0.0, 1.0]
       /// </summary>
       std::vector<float> toVector() const;
@@ -327,7 +353,7 @@ namespace AL {
     /// <summary>
     /// compute the norm translation part of the actual Transform
     ///
-    /// \f$\sqrt{pT.r1_c4²+pT.r2_c4²+pT.r3_c4²}\f$
+    /// \f$\sqrt{pT.r1_c4^2+pT.r2_c4^2+pT.r3_c4^2}\f$
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// <returns>
@@ -339,9 +365,13 @@ namespace AL {
 
     /// <summary>
     /// copy the Transform in a vector of float
+    ///
     /// [r1_c1, r1_c2, r1_c3, r1_c4,
+    ///
     ///  r2_c1, r2_c2, r2_c3, r2_c4,
+    ///
     ///  r3_c1, r3_c2, r3_c3, r3_c4,
+    ///
     ///  0.0, 0.0, 0.0, 1.0]
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -353,9 +383,13 @@ namespace AL {
 
     /// <summary>
     /// return the Transform in a vector of float
+    ///
     /// [r1_c1, r1_c2, r1_c3, r1_c4,
+    ///
     ///  r2_c1, r2_c2, r2_c3, r2_c4,
+    ///
     ///  r3_c1, r3_c2, r3_c3, r3_c4,
+    ///
     ///  0.0, 0.0, 0.0, 1.0]
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -393,7 +427,9 @@ namespace AL {
 
     /// <summary>
     /// return the transform inverse of the given Transform
+     ///
     /// pT    = [R        r ; 0 0 0 1]
+    ///
     /// pTOut = [R' (-R'*r) ; 0 0 0 1]
     ///
     /// </summary>
@@ -406,7 +442,9 @@ namespace AL {
 
     /// <summary>
     /// return the transform inverse of the given Transform
+    ///
     /// pT    = [R        r ; 0 0 0 1]
+    ///
     /// pTOut = [R' (-R'*r) ; 0 0 0 1]
     ///
     /// </summary>
@@ -420,9 +458,13 @@ namespace AL {
 
     /// <summary>
     /// create a Transform initialize with explicit rotation around x axis.
+    ///
     /// 1.0 0.0        0.0         0.0
+    ///
     /// 0.0 cos(pRotX) -sin(pRotX) 0.0
+    ///
     /// 0.0 sin(pRotX) cos(pRotX)  0.0
+    ///
     /// 0.0 0.0        0.0         1.0
     ///
     /// </summary>
@@ -435,9 +477,13 @@ namespace AL {
 
     /// <summary>
     /// create a Transform initialize with explicit rotation around y axis.
+    ///
     /// cos(pRotY)  0.0 sin(pRotY) 0.0
+    ///
     /// 0.0         1.0 0.0        0.0
+    ///
     /// -sin(pRotY) 0.0 cos(pRotY) 0.0
+    ///
     /// 0.0         0.0 0.0        1.0
     ///
     /// </summary>
@@ -450,9 +496,13 @@ namespace AL {
 
     /// <summary>
     /// create a Transform initialize with explicit rotation around z axis.
+    ///
     /// cos(pRotZ) -sin(pRotZ) 0.0 0.0
+    ///
     /// sin(pRotZ) cos(pRotZ)  0.0 0.0
+    ///
     /// 0.0        0.0         1.0 0.0
+    ///
     /// 0.0        0.0         0.0 1.0
     ///
     /// </summary>
@@ -483,9 +533,13 @@ namespace AL {
 
     /// <summary>
     /// create a Transform initialize with explicit value for translation part.
+    ///
     /// 1.0 0.0 0.0 pX
+    ///
     /// 0.0 1.0 0.0 pY
+    ///
     /// 0.0 0.0 1.0 pZ
+    ///
     /// 0.0 0.0 0.0 1.0
     ///
     /// </summary>
@@ -503,9 +557,13 @@ namespace AL {
 
     /// <summary>
     /// create a Transform initialize with explicit value for translation part and euler angle.
+    ///
     /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
+    ///
     /// H.r1_c4 = pX
+    ///
     /// H.r2_c4 = pY
+    ///
     /// H.r3_c4 = pZ
     ///
     /// </summary>
@@ -539,7 +597,9 @@ namespace AL {
 
     /// <summary>
     /// alternative name for inverse: return the transform inverse of the given Transform
+    ///
     /// pT    = [R        r ; 0 0 0 1]
+    ///
     /// pTOut = [R' (-R'*r) ; 0 0 0 1]
     ///
     /// </summary>
@@ -550,9 +610,9 @@ namespace AL {
 
 
     /// <summary>
-    /// compute the Transform between the actual
-    /// Transform and the one give in argument
-    /// result: inverse(pT1)*pT2
+    /// compute the Transform between the actual Transform and the one give in argument result:
+    ///
+    ///inverse(pT1)*pT2
     ///
     /// </summary>
     /// <param name="pT1"> the first transform </param>
@@ -569,7 +629,7 @@ namespace AL {
     /// compute the squared distance between the actual
     /// Transform and the one give in argument (translation part)
     ///
-    /// \f$(pT1.r1_c4-pT2.r1_C4)²+(pT1.r2_c4-pT2.r2_C4)²+(pT1.r3_c4-pT2.r3_C4)²\f$
+    /// \f$(pT1.r1_c4-pT2.r1_C4)^2 +(pT1.r2_c4-pT2.r2_C4)^2+(pT1.r3_c4-pT2.r3_C4)^2\f$
     /// </summary>
     /// <param name="pT1"> the first Transform </param>
     /// <param name="pT2"> the second Transform </param>
@@ -586,7 +646,7 @@ namespace AL {
     /// compute the distance between the actual
     /// Transform and the one give in argument
     ///
-    /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)²+(pT1.r2_c4-pT2.r2_c4)²+(pT1.r3_c4-pT2.r3_c4)²}\f$
+    /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)^2+(pT1.r2_c4-pT2.r2_c4)^2+(pT1.r3_c4-pT2.r3_c4)^2}\f$
     /// </summary>
     /// <param name="pT1"> the first Transform </param>
     /// <param name="pT2"> the second Transform </param>
