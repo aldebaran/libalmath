@@ -18,7 +18,7 @@ namespace AL {
   namespace Math {
 
     /// <summary>
-    /// Create and play with a Transform.
+    /// A homogenous transformation matrix
     ///
     /// A Position3D is just defined by x, y and z.
     /// </summary>
@@ -30,14 +30,14 @@ namespace AL {
       float r3_c1, r3_c2, r3_c3, r3_c4;
 
       /// <summary>
-      /// create a Transform initialize to identity.
+      /// Create a Transform initialize to identity.
       /// </summary>
       Transform(): r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f), r1_c4(0.0f),
         r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f), r2_c4(0.0f),
         r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f), r3_c4(0.0f) {}
 
       /// <summary>
-      /// create a Transform with an std::vector.
+      /// Create a Transform with an std::vector.
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 12 or 16 for respectively:
@@ -94,7 +94,7 @@ namespace AL {
       }
 
       /// <summary>
-      /// create a Transform initialize with explicit value for translation part. Rotation part is set to identity.
+      /// Create a Transform initialize with explicit value for translation part. Rotation part is set to identity.
       /// </summary>
       /// <param name="pPosX"> the float value for translation x </param>
       /// <param name="pPosY"> the float value for translation y </param>
@@ -129,12 +129,12 @@ namespace AL {
 
 
       /// <summary>
-      /// check if the actual Transform is Near the one
+      /// Check if the actual Transform is near the one
       /// give in argument.
       ///
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance: default: 0.0001 </param>
       /// <returns>
       /// true if the distance between the two Transform is less than pEpsilon
       /// </returns>
@@ -143,14 +143,14 @@ namespace AL {
         const float&     pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// check if the rotation part is correct
-      /// The condition check are:
+      /// Check if the rotation part is correct
+      /// The condition checks are:
       /// \f$R^t * R = I\f$
       /// and
       /// det(R) = 1.0
       ///
       /// </summary>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance. Default: 0.0001 </param>
       /// <returns>
       /// true if the Transform is correct
       /// </returns>
@@ -158,7 +158,7 @@ namespace AL {
           const float& pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// compute the norm translation part of the actual Transform
+      /// Compute the norm translation part of the actual Transform
       ///
       /// \f$\sqrt{pT.r1c4^2+pT.r2c4^2+pT.r3c4^2}\f$
       /// </summary>
@@ -168,7 +168,7 @@ namespace AL {
       float norm() const;
 
       /// <summary>
-      /// compute the determinant of rotation part of the given Transform
+      /// Compute the determinant of rotation part of the actual Transform
       ///
       /// \f$pT.r1c1*pT.r2c2*pT.r3c3 + pT.r1c2*pT.r2c3*pT.r3c1 + pT.r1c3*pT.r2c1*pT.r3c2 - pT.r1c1*pT.r2c3*pT.r3c2 - pT.r1c2*pT.r2c1*pT.r3c3 - pT.r1c3*pT.r2c2*pT.r3c1\f$
       /// </summary>
@@ -178,7 +178,7 @@ namespace AL {
       float determinant() const;
 
       /// <summary>
-      /// compute the transform inverse of the given Transform
+      /// Compute the transform inverse of the actual Transform
       ///
       /// \f$ pT = \left[\begin{array}{cc}R & r \\ 0_{31} & 1 \end{array}\right]\f$
       ///
@@ -191,7 +191,7 @@ namespace AL {
       Transform inverse() const;
 
       /// <summary>
-      /// create a Transform initialize with explicit rotation around x axis.
+      /// Create a Transform initialized with explicit rotation around x axis.
       ///
       /// \f$ pT = \left[\begin{array}{cccc}1.0 & 0.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) & 0.0 \\ 0.0 & sin(pRotX) & cos(pRotX) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///
@@ -200,7 +200,7 @@ namespace AL {
       static Transform fromRotX(const float pRotX);
 
       /// <summary>
-      /// create a Transform initialize with explicit rotation around y axis.
+      /// Create a Transform initialized with explicit rotation around y axis.
       ///
       /// \f$ pT = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) & 0.0 \\ 0.0 & 1.0 & 0.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///
@@ -209,7 +209,7 @@ namespace AL {
       static Transform fromRotY(const float pRotY);
 
       /// <summary>
-      /// create a Transform initialize with explicit rotation around z axis.
+      /// Create a Transform initialized with explicit rotation around z axis.
       ///
       /// \f$ pT = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///

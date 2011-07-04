@@ -18,9 +18,9 @@ namespace AL {
   namespace Math {
 
     /// <summary>
-    /// Create and play with a Pose2D.
+    /// A pose in a 2-dimentional space
     ///
-    /// On a plan a position is totally defined
+    /// On a plane a position is totally defined
     /// by the postions x,y and the rotation theta.
     /// </summary>
     /// \ingroup Types
@@ -32,18 +32,18 @@ namespace AL {
       float theta;
 
       /// <summary>
-      /// create a Pose2D initialize with 0.0f.
+      /// Create a Pose2D initialized with 0.0f.
       /// </summary>
       Pose2D():x(0.0f), y(0.0f), theta(0.0f) {}
 
       /// <summary>
-      /// create a Pose2D initialize with the same float.
+      /// Create a Pose2D initialize with the same float.
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
       explicit Pose2D(float pInit):x(pInit), y(pInit), theta(pInit) {}
 
       /// <summary>
-      /// create a Pose2D initialize with explicit value.
+      /// Create a Pose2D initialize with explicit value.
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -51,7 +51,7 @@ namespace AL {
       explicit Pose2D(float pX,float pY,float pTheta):x(pX), y(pY), theta(pTheta) {}
 
       /// <summary>
-      /// create a Pose2D with an std::vector.
+      /// Create a Pose2D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 3 for respectively :
@@ -132,8 +132,9 @@ namespace AL {
       bool operator!=(const Pose2D& pPos2) const;
 
       /// <summary>
-      /// compute the squared distance between the actual
-      /// Pose2D and the one give in argument
+      /// Compute the squared distance between the actual
+      /// Pose2D and the one give in argument.
+      /// This avoids doing the sqrt needed for a true distance.
       ///
       /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2\f$
       /// </summary>
@@ -144,7 +145,7 @@ namespace AL {
       float distanceSquared(const Pose2D& pPos2) const;
 
       /// <summary>
-      /// compute the distance between the actual
+      /// Compute the distance between the actual
       /// Pose2D and the one give in argument
       ///
       /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2}\f$
@@ -156,17 +157,17 @@ namespace AL {
       float distance(const Pose2D& pPos2) const;
 
       /// <summary>
-      /// return the inverse of the Pose2D
+      /// Return the inverse of the Pose2D
       /// </summary>
       Pose2D inverse() const;
 
       /// <summary>
-      /// check if the actual Pose2D is Near the one
-      /// give in argument.
+      /// Check if the actual Pose2D is Near the one
+      /// given in argument.
       ///
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance - default: 0.0001 </param>
       /// <returns>
       /// true if the distance between the two Pose2D is less than pEpsilon
       /// </returns>
@@ -174,7 +175,7 @@ namespace AL {
                   const float&  pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// return the Pose2D as a vector of float [x, y, theta]
+      /// Return the Pose2D as a vector of float [x, y, theta]
       /// </summary>
       std::vector<float> toVector() const;
 
@@ -182,7 +183,7 @@ namespace AL {
 
 
     /// <summary>
-    /// compute the squared distance between two Pose2D
+    /// Compute the squared distance between two Pose2D
     ///
     /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2\f$
     /// </summary>
@@ -196,7 +197,7 @@ namespace AL {
                           const Pose2D& pPos2);
 
     /// <summary>
-    /// compute the distance between two Pose2D
+    /// Compute the distance between two Pose2D
     ///
     /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2}\f$
     /// </summary>
@@ -210,7 +211,7 @@ namespace AL {
                    const Pose2D& pPos2);
 
     /// <summary>
-    /// compute the inverse of a Pose2D
+    /// Compute the inverse of a Pose2D
     /// </summary>
     /// <param name="pPos"> the initial Pose2D </param>
     /// <returns> the inverse Pose2D </returns>
@@ -218,13 +219,13 @@ namespace AL {
     Pose2D Pose2DInverse(const Pose2D& pPos);
 
     /// <summary>
-    /// compute the inverse of a Pose2D
+    /// Compute the inverse of a Pose2D
     /// </summary>
     /// <param name="pPos"> the initial Pose2D </param>
     /// <param name="pRes"> the inverse Pose2D </param>
     /// \ingroup Types
     void Pose2DInverse( const Pose2D& pPos,
-                        Pose2D&       pRes);
+                              Pose2D& pRes);
 
   } // end namespace math
 } // end namespace AL

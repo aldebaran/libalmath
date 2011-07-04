@@ -26,7 +26,7 @@ namespace AL {
         r2_c1(0.0f), r2_c2(1.0f){}
 
       /**
-      * CONSTRUCTOR: create a Rotation2D from an std vector.
+      * Create a Rotation2D from an std vector.
       */
       Rotation2D (const std::vector<float>& pFloats)
       {
