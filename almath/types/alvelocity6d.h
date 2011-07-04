@@ -110,16 +110,51 @@ struct Velocity6D {
     }
   }
 
+  /// <summary>
+  /// overloading of operator + for Velocity6D.
+  /// </summary>
+  /// <param name="pVel2"> the second Velocity6D </param>
   Velocity6D operator+ (const Velocity6D& pVel2) const;
+
+  /// <summary>
+  /// overloading of operator - for Velocity6D.
+  /// </summary>
+  /// <param name="pVel2"> the second Velocity6D </param>
   Velocity6D operator- (const Velocity6D& pVel2) const;
 
+  /// <summary>
+  /// overloading of operator + for Velocity6D.
+  /// </summary>
   Velocity6D operator+ () const;
+
+  /// <summary>
+  /// overloading of operator - for Velocity6D.
+  /// </summary>
   Velocity6D operator- () const;
 
+  /// <summary>
+  /// overloading of operator * for Velocity6D.
+  /// </summary>
+  /// <param name="pVal"> the float factor. </param>
   Velocity6D operator* (const float pVal) const;
+
+  /// <summary>
+  /// overloading of operator / for Velocity6D.
+  /// </summary>
+  /// <param name="pVal"> the float factor. </param>
   Velocity6D operator/ (const float pVal) const;
-  Velocity6D& operator*= (const float pM);
-  Velocity6D& operator/= (const float pM);
+
+  /// <summary>
+  /// overloading of operator *= for Velocity6D.
+  /// </summary>
+  /// <param name="pVal"> the float factor. </param>
+  Velocity6D& operator*= (const float pVal);
+
+  /// <summary>
+  /// overloading of operator /= for Velocity6D.
+  /// </summary>
+  /// <param name="pVal"> the float factor. </param>
+  Velocity6D& operator/= (const float pVal);
 
   /// <summary>
   /// check if the actual Velocity6D is Near the one
@@ -148,7 +183,7 @@ struct Velocity6D {
   /// <summary>
   /// normalize the actual Velocity6D
   ///
-  /// result = pVel/ norm(pVel)
+  /// \f$ result = \frac{pVel}{norm(pVel)} \f$
   /// </summary>
   /// <returns>
   /// the Velocity6D normalized

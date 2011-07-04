@@ -41,10 +41,17 @@ namespace AL {
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 12 or 16 for respectively:
-      /// r1_c1, r1_c2, r1_c3, r1_c4,
-      /// r2_c1, r2_c2, r2_c3, r2_c4,
-      /// r3_c1, r3_c2, r3_c3, r3_c4,
-      /// 0.0f, 0.0f, 0.0f and 1.0f
+      ///
+      /// \f$ \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 & r1c4 \\ r2c1 & r2c2 & r2c3 & r2c4 \\ r3c1 & r3c2 & r3c3 & r3c4 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] = \left[\begin{array}{cccc}pFloats[00] & pFloats[01] & pFloats[02] & pFloats[03] \\ pFloats[04] & pFloats[05] & pFloats[06] & pFloats[07] \\ pFloats[08] & pFloats[09] & pFloats[10] & pFloats[11] \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
+//      ///
+//      /* \f[
+//      * \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 & r1c4 \\
+//      *   r2c1 & r2c2 & r2c3 & r2c4 \\
+//      *   r3c1 & r3c2 & r3c3 & r3c4 \\
+//      *   0.0 & 0.0 & 0.0 & 1.0
+//      *  \end{array}\right]
+//      * \f]
+//      */
       /// </param>
       explicit Transform(const std::vector<float>& pFloats)
       {
@@ -138,9 +145,9 @@ namespace AL {
       /// <summary>
       /// check if the rotation part is correct
       /// The condition check are:
-      /// R' * R = Identity
+      /// \f$R^t * R = I\f$
       /// and
-      /// det(R) = 1
+      /// det(R) = 1.0
       ///
       /// </summary>
       /// <param name="pEpsilon"> an optionnal epsilon distance </param>
@@ -153,7 +160,7 @@ namespace AL {
       /// <summary>
       /// compute the norm translation part of the actual Transform
       ///
-      /// \f$\sqrt{pT.r1_c4^2+pT.r2_c4^2+pT.r3_c4^2}\f$
+      /// \f$\sqrt{pT.r1c4^2+pT.r2c4^2+pT.r3c4^2}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Transform
@@ -163,7 +170,7 @@ namespace AL {
       /// <summary>
       /// compute the determinant of rotation part of the given Transform
       ///
-      /// \f$pT.r1_c1*pT.r2_c2*pT.r3_c3 + pT.r1_c2*pT.r2_c3*pT.r3_c1 + pT.r1_c3*pT.r2_c1 * pT.r3_c2 - pT.r1_c1*pT.r2_c3*pT.r3_c2 - pT.r1_c2*pT.r2_c1*pT.r3_c3 - pT.r1_c3*pT.r2_c2*pT.r3_c1\f$
+      /// \f$pT.r1c1*pT.r2c2*pT.r3c3 + pT.r1c2*pT.r2c3*pT.r3c1 + pT.r1c3*pT.r2c1*pT.r3c2 - pT.r1c1*pT.r2c3*pT.r3c2 - pT.r1c2*pT.r2c1*pT.r3c3 - pT.r1c3*pT.r2c2*pT.r3c1\f$
       /// </summary>
       /// <returns>
       /// the float determinant of rotation Transform part
@@ -173,9 +180,9 @@ namespace AL {
       /// <summary>
       /// compute the transform inverse of the given Transform
       ///
-      /// pT    = [R        r ; 0 0 0 1]
+      /// \f$ pT = \left[\begin{array}{cc}R & r \\ 0_{31} & 1 \end{array}\right]\f$
       ///
-      /// pTOut = [R' (-R'*r) ; 0 0 0 1]
+      /// \f$ pTOut = \left[\begin{array}{cc}R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
       ///
       /// </summary>
       /// <returns>
@@ -186,13 +193,7 @@ namespace AL {
       /// <summary>
       /// create a Transform initialize with explicit rotation around x axis.
       ///
-      /// 1.0 0.0        0.0         0.0
-      ///
-      /// 0.0 cos(pRotX) -sin(pRotX) 0.0
-      ///
-      /// 0.0 sin(pRotX) cos(pRotX)  0.0
-      ///
-      /// 0.0 0.0        0.0         1.0
+      /// \f$ pT = \left[\begin{array}{cccc}1.0 & 0.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) & 0.0 \\ 0.0 & sin(pRotX) & cos(pRotX) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///
       /// </summary>
       /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
@@ -201,13 +202,7 @@ namespace AL {
       /// <summary>
       /// create a Transform initialize with explicit rotation around y axis.
       ///
-      /// cos(pRotY)  0.0 sin(pRotY) 0.0
-      ///
-      /// 0.0         1.0 0.0        0.0
-      ///
-      /// -sin(pRotY) 0.0 cos(pRotY) 0.0
-      ///
-      /// 0.0         0.0 0.0        1.0
+      /// \f$ pT = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) & 0.0 \\ 0.0 & 1.0 & 0.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///
       /// </summary>
       /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
@@ -216,13 +211,7 @@ namespace AL {
       /// <summary>
       /// create a Transform initialize with explicit rotation around z axis.
       ///
-      /// cos(pRotZ) -sin(pRotZ) 0.0 0.0
-      ///
-      /// sin(pRotZ) cos(pRotZ)  0.0 0.0
-      ///
-      /// 0.0        0.0         1.0 0.0
-      ///
-      /// 0.0        0.0         0.0 1.0
+      /// \f$ pT = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///
       /// </summary>
       /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
@@ -246,13 +235,7 @@ namespace AL {
       /// <summary>
       /// create a Transform initialize with explicit value for translation part.
       ///
-      /// 1.0 0.0 0.0 pX
-      ///
-      /// 0.0 1.0 0.0 pY
-      ///
-      /// 0.0 0.0 1.0 pZ
-      ///
-      /// 0.0 0.0 0.0 1.0
+      /// \f$ pT = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & pX \\ 0.0 & 1.0 & 0.0 & pY \\ 0.0 & 0.0 & 1.0 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///
       /// </summary>
       /// <param name="pX"> the float value for translation axis x in meter (r1_c4) </param>
@@ -267,6 +250,8 @@ namespace AL {
       /// create a Transform initialize with explicit value for translation part and euler angle.
       ///
       /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
+      ///
+      /// then
       ///
       /// H.r1_c4 = pX
       ///
@@ -303,7 +288,7 @@ namespace AL {
       /// compute the squared distance between the actual
       /// Transform and the one give in argument (translation part)
       ///
-      /// \f$(pT1.r1_c4-pT2.r1_C4)^2+(pT1.r2_c4-pT2.r2_C4)^2+(pT1.r3_c4-pT2.r3_C4)^2\f$
+      /// \f$(pT1.r1c4-pT2.r1C4)^2+(pT1.r2c4-pT2.r2C4)^2+(pT1.r3c4-pT2.r3C4)^2\f$
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       /// <returns>
@@ -316,7 +301,7 @@ namespace AL {
       /// compute the distance between the actual
       /// Transform and the one give in argument
       ///
-      /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)^2+(pT1.r2_c4-pT2.r2_c4)^2+(pT1.r3_c4-pT2.r3_c4)^2}\f$
+      /// \f$\sqrt{(pT1.r1c4-pT2.r1c4)^2+(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2}\f$
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       /// <returns>
@@ -353,7 +338,7 @@ namespace AL {
     /// <summary>
     /// compute the norm translation part of the actual Transform
     ///
-    /// \f$\sqrt{pT.r1_c4^2+pT.r2_c4^2+pT.r3_c4^2}\f$
+    /// \f$\sqrt{pT.r1c4^2+pT.r2c4^2+pT.r3c4^2}\f$
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// <returns>
@@ -366,13 +351,8 @@ namespace AL {
     /// <summary>
     /// copy the Transform in a vector of float
     ///
-    /// [r1_c1, r1_c2, r1_c3, r1_c4,
+    /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, & r1c4, \\ r2c1, & r2c2, & r2c3, & r2c4, \\ r3c1, & r3c2, & r3c3, & r3c4, \\ 0.0, & 0.0, & 0.0, & 1.0] \end{array}\f$
     ///
-    ///  r2_c1, r2_c2, r2_c3, r2_c4,
-    ///
-    ///  r3_c1, r3_c2, r3_c3, r3_c4,
-    ///
-    ///  0.0, 0.0, 0.0, 1.0]
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// <param name="pTOut"> the vector of float update to given transform value </param>
@@ -384,13 +364,8 @@ namespace AL {
     /// <summary>
     /// return the Transform in a vector of float
     ///
-    /// [r1_c1, r1_c2, r1_c3, r1_c4,
+    /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, & r1c4, \\ r2c1, & r2c2, & r2c3, & r2c4, \\ r3c1, & r3c2, & r3c3, & r3c4, \\ 0.0, & 0.0, & 0.0, & 1.0] \end{array}\f$
     ///
-    ///  r2_c1, r2_c2, r2_c3, r2_c4,
-    ///
-    ///  r3_c1, r3_c2, r3_c3, r3_c4,
-    ///
-    ///  0.0, 0.0, 0.0, 1.0]
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// <returns>
@@ -404,7 +379,7 @@ namespace AL {
     /// <summary>
     /// compute the determinant of rotation part of the given Transform
     ///
-    /// \f$pT.r1_c1*pT.r2_c2*pT.r3_c3 + pT.r1_c2*pT.r2_c3*pT.r3_c1 + pT.r1_c3*pT.r2_c1 * pT.r3_c2 - pT.r1_c1*pT.r2_c3*pT.r3_c2 - pT.r1_c2*pT.r2_c1*pT.r3_c3 - pT.r1_c3*pT.r2_c2*pT.r3_c1\f$
+    /// \f$pT.r1c1*pT.r2c2*pT.r3c3 + pT.r1c2*pT.r2c3*pT.r3c1 + pT.r1c3*pT.r2c1 * pT.r3c2 - pT.r1c1*pT.r2c3*pT.r3c2 - pT.r1c2*pT.r2c1*pT.r3c3 - pT.r1c3*pT.r2c2*pT.r3c1\f$
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// <returns>
@@ -427,10 +402,10 @@ namespace AL {
 
     /// <summary>
     /// return the transform inverse of the given Transform
-     ///
-    /// pT    = [R        r ; 0 0 0 1]
     ///
-    /// pTOut = [R' (-R'*r) ; 0 0 0 1]
+    /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
+    ///
+    /// \f$ pTOut = \left[\begin{array}{cc} R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -443,9 +418,9 @@ namespace AL {
     /// <summary>
     /// return the transform inverse of the given Transform
     ///
-    /// pT    = [R        r ; 0 0 0 1]
+    /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
     ///
-    /// pTOut = [R' (-R'*r) ; 0 0 0 1]
+    /// \f$ pTOut = \left[\begin{array}{cc} R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -459,13 +434,7 @@ namespace AL {
     /// <summary>
     /// create a Transform initialize with explicit rotation around x axis.
     ///
-    /// 1.0 0.0        0.0         0.0
-    ///
-    /// 0.0 cos(pRotX) -sin(pRotX) 0.0
-    ///
-    /// 0.0 sin(pRotX) cos(pRotX)  0.0
-    ///
-    /// 0.0 0.0        0.0         1.0
+    /// \f$ pTOut = \left[\begin{array}{cccc}1.0 & 0.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) & 0.0 \\ 0.0 & sin(pRotX) & cos(pRotX) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
     /// </summary>
     /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
@@ -478,13 +447,7 @@ namespace AL {
     /// <summary>
     /// create a Transform initialize with explicit rotation around y axis.
     ///
-    /// cos(pRotY)  0.0 sin(pRotY) 0.0
-    ///
-    /// 0.0         1.0 0.0        0.0
-    ///
-    /// -sin(pRotY) 0.0 cos(pRotY) 0.0
-    ///
-    /// 0.0         0.0 0.0        1.0
+    /// \f$ pTOut = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) & 0.0 \\ 0.0 & 1.0 & 0.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
     /// </summary>
     /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
@@ -497,13 +460,7 @@ namespace AL {
     /// <summary>
     /// create a Transform initialize with explicit rotation around z axis.
     ///
-    /// cos(pRotZ) -sin(pRotZ) 0.0 0.0
-    ///
-    /// sin(pRotZ) cos(pRotZ)  0.0 0.0
-    ///
-    /// 0.0        0.0         1.0 0.0
-    ///
-    /// 0.0        0.0         0.0 1.0
+    /// \f$ pTOut = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
     /// </summary>
     /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
@@ -534,13 +491,7 @@ namespace AL {
     /// <summary>
     /// create a Transform initialize with explicit value for translation part.
     ///
-    /// 1.0 0.0 0.0 pX
-    ///
-    /// 0.0 1.0 0.0 pY
-    ///
-    /// 0.0 0.0 1.0 pZ
-    ///
-    /// 0.0 0.0 0.0 1.0
+    /// \f$ pTOut = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & pX \\ 0.0 & 1.0 & 0.0 & pY \\ 0.0 & 0.0 & 1.0 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
     /// </summary>
     /// <param name="pX"> the float value for translation axis x in meter (r1_c4) </param>
@@ -598,9 +549,9 @@ namespace AL {
     /// <summary>
     /// alternative name for inverse: return the transform inverse of the given Transform
     ///
-    /// pT    = [R        r ; 0 0 0 1]
+    /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
     ///
-    /// pTOut = [R' (-R'*r) ; 0 0 0 1]
+    /// \f$ pTOut = \left[\begin{array}{cc} R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -612,7 +563,7 @@ namespace AL {
     /// <summary>
     /// compute the Transform between the actual Transform and the one give in argument result:
     ///
-    ///inverse(pT1)*pT2
+    /// inverse(pT1)*pT2
     ///
     /// </summary>
     /// <param name="pT1"> the first transform </param>
@@ -629,7 +580,7 @@ namespace AL {
     /// compute the squared distance between the actual
     /// Transform and the one give in argument (translation part)
     ///
-    /// \f$(pT1.r1_c4-pT2.r1_C4)^2 +(pT1.r2_c4-pT2.r2_C4)^2+(pT1.r3_c4-pT2.r3_C4)^2\f$
+    /// \f$(pT1.r1c4-pT2.r1c4)^2 +(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2\f$
     /// </summary>
     /// <param name="pT1"> the first Transform </param>
     /// <param name="pT2"> the second Transform </param>
@@ -646,7 +597,7 @@ namespace AL {
     /// compute the distance between the actual
     /// Transform and the one give in argument
     ///
-    /// \f$\sqrt{(pT1.r1_c4-pT2.r1_c4)^2+(pT1.r2_c4-pT2.r2_c4)^2+(pT1.r3_c4-pT2.r3_c4)^2}\f$
+    /// \f$\sqrt{(pT1.r1c4-pT2.r1c4)^2+(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2}\f$
     /// </summary>
     /// <param name="pT1"> the first Transform </param>
     /// <param name="pT2"> the second Transform </param>

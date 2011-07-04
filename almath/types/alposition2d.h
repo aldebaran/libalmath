@@ -129,7 +129,7 @@ namespace AL {
       /// <summary>
       /// normalize the actual Position2D
       ///
-      /// \f$pRes = pPos/norm(pPos)\f$
+      /// \f$pRes = \frac{pPos}{norm(pPos)}\f$
       /// </summary>
       /// <returns>
       /// the Position2D normalized
@@ -204,7 +204,7 @@ namespace AL {
     /// <summary>
     /// normalize a Position2D
     ///
-    /// \f$pRes = pPos/norm(pPos)\f$
+    /// \f$pRes = \frac{pPos}{norm(pPos)}\f$
     /// </summary>
     /// <param name="pPos"> the given Position2D </param>
     /// <returns>

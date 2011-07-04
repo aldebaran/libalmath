@@ -217,7 +217,7 @@ namespace AL {
     /// <summary>
     /// normalize a Position6D
     ///
-    /// pRes = pPos/ norm(pPos)
+    /// \f$pRes = \frac{pPos}{norm(pPos)} \f$
     /// </summary>
     /// <param name="pPos"> the given Position6D </param>
     /// <returns>

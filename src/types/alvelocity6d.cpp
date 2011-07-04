@@ -103,27 +103,27 @@ namespace AL {
     }
 
 
-    Velocity6D& Velocity6D::operator*= (const float pM)
+    Velocity6D& Velocity6D::operator*= (const float pVal)
     {
-      xd  *= pM;
-      yd  *= pM;
-      zd  *= pM;
-      wxd *= pM;
-      wyd *= pM;
-      wzd *= pM;
+      xd  *= pVal;
+      yd  *= pVal;
+      zd  *= pVal;
+      wxd *= pVal;
+      wyd *= pVal;
+      wzd *= pVal;
 
       return *this;
     }
 
 
-    Velocity6D& Velocity6D::operator/= (const float pM)
+    Velocity6D& Velocity6D::operator/= (const float pVal)
     {
-      if (pM == 0.0f)
+      if (pVal == 0.0f)
       {
         throw std::runtime_error(
           "ALVelocity6D: operator/= Division by zeros.");
       }
-      (*this) *= (1.0f/pM);
+      (*this) *= (1.0f/pVal);
       return *this;
     }
 

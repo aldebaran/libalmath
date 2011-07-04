@@ -139,7 +139,7 @@ namespace AL {
       /// <summary>
       /// normalize the actual Position3D
       ///
-      /// \f$result = pPos/ norm(pPos)\f$
+      /// \f$result = \frac{pPos}{norm(pPos)}\f$
       /// </summary>
       /// <returns>
       /// the Position3D normalized
@@ -233,7 +233,7 @@ namespace AL {
     /// <summary>
     /// normalize a Position3D
     ///
-    /// \f$pRes = pPos/ norm(pPos)\f$
+    /// \f$pRes = \frac{pPos}{norm(pPos)}\f$
     /// </summary>
     /// <param name="pPos"> the given Position3D </param>
     /// <returns>

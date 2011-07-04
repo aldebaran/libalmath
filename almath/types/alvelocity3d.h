@@ -120,7 +120,7 @@ namespace AL {
       /// <summary>
       /// normalize the actual Velocity3D
       ///
-      /// result = pVel/ norm(pVel)
+      /// \f$ result = \frac{pVel}{norm(pVel)} \f$
       /// </summary>
       /// <returns>
       /// the Velocity3D normalized
@@ -152,7 +152,7 @@ namespace AL {
     /// <summary>
     /// normalize a Velocity3D
     ///
-    /// pRes = pVel/norm(pVel)
+    /// \f$ pRes = \frac{pVel}{norm(pVel)} \f$
     /// </summary>
     /// <param name="pVel"> the given Velocity3D </param>
     /// <returns>
