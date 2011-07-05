@@ -205,7 +205,7 @@ namespace AL
     } // end invDiffLog
 
 
-    float Sign(const float& pValue)
+    float sign(const float& pValue)
     {
       if (pValue >= 0)
       {
@@ -220,7 +220,7 @@ namespace AL
       return 1.0f;
     }
 
-    bool Sign(
+    bool sign(
       const float& pValue1,
       const float& pValue2)
     {

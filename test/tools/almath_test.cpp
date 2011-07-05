@@ -87,13 +87,13 @@ TEST(ALMathTest, invDiffLog)
 TEST(ALMathTest, Sign)
 {
   float pValue = 10.1f;
-  EXPECT_NEAR(AL::Math::Sign(pValue), 1.0f, 0.0001f);
+  EXPECT_NEAR(AL::Math::sign(pValue), 1.0f, 0.0001f);
 
   pValue = -5.0f;
-  EXPECT_NEAR(AL::Math::Sign(pValue), -1.0f, 0.0001f);
+  EXPECT_NEAR(AL::Math::sign(pValue), -1.0f, 0.0001f);
 
   pValue = 0.0f;
-  EXPECT_NEAR(AL::Math::Sign(pValue), 1.0f, 0.0001f);
+  EXPECT_NEAR(AL::Math::sign(pValue), 1.0f, 0.0001f);
 }
 
 TEST(ALMathTest, inlineFactorial)

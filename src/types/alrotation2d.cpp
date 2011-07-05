@@ -36,12 +36,12 @@ namespace AL {
 
     Rotation2D Rotation2D::transpose() const
     {
-      return Math::Transpose(*this);
+      return Math::transpose(*this);
     }
 
     float Rotation2D::determinant() const
     {
-      return Math::Determinant(*this);
+      return Math::determinant(*this);
     }
 
     bool Rotation2D::isNear(
@@ -90,7 +90,7 @@ namespace AL {
     }
 
 
-    Rotation2D Transpose(const Rotation2D& pRot)
+    Rotation2D transpose(const Rotation2D& pRot)
     {
       Rotation2D pOut;
       pOut.r1_c1 = pRot.r1_c1;
@@ -100,7 +100,7 @@ namespace AL {
       return pOut;
     }
 
-    float Determinant(const Rotation2D& pRot)
+    float determinant(const Rotation2D& pRot)
     {
       float det;
       det = pRot.r1_c1 * pRot.r2_c2 - pRot.r1_c2 * pRot.r2_c1;

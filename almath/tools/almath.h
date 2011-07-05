@@ -82,9 +82,9 @@ namespace AL {
     * Returns 1.0f if the value is greater
     * or equal to zero, otherwise returns -1.0f
     */
-    float Sign(const float& pValue);
+    float sign(const float& pValue);
 
-    bool Sign(
+    bool sign(
       const float& pValue1,
       const float& pValue2);
 
@@ -215,7 +215,7 @@ namespace AL {
     * @return The matrix rotation
     **/
     AL::Math::Rotation rotationFromAngleDirection(
-      float pAngle,
+      float                       pAngle,
       const AL::Math::Position3D& pDirection);
 
     void applyRotation(

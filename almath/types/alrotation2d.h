@@ -66,14 +66,14 @@ namespace AL {
     * @param  Rotation R
     * @return Transpose Rotation
     **/
-    Rotation2D Transpose(const Rotation2D& pIn);
+    Rotation2D transpose(const Rotation2D& pIn);
 
     /**
     * Function Determiant : compute determinant of rotation part of Transform
     * @param  Rotation R
     * @return float det
     **/
-    float Determinant(const Rotation2D& pM);
+    float determinant(const Rotation2D& pM);
 
   }
 }
