@@ -108,13 +108,13 @@ TEST(ALPose2DTest, inverse)
   EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
 
   pInverse = AL::Math::Pose2D();
-  pInverse = AL::Math::Pose2DInverse(pPose2D);
+  pInverse = AL::Math::pose2DInverse(pPose2D);
   EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
   EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
   EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
 
   pInverse = AL::Math::Pose2D();
-  AL::Math::Pose2DInverse(pPose2D, pInverse);
+  AL::Math::pose2DInverse(pPose2D, pInverse);
   EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
   EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
   EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);

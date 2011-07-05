@@ -46,7 +46,11 @@ namespace AL {
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
       /// <param name="pZ"> the float value for z </param>
-      Position3D(float pX, float pY, float pZ) : x(pX), y(pY), z(pZ) {}
+      Position3D(
+        float pX,
+        float pY,
+        float pZ):
+        x(pX), y(pY), z(pZ) {}
 
       /// <summary>
       /// create a Positio3D with an std::vector.

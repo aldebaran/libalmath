@@ -62,7 +62,7 @@ namespace AL {
     * @param pIn  (Velocity6D) : multiply 6*6 pM by pIn
     * @param pOut (Velocity6D) : Output solution of DiffLog(pM)*pIn
     **/
-    void DiffLog(
+    void diffLog(
       const AL::Math::Velocity6D& pM,
       const AL::Math::Velocity6D& pIn,
       AL::Math::Velocity6D&       pOut);
@@ -73,7 +73,7 @@ namespace AL {
     * @param pIn  (Velocity6D) : multiply 6*6 inverse pM by pIn
     * @param pOut (Velocity6D) : Output solution of inverse(DiffLog(pM))*pIn
     **/
-    void InvDiffLog(
+    void invDiffLog(
       const AL::Math::Velocity6D& pM,
       const AL::Math::Velocity6D& pIn,
       AL::Math::Velocity6D&       pOut);
@@ -97,19 +97,19 @@ namespace AL {
       return pNumber> 1 ? (pNumber * inlineFactorial(pNumber-1)) : 1;
     }
 
-    Transform TransformFromPosition3DAndRotation(
+    Transform transformFromPosition3DAndRotation(
       const float x,
       const float y,
       const float z,
       const Rotation& pRotation);
 
 
-    Transform TransformFromPosition3DAndRotation(
+    Transform transformFromPosition3DAndRotation(
       const Position3D& pPosition,
       const Rotation& pRotation);
 
 
-    Position6D Position6DFromVelocity6D(const Velocity6D& pIn);
+    Position6D position6DFromVelocity6D(const Velocity6D& pIn);
 
     Position3D operator*(
       const Rotation&   pRot,
@@ -170,55 +170,55 @@ namespace AL {
     * @param pXi       : Vector of Position6D of the different stay point of the Interpolation
     * @param pAxisMask : Axis controlled during SE(3) interpolation
     */
-    void FilterPosition6D(
+    void filterPosition6D(
       const std::vector<AL::Math::Position6D>& pXi,
       const AL::Math::AXIS_MASK                pAxisMask,
       std::vector<AL::Math::Position6D>&       pOut);
 
-    std::vector<AL::Math::Position6D>  FilterPosition6D(
+    std::vector<AL::Math::Position6D>  filterPosition6D(
       const std::vector<AL::Math::Position6D>& pXi,
       const AL::Math::AXIS_MASK                pAxisMask);
 
-    void AxisMaskToPosition6DOn(
+    void axisMaskToPosition6DOn(
       const AL::Math::Position6D& pXi,
       const AL::Math::AXIS_MASK   pAxisMask,
       AL::Math::Position6D&       pOut);
 
-    AL::Math::Position6D AxisMaskToPosition6DOn(
+    AL::Math::Position6D axisMaskToPosition6DOn(
       const AL::Math::Position6D& pXi,
       const AL::Math::AXIS_MASK   pAxisMask);
 
-    void AxisMaskToPosition6DOff(
+    void axisMaskToPosition6DOff(
       const AL::Math::Position6D& pXi,
       const AL::Math::AXIS_MASK   pAxisMask,
       AL::Math::Position6D&       pPos);
 
-    AL::Math::Position6D AxisMaskToPosition6DOff(
+    AL::Math::Position6D axisMaskToPosition6DOff(
       const AL::Math::Position6D& pXi,
       const AL::Math::AXIS_MASK   pAxisMask);
 
-    void AxisMaskToVelocity6DOn(
+    void axisMaskToVelocity6DOn(
       const AL::Math::Velocity6D& pXi,
       const AL::Math::AXIS_MASK   pAxisMask,
       AL::Math::Velocity6D&       pOut);
 
-    AL::Math::Velocity6D AxisMaskToVelocity6DOn(
+    AL::Math::Velocity6D axisMaskToVelocity6DOn(
       const AL::Math::Velocity6D& pXi,
       const AL::Math::AXIS_MASK   pAxisMask);
 
     /**
-    * Function RotationFromAngleDirection :
+    * Function rotationFromAngleDirection :
     * Computes the matrix rotation given an angle and a direction
     * It is in almath and not in alrotation so alrotation does not need alposition3D
     * @param pAngle : The angle of the rotation
     * @param pDirection : The direction of the rotation
     * @return The matrix rotation
     **/
-    AL::Math::Rotation RotationFromAngleDirection(
+    AL::Math::Rotation rotationFromAngleDirection(
       float pAngle,
       const AL::Math::Position3D& pDirection);
 
-    void ApplyRotation(
+    void applyRotation(
       const AL::Math::Rotation& pRotation,
       AL::Math::Position3D&     pVector);
 

@@ -24,8 +24,6 @@ namespace AL {
     /// by the postions x,y and the rotation theta.
     /// </summary>
     /// \ingroup Types
-
-
     struct Pose2D {
       float x;
       float y;
@@ -48,7 +46,13 @@ namespace AL {
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
       /// <param name="pTheta"> the float value for theta </param>
-      explicit Pose2D(float pX,float pY,float pTheta):x(pX), y(pY), theta(pTheta) {}
+      explicit Pose2D(
+        float pX,
+        float pY,
+        float pTheta):
+        x(pX),
+        y(pY),
+        theta(pTheta) {}
 
       /// <summary>
       /// Create a Pose2D with an std::vector.
@@ -193,8 +197,9 @@ namespace AL {
     /// the float squared distance between the two Pose2D
     /// </returns>
     /// \ingroup Types
-    float distanceSquared(const Pose2D& pPos1,
-                          const Pose2D& pPos2);
+    float distanceSquared(
+      const Pose2D& pPos1,
+      const Pose2D& pPos2);
 
     /// <summary>
     /// Compute the distance between two Pose2D
@@ -207,8 +212,9 @@ namespace AL {
     /// the float distance between the two Pose2D
     /// </returns>
     /// \ingroup Types
-    float distance(const Pose2D& pPos1,
-                   const Pose2D& pPos2);
+    float distance(
+      const Pose2D& pPos1,
+      const Pose2D& pPos2);
 
     /// <summary>
     /// Compute the inverse of a Pose2D
@@ -216,7 +222,7 @@ namespace AL {
     /// <param name="pPos"> the initial Pose2D </param>
     /// <returns> the inverse Pose2D </returns>
     /// \ingroup Types
-    Pose2D Pose2DInverse(const Pose2D& pPos);
+    Pose2D pose2DInverse(const Pose2D& pPos);
 
     /// <summary>
     /// Compute the inverse of a Pose2D
@@ -224,8 +230,9 @@ namespace AL {
     /// <param name="pPos"> the initial Pose2D </param>
     /// <param name="pRes"> the inverse Pose2D </param>
     /// \ingroup Types
-    void Pose2DInverse( const Pose2D& pPos,
-                              Pose2D& pRes);
+    void pose2DInverse(
+      const Pose2D& pPos,
+      Pose2D&       pRes);
 
   } // end namespace math
 } // end namespace AL

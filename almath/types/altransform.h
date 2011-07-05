@@ -20,7 +20,6 @@ namespace AL {
     /// <summary>
     /// A homogenous transformation matrix
     ///
-    /// A Position3D is just defined by x, y and z.
     /// </summary>
     /// <A HREF="http://en.wikipedia.org/wiki/Transformation_matrix">more information</A>
     /// \ingroup Types
@@ -43,16 +42,16 @@ namespace AL {
       /// An std::vector<float> of size 12 or 16 for respectively:
       ///
       /// \f$ \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 & r1c4 \\ r2c1 & r2c2 & r2c3 & r2c4 \\ r3c1 & r3c2 & r3c3 & r3c4 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] = \left[\begin{array}{cccc}pFloats[00] & pFloats[01] & pFloats[02] & pFloats[03] \\ pFloats[04] & pFloats[05] & pFloats[06] & pFloats[07] \\ pFloats[08] & pFloats[09] & pFloats[10] & pFloats[11] \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
-//      ///
-//      /** \f[
-//      * \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 & r1c4 \\
-//      *   r2c1 & r2c2 & r2c3 & r2c4 \\
-//      *   r3c1 & r3c2 & r3c3 & r3c4 \\
-//      *   0.0 & 0.0 & 0.0 & 1.0
-//      *  \end{array}\right]
-//      * \f]
-//      */
       /// </param>
+      //      ///
+      //      /** \f[
+      //      * \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 & r1c4 \\
+      //      *   r2c1 & r2c2 & r2c3 & r2c4 \\
+      //      *   r3c1 & r3c2 & r3c3 & r3c4 \\
+      //      *   0.0 & 0.0 & 0.0 & 1.0
+      //      *  \end{array}\right]
+      //      * \f]
+      //      */
       explicit Transform(const std::vector<float>& pFloats)
       {
         if (
@@ -121,12 +120,29 @@ namespace AL {
         r3_c4 = pPosZ;
       }
 
+      /// <summary>
+      /// overloading of operator *= for Transform.
+      /// </summary>
+      /// <param name="pT2"> the second Transform </param>
       Transform& operator*= (const Transform& pT2);
+
+      /// <summary>
+      /// overloading of operator * for Transform.
+      /// </summary>
+      /// <param name="pT2"> the second Transform </param>
       Transform operator* (const Transform& pT2) const;
 
-      bool operator==(const Transform& pT) const;
-      bool operator!=(const Transform& pT) const;
+      /// <summary>
+      /// overloading of operator == for Transform.
+      /// </summary>
+      /// <param name="pT2"> the second Transform </param>
+      bool operator==(const Transform& pT2) const;
 
+      /// <summary>
+      /// overloading of operator != for Transform.
+      /// </summary>
+      /// <param name="pT2"> the second Transform </param>
+      bool operator!=(const Transform& pT2) const;
 
       /// <summary>
       /// Check if the actual Transform is near the one
@@ -312,13 +328,7 @@ namespace AL {
       /// <summary>
       /// return the Transform as a vector of float
       ///
-      /// [r1_c1, r1_c2, r1_c3, r1_c4,
-      ///
-      ///  r2_c1, r2_c2, r2_c3, r2_c4,
-      ///
-      ///  r3_c1, r3_c2, r3_c3, r3_c4,
-      ///
-      ///  0.0, 0.0, 0.0, 1.0]
+      /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, & r1c4, \\ r2c1, & r2c2, & r2c3, & r2c4, \\ r3c1, & r3c2, & r3c3, & r3c4, \\ 0.0, & 0.0, & 0.0, & 1.0] \end{array}\f$
       /// </summary>
       std::vector<float> toVector() const;
 
@@ -331,7 +341,7 @@ namespace AL {
     /// <param name="pT"> the first constant Transform </param>
     /// <param name="pTOut"> the second modified Transform </param>
     /// \ingroup Types
-    void TransformPreMultiply(
+    void transformPreMultiply(
       const Transform& pT,
       Transform&       pTOut);
 
@@ -357,7 +367,7 @@ namespace AL {
     /// <param name="pT"> the given Transform </param>
     /// <param name="pTOut"> the vector of float update to given transform value </param>
     /// \ingroup Types
-    void TransformToFloatVector(
+    void transformToFloatVector(
       const Transform&    pT,
       std::vector<float>& pTOut);
 
@@ -372,7 +382,7 @@ namespace AL {
     /// the vector of float update to given transform value
     /// </returns>
     /// \ingroup Types
-    std::vector<float> TransformToFloatVector(
+    std::vector<float> transformToFloatVector(
       const Transform& pT);
 
 
@@ -386,7 +396,7 @@ namespace AL {
     /// the float determinant of rotation Transform part
     /// </returns>
     /// \ingroup Types
-    float Determinant(const Transform& pT);
+    float determinant(const Transform& pT);
 
     /// <summary>
     /// compute the determinant of rotation part of the given vector of floats
@@ -398,7 +408,7 @@ namespace AL {
     /// the float determinant of rotation Transform part
     /// </returns>
     /// \ingroup Types
-    float Determinant(const std::vector<float>& pFloats);
+    float determinant(const std::vector<float>& pFloats);
 
     /// <summary>
     /// return the transform inverse of the given Transform
@@ -411,7 +421,7 @@ namespace AL {
     /// <param name="pT"> the given Transform </param>
     /// <param name="pTOut"> the inverse of the given Transform </param>
     /// \ingroup Types
-    void TransformInverse(
+    void transformInverse(
       const Transform& pT,
       Transform&       pTOut);
 
@@ -428,7 +438,7 @@ namespace AL {
     /// the Transform inverse
     /// </returns>
     /// \ingroup Types
-    Transform TransformInverse(const Transform& pT);
+    Transform transformInverse(const Transform& pT);
 
 
     /// <summary>
@@ -442,7 +452,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform TransformFromRotX(const float pRotX);
+    Transform transformFromRotX(const float pRotX);
 
     /// <summary>
     /// create a Transform initialize with explicit rotation around y axis.
@@ -455,7 +465,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform TransformFromRotY(const float pRotY);
+    Transform transformFromRotY(const float pRotY);
 
     /// <summary>
     /// create a Transform initialize with explicit rotation around z axis.
@@ -468,7 +478,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform TransformFromRotZ(const float pRotZ);
+    Transform transformFromRotZ(const float pRotZ);
 
 
     /// <summary>
@@ -483,7 +493,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform TransformFrom3DRotation(
+    Transform transformFrom3DRotation(
       const float& pWX,
       const float& pWY,
       const float& pWZ);
@@ -501,7 +511,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform TransformFromPosition(
+    Transform transformFromPosition(
       const float& pX,
       const float& pY,
       const float& pZ);
@@ -528,7 +538,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform TransformFromPosition(
+    Transform transformFromPosition(
       const float& pX,
       const float& pY,
       const float& pZ,
@@ -543,7 +553,7 @@ namespace AL {
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// \ingroup Types
-    void TransformInvertInPlace(Transform& pT);
+    void transformInvertInPlace(Transform& pT);
 
 
     /// <summary>
@@ -572,7 +582,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform TransformDiff(
+    Transform transformDiff(
       const Transform& pT1,
       const Transform& pT2);
 
@@ -588,7 +598,7 @@ namespace AL {
     /// the float squared distance between the two Transform: translation part
     /// </returns>
     /// \ingroup Types
-    float TransformDistanceSquared(
+    float transformDistanceSquared(
       const Transform& pT1,
       const Transform& pT2);
 
@@ -605,7 +615,7 @@ namespace AL {
     /// the float distance between the two Transform
     /// </returns>
     /// \ingroup Types
-    float TransformDistance(
+    float transformDistance(
       const Transform& pT1,
       const Transform& pT2);
 

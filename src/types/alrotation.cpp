@@ -47,6 +47,34 @@ namespace AL {
     }
 
 
+    bool Rotation::operator==(const Rotation& pRot2) const
+    {
+      if (
+        (r1_c1 == pRot2.r1_c1) &&
+        (r1_c2 == pRot2.r1_c2) &&
+        (r1_c3 == pRot2.r1_c3) &&
+        (r2_c1 == pRot2.r2_c1) &&
+        (r2_c2 == pRot2.r2_c2) &&
+        (r2_c3 == pRot2.r2_c3) &&
+        (r3_c1 == pRot2.r3_c1) &&
+        (r3_c2 == pRot2.r3_c2) &&
+        (r3_c3 == pRot2.r3_c3))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+    bool Rotation::operator!=(const Rotation& pRot2) const
+    {
+      return !(*this==pRot2);
+    }
+
+
+
     bool Rotation::isNear(
       const Rotation& pRot2,
       const float&    pEpsilon) const
@@ -73,12 +101,12 @@ namespace AL {
 
     Rotation Rotation::transpose() const
     {
-      return Math::Transpose(*this);
+      return Math::transpose(*this);
     }
 
     float Rotation::determinant() const
     {
-      return Math::Determinant(*this);
+      return Math::determinant(*this);
     }
 
 
@@ -88,7 +116,7 @@ namespace AL {
       const float pC,
       const float pD)
     {
-      return Math::RotationFromQuaternion(pA, pB, pC, pD);
+      return Math::rotationFromQuaternion(pA, pB, pC, pD);
     }
 
     Rotation Rotation::fromAngleDirection(
@@ -97,22 +125,22 @@ namespace AL {
       const float pY,
       const float pZ)
     {
-      return Math::RotationFromAngleDirection(pAngle, pX, pY, pZ);
+      return Math::rotationFromAngleDirection(pAngle, pX, pY, pZ);
     }
 
     Rotation Rotation::fromRotX(const float pRotX)
     {
-      return Math::RotationFromRotX(pRotX);
+      return Math::rotationFromRotX(pRotX);
     }
 
     Rotation Rotation::fromRotY(const float pRotY)
     {
-      return Math::RotationFromRotY(pRotY);
+      return Math::rotationFromRotY(pRotY);
     }
 
     Rotation Rotation::fromRotZ(const float pRotZ)
     {
-      return Math::RotationFromRotZ(pRotZ);
+      return Math::rotationFromRotZ(pRotZ);
     }
 
     Rotation Rotation::from3DRotation(
@@ -120,7 +148,7 @@ namespace AL {
       const float& pWY,
       const float& pWZ)
     {
-      return Math::RotationFrom3DRotation(pWX, pWY, pWZ);
+      return Math::rotationFrom3DRotation(pWX, pWY, pWZ);
     }
 
 
@@ -145,7 +173,7 @@ namespace AL {
     }
 
 
-    Rotation Transpose(const Rotation& pIn)
+    Rotation transpose(const Rotation& pIn)
     {
       Rotation pOut;
 
@@ -165,7 +193,7 @@ namespace AL {
     }
 
 
-    float Determinant(const Rotation& pRot)
+    float determinant(const Rotation& pRot)
     {
       float det;
 
@@ -180,7 +208,7 @@ namespace AL {
     }
 
 
-    Rotation RotationFromQuaternion(
+    Rotation rotationFromQuaternion(
       const float pA,
       const float pB,
       const float pC,
@@ -208,7 +236,7 @@ namespace AL {
       return T;
     }
 
-    Rotation RotationFromAngleDirection(
+    Rotation rotationFromAngleDirection(
       const float pAngle,
       const float pX,
       const float pY,
@@ -241,7 +269,7 @@ namespace AL {
     }
 
 
-    void ApplyRotation(
+    void applyRotation(
       const AL::Math::Rotation& pRot,
       float& pX,
       float& pY,
@@ -256,7 +284,7 @@ namespace AL {
     }
 
 
-    Rotation RotationFromRotX(const float pRotX)
+    Rotation rotationFromRotX(const float pRotX)
     {
       float c = cosf(pRotX);
       float s = sinf(pRotX);
@@ -269,7 +297,7 @@ namespace AL {
     }
 
 
-    Rotation RotationFromRotY(const float pRotY)
+    Rotation rotationFromRotY(const float pRotY)
     {
       float c = cosf(pRotY);
       float s = sinf(pRotY);
@@ -282,7 +310,7 @@ namespace AL {
     }
 
 
-    Rotation RotationFromRotZ(const float pRotZ)
+    Rotation rotationFromRotZ(const float pRotZ)
     {
       float c = cosf(pRotZ);
       float s = sinf(pRotZ);
@@ -295,15 +323,15 @@ namespace AL {
     }
 
 
-    Rotation RotationFrom3DRotation(
+    Rotation rotationFrom3DRotation(
       const float& pWX,
       const float& pWY,
       const float& pWZ)
     {
       Rotation T = Rotation();
-      T = RotationFromRotZ(pWZ);
-      T *= RotationFromRotY(pWY);
-      T *= RotationFromRotX(pWX);
+      T  = rotationFromRotZ(pWZ);
+      T *= rotationFromRotY(pWY);
+      T *= rotationFromRotX(pWX);
       return T;
     }
 

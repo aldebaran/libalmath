@@ -155,7 +155,7 @@ namespace AL {
         return false;
       }
 
-      float det = Math::Determinant(*this);
+      float det = Math::determinant(*this);
 
       if (fabsf(det-1.0f) > pEpsilon)
       {
@@ -175,28 +175,28 @@ namespace AL {
 
     float Transform::determinant() const
     {
-      return Math::Determinant(*this);
+      return Math::determinant(*this);
     }
 
     Transform Transform::inverse() const
     {
-      return Math::TransformInverse(*this);
+      return Math::transformInverse(*this);
     }
 
 
     Transform Transform::fromRotX(const float pRotX)
     {
-      return Math::TransformFromRotX(pRotX);
+      return Math::transformFromRotX(pRotX);
     }
 
     Transform Transform::fromRotY(const float pRotY)
     {
-      return Math::TransformFromRotY(pRotY);
+      return Math::transformFromRotY(pRotY);
     }
 
     Transform Transform::fromRotZ(const float pRotZ)
     {
-      return Math::TransformFromRotZ(pRotZ);
+      return Math::transformFromRotZ(pRotZ);
     }
 
 
@@ -205,7 +205,7 @@ namespace AL {
       const float& pWY,
       const float& pWZ)
     {
-      return Math::TransformFrom3DRotation(pWX, pWY, pWZ);
+      return Math::transformFrom3DRotation(pWX, pWY, pWZ);
     }
 
     Transform Transform::fromPosition(
@@ -213,7 +213,7 @@ namespace AL {
       const float pY,
       const float pZ)
     {
-      return Math::TransformFromPosition(pX, pY, pZ);
+      return Math::transformFromPosition(pX, pY, pZ);
     }
 
     Transform Transform::fromPosition(
@@ -224,23 +224,23 @@ namespace AL {
       const float& pWY,
       const float& pWZ)
     {
-      return Math::TransformFromPosition(pX, pY, pZ, pWX, pWY, pWZ);
+      return Math::transformFromPosition(pX, pY, pZ, pWX, pWY, pWZ);
     }
 
 
     Transform Transform::diff(const Transform& pT2) const
     {
-      return Math::TransformDiff(*this, pT2);
+      return Math::transformDiff(*this, pT2);
     }
 
     float Transform::distanceSquared(const Transform& pT2) const
     {
-      return Math::TransformDistanceSquared(*this, pT2);
+      return Math::transformDistanceSquared(*this, pT2);
     }
 
     float Transform::distance(const Transform& pT2) const
     {
-      return Math::TransformDistance(*this, pT2);
+      return Math::transformDistance(*this, pT2);
     }
 
     std::vector<float> Transform::toVector() const
@@ -269,7 +269,7 @@ namespace AL {
       return returnVector;
     }
 
-    void TransformPreMultiply(
+    void transformPreMultiply(
       const Transform& pT,
       Transform&       pTOut)
     {
@@ -305,7 +305,7 @@ namespace AL {
     }
 
 
-    void TransformToFloatVector(
+    void transformToFloatVector(
       const Transform&    pT,
       std::vector<float>& pTOut)
     {
@@ -324,7 +324,8 @@ namespace AL {
       pTOut[11] = pT.r3_c4;
     }
 
-    std::vector<float> TransformToFloatVector(
+
+    std::vector<float> transformToFloatVector(
       const Transform&  pT)
     {
       std::vector<float> pTOut;
@@ -344,7 +345,7 @@ namespace AL {
       return pTOut;
     }
 
-    float Determinant(const Transform& pT)
+    float determinant(const Transform& pT)
     {
       float det;
 
@@ -358,7 +359,7 @@ namespace AL {
       return det;
     }
 
-    float Determinant(const std::vector<float>& pFloats)
+    float determinant(const std::vector<float>& pFloats)
     {
       float det = 0.0f;
       if (
@@ -375,7 +376,8 @@ namespace AL {
       return det;
     }
 
-    void TransformInverse(
+
+    void transformInverse(
       const Transform& pT,
       Transform&       pTOut)
     {
@@ -396,14 +398,16 @@ namespace AL {
       pTOut.r3_c4 = -( pT.r1_c3*pT.r1_c4 + pT.r2_c3*pT.r2_c4 + pT.r3_c3*pT.r3_c4 );
     }
 
-    Transform TransformInverse(const Transform& pT)
+
+    Transform transformInverse(const Transform& pT)
     {
       Transform pTOut;
-      TransformInverse(pT, pTOut);
+      transformInverse(pT, pTOut);
       return pTOut;
     }
 
-    Transform TransformFromRotX(const float pRotX)
+
+    Transform transformFromRotX(const float pRotX)
     {
       float c = cosf(pRotX);
       float s = sinf(pRotX);
@@ -415,7 +419,8 @@ namespace AL {
       return T;
     }
 
-    Transform TransformFromRotY(const float pRotY)
+
+    Transform transformFromRotY(const float pRotY)
     {
       float c = cosf(pRotY);
       float s = sinf(pRotY);
@@ -428,7 +433,7 @@ namespace AL {
     }
 
 
-    Transform TransformFromRotZ(const float pRotZ)
+    Transform transformFromRotZ(const float pRotZ)
     {
       float c = cosf(pRotZ);
       float s = sinf(pRotZ);
@@ -441,19 +446,20 @@ namespace AL {
     }
 
 
-    Transform TransformFrom3DRotation(
+    Transform transformFrom3DRotation(
       const float& pWX,
       const float& pWY,
       const float& pWZ)
     {
       Transform T = Transform();
-      T = TransformFromRotZ(pWZ);
-      T *= TransformFromRotY(pWY);
-      T *= TransformFromRotX(pWX);
+      T  = transformFromRotZ(pWZ);
+      T *= transformFromRotY(pWY);
+      T *= transformFromRotX(pWX);
       return T;
     }
 
-    Transform TransformFromPosition(
+
+    Transform transformFromPosition(
       const float& pX,
       const float& pY,
       const float& pZ)
@@ -466,7 +472,7 @@ namespace AL {
     }
 
 
-    Transform TransformFromPosition(
+    Transform transformFromPosition(
       const float& pX,
       const float& pY,
       const float& pZ,
@@ -474,7 +480,7 @@ namespace AL {
       const float& pWY,
       const float& pWZ)
     {
-      Transform T = TransformFrom3DRotation(pWX, pWY, pWZ);
+      Transform T = transformFrom3DRotation(pWX, pWY, pWZ);
 
       T.r1_c4 = pX;
       T.r2_c4 = pY;
@@ -482,7 +488,7 @@ namespace AL {
       return T;
     }
 
-    void TransformInvertInPlace(Transform& pT)
+    void transformInvertInPlace(Transform& pT)
     {
       float tmp0;
       tmp0 = pT.r1_c2;
@@ -507,22 +513,23 @@ namespace AL {
     Transform pinv(const Transform& pT)
     {
       Transform result = pT;
-      TransformInvertInPlace(result);
+      transformInvertInPlace(result);
       return result;
     }
 
-    Transform TransformDiff(
+
+    Transform transformDiff(
       const Transform& pT1,
       const Transform& pT2)
     {
       Transform result = pT1;
 
-      TransformInvertInPlace(result);
+      transformInvertInPlace(result);
       result *= pT2;
       return result;
     }
 
-    float TransformDistanceSquared(
+    float transformDistanceSquared(
       const Transform& pT1,
       const Transform& pT2)
     {
@@ -537,11 +544,12 @@ namespace AL {
       return tot;
     }
 
-    float TransformDistance(
+
+    float transformDistance(
       const Transform& pT1,
       const Transform& pT2)
     {
-      return sqrtf(TransformDistanceSquared(pT1, pT2));
+      return sqrtf(transformDistanceSquared(pT1, pT2));
     } // end TransformDistance
 
   } // end namespace Math

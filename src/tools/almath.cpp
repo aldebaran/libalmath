@@ -33,12 +33,12 @@ namespace AL
     }
 
 
-    void DiffLog(
+    void diffLog(
       const AL::Math::Velocity6D&  pM,
       const AL::Math::Velocity6D&  pIn,
       AL::Math::Velocity6D&        pOut)
     {
-      // pOut = DiffLog(pM)*pIn;
+      // pOut = diffLog(pM)*pIn;
 
       float nw;
       //w.norm_Frobenius(); // square root of sum of squares of the elements
@@ -109,15 +109,15 @@ namespace AL
       pOut.wxd =                                        a11*pIn.wxd + a12*pIn.wyd + a13*pIn.wzd;
       pOut.wyd =                                        a21*pIn.wxd + a22*pIn.wyd + a23*pIn.wzd;
       pOut.wzd =                                        a31*pIn.wxd + a32*pIn.wyd + a33*pIn.wzd;
-    } // end DiffLog
+    } // end diffLog
 
 
-    void InvDiffLog(
+    void invDiffLog(
       const AL::Math::Velocity6D&  pM,
       const AL::Math::Velocity6D&  pIn,
       AL::Math::Velocity6D&        pOut)
     {
-      // pOut = DiffLog(pM)*pIn;
+      // pOut = diffLog(pM)*pIn;
       float nw;
       //w.norm_Frobenius(); // square root of sum of squares of the elements
       nw =(float) sqrt(pM.wxd*pM.wxd + pM.wyd*pM.wyd + pM.wzd*pM.wzd);
@@ -202,7 +202,8 @@ namespace AL
       pOut.wxd =                                           ia11*pIn.wxd + ia12*pIn.wyd + ia13*pIn.wzd;
       pOut.wyd =                                           ia21*pIn.wxd + ia22*pIn.wyd + ia23*pIn.wzd;
       pOut.wzd =                                           ia31*pIn.wxd + ia32*pIn.wyd + ia33*pIn.wzd;
-    } // end InvDiffLog
+    } // end invDiffLog
+
 
     float Sign(const float& pValue)
     {
@@ -242,7 +243,7 @@ namespace AL
     }
 
 
-    Transform TransformFromPosition3DAndRotation(
+    Transform transformFromPosition3DAndRotation(
       const float x,
       const float y,
       const float z,
@@ -269,7 +270,8 @@ namespace AL
       return T;
     }
 
-    Transform TransformFromPosition3DAndRotation(
+
+    Transform transformFromPosition3DAndRotation(
       const Position3D& pPosition,
       const Rotation&   pRotation)
     {
@@ -295,18 +297,15 @@ namespace AL
     }
 
 
-    Position6D Position6DFromVelocity6D(const Velocity6D& pIn)
+    Position6D position6DFromVelocity6D(const Velocity6D& pIn)
     {
       Position6D pOut;
-
-
       pOut.x  = pIn.xd;
       pOut.y  = pIn.yd;
       pOut.z  = pIn.zd;
       pOut.wx = pIn.wxd;
       pOut.wy = pIn.wyd;
       pOut.wz = pIn.wzd;
-
       return pOut;
     }
 
@@ -396,13 +395,13 @@ namespace AL
     }
 
 
-    void FilterPosition6D(
+    void filterPosition6D(
       const std::vector<AL::Math::Position6D>& pXi,
       const AL::Math::AXIS_MASK                pAxisMask,
       std::vector<AL::Math::Position6D>&       pSolution)
     {
       AL::Math::Position6D pFirstOff;
-      pFirstOff = AxisMaskToPosition6DOff(pXi.at(0), pAxisMask);
+      pFirstOff = axisMaskToPosition6DOff(pXi.at(0), pAxisMask);
 
       if (pXi.size() != pSolution.size())
       {
@@ -415,23 +414,23 @@ namespace AL
 
       for (unsigned int i=1; i<pXi.size(); i++)
       {
-        pCurrentOn = AxisMaskToPosition6DOn(pXi.at(i) , pAxisMask );
+        pCurrentOn = axisMaskToPosition6DOn(pXi.at(i) , pAxisMask);
         pSolution[i] = (pFirstOff + pCurrentOn);
       }
-    } // end FilterPosition6D
+    } // end filterPosition6D
 
 
-    std::vector<AL::Math::Position6D> FilterPosition6D(
+    std::vector<AL::Math::Position6D> filterPosition6D(
       const std::vector<AL::Math::Position6D>& pXi,
       const AL::Math::AXIS_MASK                pAxisMask)
     {
       std::vector<AL::Math::Position6D> pOut;
-      FilterPosition6D(pXi, pAxisMask, pOut);
+      filterPosition6D(pXi, pAxisMask, pOut);
       return pOut;
     }
 
 
-    void AxisMaskToPosition6DOn(
+    void axisMaskToPosition6DOn(
       const Position6D& pXi,
       const AXIS_MASK   pAxisMask,
       Position6D&       pSortie)
@@ -489,24 +488,25 @@ namespace AL
       {
         pSortie.wz = 0.0f;
       }
-    } // end AxisMaskToPosition6DOn
+    } // end axisMaskToPosition6DOn
 
-    Position6D AxisMaskToPosition6DOn(
+
+    Position6D axisMaskToPosition6DOn(
       const Position6D& pXi,
       const AXIS_MASK   pAxisMask)
     {
       Position6D pSortie = Position6D();
 
-      AxisMaskToPosition6DOn(
+      axisMaskToPosition6DOn(
         pXi,
         pAxisMask,
         pSortie);
 
       return pSortie;
-    } // end AxisMaskToPosition6DOn
+    } // end axisMaskToPosition6DOn
 
 
-    void AxisMaskToPosition6DOff(
+    void axisMaskToPosition6DOff(
       const Position6D& pXi,
       const AXIS_MASK   pAxisMask,
       Position6D&       pSortie)
@@ -564,25 +564,25 @@ namespace AL
       {
         pSortie.wz = 0.0f;
       }
-    } // end AxisMaskToPosition6DOff
+    } // end axisMaskToPosition6DOff
 
 
-    Position6D AxisMaskToPosition6DOff(
+    Position6D axisMaskToPosition6DOff(
       const Position6D& pXi,
       const AXIS_MASK   pAxisMask)
     {
       Position6D pSortie = Position6D();
 
-      AxisMaskToPosition6DOff(
+      axisMaskToPosition6DOff(
         pXi,
         pAxisMask,
         pSortie);
 
       return pSortie;
-    } // end AxisMaskToPosition6DOff
+    } // end axisMaskToPosition6DOff
 
 
-    void AxisMaskToVelocity6DOn(
+    void axisMaskToVelocity6DOn(
       const Velocity6D& pXi,
       const AXIS_MASK   pAxisMask,
       Velocity6D&       pSortie)
@@ -641,31 +641,35 @@ namespace AL
       {
         pSortie.wzd = 0.0f;
       }
-    } // end AxisMaskToVelocity6DOn
+    } // end axisMaskToVelocity6DOn
 
 
-    Velocity6D AxisMaskToVelocity6DOn(
+    Velocity6D axisMaskToVelocity6DOn(
       const Velocity6D& pXi,
       const AXIS_MASK   pAxisMask)
     {
       Velocity6D pSortie = Velocity6D();
-      AxisMaskToVelocity6DOn(
+      axisMaskToVelocity6DOn(
         pXi,
         pAxisMask,
         pSortie);
 
       return pSortie;
-    } // end AxisMaskToVelocity6DOn
+    } // end axisMaskToVelocity6DOn
 
 
-    AL::Math::Rotation RotationFromAngleDirection(
+    AL::Math::Rotation rotationFromAngleDirection(
       float pAngle,
       const AL::Math::Position3D& pDirection)
     {
-      return AL::Math::RotationFromAngleDirection(pAngle, pDirection.x, pDirection.y, pDirection.z);
+      return AL::Math::rotationFromAngleDirection(
+            pAngle,
+            pDirection.x,
+            pDirection.y,
+            pDirection.z);
     }
 
-    void ApplyRotation(
+    void applyRotation(
       const AL::Math::Rotation& pRotation,
       AL::Math::Position3D&     pVector)
     {
@@ -676,6 +680,7 @@ namespace AL
       pVector.y = x*pRotation.r2_c1 + y*pRotation.r2_c2 + z*pRotation.r2_c3;
       pVector.z = x*pRotation.r3_c1 + y*pRotation.r3_c2 + z*pRotation.r3_c3;
     }
+
 
     std::vector<float> smoothTrapezoid(
       const unsigned int& pNumSamples,

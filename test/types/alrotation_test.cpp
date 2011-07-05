@@ -32,7 +32,7 @@ TEST(ALRotationTest, transpose)
   compareRotation(pRotIn.transpose(), pRotOut, 0.0001f);
 }
 
-TEST(ALRotationTest, determinant)
+TEST(ALRotationTest, determinant0)
 {
   AL::Math::Rotation pRot = AL::Math::Rotation::fromRotX(0.3f);
   EXPECT_NEAR(pRot.determinant(), 1.0f, 0.0001f);
@@ -99,18 +99,18 @@ TEST(ALRotationTest, from3DRotation)
 }
 
 
-TEST(ALRotationTest, Determinant)
+TEST(ALRotationTest, determinant1)
 {
   AL::Math::Rotation pRot = AL::Math::Rotation();
-  EXPECT_NEAR(AL::Math::Determinant(pRot), 1.0f, 0.0001f);
+  EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 
-  pRot = AL::Math::RotationFromRotX(20.0f*TO_RAD);
-  EXPECT_NEAR(AL::Math::Determinant(pRot), 1.0f, 0.0001f);
+  pRot = AL::Math::rotationFromRotX(20.0f*TO_RAD);
+  EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 
-  pRot = AL::Math::RotationFromRotY(30.0f*TO_RAD);
-  EXPECT_NEAR(AL::Math::Determinant(pRot), 1.0f, 0.0001f);
+  pRot = AL::Math::rotationFromRotY(30.0f*TO_RAD);
+  EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 
-  pRot = AL::Math::RotationFromRotZ(40.0f*TO_RAD);
-  EXPECT_NEAR(AL::Math::Determinant(pRot), 1.0f, 0.0001f);
+  pRot = AL::Math::rotationFromRotZ(40.0f*TO_RAD);
+  EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 }
 

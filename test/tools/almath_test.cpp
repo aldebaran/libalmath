@@ -32,21 +32,21 @@ TEST(ALMathTest, clipData)
 }
 
 
-TEST(ALMathTest, DiffLog)
+TEST(ALMathTest, diffLog)
 {
   // ************ DiffLog ************
   AL::Math::Velocity6D pMathVTmp = AL::Math::Velocity6D();
   AL::Math::Velocity6D pMathVIn  = AL::Math::Velocity6D();
   AL::Math::Velocity6D pMathVOut = AL::Math::Velocity6D();
 
-  AL::Math::DiffLog(pMathVTmp, pMathVIn, pMathVOut);
+  AL::Math::diffLog(pMathVTmp, pMathVIn, pMathVOut);
   compareVelocity6D(pMathVOut, AL::Math::Velocity6D());
 
   pMathVTmp = AL::Math::Velocity6D();
   pMathVIn  = AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f);
   pMathVOut = AL::Math::Velocity6D();
 
-  AL::Math::DiffLog(pMathVTmp, pMathVIn, pMathVOut);
+  AL::Math::diffLog(pMathVTmp, pMathVIn, pMathVOut);
   compareVelocity6D(pMathVOut, AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f));
 
 
@@ -54,25 +54,25 @@ TEST(ALMathTest, DiffLog)
   pMathVIn  = AL::Math::Velocity6D(1.0f, 0.4f, -0.2f, -0.5f, 0.6f, -0.7f);
   pMathVOut = AL::Math::Velocity6D();
 
-  AL::Math::DiffLog(pMathVTmp, pMathVIn, pMathVOut);
+  AL::Math::diffLog(pMathVTmp, pMathVIn, pMathVOut);
   compareVelocity6D(pMathVOut, AL::Math::Velocity6D(0.64771665004999f, 0.66168175212585f, -0.24379584098681f, -0.83834409132305f, 0.54968881246280f, -0.43251128283696f));
 }
 
-TEST(ALMathTest, InvDiffLog)
+TEST(ALMathTest, invDiffLog)
 {
   // ************ InvDiffLog ************
   AL::Math::Velocity6D pMathVTmp = AL::Math::Velocity6D();
   AL::Math::Velocity6D pMathVIn  = AL::Math::Velocity6D();
   AL::Math::Velocity6D pMathVOut = AL::Math::Velocity6D();
 
-  AL::Math::InvDiffLog(pMathVTmp, pMathVIn, pMathVOut);
+  AL::Math::invDiffLog(pMathVTmp, pMathVIn, pMathVOut);
   compareVelocity6D(pMathVOut, AL::Math::Velocity6D());
 
   pMathVTmp = AL::Math::Velocity6D();
   pMathVIn  = AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f);
   pMathVOut = AL::Math::Velocity6D();
 
-  AL::Math::InvDiffLog(pMathVTmp, pMathVIn, pMathVOut);
+  AL::Math::invDiffLog(pMathVTmp, pMathVIn, pMathVOut);
   compareVelocity6D(pMathVOut, AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f));
 
 
@@ -80,7 +80,7 @@ TEST(ALMathTest, InvDiffLog)
   pMathVIn  = AL::Math::Velocity6D(1.0f, 0.4f, -0.2f, -0.5f, 0.6f, -0.7f);
   pMathVOut = AL::Math::Velocity6D();
 
-  AL::Math::InvDiffLog(pMathVTmp, pMathVIn, pMathVOut);
+  AL::Math::invDiffLog(pMathVTmp, pMathVIn, pMathVOut);
   compareVelocity6D(pMathVOut, AL::Math::Velocity6D(1.21526851243252f, 0.03119028323490f, 0.01706594106026f, -0.13163715164398f, 0.50211652782035f, -0.86400567208764f));
 }
 
@@ -107,7 +107,7 @@ TEST(ALMathTest, inlineFactorial)
 TEST(ALMathTest, TransformFromPosition3DAndRotation)
 {
   AL::Math::Rotation  pRot = AL::Math::Rotation::fromRotX(0.5f);
-  AL::Math::Transform pHIn = AL::Math::TransformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
+  AL::Math::Transform pHIn = AL::Math::transformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
   AL::Math::Transform pHOut = AL::Math::Transform::fromRotX(0.5f);
   pHOut.r1_c4 =  0.2f;
   pHOut.r2_c4 =  0.5f;
@@ -116,7 +116,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
 
 
   pRot = AL::Math::Rotation::fromRotY(0.5f);
-  pHIn = AL::Math::TransformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
+  pHIn = AL::Math::transformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
   pHOut = AL::Math::Transform::fromRotY(0.5f);
   pHOut.r1_c4 =  0.2f;
   pHOut.r2_c4 =  0.5f;
@@ -125,7 +125,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
 
 
   pRot = AL::Math::Rotation::fromRotZ(0.5f);
-  pHIn = AL::Math::TransformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
+  pHIn = AL::Math::transformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
   pHOut = AL::Math::Transform::fromRotZ(0.5f);
   pHOut.r1_c4 =  0.2f;
   pHOut.r2_c4 =  0.5f;
@@ -139,7 +139,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r1_c4 = 0.1f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.3f;
-  pHIn = TransformFromPosition3DAndRotation(pPos3D, pRot);
+  pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
   compareTransform(pHIn, pHOut, 0.0001f);
 
 
@@ -149,7 +149,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r1_c4 = 0.1f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.3f;
-  pHIn = TransformFromPosition3DAndRotation(pPos3D, pRot);
+  pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
   compareTransform(pHIn, pHOut, 0.0001f);
 
 
@@ -159,14 +159,14 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r1_c4 = 0.1f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.3f;
-  pHIn = TransformFromPosition3DAndRotation(pPos3D, pRot);
+  pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
   compareTransform(pHIn, pHOut, 0.0001f);
 }
 
 TEST(ALMathTest, Position6DFromVelocity6D)
 {
   AL::Math::Velocity6D pVIn    = AL::Math::Velocity6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
-  AL::Math::Position6D pPosIn  = AL::Math::Position6DFromVelocity6D(pVIn);
+  AL::Math::Position6D pPosIn  = AL::Math::position6DFromVelocity6D(pVIn);
 
   AL::Math::Position6D pPosOut = AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
 

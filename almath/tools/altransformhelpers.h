@@ -34,9 +34,9 @@ namespace AL {
     * @param Transform Homogenous Matrix (4*4)
     * @return Velocity6D (torseur cinematique)
     **/
-    AL::Math::Velocity6D TransformLogarithme(const AL::Math::Transform& pH);
+    AL::Math::Velocity6D transformLogarithme(const AL::Math::Transform& pH);
 
-    void TransformLogarithme(
+    void transformLogarithme(
       const AL::Math::Transform& pH,
       AL::Math::Velocity6D&      pV);
 
@@ -46,71 +46,71 @@ namespace AL {
     * @param Velocity6D  : dt*velocity
     * @param Transform
     **/
-    void VelocityExponential(
+    void velocityExponential(
       const AL::Math::Velocity6D& pM,
       AL::Math::Transform&        tM);
 
-    AL::Math::Transform VelocityExponential(const AL::Math::Velocity6D& pM);
+    AL::Math::Transform velocityExponential(const AL::Math::Velocity6D& pM);
 
-    void ChangeRepereVelocity6D(
+    void changeRepereVelocity6D(
       const AL::Math::Transform&  pH,
       const AL::Math::Velocity6D& pVIn,
       AL::Math::Velocity6D&       pVOut);
 
-    void ChangeReperePosition6D(
+    void changeReperePosition6D(
       const AL::Math::Transform&  pH,
       const AL::Math::Position6D& pPIn,
       AL::Math::Position6D&       pPOut);
 
-    void ChangeReperePosition3D(
+    void changeReperePosition3D(
       const AL::Math::Transform& pH,
       AL::Math::Position3D&      pPosOut);
 
-    void ChangeRepereTransposePosition3D(
+    void changeRepereTransposePosition3D(
       const AL::Math::Transform& pH,
       AL::Math::Position3D&      pPosOut);
 
-    void ChangeReperePosition3D(
+    void changeReperePosition3D(
       const AL::Math::Transform&  pH,
       const AL::Math::Position3D& pPosIn,
       AL::Math::Position3D&       pPosOut);
 
-    void ChangeRepereTransposePosition3D(
+    void changeRepereTransposePosition3D(
       const AL::Math::Transform&  pH,
       const AL::Math::Position3D& pPosIn,
       AL::Math::Position3D&       pPosOut);
 
-    void ChangeRepereTransform(
+    void changeRepereTransform(
       const AL::Math::Transform& pH,
       const AL::Math::Transform& pHIn,
       AL::Math::Transform&       pHOut);
 
-    void ChangeRepereTransposeTransform(
+    void changeRepereTransposeTransform(
       const AL::Math::Transform& pH,
       const AL::Math::Transform& pHIn,
       AL::Math::Transform&       pHOut);
 
-    void ChangeRepereTransposeVelocity6D(
+    void changeRepereTransposeVelocity6D(
       const AL::Math::Transform&  pH,
       const AL::Math::Velocity6D& pVIn,
       AL::Math::Velocity6D&       pVOut);
 
-    void ChangeRepereTransposePosition6D(
+    void changeRepereTransposePosition6D(
       const AL::Math::Transform&  pH,
       const AL::Math::Position6D& pPIn,
       AL::Math::Position6D&       pPOut);
 
-    void TransformMean(
+    void transformMean(
       const AL::Math::Transform& pHIn1,
       const AL::Math::Transform& pHIn2,
       const float&               pDist,
       AL::Math::Transform&       pHOut);
 
-    AL::Math::Transform TransformMean(
+    AL::Math::Transform transformMean(
       const AL::Math::Transform& pHIn1,
       const AL::Math::Transform& pHIn2);
 
-    AL::Math::Transform TransformMean(
+    AL::Math::Transform transformMean(
       const AL::Math::Transform& pHIn1,
       const AL::Math::Transform& pHIn2,
       const float&               pDist);
@@ -121,79 +121,79 @@ namespace AL {
     * indicating the translational offsets.
     */
 
-    void TransformFromPosition3D(
+    void transformFromPosition3D(
       const Position3D& pPosition,
       Transform&        pTransform);
 
 
-    Transform TransformFromPosition3D(const Position3D& pPosition);
+    Transform transformFromPosition3D(const Position3D& pPosition);
 
-    void RotationToTransform(
+    void rotationToTransform(
       const Rotation& pRotation,
       Transform&      pTransform);
 
-    Transform RotationToTransform(const Rotation& pRotation);
+    Transform rotationToTransform(const Rotation& pRotation);
 
-    void RotationFromTransform(
+    void rotationFromTransform(
       const Transform& pTransform,
       Rotation&        pRotation);
 
-    Rotation RotationFromTransform(const Transform& pTransform);
+    Rotation rotationFromTransform(const Transform& pTransform);
 
-    Rotation3D Rotation3DFromRotation(const Rotation& pRotation1);
+    Rotation3D rotation3DFromRotation(const Rotation& pRotation1);
 
     /**
     * Extracts the position coordinates from a Matrix
     * into a Position3D struct
     * @param pTransform The transform form which you want to extract the coordinates.
     */
-    void TransformToPosition3D(
+    void transformToPosition3D(
       const Transform& pTransform,
       Position3D&      pPosition);
 
-    Position3D TransformToPosition3D(const Transform& pTransform);
+    Position3D transformToPosition3D(const Transform& pTransform);
 
     /**
     * Return Position6D corresponding to 4*4 Homogenous Matrix pT
     * @param pT 4*4 Homogenous Matrix pT
     */
-    void Position6DFromTransform(
+    void position6DFromTransform(
         const Transform& pT,
         Position6D&      pPos);
 
-    Position6D Position6DFromTransform(const Transform& pT);
+    Position6D position6DFromTransform(const Transform& pT);
 
     /**
     * Creates a 4*4 transform matrix from Pose2D
     */
-    void TransformFromPose2D(
+    void transformFromPose2D(
         const Pose2D& pPose,
         Transform&    pT);
 
-    Transform TransformFromPose2D(const Pose2D& pPose);
+    Transform transformFromPose2D(const Pose2D& pPose);
 
     /**
     * Return Pose2D corresponding to the 4*4 Homogenous Matrix pT
     * @param pT 4*4 Homogenous Matrix pT
     */
-    void Pose2DFromTransform(
+    void pose2DFromTransform(
         const Transform& pT,
         Pose2D&          pPos);
 
-    Pose2D Pose2DFromTransform(const Transform& pT);
+    Pose2D pose2DFromTransform(const Transform& pT);
 
     /**
     * Creates a 4*4 Homogenous Matrix
     * from a Roll, Pitch and yaw Angle in radian
     * @param pRotation Rotation structure
     */
-    Transform TransformFromRotation3D(const Rotation3D& pRotation);
+    Transform transformFromRotation3D(const Rotation3D& pRotation);
 
     /**
     * Creates a 4*4 transform matrix from a rotation(RPY) and a position
     * indicating the translational offsets.
     */
-    Transform TransformFromPosition6D(const Position6D& pPosition6D);
+    Transform transformFromPosition6D(const Position6D& pPosition6D);
 
     /**
     * Return a 6 differential motion require to move
@@ -203,7 +203,7 @@ namespace AL {
     * @param  pTarget  4*4 Homogenous transform matrix
     * @param  result   6*1 Position6D
     */
-    void TransformDiffToPosition(
+    void transformDiffToPosition(
       const Transform& pCurrent,
       const Transform& pTarget,
       Position6D&      result);
@@ -216,17 +216,17 @@ namespace AL {
     * @param  pTarget  4*4 Homogenous transform matrix
     * @return  pDelta  6*1 Position6D
     */
-    Position6D TransformDiffToPosition(
+    Position6D transformDiffToPosition(
       const Transform& pCurrent,
       const Transform& pTarget);
 
-    void Position3DFromTransformInPlace(
+    void position3DFromTransformInPlace(
       const Transform& pH,
       Position3D&      pOut);
 
-    Position3D Position3DFromTransform(const Transform& pH);
+    Position3D position3DFromTransform(const Transform& pH);
 
-    Transform RotationPosition3DToTransform(
+    Transform rotationPosition3DToTransform(
       const Rotation&   pRot,
       const Position3D& pPos);
 
@@ -235,13 +235,13 @@ namespace AL {
     * part of the 4*4 Homogenous Matrix pT
     * @param pT 4*4 Homogenous Matrix pT
     */
-    Rotation3D Rotation3DFromTransform(const Transform& pT);
+    Rotation3D rotation3DFromTransform(const Transform& pT);
 
     Position3D operator*(
       const Transform&  pT,
       const Position3D& pPos);
 
-    Rotation2D Rotation2DFromTransformZ(const Transform& pH);
+    Rotation2D rotation2DFromTransformZ(const Transform& pH);
 
     Transform& operator+=(
       Transform&        pT,
@@ -263,19 +263,19 @@ namespace AL {
     * @param Position3D : axis of rotation
     * @return Transform
     **/
-    void AxisRotationProjection(
+    void axisRotationProjection(
       const Position3D& pAxis,
       Transform&        pH);
 
-    Transform AxisRotationProjection(
+    Transform axisRotationProjection(
       const Transform&  pH,
       const Position3D& pAxis);
 
-    std::vector<AL::Math::Transform> FilterTransform(
+    std::vector<AL::Math::Transform> filterTransform(
       const std::vector<AL::Math::Transform>& pHi,
       const AL::Math::AXIS_MASK               pAxisMask);
 
-    AL::Math::Transform AxisMaskToTransformOn(
+    AL::Math::Transform axisMaskToTransformOn(
       const AL::Math::Transform& pHi,
       const AL::Math::AXIS_MASK  pAxisMask);
 
@@ -286,13 +286,13 @@ namespace AL {
       Transform&       pResult);
 
     // Main
-    void RotVecToTransform(
+    void rotVecToTransform(
       const int                   pAxis,
       const float                 pTheta,
       const AL::Math::Position3D& pM,
       Transform&                  pTransform);
 
-    AL::Math::Transform RotVecToTransform(
+    AL::Math::Transform rotVecToTransform(
       const int                   pAxis,
       const float                 pTheta,
       const AL::Math::Position3D& pM);
@@ -301,13 +301,13 @@ namespace AL {
     @param rotation axis, angle in degree, translation 3D Vector
     @return Transform
     **/
-    void RotVecToTransform(
+    void rotVecToTransform(
       const AL::Math::Position3D& pPosition,
       AL::Math::Transform&        pTransform);
 
-    AL::Math::Transform RotVecToTransform(const AL::Math::Position3D& pPosition);
+    AL::Math::Transform rotVecToTransform(const AL::Math::Position3D& pPosition);
 
-    AL::Math::Transform RotVecToTransform(
+    AL::Math::Transform rotVecToTransform(
       const int&   pAxis,
       const float& pRot);
 
@@ -319,27 +319,27 @@ namespace AL {
     * @param Position3D : axis of rotation
     * @return Transform
     **/
-    Rotation AxisRotationProjection(
+    Rotation axisRotationProjection(
       const Rotation&   pRot,
       const Position3D& pAxis);
 
     /**
-    * Function AxisRotationProjectionInPlace :
+    * Function axisRotationProjectionInPlace :
     * finding the closest rotation Rw of R around an axis (Position3D)
     * @param Position3D : axis of rotation
     * @param pH: a transform
     **/
-    void AxisRotationProjectionInPlace(
+    void axisRotationProjectionInPlace(
       const Position3D& pAxis,
       Transform&        pH);
 
     /**
-    * Function AxisRotationProjectionInPlace :
+    * Function axisRotationProjectionInPlace :
     * finding the closest rotation Rw of R around an axis (Position3D)
     * @param pRot : a rotation
     * @param Position3D : axis of rotation
     **/
-    void AxisRotationProjectionInPlace(
+    void axisRotationProjectionInPlace(
       Rotation&         pRot,
       const Position3D& pAxis);
 
@@ -350,27 +350,30 @@ namespace AL {
     // l espace R3 tout entier (et meme, une base orthonormee directe, si e3 est
     // norme).
     //Transform Orthospace(const Position3D& pAxis, unsigned int& idx);
-    void Orthospace(const Position3D& pAxis, Transform& HOut);
-    Transform Orthospace(const Position3D& pAxis);
+    void orthospace(
+      const Position3D& pAxis,
+      Transform& HOut);
+
+    Transform orthospace(const Position3D& pAxis);
 
     // OK
-    void AxisRotationToTransform(
+    void axisRotationToTransform(
         const Position3D& pAxisRotation,
         const float&      Ca,
         const float&      Sa,
         Transform&        pHOut);
 
-    void DiffAxisToAntiSynmetric(
+    void diffAxisToAntiSynmetric(
         const Position3D& pA,
         const Position3D& pB,
         Transform&        HOut);
 
-    bool FindRotationBest(
+    bool findRotationBest(
         const Position3D& pAxisInit,
         const Position3D& pAxisFinal,
         Transform&        pHOut);
 
-    void FindRotation(
+    void findRotation(
         const Position3D& pAxisInit,
         const Position3D& pAxisFinal,
         Transform&        pHOut);

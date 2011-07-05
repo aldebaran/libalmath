@@ -328,16 +328,16 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
 
   for (unsigned int i=0; i<pAngleList.size(); i++)
   {
-    pHIn  = AL::Math::TransformFromRotX(pAngleList[i]);
-    pHOut = AL::Math::TransformFromPosition6D(AL::Math::Position6DFromTransform(pHIn));
+    pHIn  = AL::Math::transformFromRotX(pAngleList[i]);
+    pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
     compareTransform(pHIn, pHOut);
 
-    pHIn  = AL::Math::TransformFromRotY(pAngleList[i]);
-    pHOut = AL::Math::TransformFromPosition6D(AL::Math::Position6DFromTransform(pHIn));
+    pHIn  = AL::Math::transformFromRotY(pAngleList[i]);
+    pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
     compareTransform(pHIn, pHOut);
 
-    pHIn  = AL::Math::TransformFromRotZ(pAngleList[i]);
-    pHOut = AL::Math::TransformFromPosition6D(AL::Math::Position6DFromTransform(pHIn));
+    pHIn  = AL::Math::transformFromRotZ(pAngleList[i]);
+    pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
     compareTransform(pHIn, pHOut);
   }
 
@@ -383,20 +383,26 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
 
   for (unsigned int i=0; i<pList.size(); i++)
   {
-    pHIn  = AL::Math::TransformFromRotX(pList[i][0])*AL::Math::TransformFromRotY(pList[i][1])*AL::Math::TransformFromRotZ(pList[i][2]);
-    pHOut = AL::Math::TransformFromPosition6D(AL::Math::Position6DFromTransform(pHIn));
+    pHIn  = AL::Math::transformFromRotX(pList[i][0])*
+        AL::Math::transformFromRotY(pList[i][1])*
+        AL::Math::transformFromRotZ(pList[i][2]);
+    pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
     compareTransform(pHIn, pHOut);
 
-    pHIn  = AL::Math::TransformFromRotX(pList[i][2])*AL::Math::TransformFromRotY(pList[i][0])*AL::Math::TransformFromRotZ(pList[i][1]);
-    pHOut = AL::Math::TransformFromPosition6D(AL::Math::Position6DFromTransform(pHIn));
+    pHIn  = AL::Math::transformFromRotX(pList[i][2])*
+        AL::Math::transformFromRotY(pList[i][0])*
+        AL::Math::transformFromRotZ(pList[i][1]);
+    pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
     compareTransform(pHIn, pHOut);
 
-    pHIn  = AL::Math::TransformFromRotX(pList[i][1])*AL::Math::TransformFromRotY(pList[i][2])*AL::Math::TransformFromRotZ(pList[i][0]);
-    pHOut = AL::Math::TransformFromPosition6D(AL::Math::Position6DFromTransform(pHIn));
+    pHIn  = AL::Math::transformFromRotX(pList[i][1])*
+        AL::Math::transformFromRotY(pList[i][2])*
+        AL::Math::transformFromRotZ(pList[i][0]);
+    pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
     compareTransform(pHIn, pHOut);
   }
 
-} // end TransformFromRot
+} // end transformFromRot
 
 
 TEST(TransformTest, from3DRotation)
@@ -514,9 +520,9 @@ TEST(TransformTest, Determinant)
   EXPECT_NEAR(pHIn.determinant(), 1.0f, 0.0001f);
 }
 
-TEST(TransformTest, Inverse)
+TEST(TransformTest, inverse0)
 {
-  compareTransform(AL::Math::TransformInverse(AL::Math::Transform()), AL::Math::Transform());
+  compareTransform(AL::Math::transformInverse(AL::Math::Transform()), AL::Math::Transform());
 
   AL::Math::Transform pHIn  = AL::Math::Transform::fromRotX(0.5f);
   AL::Math::Transform pHOut = AL::Math::Transform::fromRotX(-0.5f);

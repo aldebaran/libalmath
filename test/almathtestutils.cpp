@@ -16,7 +16,7 @@ void validateFindRotation(
   AL::Math::Position3D pSol;
   AL::Math::Transform HOut;
 
-  AL::Math::FindRotation(pA, pB, HOut);
+  AL::Math::findRotation(pA, pB, HOut);
 
   EXPECT_TRUE(HOut.isTransform(eps));
 
