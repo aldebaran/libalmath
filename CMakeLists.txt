@@ -12,7 +12,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/bootstrap.cmake")
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set( ALMATH_SRCS
-    src/collisions/avoidfootcollision.cpp
+    src/tools/avoidfootcollision.cpp
     src/tools/almath.cpp
     src/tools/almathio.cpp
     src/tools/aldubinscurve.cpp
@@ -31,7 +31,7 @@ set( ALMATH_SRCS
 )
 
 set(ALMATH_H
-    almath/collisions/avoidfootcollision.h
+    almath/tools/avoidfootcollision.h
     almath/tools/almath.h
     almath/tools/almathio.h
     almath/tools/aldubinscurve.h

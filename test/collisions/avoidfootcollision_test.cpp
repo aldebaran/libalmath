@@ -4,7 +4,7 @@
  *
  */
 
-#include <almath/collisions/avoidfootcollision.h>
+#include <almath/tools/avoidfootcollision.h>
 #include <almath/types/alpose2d.h>
 #include "../almathtestutils.h"
 
