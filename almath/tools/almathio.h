@@ -21,7 +21,6 @@
 #include <almath/types/alposition6d.h>
 #include <almath/types/alpositionandvelocity.h>
 #include <almath/types/alrotation.h>
-#include <almath/types/alrotation2d.h>
 #include <almath/types/alrotation3d.h>
 #include <almath/types/altransform.h>
 #include <almath/types/altransformandvelocity6d.h>
@@ -105,18 +104,6 @@ std::ostream& operator<< (std::ostream& pStream, const PositionAndVelocity& pPos
 /// </returns>
 /// \ingroup Types
 std::ostream& operator<< (std::ostream& pStream, const Rotation& pRot);
-
-/// <summary>
-/// overloading of operator << for Rotation2D
-///
-/// </summary>
-/// <param name="pStream"> the given ostream </param>
-/// <param name="pRot"> the given Rotation2D </param>
-/// <returns>
-/// the Rotation2D print
-/// </returns>
-/// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Rotation2D& pRot);
 
 /// <summary>
 /// overloading of operator << for Rotation3D

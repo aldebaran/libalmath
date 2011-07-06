@@ -19,7 +19,6 @@ set( ALMATH_SRCS
     src/tools/altransformhelpers.cpp
     src/tools/altrigonometry.cpp
     src/types/alpose2d.cpp
-    src/types/alrotation2d.cpp
     src/types/alrotation3d.cpp
     src/types/alrotation.cpp
     src/types/alpositionandvelocity.cpp
@@ -45,7 +44,6 @@ set(ALMATH_H
     almath/types/alposition3d.h
     almath/types/alposition6d.h
     almath/types/alpositionandvelocity.h
-    almath/types/alrotation2d.h
     almath/types/alrotation3d.h
     almath/types/alrotation.h
     almath/types/altransformandvelocity6d.h

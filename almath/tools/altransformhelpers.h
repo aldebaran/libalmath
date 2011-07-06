@@ -15,7 +15,6 @@
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
 #include <almath/types/alrotation.h>
-#include <almath/types/alrotation2d.h>
 #include <almath/types/alrotation3d.h>
 #include <almath/types/alvelocity6d.h>
 #include <almath/types/altransform.h>
@@ -252,8 +251,6 @@ namespace AL {
     Position3D operator*(
       const Transform&  pT,
       const Position3D& pPos);
-
-    Rotation2D rotation2DFromTransformZ(const Transform& pH);
 
     Transform& operator+=(
       Transform&        pT,

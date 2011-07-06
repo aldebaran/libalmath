@@ -12,7 +12,6 @@
 #include "almath/types/alpositionandvelocity.h"
 
 #include "almath/types/alrotation.h"
-#include "almath/types/alrotation2d.h"
 #include "almath/types/alrotation3d.h"
 
 #include "almath/types/altransform.h"
@@ -37,7 +36,6 @@
 %include "almath/types/alpositionandvelocity.h"
 
 %include "almath/types/alrotation.h"
-%include "almath/types/alrotation2d.h"
 %include "almath/types/alrotation3d.h"
 
 %include "almath/types/altransform.h"
@@ -139,21 +137,6 @@
    }
 };
 
-
-%extend AL::Math::Rotation2D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "[[%g, %g]\n"
-                    " [%g, %g]]",
-                      $self->r1_c1, $self->r1_c2,
-                      $self->r2_c1, $self->r2_c2);
-       return tmp;
-   }
-
-   char *__repr__() {
-        return AL_Math_Rotation2D___str__($self);
-   }
-};
 
 %extend AL::Math::Rotation3D {
    char *__str__() {

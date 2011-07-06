@@ -18,7 +18,6 @@ set(almath_tests_srcs
     types/alposition3d_test.cpp
     types/alposition6d_test.cpp
     types/alpositionandvelocity_test.cpp
-    types/alrotation2d_test.cpp
     types/alrotation3d_test.cpp
     types/alrotation_test.cpp
     types/altransformandvelocity6d_test.cpp

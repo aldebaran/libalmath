@@ -138,17 +138,6 @@ void compareRotation(
   EXPECT_NEAR(pRot1.r3_c3, pRot2.r3_c3, pEps);
 }
 
-void compareRotation2D(
-  const AL::Math::Rotation2D& pRot1,
-  const AL::Math::Rotation2D& pRot2,
-  const float pEps)
-{
-  EXPECT_NEAR(pRot1.r1_c1, pRot2.r1_c1, pEps);
-  EXPECT_NEAR(pRot1.r1_c2, pRot2.r1_c2, pEps);
-  EXPECT_NEAR(pRot1.r2_c1, pRot2.r2_c1, pEps);
-  EXPECT_NEAR(pRot1.r2_c2, pRot2.r2_c2, pEps);
-}
-
 
 void compareRotation3D(
   const AL::Math::Rotation3D& pRot1,

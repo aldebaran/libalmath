@@ -105,19 +105,6 @@ namespace AL {
       return pStream;
     }
 
-    std::ostream& operator<< (std::ostream& pStream, const Rotation2D& p)
-    {
-      pStream.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
-      pStream << p.r1_c1;
-      pStream << " ";
-      pStream << p.r1_c2;
-      pStream << " ";
-      pStream << p.r2_c1;
-      pStream << " ";
-      pStream << p.r2_c2;
-      pStream << std::endl;
-      return pStream;
-    }
 
     std::ostream& operator<< (std::ostream& pStream, const Rotation3D& p)
     {

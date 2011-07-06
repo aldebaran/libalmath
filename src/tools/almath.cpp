@@ -336,30 +336,6 @@ namespace AL
       return result;
     }
 
-    Position2D operator*(
-      const Rotation2D& pR,
-      const Position2D& pPos)
-    {
-      Position2D result;
-      result.x = (pR.r1_c1 * pPos.x) + (pR.r1_c2 * pPos.y);
-      result.y = (pR.r2_c1 * pPos.x) + (pR.r2_c2 * pPos.y);
-      return result;
-    }
-
-//    Position6D POSITION6D(
-//      const Position3D& pPos,
-//      const Rotation3D& pRot)
-//    {
-//      Position6D result;
-//      result.x  = pPos.x;
-//      result.y  = pPos.y;
-//      result.z  = pPos.z;
-//      result.wx = pRot.wx;
-//      result.wy = pRot.wy;
-//      result.wz = pRot.wz;
-//      return result;
-//    }
-
 
     float computeGradiant(
       const Position2D& pPointA,

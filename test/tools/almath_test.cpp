@@ -204,26 +204,7 @@ TEST(ALMathTest, variousOperator)
   AL::Math::Velocity6D pVel6DIn = pK*pPos6D;
   AL::Math::Velocity6D pVel6DOut = AL::Math::Velocity6D(10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f);
   compareVelocity6D(pVel6DIn, pVel6DOut, 0.0001f);
-
-  //inline Position2D operator*(
-  //  const Rotation2D& pR,
-  //  const Position2D& pPos)
-  AL::Math::Rotation2D pRot2D    = AL::Math::Rotation2D::fromAngle(0.5f);
-  AL::Math::Position2D pPos2D    = AL::Math::Position2D(0.3f, 0.5f);
-  AL::Math::Position2D pPos2DIn  = pRot2D*pPos2D;
-  AL::Math::Position2D pPos2DOut = AL::Math::Position2D(0.02356199926501f, 0.58261894252645f);
-  comparePosition2D(pPos2DIn, pPos2DOut, 0.0001f);
 }
-
-//TEST(ALMathTest, POSITION6D)
-//{
-//  AL::Math::Position3D pPos = AL::Math::Position3D(1.0f, 0.2f, -0.3f);
-//  AL::Math::Rotation3D pRot = AL::Math::Rotation3D(0.1f, -0.6f, -0.9f);
-//  AL::Math::Position6D pIn = AL::Math::POSITION6D(pPos, pRot);
-
-//  AL::Math::Position6D pOut = AL::Math::Position6D(1.0f, 0.2f, -0.3f, 0.1f, -0.6f, -0.9f);
-//  comparePosition6D(pIn, pOut, 0.0001f);
-//}
 
 TEST(ALMathTest, isLeft)
 {

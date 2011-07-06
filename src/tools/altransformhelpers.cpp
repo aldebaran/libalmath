@@ -670,19 +670,6 @@ namespace AL {
     }
 
 
-    Rotation2D rotation2DFromTransformZ(const Transform& pH)
-    {
-      // Project pH in Z axis and put plane rotation part in Rotation2D
-      Rotation2D pOut;
-
-      pOut.r1_c1 = pH.r1_c1;
-      pOut.r1_c2 = pH.r1_c2;
-      pOut.r2_c1 = pH.r2_c1;
-      pOut.r2_c2 = pH.r2_c2;
-      return pOut;
-    }
-
-
     Transform& operator+=(Transform& pT, const Position3D& pPos)
     {
       pT.r1_c4 += pPos.x;

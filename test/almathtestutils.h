@@ -61,11 +61,6 @@ void compareVelocity6D(
   const float pEps = kEpsilon);
 
 
-void compareRotation2D(
-  const AL::Math::Rotation2D& pRot1,
-  const AL::Math::Rotation2D& pRot2,
-  const float pEps = kEpsilon);
-
 void compareRotation(
   const AL::Math::Rotation& pRot1,
   const AL::Math::Rotation& pRot2,

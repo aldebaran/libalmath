@@ -126,10 +126,6 @@ namespace AL {
       const Position6D& pDelta);
 
 
-    Position2D operator*(
-      const Rotation2D& pR,
-      const Position2D& pPos);
-
     /**
     * Function to compute the gradiant of a line 2D defined by 2 points
     * This function avoid division by zero
