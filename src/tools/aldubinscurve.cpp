@@ -8,6 +8,7 @@
 #include "float.h" // for FLT_MAX
 #include <stdexcept>
 
+#include <cmath>
 
 namespace AL {
 namespace Math {

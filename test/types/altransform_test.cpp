@@ -315,16 +315,16 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
 
   pAngleList.resize(11);
   pAngleList[0]  =     0.0f;
-  pAngleList[1]  =   +10.0f*TO_RAD;
-  pAngleList[2]  =   -10.0f*TO_RAD;
-  pAngleList[3]  =  +90.00f*TO_RAD;
-  pAngleList[4]  =  -90.00f*TO_RAD;
-  pAngleList[5]  = +150.00f*TO_RAD;
-  pAngleList[6]  = -150.00f*TO_RAD;
-  pAngleList[7]  = +180.00f*TO_RAD;
-  pAngleList[8]  = -180.00f*TO_RAD;
-  pAngleList[9]  = +210.00f*TO_RAD;
-  pAngleList[10] = -210.00f*TO_RAD;
+  pAngleList[1]  =   +10.0f*AL::Math::TO_RAD;
+  pAngleList[2]  =   -10.0f*AL::Math::TO_RAD;
+  pAngleList[3]  =  +90.00f*AL::Math::TO_RAD;
+  pAngleList[4]  =  -90.00f*AL::Math::TO_RAD;
+  pAngleList[5]  = +150.00f*AL::Math::TO_RAD;
+  pAngleList[6]  = -150.00f*AL::Math::TO_RAD;
+  pAngleList[7]  = +180.00f*AL::Math::TO_RAD;
+  pAngleList[8]  = -180.00f*AL::Math::TO_RAD;
+  pAngleList[9]  = +210.00f*AL::Math::TO_RAD;
+  pAngleList[10] = -210.00f*AL::Math::TO_RAD;
 
   for (unsigned int i=0; i<pAngleList.size(); i++)
   {
@@ -347,37 +347,37 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
   pAngleList.resize(3);
 
   // 0
-  pAngleList[0] =   10.0f*TO_RAD;
-  pAngleList[1] = -100.0f*TO_RAD;
-  pAngleList[2] =   40.0f*TO_RAD;
+  pAngleList[0] =   10.0f*AL::Math::TO_RAD;
+  pAngleList[1] = -100.0f*AL::Math::TO_RAD;
+  pAngleList[2] =   40.0f*AL::Math::TO_RAD;
 
   pList[0] = pAngleList;
 
   // 1
-  pAngleList[0] = -180.0f*TO_RAD;
-  pAngleList[1] = +150.0f*TO_RAD;
-  pAngleList[2] =  270.0f*TO_RAD;
+  pAngleList[0] = -180.0f*AL::Math::TO_RAD;
+  pAngleList[1] = +150.0f*AL::Math::TO_RAD;
+  pAngleList[2] =  270.0f*AL::Math::TO_RAD;
 
   pList[1] = pAngleList;
 
   // 2
-  pAngleList[0] = -260.0f*TO_RAD;
-  pAngleList[1] =  240.0f*TO_RAD;
-  pAngleList[2] =  290.0f*TO_RAD;
+  pAngleList[0] = -260.0f*AL::Math::TO_RAD;
+  pAngleList[1] =  240.0f*AL::Math::TO_RAD;
+  pAngleList[2] =  290.0f*AL::Math::TO_RAD;
 
   pList[2] = pAngleList;
 
   // 3
-  pAngleList[0] = -10.0f*TO_RAD;
-  pAngleList[1] = -10.0f*TO_RAD;
-  pAngleList[2] = -10.0f*TO_RAD;
+  pAngleList[0] = -10.0f*AL::Math::TO_RAD;
+  pAngleList[1] = -10.0f*AL::Math::TO_RAD;
+  pAngleList[2] = -10.0f*AL::Math::TO_RAD;
 
   pList[3] = pAngleList;
 
   // 4
-  pAngleList[0] = +180.0f*TO_RAD;
-  pAngleList[1] =  -90.0f*TO_RAD;
-  pAngleList[2] = +180.0f*TO_RAD;
+  pAngleList[0] = +180.0f*AL::Math::TO_RAD;
+  pAngleList[1] =  -90.0f*AL::Math::TO_RAD;
+  pAngleList[2] = +180.0f*AL::Math::TO_RAD;
 
   pList[4] = pAngleList;
 

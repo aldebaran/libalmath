@@ -2,6 +2,8 @@
 * Copyright (c) Aldebaran Robotics 2009 All Rights Reserved
 */
 
+#include <cmath>
+
 #include <almath/tools/altransformhelpers.h>
 #include <stdexcept>
 #include <almath/tools/altrigonometry.h>

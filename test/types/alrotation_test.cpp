@@ -104,13 +104,13 @@ TEST(ALRotationTest, determinant1)
   AL::Math::Rotation pRot = AL::Math::Rotation();
   EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 
-  pRot = AL::Math::rotationFromRotX(20.0f*TO_RAD);
+  pRot = AL::Math::rotationFromRotX(20.0f*AL::Math::TO_RAD);
   EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 
-  pRot = AL::Math::rotationFromRotY(30.0f*TO_RAD);
+  pRot = AL::Math::rotationFromRotY(30.0f*AL::Math::TO_RAD);
   EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 
-  pRot = AL::Math::rotationFromRotZ(40.0f*TO_RAD);
+  pRot = AL::Math::rotationFromRotZ(40.0f*AL::Math::TO_RAD);
   EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
 }
 

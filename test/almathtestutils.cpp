@@ -149,15 +149,6 @@ void compareRotation3D(
   EXPECT_NEAR(pRot1.wz, pRot2.wz, pEps);
 }
 
-void compareComplex(
-  const AL::Math::Complex& pIn1,
-  const AL::Math::Complex& pIn2,
-  const float pEps)
-{
-  EXPECT_NEAR(pIn1.re, pIn2.re, pEps);
-  EXPECT_NEAR(pIn1.im, pIn2.im, pEps);
-}
-
 
 void comparePositionAndVelocity(
   const AL::Math::PositionAndVelocity& pPosVel1,

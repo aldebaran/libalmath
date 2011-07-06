@@ -12,6 +12,8 @@
 #ifndef _LIB_ALMATH_ALMATH_ALMATH_H_
 #define _LIB_ALMATH_ALMATH_ALMATH_H_
 
+#include <cmath>
+
 #include <almath/types/alposition2d.h>
 #include <almath/types/alvelocity3d.h>
 #include <almath/tools/altrigonometry.h>
@@ -35,19 +37,19 @@ namespace AL {
     *clipData
     * for more informations, see : www.musicdsp.org/files/denormal.pdf
     */
-#define killDeNormalNumber 1e-20f
+//#define killDeNormalNumber 1e-20f
 
-    struct Complex
-    {
-      float re;
-      float im;
+//    struct Complex
+//    {
+//      float re;
+//      float im;
 
-      Complex(
-          const float pRe = 0.0f,
-          const float pIm = 0.0f):
-          re(pRe),
-          im(pIm) {};
-    }; // end Complex
+//      Complex(
+//          const float pRe = 0.0f,
+//          const float pIm = 0.0f):
+//          re(pRe),
+//          im(pIm) {};
+//    }; // end Complex
 
 
     bool clipData(

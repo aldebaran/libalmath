@@ -72,11 +72,6 @@ void compareRotation3D(
   const AL::Math::Rotation3D& pRot2,
   const float pEps = kEpsilon);
 
-void compareComplex(
-  const AL::Math::Complex& pIn1,
-  const AL::Math::Complex& pIn2,
-  const float pEps = kEpsilon);
-
 
 void comparePositionAndVelocity(
   const AL::Math::PositionAndVelocity& pPosVel1,

@@ -37,7 +37,7 @@ TEST(avoidFootCollisionTest, Log)
   bool pResult;
 
   //std::cout << "***** avoidFootCollision *****" << std::endl;
-  pMove = AL::Math::Pose2D( 0.0f, 0.1f, 0.0f*TO_RAD);
+  pMove = AL::Math::Pose2D( 0.0f, 0.1f, 0.0f*AL::Math::TO_RAD);
   pResult = avoidFootCollision( pLFootBoundingBox,
                                 pRFootBoundingBox,
                                 false,
@@ -48,7 +48,7 @@ TEST(avoidFootCollisionTest, Log)
   EXPECT_NEAR(pMove.theta, 0.0f, 0.0001f );
 
   //std::cout << "***** avoidFootCollision *****" << std::endl;
-  pMove = AL::Math::Pose2D( 0.0f, 0.085f, 40.0f*TO_RAD);
+  pMove = AL::Math::Pose2D( 0.0f, 0.085f, 40.0f*AL::Math::TO_RAD);
   pResult = avoidFootCollision( pLFootBoundingBox,
                                 pRFootBoundingBox,
                                 false,
