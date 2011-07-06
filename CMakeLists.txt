@@ -17,7 +17,6 @@ set( ALMATH_SRCS
     src/tools/almathio.cpp
     src/tools/aldubinscurve.cpp
     src/tools/altransformhelpers.cpp
-    src/tools/altrigonometry.cpp
     src/types/alpose2d.cpp
     src/types/alrotation3d.cpp
     src/types/alrotation.cpp

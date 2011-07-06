@@ -35,36 +35,6 @@ TEST(avoidFootCollisionTest, Log)
 
   AL::Math::Pose2D pMove;
   bool pResult;
-  AL::Math::Pose2D pPoint;
-  std::vector<AL::Math::Pose2D> pTmpBoundingBoxe;
-
-  //std::cout << "***** xPointsInsideBoxe 0 *****" << std::endl;
-  pPoint = AL::Math::Pose2D(0.0f, 0.0f, 0.0f);
-  EXPECT_TRUE(xPointsInsideBoxe(pRFootBoundingBox, pPoint));
-
-  //std::cout << "***** xPointsInsideBoxe 1 *****" << std::endl;
-  pPoint = AL::Math::Pose2D(0.09f, 0.0f, 0.0f);
-  EXPECT_FALSE(xPointsInsideBoxe(pLFootBoundingBox, pPoint));
-
-  //std::cout << "***** xIsTwoBoxesAreInCollision *****" << std::endl;
-  pMove = AL::Math::Pose2D( 0.0f, 0.1f, 0.0f*TO_RAD);
-  pTmpBoundingBoxe = xComputeBoxe(pLFootBoundingBox, pMove);
-  EXPECT_FALSE(xIsTwoBoxesAreInCollision(pRFootBoundingBox, pTmpBoundingBoxe));
-
-  //std::cout << "***** xIsTwoBoxesAreInCollision *****" << std::endl;
-  pMove = AL::Math::Pose2D( 0.0f, -0.1f, 0.0f*TO_RAD);
-  pTmpBoundingBoxe = xComputeBoxe(pRFootBoundingBox, pMove);
-  EXPECT_FALSE(xIsTwoBoxesAreInCollision(pLFootBoundingBox, pTmpBoundingBoxe));
-
-  //std::cout << "***** xIsTwoBoxesAreInCollision *****" << std::endl;
-  pMove = AL::Math::Pose2D( 0.0f, 0.085f, 40.0f*TO_RAD);
-  pTmpBoundingBoxe = xComputeBoxe(pLFootBoundingBox, pMove);
-  EXPECT_TRUE(xIsTwoBoxesAreInCollision(pRFootBoundingBox, pTmpBoundingBoxe));
-
-  //std::cout << "***** xIsTwoBoxesAreInCollision *****" << std::endl;
-  pMove = AL::Math::Pose2D( 0.0f, 0.085f, 0.17453f);
-  pTmpBoundingBoxe = xComputeBoxe(pLFootBoundingBox, pMove);
-  EXPECT_FALSE(xIsTwoBoxesAreInCollision(pRFootBoundingBox, pTmpBoundingBoxe));
 
   //std::cout << "***** avoidFootCollision *****" << std::endl;
   pMove = AL::Math::Pose2D( 0.0f, 0.1f, 0.0f*TO_RAD);

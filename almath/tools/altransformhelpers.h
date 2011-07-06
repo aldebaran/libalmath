@@ -44,7 +44,7 @@ namespace AL {
   /// <returns>
   /// the Velocity6D logarithme: kinematic screw in se3
   /// </returns>
-  /// \ingroup Types
+  /// \ingroup Tools
     AL::Math::Velocity6D transformLogarithme(const AL::Math::Transform& pT);
 
     void transformLogarithme(

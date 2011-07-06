@@ -3,7 +3,7 @@
 \b ALMath is an optimized mathematic toolbox for robotics.
 This library give access to main types and tools to facilitate robotic mathematic.
 
-An effort on optimization was also done \b into this library.
+An effort on optimization was also done into this library.
 
 This manual is divided in the following sections:
 - \subpage overview
@@ -29,10 +29,6 @@ Types classes provide many usefull defintion in robotics field such as
 homogenous transform matrix, 6D vector of velocty and so on
 
 \defgroup Tools Tools
-
-
-\defgroup Interpolations Interpolations
-Inteprolations classes give access to a lot of interpolator to smooth motion trajectory.
 
 \defgroup Collisions Collisions
 Collisions classes give usefull tools in the field of collisions.

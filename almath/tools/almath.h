@@ -32,7 +32,7 @@ namespace AL {
     *
     * for your information : denormal number = (FLOAT_MIN*2^32) = 5.0486911077.10^(-29)
     * the killDeNormalNumber const is chosen bigger than this denormal number
-    *
+    *clipData
     * for more informations, see : www.musicdsp.org/files/denormal.pdf
     */
 #define killDeNormalNumber 1e-20f
