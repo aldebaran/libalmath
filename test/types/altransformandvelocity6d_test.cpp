@@ -12,15 +12,15 @@ TEST(ALTransformAndVelocityTest, isNear)
   EXPECT_TRUE(pTmp.isNear(AL::Math::TransformAndVelocity6D(), 0.0001f));
 
   pTmp = AL::Math::TransformAndVelocity6D();
-  pTmp.H.r1_c4 = 0.2f;
+  pTmp.T.r1_c4 = 0.2f;
   EXPECT_FALSE(pTmp.isNear(AL::Math::TransformAndVelocity6D(), 0.0001f));
 
   pTmp = AL::Math::TransformAndVelocity6D();
-  pTmp.H.r2_c4 = 0.2f;
+  pTmp.T.r2_c4 = 0.2f;
   EXPECT_FALSE(pTmp.isNear(AL::Math::TransformAndVelocity6D(), 0.0001f));
 
   pTmp = AL::Math::TransformAndVelocity6D();
-  pTmp.H.r3_c4 = 0.2f;
+  pTmp.T.r3_c4 = 0.2f;
   EXPECT_FALSE(pTmp.isNear(AL::Math::TransformAndVelocity6D(), 0.0001f));
 
   pTmp = AL::Math::TransformAndVelocity6D();

@@ -184,7 +184,7 @@ void compareTransformAndVelocity6D(
   const AL::Math::TransformAndVelocity6D& pDat2,
   const float pEps)
 {
-  compareTransform(pDat1.H, pDat2.H, pEps);
+  compareTransform(pDat1.T, pDat2.T, pEps);
   compareVelocity6D(pDat1.V, pDat2.V, pEps);
 }
 

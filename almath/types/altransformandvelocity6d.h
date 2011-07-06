@@ -18,14 +18,26 @@
 namespace AL {
   namespace Math {
 
-    /// <summary> Struct composed of an Transform and a Velocity6D</summary>
+    /// <summary>
+    /// Struct composed of a Transform and a Velocity6D
+    /// </summary>
     struct TransformAndVelocity6D
     {
-      AL::Math::Transform  H;
+      AL::Math::Transform  T;
       AL::Math::Velocity6D V;
 
+      /// <summary>
+      /// Check if the actual TransformAndVelocity6D is Near the one
+      /// given in argument.
+      ///
+      /// </summary>
+      /// <param name="pTV2"> the second TransformAndVelocity6D </param>
+      /// <param name="pEpsilon"> an optionnal epsilon distance - default: 0.0001 </param>
+      /// <returns>
+      /// true if the distance between the two TransformAndVelocity6D is less than pEpsilon
+      /// </returns>
       bool isNear(
-        const TransformAndVelocity6D& pDat,
+        const TransformAndVelocity6D& pTV2,
         const float&                  pEpsilon=0.0001f) const;
 
     };

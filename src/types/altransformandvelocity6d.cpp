@@ -14,7 +14,7 @@ namespace AL {
     {
 
       if (
-        H.isNear(pDat.H, pEpsilon) &&
+        T.isNear(pDat.T, pEpsilon) &&
         V.isNear(pDat.V, pEpsilon))
       {
         return true;

@@ -194,9 +194,9 @@
                     " [%g, %g, %g, %g]\n"
                     " [%g, %g, %g, %g]]\n"
                     "[xd = %g, yd = %g, zd = %g, wxd = %g, wyd = %g, wzd = %g]",
-                      $self->H.r1_c1, $self->H.r1_c2, $self->H.r1_c3, $self->H.r1_c4,
-                      $self->H.r2_c1, $self->H.r2_c2, $self->H.r2_c3, $self->H.r2_c4,
-                      $self->H.r3_c1, $self->H.r3_c2, $self->H.r3_c3, $self->H.r3_c4,
+                      $self->T.r1_c1, $self->T.r1_c2, $self->T.r1_c3, $self->T.r1_c4,
+                      $self->T.r2_c1, $self->T.r2_c2, $self->T.r2_c3, $self->T.r2_c4,
+                      $self->T.r3_c1, $self->T.r3_c2, $self->T.r3_c3, $self->T.r3_c4,
                       $self->V.xd,  $self->V.yd,  $self->V.zd,
                       $self->V.wxd, $self->V.wyd, $self->V.wzd);
        return tmp;

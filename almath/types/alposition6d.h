@@ -71,7 +71,7 @@ namespace AL {
         wz(pWz) {}
 
       /// <summary>
-      /// create a Positio6D with an std::vector.
+      /// create a Position6D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 6 for respectively:
@@ -190,7 +190,7 @@ namespace AL {
       /// compute the squared distance of translation part (x, y and z)
       /// between the actual Position6D and the one give in argument
       ///
-      /// (pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2
+      /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2\f$
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       /// <returns>
@@ -202,7 +202,7 @@ namespace AL {
       /// compute the distance of translation part (x, y and z) between the actual
       /// Position6D and the one give in argument
       ///
-      /// sqrt((pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2)
+      /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2}\f$
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       /// <returns>
@@ -213,7 +213,7 @@ namespace AL {
       /// <summary>
       /// compute the norm of the actual Position6D
       ///
-      /// sqrt(pPos.x^2 + pPos.y^2 + pPos.z^2 + pPos.wx^2 + pPos.wy^2 + pPos.wz^2)
+      /// \f$\sqrt{pPos.x^2 + pPos.y^2 + pPos.z^2 + pPos.wx^2 + pPos.wy^2 + pPos.wz^2}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Position6D

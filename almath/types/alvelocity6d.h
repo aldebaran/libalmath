@@ -24,8 +24,6 @@ namespace Math {
 /// A Position3D is just defined by xd, yd, zd, wxd, wyd and wzd.
 /// </summary>
 /// \ingroup Types
-
-
 struct Velocity6D {
   float xd;
   float yd;
@@ -82,10 +80,10 @@ struct Velocity6D {
     wzd(pWzd) {}
 
   /// <summary>
-  /// create a Positio3D with an std::vector.
+  /// create a Velocity6D with an std::vector.
   /// </summary>
   /// <param name="pFloats">
-  /// An std::vector<float> of size 3 for respectively:
+  /// An std::vector<float> of size 6 for respectively:
   /// xd, yd, zd, wxd, wyd and wzd
   /// </param>
   Velocity6D(const std::vector<float>& pFloats)
@@ -208,9 +206,11 @@ struct Velocity6D {
   std::vector<float> toVector() const;
 }; // end struct
 
-/**
-    * Left multiplication
-    */
+/// <summary>
+/// overloading of operator * for left Velocity6D.
+/// </summary>
+/// <param name="pVal"> the float factor. </param>
+/// <param name="pVel"> the given Velocity6D. </param>
 Velocity6D operator* (
   const float       pVal,
   const Velocity6D& pVel);
@@ -230,7 +230,7 @@ float norm(const Velocity6D& pVel);
 /// <summary>
 /// normalize a Velocity6D
 ///
-/// pRes = pVel/ norm(pVel)
+/// \f$pRes = \frac{pVel}{norm(pVel)} \f$
 /// </summary>
 /// <param name="pVel"> the given Velocity6D </param>
 /// <returns>

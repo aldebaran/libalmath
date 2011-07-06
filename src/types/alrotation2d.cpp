@@ -34,6 +34,30 @@ namespace AL {
       return pOut;
     }
 
+
+    bool Rotation2D::operator==(const Rotation2D& pRot2) const
+    {
+      if (
+        (r1_c1 == pRot2.r1_c1) &&
+        (r1_c2 == pRot2.r1_c2) &&
+        (r2_c1 == pRot2.r2_c1) &&
+        (r2_c2 == pRot2.r2_c2))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+
+
+    bool Rotation2D::operator!=(const Rotation2D& pRot2) const
+    {
+      return !(*this==pRot2);
+    }
+
+
     Rotation2D Rotation2D::transpose() const
     {
       return Math::transpose(*this);
@@ -103,7 +127,7 @@ namespace AL {
     float determinant(const Rotation2D& pRot)
     {
       float det;
-      det = pRot.r1_c1 * pRot.r2_c2 - pRot.r1_c2 * pRot.r2_c1;
+      det = pRot.r1_c1*pRot.r2_c2 - pRot.r1_c2*pRot.r2_c1;
       return det;
     }
 

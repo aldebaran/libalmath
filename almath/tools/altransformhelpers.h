@@ -24,21 +24,33 @@
 
 namespace AL {
   namespace Math {
-    /**
-    * Function Transform Logarithme : cette fonction calcule le
-    * logarithme associe a une matrice de type Deplacement - matrice homogene 4x4 (SE3)
-    * La sortie est un torseur cinematique de se3.
-    * Le resultat n'est garanti que pour des angles dans [-pi+0.001,pi-0.001].
-    * cette fonction calcule la differentielle du logarithme associe
-    * a une matrice de type Deplacement - matrice homogene 4x4 (SE3).
-    * @param Transform Homogenous Matrix (4*4)
-    * @return Velocity6D (torseur cinematique)
-    **/
-    AL::Math::Velocity6D transformLogarithme(const AL::Math::Transform& pH);
+
+//  /**
+//    * Function Transform Logarithme : cette fonction calcule le
+//    * logarithme associe a une matrice de type Deplacement - matrice homogene 4x4 (SE3)
+//    * La sortie est un torseur cinematique de se3.
+//    * Le resultat n'est garanti que pour des angles dans [-pi+0.001,pi-0.001].
+//    * cette fonction calcule la differentielle du logarithme associe
+//    * a une matrice de type Deplacement - matrice homogene 4x4 (SE3).
+//    * @param Transform Homogenous Matrix (4*4)
+//    * @return Velocity6D (torseur cinematique)
+//    **/
+  /// <summary>
+  /// compute the logarithme of a transform
+  ///
+  /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right].\f$
+  ///
+  /// </summary>
+  /// <param name="pT"> the given Transform </param>
+  /// <returns>
+  /// the Velocity6D logarithme: kinematic screw in se3
+  /// </returns>
+  /// \ingroup Types
+    AL::Math::Velocity6D transformLogarithme(const AL::Math::Transform& pT);
 
     void transformLogarithme(
-      const AL::Math::Transform& pH,
-      AL::Math::Velocity6D&      pV);
+      const AL::Math::Transform& pT,
+      AL::Math::Velocity6D&      pVel);
 
     /**
     * Function Velocity Exponential : compute homogenous matrix
@@ -47,72 +59,72 @@ namespace AL {
     * @param Transform
     **/
     void velocityExponential(
-      const AL::Math::Velocity6D& pM,
-      AL::Math::Transform&        tM);
+      const AL::Math::Velocity6D& pVel,
+      AL::Math::Transform&        pT);
 
-    AL::Math::Transform velocityExponential(const AL::Math::Velocity6D& pM);
+    AL::Math::Transform velocityExponential(const AL::Math::Velocity6D& pVel);
 
     void changeRepereVelocity6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Velocity6D& pVIn,
-      AL::Math::Velocity6D&       pVOut);
+      const AL::Math::Transform&  pT,
+      const AL::Math::Velocity6D& pVelIn,
+      AL::Math::Velocity6D&       pVelOut);
 
     void changeReperePosition6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Position6D& pPIn,
-      AL::Math::Position6D&       pPOut);
+      const AL::Math::Transform&  pT,
+      const AL::Math::Position6D& pPosIn,
+      AL::Math::Position6D&       pPosOut);
 
     void changeReperePosition3D(
-      const AL::Math::Transform& pH,
+      const AL::Math::Transform& pT,
       AL::Math::Position3D&      pPosOut);
 
     void changeRepereTransposePosition3D(
-      const AL::Math::Transform& pH,
+      const AL::Math::Transform& pT,
       AL::Math::Position3D&      pPosOut);
 
     void changeReperePosition3D(
-      const AL::Math::Transform&  pH,
+      const AL::Math::Transform&  pT,
       const AL::Math::Position3D& pPosIn,
       AL::Math::Position3D&       pPosOut);
 
     void changeRepereTransposePosition3D(
-      const AL::Math::Transform&  pH,
+      const AL::Math::Transform&  pT,
       const AL::Math::Position3D& pPosIn,
       AL::Math::Position3D&       pPosOut);
 
     void changeRepereTransform(
-      const AL::Math::Transform& pH,
-      const AL::Math::Transform& pHIn,
-      AL::Math::Transform&       pHOut);
+      const AL::Math::Transform& pT,
+      const AL::Math::Transform& pTIn,
+      AL::Math::Transform&       pTOut);
 
     void changeRepereTransposeTransform(
-      const AL::Math::Transform& pH,
-      const AL::Math::Transform& pHIn,
-      AL::Math::Transform&       pHOut);
+      const AL::Math::Transform& pT,
+      const AL::Math::Transform& pTIn,
+      AL::Math::Transform&       pTOut);
 
     void changeRepereTransposeVelocity6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Velocity6D& pVIn,
-      AL::Math::Velocity6D&       pVOut);
+      const AL::Math::Transform&  pT,
+      const AL::Math::Velocity6D& pVelIn,
+      AL::Math::Velocity6D&       pVelOut);
 
     void changeRepereTransposePosition6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Position6D& pPIn,
-      AL::Math::Position6D&       pPOut);
+      const AL::Math::Transform&  pT,
+      const AL::Math::Position6D& pPosIn,
+      AL::Math::Position6D&       pPosOut);
 
     void transformMean(
-      const AL::Math::Transform& pHIn1,
-      const AL::Math::Transform& pHIn2,
+      const AL::Math::Transform& pTIn1,
+      const AL::Math::Transform& pTIn2,
       const float&               pDist,
-      AL::Math::Transform&       pHOut);
+      AL::Math::Transform&       pTOut);
 
     AL::Math::Transform transformMean(
-      const AL::Math::Transform& pHIn1,
-      const AL::Math::Transform& pHIn2);
+      const AL::Math::Transform& pTIn1,
+      const AL::Math::Transform& pTIn2);
 
     AL::Math::Transform transformMean(
-      const AL::Math::Transform& pHIn1,
-      const AL::Math::Transform& pHIn2,
+      const AL::Math::Transform& pTIn1,
+      const AL::Math::Transform& pTIn2,
       const float&               pDist);
 
 

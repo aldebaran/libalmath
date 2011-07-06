@@ -18,7 +18,7 @@ namespace AL {
   namespace Math {
 
   /// <summary>
-  /// A rotation 3*3 matrix
+  /// A 3*3 rotation matrix
   ///
   /// </summary>
   /// <A HREF="http://en.wikipedia.org/wiki/Rotation_matrix">more information</A>
@@ -134,10 +134,10 @@ namespace AL {
         const float&    pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// Compute the rotation inverse of the actual Rotation
+      /// Compute the rotation transpose (inverse) of the actual Rotation
       /// </summary>
       /// <returns>
-      /// the Rotation inverse
+      /// the Rotation transpose
       /// </returns>
       Rotation transpose() const;
 
