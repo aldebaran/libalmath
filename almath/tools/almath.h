@@ -160,47 +160,6 @@ namespace AL {
       const Position2D& pPointA,
       const Position2D& pPointB);
 
-    /**
-    * Filter a vector of Position6D in order to move only the axis controlled by the axis mask
-    * @return          : Vector of Position6D filter
-    * @param pXi       : Vector of Position6D of the different stay point of the Interpolation
-    * @param pAxisMask : Axis controlled during SE(3) interpolation
-    */
-    void filterPosition6D(
-      const std::vector<AL::Math::Position6D>& pXi,
-      const AL::Math::AXIS_MASK                pAxisMask,
-      std::vector<AL::Math::Position6D>&       pOut);
-
-    std::vector<AL::Math::Position6D>  filterPosition6D(
-      const std::vector<AL::Math::Position6D>& pXi,
-      const AL::Math::AXIS_MASK                pAxisMask);
-
-    void axisMaskToPosition6DOn(
-      const AL::Math::Position6D& pXi,
-      const AL::Math::AXIS_MASK   pAxisMask,
-      AL::Math::Position6D&       pOut);
-
-    AL::Math::Position6D axisMaskToPosition6DOn(
-      const AL::Math::Position6D& pXi,
-      const AL::Math::AXIS_MASK   pAxisMask);
-
-    void axisMaskToPosition6DOff(
-      const AL::Math::Position6D& pXi,
-      const AL::Math::AXIS_MASK   pAxisMask,
-      AL::Math::Position6D&       pPos);
-
-    AL::Math::Position6D axisMaskToPosition6DOff(
-      const AL::Math::Position6D& pXi,
-      const AL::Math::AXIS_MASK   pAxisMask);
-
-    void axisMaskToVelocity6DOn(
-      const AL::Math::Velocity6D& pXi,
-      const AL::Math::AXIS_MASK   pAxisMask,
-      AL::Math::Velocity6D&       pOut);
-
-    AL::Math::Velocity6D axisMaskToVelocity6DOn(
-      const AL::Math::Velocity6D& pXi,
-      const AL::Math::AXIS_MASK   pAxisMask);
 
     /**
     * Function rotationFromAngleDirection :
