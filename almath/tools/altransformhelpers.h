@@ -35,7 +35,7 @@ namespace AL {
 //    * @return Velocity6D (torseur cinematique)
 //    **/
   /// <summary>
-  /// compute the logarithme of a transform
+  /// Compute the logarithme of a transform.
   ///
   /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right].\f$
   ///

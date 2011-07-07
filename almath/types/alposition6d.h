@@ -27,7 +27,7 @@ namespace AL {
       float x, y, z, wx, wy, wz;
 
       /// <summary>
-      /// create a Position6D initialize with 0.0f.
+      /// Create a Position6D initialize with 0.0f.
       /// </summary>
       Position6D() : x(0.0f),
         y(0.0f),
@@ -37,7 +37,7 @@ namespace AL {
         wz(0.0f) {}
 
       /// <summary>
-      /// create a Position6D initialize with the same float.
+      /// Create a Position6D initialize with the same float.
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
@@ -49,7 +49,7 @@ namespace AL {
         wz(pInit) {}
 
       /// <summary>
-      /// create a Position6D initialize with explicit value.
+      /// Create a Position6D initialize with explicit value.
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -71,7 +71,7 @@ namespace AL {
         wz(pWz) {}
 
       /// <summary>
-      /// create a Position6D with an std::vector.
+      /// Create a Position6D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 6 for respectively:
@@ -102,78 +102,78 @@ namespace AL {
       }
 
       /// <summary>
-      /// overloading of operator + for Position6D.
+      /// Overloading of operator + for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       Position6D operator+ (const Position6D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator - for Position6D.
+      /// Overloading of operator - for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       Position6D operator- (const Position6D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator + for Position6D.
+      /// Overloading of operator + for Position6D.
       /// </summary>
       Position6D operator+ () const;
 
       /// <summary>
-      /// overloading of operator - for Position6D.
+      /// Overloading of operator - for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       Position6D operator- () const;
 
       /// <summary>
-      /// overloading of operator += for Position6D.
+      /// Overloading of operator += for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       Position6D& operator+= (const Position6D& pPos2);
 
       /// <summary>
-      /// overloading of operator -= for Position6D.
+      /// Overloading of operator -= for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       Position6D& operator-= (const Position6D& pPos2);
 
       /// <summary>
-      /// overloading of operator == for Position6D.
+      /// Overloading of operator == for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       bool operator== (const Position6D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator != for Position6D.
+      /// Overloading of operator != for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       bool operator!= (const Position6D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator * for Position6D.
+      /// Overloading of operator * for Position6D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position6D operator* (float pVal) const;
 
       /// <summary>
-      /// overloading of operator / for Position6D.
+      /// Overloading of operator / for Position6D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position6D operator/ (float pVal) const;
 
       /// <summary>
-      /// overloading of operator *= for Position6D.
+      /// Overloading of operator *= for Position6D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position6D& operator*= (float pVal);
 
       /// <summary>
-      /// overloading of operator /= for Position6D.
+      /// Overloading of operator /= for Position6D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position6D& operator/= (float pVal);
 
       /// <summary>
-      /// check if the actual Position6D is Near the one
+      /// Check if the actual Position6D is Near the one
       /// give in argument.
       ///
       /// </summary>
@@ -187,8 +187,8 @@ namespace AL {
         const float&      pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// compute the squared distance of translation part (x, y and z)
-      /// between the actual Position6D and the one give in argument
+      /// Compute the squared distance of translation part (x, y and z)
+      /// between the actual Position6D and the one give in argument:
       ///
       /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2\f$
       /// </summary>
@@ -199,8 +199,8 @@ namespace AL {
       float distanceSquared(const Position6D& pPos2) const;
 
       /// <summary>
-      /// compute the distance of translation part (x, y and z) between the actual
-      /// Position6D and the one give in argument
+      /// Compute the distance of translation part (x, y and z) between the actual
+      /// Position6D and the one give in argument:
       ///
       /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2}\f$
       /// </summary>
@@ -211,7 +211,7 @@ namespace AL {
       float distance(const Position6D& pPos2) const;
 
       /// <summary>
-      /// compute the norm of the actual Position6D
+      /// Compute the norm of the actual Position6D:
       ///
       /// \f$\sqrt{pPos.x^2 + pPos.y^2 + pPos.z^2 + pPos.wx^2 + pPos.wy^2 + pPos.wz^2}\f$
       /// </summary>
@@ -221,15 +221,15 @@ namespace AL {
       float norm() const;
 
       /// <summary>
-      /// return the Position6D as a vector of float [x, y, z, wx, wy, wz]
+      /// Return the Position6D as a vector of float [x, y, z, wx, wy, wz].
       /// </summary>
       std::vector<float> toVector () const;
     }; // end struct
 
 
     /// <summary>
-    /// compute the squared distance of translation part (x, y and z)
-    /// between two Position6D
+    /// Compute the squared distance of translation part (x, y and z)
+    /// between two Position6D:
     ///
     /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2\f$
     /// </summary>
@@ -245,7 +245,7 @@ namespace AL {
 
 
     /// <summary>
-    /// compute the distance of translation part (x, y and z) between two Position6D
+    /// Compute the distance of translation part (x, y and z) between two Position6D:
     ///
     /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2}\f$
     /// </summary>
@@ -260,7 +260,7 @@ namespace AL {
       const Position6D& pPos2);
 
     /// <summary>
-    /// compute the norm of a Position6D
+    /// Compute the norm of a Position6D:
     ///
     /// \f$\sqrt{pPos.x^2 + pPos.y^2 + pPos.z^2 + pPos.wx^2 + pPos.wy^2 + pPos.wz^2}\f$
     /// </summary>
@@ -272,7 +272,7 @@ namespace AL {
     float norm(const Position6D& pPos);
 
     /// <summary>
-    /// normalize a Position6D
+    /// Normalize a Position6D:
     ///
     /// \f$pRes = \frac{pPos}{norm(pPos)} \f$
     /// </summary>
@@ -282,6 +282,8 @@ namespace AL {
     /// </returns>
     /// \ingroup Types
     Position6D normalize(const Position6D& pPos);
+
   } // end namespace math
 } // end namespace al
+
 #endif  // _LIB_ALMATH_ALMATH_ALPOSITION6D_H_

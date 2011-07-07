@@ -18,7 +18,7 @@ namespace AL {
   namespace Math {
 
   /// <summary>
-  /// A 3*3 rotation matrix
+  /// A 3*3 rotation matrix.
   ///
   /// </summary>
   /// <A HREF="http://en.wikipedia.org/wiki/Rotation_matrix">more information</A>
@@ -96,25 +96,25 @@ namespace AL {
       }
 
       /// <summary>
-      /// overloading of operator *= for Rotation.
+      /// Overloading of operator *= for Rotation.
       /// </summary>
       /// <param name="pRot2"> the second Rotation </param>
       Rotation& operator*= (const Rotation& pRot2);
 
       /// <summary>
-      /// overloading of operator * for Rotation.
+      /// Overloading of operator * for Rotation.
       /// </summary>
       /// <param name="pRot2"> the second Rotation </param>
       Rotation operator* (const Rotation& pRot2) const;
 
       /// <summary>
-      /// overloading of operator == for Rotation.
+      /// Overloading of operator == for Rotation.
       /// </summary>
       /// <param name="pRot2"> the second Rotation </param>
       bool operator==(const Rotation& pRot2) const;
 
       /// <summary>
-      /// overloading of operator != for Rotation.
+      /// Overloading of operator != for Rotation.
       /// </summary>
       /// <param name="pRot2"> the second Rotation </param>
       bool operator!=(const Rotation& pRot2) const;
@@ -134,7 +134,7 @@ namespace AL {
         const float&    pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// Compute the rotation transpose (inverse) of the actual Rotation
+      /// Compute the rotation transpose (inverse) of the actual Rotation:
       /// </summary>
       /// <returns>
       /// the Rotation transpose
@@ -142,7 +142,7 @@ namespace AL {
       Rotation transpose() const;
 
       /// <summary>
-      /// Compute the determinant of the Rotation
+      /// Compute the determinant of the Rotation:
       ///
       /// \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 + pRot.r1c2*pRot.r2c3*pRot.r3c1 + pRot.r1c3*pRot.r2c1*pRot.r3c2 - pRot.r1c1*pRot.r2c3*pRot.r3c2 - pRot.r1c2*pRot.r2c1*pRot.r3c3 - pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
       /// </summary>
@@ -206,7 +206,7 @@ namespace AL {
       static Rotation fromRotZ(const float pRotZ);
 
       /// <summary>
-      /// create a Rotation initialize with euler angle.
+      /// Create a Rotation initialize with euler angle.
       ///
       /// Rot = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
       ///
@@ -220,7 +220,7 @@ namespace AL {
         const float& pWZ);
 
       /// <summary>
-      /// return the Rotation as a vector of float
+      /// Return the Rotation as a vector of float:
       ///
       /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, \\ r2c1, & r2c2, & r2c3, \\ r3c1, & r3c2, & r3c3] \end{array}\f$
       /// </summary>
@@ -229,8 +229,8 @@ namespace AL {
     }; // end struct
 
     /// <summary>
-    /// compute the transpose rotation of
-    /// the one give in argument
+    /// Compute the transpose rotation of
+    /// the one give in argument:
     /// </summary>
     /// <param name="pRot"> the rotation matrix </param>
     /// <returns>
@@ -241,7 +241,7 @@ namespace AL {
 
 
     /// <summary>
-    /// compute the determinant of the given Rotation
+    /// Compute the determinant of the given Rotation:
     ///
     /// \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 + pRot.r1c2*pRot.r2c3*pRot.r3c1 + pRot.r1c3*pRot.r2c1*pRot.r3c2 - pRot.r1c1*pRot.r2c3*pRot.r3c2 - pRot.r1c2*pRot.r2c1*pRot.r3c3 - pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
     /// </summary>
@@ -341,7 +341,7 @@ namespace AL {
     Rotation rotationFromRotZ(const float pRotZ);
 
     /// <summary>
-    /// create a Rotation initialize with euler angle.
+    /// Create a Rotation initialize with euler angle.
     /// Rot = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
     ///
     /// </summary>

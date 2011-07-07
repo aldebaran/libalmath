@@ -18,7 +18,7 @@ namespace AL {
   namespace Math {
 
     /// <summary>
-    /// A pose in a 2-dimentional space
+    /// A pose in a 2-dimentional space.
     ///
     /// On a plane a position is totally defined
     /// by the postions x,y and the rotation theta.
@@ -58,7 +58,8 @@ namespace AL {
       /// Create a Pose2D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
-      /// An std::vector<float> of size 3 for respectively :
+      /// An std::vector<float> of size 3 for respectively:
+      ///
       /// x, y and theta
       /// </param>
       Pose2D (const std::vector<float>& pFloats)
@@ -78,59 +79,59 @@ namespace AL {
       }
 
       /// <summary>
-      /// overloading of operator + for Pose2D.
+      /// Overloading of operator + for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       Pose2D operator+ (const Pose2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator - for Pose2D.
+      /// Overloading of operator - for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       Pose2D operator- (const Pose2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator + for Pose2D.
+      /// Overloading of operator + for Pose2D.
       /// </summary>
       Pose2D operator+ () const;
 
       /// <summary>
-      /// overloading of operator - for Pose2D.
+      /// Overloading of operator - for Pose2D.
       /// </summary>
       Pose2D operator- () const;
 
       /// <summary>
-      /// overloading of operator += for Pose2D.
+      /// Overloading of operator += for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       Pose2D& operator+= (const Pose2D& pPos2);
 
       /// <summary>
-      /// overloading of operator -= for Pose2D.
+      /// Overloading of operator -= for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       Pose2D& operator-= (const Pose2D& pPos2);
 
       /// <summary>
-      /// overloading of operator *= for Pose2D.
+      /// Overloading of operator *= for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       Pose2D& operator*= (const Pose2D& pPos2);
 
       /// <summary>
-      /// overloading of operator * for Pose2D.
+      /// Overloading of operator * for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       Pose2D operator* (const Pose2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator == for Pose2D.
+      /// Overloading of operator == for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       bool operator==(const Pose2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator != for Pose2D.
+      /// Overloading of operator != for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
       bool operator!=(const Pose2D& pPos2) const;
@@ -138,6 +139,7 @@ namespace AL {
       /// <summary>
       /// Compute the squared distance between the actual
       /// Pose2D and the one give in argument.
+      ///
       /// This avoids doing the sqrt needed for a true distance.
       ///
       /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2\f$
@@ -150,7 +152,7 @@ namespace AL {
 
       /// <summary>
       /// Compute the distance between the actual
-      /// Pose2D and the one give in argument
+      /// Pose2D and the one give in argument.
       ///
       /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2}\f$
       /// </summary>
@@ -179,7 +181,7 @@ namespace AL {
                   const float&  pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// Return the Pose2D as a vector of float [x, y, theta]
+      /// Return the Pose2D as a vector of float [x, y, theta].
       /// </summary>
       std::vector<float> toVector() const;
 
@@ -187,7 +189,7 @@ namespace AL {
 
 
     /// <summary>
-    /// Compute the squared distance between two Pose2D
+    /// Compute the squared distance between two Pose2D.
     ///
     /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2\f$
     /// </summary>
@@ -202,7 +204,7 @@ namespace AL {
       const Pose2D& pPos2);
 
     /// <summary>
-    /// Compute the distance between two Pose2D
+    /// Compute the distance between two Pose2D.
     ///
     /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2}\f$
     /// </summary>
@@ -217,7 +219,7 @@ namespace AL {
       const Pose2D& pPos2);
 
     /// <summary>
-    /// Compute the inverse of a Pose2D
+    /// Compute the inverse of a Pose2D.
     /// </summary>
     /// <param name="pPos"> the initial Pose2D </param>
     /// <returns> the inverse Pose2D </returns>
@@ -225,7 +227,7 @@ namespace AL {
     Pose2D pose2DInverse(const Pose2D& pPos);
 
     /// <summary>
-    /// Compute the inverse of a Pose2D
+    /// Compute the inverse of a Pose2D.
     /// </summary>
     /// <param name="pPos"> the initial Pose2D </param>
     /// <param name="pRes"> the inverse Pose2D </param>

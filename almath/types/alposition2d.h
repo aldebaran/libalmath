@@ -29,19 +29,19 @@ namespace AL {
       float y;
 
       /// <summary>
-      /// create a Position2D initialize with 0.0f.
+      /// Create a Position2D initialize with 0.0f.
       /// </summary>
       Position2D() : x(0.0f), y(0.0f) {}
 
       /// <summary>
-      /// create a Position2D initialize with explicit value.
+      /// Create a Position2D initialize with explicit value.
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
       Position2D(float pX, float pY) : x(pX), y(pY) {}
 
       /// <summary>
-      /// create a Position2D with an std::vector.
+      /// Create a Position2D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 2 for respectively:
@@ -62,41 +62,41 @@ namespace AL {
       }
 
       /// <summary>
-      /// overloading of operator + for Position2D.
+      /// Overloading of operator + for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       Position2D operator+ (const Position2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator - for Position2D.
+      /// Overloading of operator - for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       Position2D operator- (const Position2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator + for Position2D.
+      /// Overloading of operator + for Position2D.
       /// </summary>
       Position2D operator+ () const;
 
       /// <summary>
-      /// overloading of operator - for Position2D.
+      /// Overloading of operator - for Position2D.
       /// </summary>
       Position2D operator- () const;
 
       /// <summary>
-      /// overloading of operator += for Position2D.
+      /// Overloading of operator += for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       Position2D& operator+= (const Position2D& pPos2);
 
       /// <summary>
-      /// overloading of operator -= for Position2D.
+      /// Overloading of operator -= for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       Position2D& operator-= (const Position2D& pPos2);
 
       /// <summary>
-      /// overloading of operator == for Position2D.
+      /// Overloading of operator == for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       /// <returns>
@@ -105,7 +105,7 @@ namespace AL {
       bool operator==(const Position2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator != for Position2D.
+      /// Overloading of operator != for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       /// <returns>
@@ -114,32 +114,32 @@ namespace AL {
       bool operator!=(const Position2D& pPos2) const;
 
       /// <summary>
-      /// overloading of operator * for Position2D.
+      /// Overloading of operator * for Position2D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position2D operator* (float pVal) const;
 
       /// <summary>
-      /// overloading of operator / for Position2D.
+      /// Overloading of operator / for Position2D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position2D operator/ (float pVal) const;
 
       /// <summary>
-      /// overloading of operator *= for Position2D.
+      /// Overloading of operator *= for Position2D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position2D& operator*= (float pVal);
 
       /// <summary>
-      /// overloading of operator /= for Position2D.
+      /// Overloading of operator /= for Position2D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position2D& operator/= (float pVal);
 
       /// <summary>
-      /// compute the squared distance between the actual
-      /// Position2D and the one give in argument
+      /// Compute the squared distance between the actual
+      /// Position2D and the one give in argument.
       ///
       /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2\f$
       /// </summary>
@@ -150,8 +150,8 @@ namespace AL {
       float distanceSquared(const Position2D& pPos2) const;
 
       /// <summary>
-      /// compute the distance between the actual
-      /// Position2D and the one give in argument
+      /// Compute the distance between the actual
+      /// Position2D and the one give in argument.
       ///
       /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2}\f$
       /// </summary>
@@ -162,9 +162,8 @@ namespace AL {
       float distance(const Position2D& pPos2) const;
 
       /// <summary>
-      /// check if the actual Position2D is Near the one
+      /// Check if the actual Position2D is Near the one
       /// give in argument.
-      ///
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
       /// <param name="pEpsilon"> an optionnal epsilon distance </param>
@@ -176,7 +175,7 @@ namespace AL {
         const float&      pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// compute the norm of the actual Position2D
+      /// Compute the norm of the actual Position2D.
       ///
       /// \f$\sqrt{pPos.x^2+pPos.y^2}\f$
       /// </summary>
@@ -186,7 +185,7 @@ namespace AL {
       float norm() const;
 
       /// <summary>
-      /// normalize the actual Position2D
+      /// Normalize the actual Position2D.
       ///
       /// \f$pRes = \frac{pPos}{norm(pPos)}\f$
       /// </summary>
@@ -196,8 +195,8 @@ namespace AL {
       Position2D normalize() const;
 
       /// <summary>
-      /// compute the cross Product between the actual
-      /// Position2D and the one give in argument
+      /// Compute the cross Product between the actual
+      /// Position2D and the one give in argument.
       ///
       /// \f$pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)\f$
       /// </summary>
@@ -208,7 +207,7 @@ namespace AL {
       float crossProduct(const Position2D& pPos2) const;
 
       /// <summary>
-      /// return the Position2D as a vector of float [x, y]
+      /// Return the Position2D as a vector of float [x, y].
       /// </summary>
       std::vector<float> toVector() const;
     };
@@ -219,7 +218,7 @@ namespace AL {
       const Position2D& pPos1);
 
     /// <summary>
-    /// compute the squared distance between two Position2D
+    /// Compute the squared distance between two Position2D.
     ///
     /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2\f$
     /// </summary>
@@ -234,7 +233,7 @@ namespace AL {
       const Position2D& pPos2);
 
     /// <summary>
-    /// compute the distance between two Position2D \f$(pPos1,pPos2)\f$:
+    /// Compute the distance between two Position2D \f$(pPos1,pPos2)\f$:
     ///
     /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2}\f$
     /// </summary>
@@ -249,7 +248,7 @@ namespace AL {
       const Position2D& pPos2);
 
     /// <summary>
-    /// compute the norm of a Position2D
+    /// Compute the norm of a Position2D.
     ///
     /// \f$\sqrt{(pPos.x)^2+(pPos.y)^2}\f$
     /// </summary>
@@ -261,7 +260,7 @@ namespace AL {
     float norm(const Position2D& pPos);
 
     /// <summary>
-    /// normalize a Position2D
+    /// Normalize a Position2D.
     ///
     /// \f$pRes = \frac{pPos}{norm(pPos)}\f$
     /// </summary>
@@ -273,7 +272,7 @@ namespace AL {
     Position2D normalize(const Position2D& pPos);
 
     /// <summary>
-    /// compute the cross Product of two Position2D
+    /// Compute the cross Product of two Position2D.
     ///
     /// \f$pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)\f$
     /// </summary>
@@ -288,7 +287,7 @@ namespace AL {
       const Position2D& pPos2);
 
     /// <summary>
-    /// compute the cross Product of two Position2D
+    /// Compute the cross Product of two Position2D.
     ///
     /// \f$pRes = (pPos1.x*pPos2.y - pPos1.y*pPos2.x)\f$
     /// </summary>

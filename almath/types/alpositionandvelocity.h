@@ -26,7 +26,7 @@ namespace AL {
       float q, dq;
 
       /// <summary>
-      /// create a PositionAndVelocity initialize with explicit value.
+      /// Create a PositionAndVelocity initialize with explicit value.
       /// </summary>
       /// <param name="pq"> the float value for q (default value = 0.0f) </param>
       /// <param name="pdq"> the float value for dq (default value = 0.0f) </param>
@@ -37,7 +37,7 @@ namespace AL {
           dq(pdq) {}
 
       /// <summary>
-      /// check if the actual PositionAndVelocity is Near the one
+      /// Check if the actual PositionAndVelocity is Near the one
       /// give in argument.
       ///
       /// </summary>
@@ -49,7 +49,6 @@ namespace AL {
       bool isNear(
         const PositionAndVelocity& pDat2,
         const float&               pEpsilon=0.0001f) const;
-
     };
 
   }

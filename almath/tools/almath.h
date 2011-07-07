@@ -63,7 +63,7 @@ namespace AL {
       const Rotation& pRotation);
 
 
-    Position6D position6DFromVelocity6D(const Velocity6D& pIn);
+    Position6D position6DFromVelocity6D(const Velocity6D& pVel);
 
 
     /// <summary>

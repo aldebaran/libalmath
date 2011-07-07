@@ -34,7 +34,7 @@ namespace AL {
 namespace Math {
 
 /// <summary>
-/// overloading of operator << for Pose2D
+/// Overloading of operator << for Pose2D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -46,7 +46,7 @@ namespace Math {
 std::ostream& operator<< (std::ostream& pStream, const Pose2D& pPos);
 
 /// <summary>
-/// overloading of operator << for Position2D
+/// Overloading of operator << for Position2D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -58,7 +58,7 @@ std::ostream& operator<< (std::ostream& pStream, const Pose2D& pPos);
 std::ostream& operator<< (std::ostream& pStream, const Position2D& pPos);
 
 /// <summary>
-/// overloading of operator << for Position3D
+/// Overloading of operator << for Position3D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -70,7 +70,7 @@ std::ostream& operator<< (std::ostream& pStream, const Position2D& pPos);
 std::ostream& operator<< (std::ostream& pStream, const Position3D& pPos);
 
 /// <summary>
-/// overloading of operator << for Position6D
+/// Overloading of operator << for Position6D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -82,7 +82,7 @@ std::ostream& operator<< (std::ostream& pStream, const Position3D& pPos);
 std::ostream& operator<< (std::ostream& pStream, const Position6D& pPos);
 
 /// <summary>
-/// overloading of operator << for PositionAndVelocity
+/// Overloading of operator << for PositionAndVelocity.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -94,7 +94,7 @@ std::ostream& operator<< (std::ostream& pStream, const Position6D& pPos);
 std::ostream& operator<< (std::ostream& pStream, const PositionAndVelocity& pPosVel);
 
 /// <summary>
-/// overloading of operator << for Rotation
+/// Overloading of operator << for Rotation.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -106,7 +106,7 @@ std::ostream& operator<< (std::ostream& pStream, const PositionAndVelocity& pPos
 std::ostream& operator<< (std::ostream& pStream, const Rotation& pRot);
 
 /// <summary>
-/// overloading of operator << for Rotation3D
+/// Overloading of operator << for Rotation3D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -118,7 +118,7 @@ std::ostream& operator<< (std::ostream& pStream, const Rotation& pRot);
 std::ostream& operator<< (std::ostream& pStream, const Rotation3D& pRot);
 
 /// <summary>
-/// overloading of operator << for Transform
+/// Overloading of operator << for Transform.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -130,7 +130,7 @@ std::ostream& operator<< (std::ostream& pStream, const Rotation3D& pRot);
 std::ostream& operator<< (std::ostream& pStream, const Transform& pT);
 
 /// <summary>
-/// overloading of operator << for TransformAndVelocity6D
+/// Overloading of operator << for TransformAndVelocity6D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -142,7 +142,7 @@ std::ostream& operator<< (std::ostream& pStream, const Transform& pT);
 std::ostream& operator<< (std::ostream& pStream, const TransformAndVelocity6D& pTV);
 
 /// <summary>
-/// overloading of operator << for Velocity3D
+/// Overloading of operator << for Velocity3D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -154,7 +154,7 @@ std::ostream& operator<< (std::ostream& pStream, const TransformAndVelocity6D& p
 std::ostream& operator<< (std::ostream& pStream, const Velocity3D& pVel);
 
 /// <summary>
-/// overloading of operator << for Velocity6D
+/// Overloading of operator << for Velocity6D.
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
@@ -166,7 +166,7 @@ std::ostream& operator<< (std::ostream& pStream, const Velocity3D& pVel);
 std::ostream& operator<< (std::ostream& pStream, const Velocity6D& pVel);
 
 /// <summary>
-/// create a string of Velocity6D
+/// Create a string of Velocity6D.
 ///
 /// </summary>
 /// <param name="pVel"> the given Velocity6D </param>
@@ -177,7 +177,7 @@ std::ostream& operator<< (std::ostream& pStream, const Velocity6D& pVel);
 std::string toSpaceSeparated(const Velocity6D& pVel);
 
 /// <summary>
-/// create a string of Transform
+/// Create a string of Transform.
 ///
 /// </summary>
 /// <param name="pT"> the given Transform </param>
@@ -188,7 +188,7 @@ std::string toSpaceSeparated(const Velocity6D& pVel);
 std::string toSpaceSeparated(const Transform& pT);
 
 /// <summary>
-/// create a string of Position6D
+/// Create a string of Position6D.
 ///
 /// </summary>
 /// <param name="pPos"> the given Position6D </param>

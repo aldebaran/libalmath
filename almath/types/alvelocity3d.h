@@ -27,14 +27,14 @@ namespace AL {
       float xd, yd, zd;
 
       /// <summary>
-      /// create a Velocity3D initialize with 0.0f.
+      /// Create a Velocity3D initialize with 0.0f.
       /// </summary>
       Velocity3D(): xd(0.0f),
         yd(0.0f),
         zd(0.0f) {}
 
       /// <summary>
-      /// create a Velocity3D initialize with the same float.
+      /// Create a Velocity3D initialize with the same float.
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
@@ -43,7 +43,7 @@ namespace AL {
         zd(pInit) {}
 
       /// <summary>
-      /// create a Velocity3D initialize with explicit value.
+      /// Create a Velocity3D initialize with explicit value.
       /// </summary>
       /// <param name="pXd"> the float value for xd </param>
       /// <param name="pYd"> the float value for yd </param>
@@ -56,7 +56,7 @@ namespace AL {
         zd(pZd) {}
 
       /// <summary>
-      /// create a Velocity3D with an std::vector.
+      /// Create a Velocity3D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 3 for respectively:
@@ -79,77 +79,77 @@ namespace AL {
       }
 
       /// <summary>
-      /// overloading of operator + for Velocity3D.
+      /// Overloading of operator + for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D operator+ (const Velocity3D& pVel2) const;
 
       /// <summary>
-      /// overloading of operator - for Velocity3D.
+      /// Overloading of operator - for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D operator- (const Velocity3D& pVel2) const;
 
       /// <summary>
-      /// overloading of operator + for Velocity3D.
+      /// Overloading of operator + for Velocity3D.
       /// </summary>
       Velocity3D operator+ () const;
 
       /// <summary>
-      /// overloading of operator - for Velocity3D.
+      /// Overloading of operator - for Velocity3D.
       /// </summary>
       Velocity3D operator- () const;
 
       /// <summary>
-      /// overloading of operator += for Velocity3D.
+      /// Overloading of operator += for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D& operator+= (const Velocity3D& pVel2);
 
       /// <summary>
-      /// overloading of operator -= for Velocity3D.
+      /// Overloading of operator -= for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
       Velocity3D& operator-= (const Velocity3D& pVel2);
 
       /// <summary>
-      /// overloading of operator == for Velocity3D.
+      /// Overloading of operator == for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
       bool operator== (const Velocity3D& pVel2) const;
 
       /// <summary>
-      /// overloading of operator != for Velocity3D.
+      /// Overloading of operator != for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
       bool operator!= (const Velocity3D& pVel2) const;
 
       /// <summary>
-      /// overloading of operator * for Velocity3D.
+      /// Overloading of operator * for Velocity3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Velocity3D operator* (const float pVal) const;
 
       /// <summary>
-      /// overloading of operator / for Velocity3D.
+      /// Overloading of operator / for Velocity3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Velocity3D operator/ (const float pVal) const;
 
       /// <summary>
-      /// overloading of operator *= for Velocity3D.
+      /// Overloading of operator *= for Velocity3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Velocity3D& operator*= (const float pVal);
 
       /// <summary>
-      /// overloading of operator /= for Velocity3D.
+      /// Overloading of operator /= for Velocity3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Velocity3D& operator/= (const float pVal);
 
       /// <summary>
-      /// check if the actual Velocity3D is Near the one
+      /// Check if the actual Velocity3D is Near the one
       /// give in argument.
       ///
       /// </summary>
@@ -164,7 +164,7 @@ namespace AL {
 
 
       /// <summary>
-      /// compute the norm of the actual Velocity3D
+      /// Compute the norm of the actual Velocity3D:
       ///
       /// \f$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2}\f$
       /// </summary>
@@ -174,7 +174,7 @@ namespace AL {
       float norm () const;
 
       /// <summary>
-      /// normalize the actual Velocity3D
+      /// Normalize the actual Velocity3D:
       ///
       /// \f$ result = \frac{pVel}{norm(pVel)} \f$
       /// </summary>
@@ -184,7 +184,7 @@ namespace AL {
       Velocity3D normalize() const;
 
       /// <summary>
-      /// return the Velocity3D as a vector of float [xd, yd, zd]
+      /// Return the Velocity3D as a vector of float [xd, yd, zd].
       /// </summary>
       std::vector<float> toVector() const;
     };
@@ -194,7 +194,7 @@ namespace AL {
       const Velocity3D& pVel1);
 
     /// <summary>
-    /// compute the norm of a Velocity3D
+    /// Compute the norm of a Velocity3D:
     ///
     /// \f$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2}\f$
     /// </summary>
@@ -206,7 +206,7 @@ namespace AL {
     float norm (const Velocity3D& pVel);
 
     /// <summary>
-    /// normalize a Velocity3D
+    /// Normalize a Velocity3D:
     ///
     /// \f$ pRes = \frac{pVel}{norm(pVel)} \f$
     /// </summary>

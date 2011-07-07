@@ -18,7 +18,7 @@ namespace AL {
   namespace Math {
 
     /// <summary>
-    /// A homogenous transformation matrix
+    /// A homogenous transformation matrix.
     ///
     /// </summary>
     /// <A HREF="http://en.wikipedia.org/wiki/Transformation_matrix">more information</A>
@@ -121,25 +121,25 @@ namespace AL {
       }
 
       /// <summary>
-      /// overloading of operator *= for Transform.
+      /// Overloading of operator *= for Transform.
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       Transform& operator*= (const Transform& pT2);
 
       /// <summary>
-      /// overloading of operator * for Transform.
+      /// Overloading of operator * for Transform.
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       Transform operator* (const Transform& pT2) const;
 
       /// <summary>
-      /// overloading of operator == for Transform.
+      /// Overloading of operator == for Transform.
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       bool operator==(const Transform& pT2) const;
 
       /// <summary>
-      /// overloading of operator != for Transform.
+      /// Overloading of operator != for Transform.
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       bool operator!=(const Transform& pT2) const;
@@ -159,11 +159,11 @@ namespace AL {
         const float&     pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// Check if the rotation part is correct
+      /// Check if the rotation part is correct.
       /// The condition checks are:
       /// \f$R^t * R = I\f$
       /// and
-      /// det(R) = 1.0
+      /// determinant(R) = 1.0
       ///
       /// </summary>
       /// <param name="pEpsilon"> an optionnal epsilon distance. Default: 0.0001 </param>
@@ -174,7 +174,7 @@ namespace AL {
           const float& pEpsilon=0.0001f) const;
 
       /// <summary>
-      /// Compute the norm translation part of the actual Transform
+      /// Compute the norm translation part of the actual Transform:
       ///
       /// \f$\sqrt{pT.r1c4^2+pT.r2c4^2+pT.r3c4^2}\f$
       /// </summary>
@@ -184,7 +184,7 @@ namespace AL {
       float norm() const;
 
       /// <summary>
-      /// Compute the determinant of rotation part of the actual Transform
+      /// Compute the determinant of rotation part of the actual Transform:
       ///
       /// \f$pT.r1c1*pT.r2c2*pT.r3c3 + pT.r1c2*pT.r2c3*pT.r3c1 + pT.r1c3*pT.r2c1*pT.r3c2 - pT.r1c1*pT.r2c3*pT.r3c2 - pT.r1c2*pT.r2c1*pT.r3c3 - pT.r1c3*pT.r2c2*pT.r3c1\f$
       /// </summary>
@@ -194,7 +194,7 @@ namespace AL {
       float determinant() const;
 
       /// <summary>
-      /// Compute the transform inverse of the actual Transform
+      /// Compute the transform inverse of the actual Transform:
       ///
       /// \f$ pT = \left[\begin{array}{cc}R & r \\ 0_{31} & 1 \end{array}\right]\f$
       ///
@@ -235,7 +235,8 @@ namespace AL {
 
 
       /// <summary>
-      /// create a Transform initialize with euler angle.
+      /// Create a Transform initialize with euler angle.
+      ///
       /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
       ///
       /// </summary>
@@ -249,7 +250,7 @@ namespace AL {
 
 
       /// <summary>
-      /// create a Transform initialize with explicit value for translation part.
+      /// Create a Transform initialize with explicit value for translation part.
       ///
       /// \f$ pT = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & pX \\ 0.0 & 1.0 & 0.0 & pY \\ 0.0 & 0.0 & 1.0 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
       ///
@@ -263,7 +264,7 @@ namespace AL {
         const float pZ);
 
       /// <summary>
-      /// create a Transform initialize with explicit value for translation part and euler angle.
+      /// Create a Transform initialize with explicit value for translation part and euler angle.
       ///
       /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
       ///
@@ -291,8 +292,9 @@ namespace AL {
         const float& pWZ);
 
       /// <summary>
-      /// compute the Transform between the actual
-      /// Transform and the one give in argument
+      /// Compute the Transform between the actual
+      /// Transform and the one give in argument:
+      ///
       /// result: inverse(pT1)*pT2
       ///
       /// </summary>
@@ -301,8 +303,8 @@ namespace AL {
 
 
       /// <summary>
-      /// compute the squared distance between the actual
-      /// Transform and the one give in argument (translation part)
+      /// Compute the squared distance between the actual
+      /// Transform and the one give in argument (translation part):
       ///
       /// \f$(pT1.r1c4-pT2.r1C4)^2+(pT1.r2c4-pT2.r2C4)^2+(pT1.r3c4-pT2.r3C4)^2\f$
       /// </summary>
@@ -314,8 +316,8 @@ namespace AL {
 
 
       /// <summary>
-      /// compute the distance between the actual
-      /// Transform and the one give in argument
+      /// Compute the distance between the actual
+      /// Transform and the one give in argument:
       ///
       /// \f$\sqrt{(pT1.r1c4-pT2.r1c4)^2+(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2}\f$
       /// </summary>
@@ -326,7 +328,7 @@ namespace AL {
       float distance(const Transform& pT2) const;
 
       /// <summary>
-      /// return the Transform as a vector of float
+      /// Return the Transform as a vector of float:
       ///
       /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, & r1c4, \\ r2c1, & r2c2, & r2c3, & r2c4, \\ r3c1, & r3c2, & r3c3, & r3c4, \\ 0.0, & 0.0, & 0.0, & 1.0] \end{array}\f$
       /// </summary>
@@ -346,7 +348,7 @@ namespace AL {
       Transform&       pTOut);
 
     /// <summary>
-    /// compute the norm translation part of the actual Transform
+    /// Compute the norm translation part of the actual Transform:
     ///
     /// \f$\sqrt{pT.r1c4^2+pT.r2c4^2+pT.r3c4^2}\f$
     /// </summary>
@@ -359,7 +361,7 @@ namespace AL {
 
 
     /// <summary>
-    /// copy the Transform in a vector of float
+    /// Copy the Transform in a vector of float:
     ///
     /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, & r1c4, \\ r2c1, & r2c2, & r2c3, & r2c4, \\ r3c1, & r3c2, & r3c3, & r3c4, \\ 0.0, & 0.0, & 0.0, & 1.0] \end{array}\f$
     ///
@@ -372,7 +374,7 @@ namespace AL {
       std::vector<float>& pTOut);
 
     /// <summary>
-    /// return the Transform in a vector of float
+    /// Return the Transform in a vector of float:
     ///
     /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, & r1c4, \\ r2c1, & r2c2, & r2c3, & r2c4, \\ r3c1, & r3c2, & r3c3, & r3c4, \\ 0.0, & 0.0, & 0.0, & 1.0] \end{array}\f$
     ///
@@ -387,7 +389,7 @@ namespace AL {
 
 
     /// <summary>
-    /// compute the determinant of rotation part of the given Transform
+    /// Compute the determinant of rotation part of the given Transform:
     ///
     /// \f$pT.r1c1*pT.r2c2*pT.r3c3 + pT.r1c2*pT.r2c3*pT.r3c1 + pT.r1c3*pT.r2c1 * pT.r3c2 - pT.r1c1*pT.r2c3*pT.r3c2 - pT.r1c2*pT.r2c1*pT.r3c3 - pT.r1c3*pT.r2c2*pT.r3c1\f$
     /// </summary>
@@ -399,7 +401,7 @@ namespace AL {
     float determinant(const Transform& pT);
 
     /// <summary>
-    /// compute the determinant of rotation part of the given vector of floats
+    /// Compute the determinant of rotation part of the given vector of floats:
     ///
     /// \f$pT[0]*pT[5]*pT[10] + pT[1]*pT[6]*pT[8] + pT[2]*pT[4]*pT[9] - pT[0]*pT[6]*pT[9] - pT[1]*pT[4]*pT[10] - pT[2]*pT[5]*pT[8]\f$
     /// </summary>
@@ -411,7 +413,7 @@ namespace AL {
     float determinant(const std::vector<float>& pFloats);
 
     /// <summary>
-    /// return the transform inverse of the given Transform
+    /// Return the transform inverse of the given Transform:
     ///
     /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
     ///
@@ -426,7 +428,7 @@ namespace AL {
       Transform&       pTOut);
 
     /// <summary>
-    /// return the transform inverse of the given Transform
+    /// Return the transform inverse of the given Transform:
     ///
     /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
     ///
@@ -442,7 +444,7 @@ namespace AL {
 
 
     /// <summary>
-    /// create a Transform initialize with explicit rotation around x axis.
+    /// Create a Transform initialize with explicit rotation around x axis:
     ///
     /// \f$ pTOut = \left[\begin{array}{cccc}1.0 & 0.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) & 0.0 \\ 0.0 & sin(pRotX) & cos(pRotX) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
@@ -455,7 +457,7 @@ namespace AL {
     Transform transformFromRotX(const float pRotX);
 
     /// <summary>
-    /// create a Transform initialize with explicit rotation around y axis.
+    /// Create a Transform initialize with explicit rotation around y axis:
     ///
     /// \f$ pTOut = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) & 0.0 \\ 0.0 & 1.0 & 0.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
@@ -468,7 +470,7 @@ namespace AL {
     Transform transformFromRotY(const float pRotY);
 
     /// <summary>
-    /// create a Transform initialize with explicit rotation around z axis.
+    /// Create a Transform initialize with explicit rotation around z axis:
     ///
     /// \f$ pTOut = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 & 0.0 \\ 0.0 & 0.0 & 1.0 & 0.0 \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
@@ -482,7 +484,7 @@ namespace AL {
 
 
     /// <summary>
-    /// create a Transform initialize with euler angle.
+    /// Create a Transform initialize with euler angle:
     /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
     ///
     /// </summary>
@@ -499,7 +501,7 @@ namespace AL {
       const float& pWZ);
 
     /// <summary>
-    /// create a Transform initialize with explicit value for translation part.
+    /// Create a Transform initialize with explicit value for translation part:
     ///
     /// \f$ pTOut = \left[\begin{array}{cccc} 1.0 & 0.0 & 0.0 & pX \\ 0.0 & 1.0 & 0.0 & pY \\ 0.0 & 0.0 & 1.0 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
     ///
@@ -517,7 +519,7 @@ namespace AL {
       const float& pZ);
 
     /// <summary>
-    /// create a Transform initialize with explicit value for translation part and euler angle.
+    /// Create a Transform initialize with explicit value for translation part and euler angle:
     ///
     /// H = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
     ///
@@ -548,7 +550,7 @@ namespace AL {
 
 
     /// <summary>
-    /// inverse the given Transform in place
+    /// Inverse the given Transform in place:
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -557,7 +559,7 @@ namespace AL {
 
 
     /// <summary>
-    /// alternative name for inverse: return the transform inverse of the given Transform
+    /// Alternative name for inverse: return the transform inverse of the given Transform:
     ///
     /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
     ///
@@ -571,7 +573,7 @@ namespace AL {
 
 
     /// <summary>
-    /// compute the Transform between the actual Transform and the one give in argument result:
+    /// Compute the Transform between the actual Transform and the one give in argument result:
     ///
     /// inverse(pT1)*pT2
     ///
@@ -587,8 +589,8 @@ namespace AL {
       const Transform& pT2);
 
     /// <summary>
-    /// compute the squared distance between the actual
-    /// Transform and the one give in argument (translation part)
+    /// Compute the squared distance between the actual
+    /// Transform and the one give in argument (translation part):
     ///
     /// \f$(pT1.r1c4-pT2.r1c4)^2 +(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2\f$
     /// </summary>
@@ -604,8 +606,8 @@ namespace AL {
 
 
     /// <summary>
-    /// compute the distance between the actual
-    /// Transform and the one give in argument
+    /// Compute the distance between the actual
+    /// Transform and the one give in argument:
     ///
     /// \f$\sqrt{(pT1.r1c4-pT2.r1c4)^2+(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2}\f$
     /// </summary>

@@ -18,7 +18,8 @@
 namespace AL {
 namespace Math {
 
-/// <summary> Compute the best position(orientation) of the foot to avoid collision.
+/// <summary>
+/// Compute the best position(orientation) of the foot to avoid collision.
 /// </summary>
 /// <param name="pLFootBoundingBoxe"> vector<Pose2D> of the left footBoundingBox.</param>
 /// <param name="pRFootBoundingBoxe"> vector<Pose2D> of the right footBoundingBox.</param>

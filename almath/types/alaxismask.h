@@ -18,7 +18,7 @@ namespace AL {
   namespace Math {
 
     /// <summary>
-    /// Defintion of an AXIS_MASK as a bit set.
+    /// Definition of an AXIS_MASK as a bit set.
     ///
     /// static const int AXIS_MASK_X    =  1 \n
     /// static const int AXIS_MASK_Y    =  2 \n
