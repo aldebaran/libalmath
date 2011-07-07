@@ -291,12 +291,9 @@ namespace AL {
     /// Apply Rotation to a 3D point.
     /// </summary>
     /// <param name="pRot"> the given rotation </param>
-    /// <param name="pX"> the X position of the 3D point </param>
-    /// <param name="pY"> the Y position of the 3D point </param>
-    /// <param name="pZ"> the Z position of the 3D point </param>
-    /// <returns>
-    /// the Rotation matrix
-    /// </returns>
+    /// <param name="pX"> the X position of the 3D point after rotation </param>
+    /// <param name="pY"> the Y position of the 3D point after rotation </param>
+    /// <param name="pZ"> the Z position of the 3D point after rotation </param>
     /// \ingroup Types
     void applyRotation(
       const AL::Math::Rotation& pRot,

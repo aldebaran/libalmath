@@ -284,19 +284,19 @@ namespace AL
     }
 
     Velocity6D operator*(
-      const float       pK,
-      const Position6D& pDelta)
+      const float       pVal,
+      const Position6D& pPos)
     {
       /** cyrille 27/04/2009 static ? **/
 
-      Velocity6D result;
-      result.xd  = pK * pDelta.x;
-      result.yd  = pK * pDelta.y;
-      result.zd  = pK * pDelta.z;
-      result.wxd = pK * pDelta.wx;
-      result.wyd = pK * pDelta.wy;
-      result.wzd = pK * pDelta.wz;
-      return result;
+      Velocity6D pVel;
+      pVel.xd  = pVal * pPos.x;
+      pVel.yd  = pVal * pPos.y;
+      pVel.zd  = pVal * pPos.z;
+      pVel.wxd = pVal * pPos.wx;
+      pVel.wyd = pVal * pPos.wy;
+      pVel.wzd = pVal * pPos.wz;
+      return pVel;
     }
 
 

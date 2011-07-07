@@ -65,19 +65,39 @@ namespace AL {
 
     Position6D position6DFromVelocity6D(const Velocity6D& pIn);
 
+
+    /// <summary>
+    /// Overloading of operator * between Rotation and Position3D.
+    ///
+    /// \f$\left[\begin{array}{c} result.x \\ result.y \\ result.z \end{array}\right] = \left[\begin{array}{ccc} pRot.r1c1 & pRot.r1c2 & pRot.r1c3 \\ pRot.r2c1 & pRot.r2c2 & pRot.r2c3 \\ pRot.r3c1 & pRot.r3c2 & pRot.r3c3 \end{array}\right] * \left[\begin{array}{c} pPos.x \\ pPos.y \\ pPos.z \end{array}\right] \f$
+    ///
+    /// </summary>
+    /// <param name="pRot"> the given Rotation </param>
+    /// <param name="pPos"> the given Position3D </param>
+    /// <returns>
+    /// the Position3D result.
+    /// </returns>
+    /// \ingroup Tools
     Position3D operator*(
       const Rotation&   pRot,
       const Position3D& pPos);
 
 
-    /*
-    * Velocity6D = Stiffness (float) * Delta Position (Position6D)
-    * @param (float,Position6D)
-    * @return Velocity6D
-    */
+    /// <summary>
+    /// Overloading of operator * for float to Position6D, give a Velocity6D.
+    ///
+    /// \f$\begin{array}{ccc} pVel.xd & = & pVal*pPos.x \\ pVel.yd & = & pVal*pPos.y \\ pVel.zd & = & pVal*pPos.z \\ pVel.wxd & = & pVal*pPos.wx \\ pVel.wyd & = & pVal*pPos.wy \\ pVel.wzd & = & pVal*pPos.wz \end{array} \f$
+    ///
+    /// </summary>
+    /// <param name="pVal"> the given float </param>
+    /// <param name="pPos"> the given Position6D </param>
+    /// <returns>
+    /// the Velocity6D
+    /// </returns>
+    /// \ingroup Tools
     Velocity6D operator*(
-      const float       pK,
-      const Position6D& pDelta);
+      const float       pVal,
+      const Position6D& pPos);
 
 
     /// <summary>
@@ -93,6 +113,13 @@ namespace AL {
       const float&                pTheta,
       const AL::Math::Position3D& pPos);
 
+
+    /// <summary>
+    /// Apply Rotation to a 3D point.
+    /// </summary>
+    /// <param name="pRot"> the given rotation </param>
+    /// <param name="pPos"> the 3D point rotated </param>
+    /// \ingroup Tools
     void applyRotation(
       const AL::Math::Rotation& pRot,
       AL::Math::Position3D&     pPos);

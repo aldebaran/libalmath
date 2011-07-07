@@ -30,7 +30,4 @@ homogenous transform matrix, 6D vector of velocty and so on
 
 \defgroup Tools Tools
 
-\defgroup Collisions Collisions
-Collisions classes give usefull tools in the field of collisions.
-
 */
