@@ -84,18 +84,6 @@ TEST(ALMathTest, invDiffLog)
   compareVelocity6D(pMathVOut, AL::Math::Velocity6D(1.21526851243252f, 0.03119028323490f, 0.01706594106026f, -0.13163715164398f, 0.50211652782035f, -0.86400567208764f));
 }
 
-TEST(ALMathTest, Sign)
-{
-  float pValue = 10.1f;
-  EXPECT_NEAR(AL::Math::sign(pValue), 1.0f, 0.0001f);
-
-  pValue = -5.0f;
-  EXPECT_NEAR(AL::Math::sign(pValue), -1.0f, 0.0001f);
-
-  pValue = 0.0f;
-  EXPECT_NEAR(AL::Math::sign(pValue), 1.0f, 0.0001f);
-}
-
 
 TEST(ALMathTest, TransformFromPosition3DAndRotation)
 {

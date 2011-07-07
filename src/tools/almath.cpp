@@ -206,44 +206,6 @@ namespace AL
     } // end invDiffLog
 
 
-    float sign(const float& pValue)
-    {
-      if (pValue >= 0)
-      {
-        return 1.0f;
-      }
-
-      if (pValue < 0)
-      {
-        return -1.0f;
-      }
-
-      return 1.0f;
-    }
-
-    bool sign(
-      const float& pValue1,
-      const float& pValue2)
-    {
-      if (pValue1 == pValue2)
-      {
-        return ( fabsf(pValue1) > 10e-5 );
-      }
-
-      if (pValue1 > 0 && pValue2 > 0)
-      {
-        return true;
-      }
-
-      if (pValue1 < 0 && pValue2 < 0)
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-
     Transform transformFromPosition3DAndRotation(
       const float x,
       const float y,

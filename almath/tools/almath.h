@@ -50,16 +50,6 @@ namespace AL {
       const AL::Math::Velocity6D& pIn,
       AL::Math::Velocity6D&       pOut);
 
-    /**
-    * Returns 1.0f if the value is greater
-    * or equal to zero, otherwise returns -1.0f
-    */
-    float sign(const float& pValue);
-
-    bool sign(
-      const float& pValue1,
-      const float& pValue2);
-
 
     Transform transformFromPosition3DAndRotation(
       const float x,
