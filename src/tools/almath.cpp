@@ -207,69 +207,69 @@ namespace AL
 
 
     Transform transformFromPosition3DAndRotation(
-      const float x,
-      const float y,
-      const float z,
-      const Rotation& pRotation)
+      const float&    pX,
+      const float&    pY,
+      const float&    pZ,
+      const Rotation& pRot)
     {
       Transform T = Transform();
 
-      T.r1_c4 = x;
-      T.r2_c4 = y;
-      T.r3_c4 = z;
+      T.r1_c4 = pX;
+      T.r2_c4 = pY;
+      T.r3_c4 = pZ;
 
-      T.r1_c1 = pRotation.r1_c1;
-      T.r1_c2 = pRotation.r1_c2;
-      T.r1_c3 = pRotation.r1_c3;
+      T.r1_c1 = pRot.r1_c1;
+      T.r1_c2 = pRot.r1_c2;
+      T.r1_c3 = pRot.r1_c3;
 
-      T.r2_c1 = pRotation.r2_c1;
-      T.r2_c2 = pRotation.r2_c2;
-      T.r2_c3 = pRotation.r2_c3;
+      T.r2_c1 = pRot.r2_c1;
+      T.r2_c2 = pRot.r2_c2;
+      T.r2_c3 = pRot.r2_c3;
 
-      T.r3_c1 = pRotation.r3_c1;
-      T.r3_c2 = pRotation.r3_c2;
-      T.r3_c3 = pRotation.r3_c3;
+      T.r3_c1 = pRot.r3_c1;
+      T.r3_c2 = pRot.r3_c2;
+      T.r3_c3 = pRot.r3_c3;
 
       return T;
     }
 
 
     Transform transformFromPosition3DAndRotation(
-      const Position3D& pPosition,
-      const Rotation&   pRotation)
+      const Position3D& pPos,
+      const Rotation&   pRot)
     {
       Transform T = Transform();
 
-      T.r1_c4 = pPosition.x;
-      T.r2_c4 = pPosition.y;
-      T.r3_c4 = pPosition.z;
+      T.r1_c4 = pPos.x;
+      T.r2_c4 = pPos.y;
+      T.r3_c4 = pPos.z;
 
-      T.r1_c1 = pRotation.r1_c1;
-      T.r1_c2 = pRotation.r1_c2;
-      T.r1_c3 = pRotation.r1_c3;
+      T.r1_c1 = pRot.r1_c1;
+      T.r1_c2 = pRot.r1_c2;
+      T.r1_c3 = pRot.r1_c3;
 
-      T.r2_c1 = pRotation.r2_c1;
-      T.r2_c2 = pRotation.r2_c2;
-      T.r2_c3 = pRotation.r2_c3;
+      T.r2_c1 = pRot.r2_c1;
+      T.r2_c2 = pRot.r2_c2;
+      T.r2_c3 = pRot.r2_c3;
 
-      T.r3_c1 = pRotation.r3_c1;
-      T.r3_c2 = pRotation.r3_c2;
-      T.r3_c3 = pRotation.r3_c3;
+      T.r3_c1 = pRot.r3_c1;
+      T.r3_c2 = pRot.r3_c2;
+      T.r3_c3 = pRot.r3_c3;
 
       return T;
     }
 
 
-    Position6D position6DFromVelocity6D(const Velocity6D& pIn)
+    Position6D position6DFromVelocity6D(const Velocity6D& pVel)
     {
-      Position6D pOut;
-      pOut.x  = pIn.xd;
-      pOut.y  = pIn.yd;
-      pOut.z  = pIn.zd;
-      pOut.wx = pIn.wxd;
-      pOut.wy = pIn.wyd;
-      pOut.wz = pIn.wzd;
-      return pOut;
+      Position6D pos;
+      pos.x  = pVel.xd;
+      pos.y  = pVel.yd;
+      pos.z  = pVel.zd;
+      pos.wx = pVel.wxd;
+      pos.wy = pVel.wyd;
+      pos.wz = pVel.wzd;
+      return pos;
     }
 
     Position3D operator*(

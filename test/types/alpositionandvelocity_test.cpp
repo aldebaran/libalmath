@@ -4,7 +4,8 @@
  *
  */
 #include <almath/types/alpositionandvelocity.h>
-#include "../almathtestutils.h"
+
+#include <gtest/gtest.h>
 
 TEST(ALPositionAndVelocityTest, isNear)
 {

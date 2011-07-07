@@ -4,7 +4,11 @@
 *
 */
 #include <almath/tools/almath.h>
-#include "../almathtestutils.h"
+
+#include <almath/tools/altrigonometry.h>
+
+#include <gtest/gtest.h>
+#include <stdexcept>
 
 TEST(ALMathTest, clipData)
 {
@@ -40,14 +44,14 @@ TEST(ALMathTest, diffLog)
   AL::Math::Velocity6D pMathVOut = AL::Math::Velocity6D();
 
   AL::Math::diffLog(pMathVTmp, pMathVIn, pMathVOut);
-  compareVelocity6D(pMathVOut, AL::Math::Velocity6D());
+  EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D()));
 
   pMathVTmp = AL::Math::Velocity6D();
   pMathVIn  = AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f);
   pMathVOut = AL::Math::Velocity6D();
 
   AL::Math::diffLog(pMathVTmp, pMathVIn, pMathVOut);
-  compareVelocity6D(pMathVOut, AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f));
+  EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f)));
 
 
   pMathVTmp = AL::Math::Velocity6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
@@ -55,7 +59,13 @@ TEST(ALMathTest, diffLog)
   pMathVOut = AL::Math::Velocity6D();
 
   AL::Math::diffLog(pMathVTmp, pMathVIn, pMathVOut);
-  compareVelocity6D(pMathVOut, AL::Math::Velocity6D(0.64771665004999f, 0.66168175212585f, -0.24379584098681f, -0.83834409132305f, 0.54968881246280f, -0.43251128283696f));
+  EXPECT_TRUE(pMathVOut.isNear(
+                AL::Math::Velocity6D(0.64771665004999f,
+                                     0.66168175212585f,
+                                     -0.24379584098681f,
+                                     -0.83834409132305f,
+                                     0.54968881246280f,
+                                     -0.43251128283696f)));
 }
 
 TEST(ALMathTest, invDiffLog)
@@ -66,14 +76,14 @@ TEST(ALMathTest, invDiffLog)
   AL::Math::Velocity6D pMathVOut = AL::Math::Velocity6D();
 
   AL::Math::invDiffLog(pMathVTmp, pMathVIn, pMathVOut);
-  compareVelocity6D(pMathVOut, AL::Math::Velocity6D());
+  EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D()));
 
   pMathVTmp = AL::Math::Velocity6D();
   pMathVIn  = AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f);
   pMathVOut = AL::Math::Velocity6D();
 
   AL::Math::invDiffLog(pMathVTmp, pMathVIn, pMathVOut);
-  compareVelocity6D(pMathVOut, AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f));
+  EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(1.1f, 1.2f, 1.3f, 1.4f, 1.5f, 1.6f)));
 
 
   pMathVTmp = AL::Math::Velocity6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
@@ -81,7 +91,13 @@ TEST(ALMathTest, invDiffLog)
   pMathVOut = AL::Math::Velocity6D();
 
   AL::Math::invDiffLog(pMathVTmp, pMathVIn, pMathVOut);
-  compareVelocity6D(pMathVOut, AL::Math::Velocity6D(1.21526851243252f, 0.03119028323490f, 0.01706594106026f, -0.13163715164398f, 0.50211652782035f, -0.86400567208764f));
+  EXPECT_TRUE(pMathVOut.isNear(
+                AL::Math::Velocity6D(1.21526851243252f,
+                                     0.03119028323490f,
+                                     0.01706594106026f,
+                                     -0.13163715164398f,
+                                     0.50211652782035f,
+                                     -0.86400567208764f)));
 }
 
 
@@ -93,7 +109,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r1_c4 =  0.2f;
   pHOut.r2_c4 =  0.5f;
   pHOut.r3_c4 = -1.2f;
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 
 
   pRot = AL::Math::Rotation::fromRotY(0.5f);
@@ -102,7 +118,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r1_c4 =  0.2f;
   pHOut.r2_c4 =  0.5f;
   pHOut.r3_c4 = -1.2f;
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 
 
   pRot = AL::Math::Rotation::fromRotZ(0.5f);
@@ -111,7 +127,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r1_c4 =  0.2f;
   pHOut.r2_c4 =  0.5f;
   pHOut.r3_c4 = -1.2f;
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 
 
   AL::Math::Position3D pPos3D = AL::Math::Position3D(0.1f, 0.2f, 0.3f);
@@ -121,7 +137,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.3f;
   pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 
 
   pPos3D = AL::Math::Position3D(0.1f, 0.2f, 0.3f);
@@ -131,7 +147,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.3f;
   pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 
 
   pPos3D = AL::Math::Position3D(0.1f, 0.2f, 0.3f);
@@ -141,7 +157,7 @@ TEST(ALMathTest, TransformFromPosition3DAndRotation)
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.3f;
   pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 }
 
 TEST(ALMathTest, Position6DFromVelocity6D)
@@ -151,7 +167,7 @@ TEST(ALMathTest, Position6DFromVelocity6D)
 
   AL::Math::Position6D pPosOut = AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
 
-  comparePosition6D(pPosIn, pPosOut, 0.0001f);
+  EXPECT_TRUE(pPosIn.isNear(pPosOut, 0.0001f));
 }
 
 TEST(ALMathTest, variousOperator)
@@ -163,19 +179,19 @@ TEST(ALMathTest, variousOperator)
   AL::Math::Position3D pPos3D;
   AL::Math::Position3D pPosIn = pRot*pPos3D;
   AL::Math::Position3D pPosOut = AL::Math::Position3D();
-  comparePosition3D(pPosIn, pPosOut, 0.0001f);
+  EXPECT_TRUE(pPosIn.isNear(pPosOut, 0.0001f));
 
   pRot = AL::Math::Rotation();
   pPos3D = AL::Math::Position3D(1.0f, -1.0f, 0.5f);
   pPosIn = pRot*pPos3D;
   pPosOut = AL::Math::Position3D(1.0f, -1.0f, 0.5f);
-  comparePosition3D(pPosIn, pPosOut, 0.0001f);
+  EXPECT_TRUE(pPosIn.isNear(pPosOut, 0.0001f));
 
   pRot = AL::Math::Rotation::fromRotX(0.5f);
   pPos3D = AL::Math::Position3D(1.0f, -1.0f, 0.5f);
   pPosIn = pRot*pPos3D;
   pPosOut = AL::Math::Position3D(1.00000000000000f, -1.11729533119247f, -0.04063425765902f);
-  comparePosition3D(pPosIn, pPosOut, 0.0001f);
+  EXPECT_TRUE(pPosIn.isNear(pPosOut, 0.0001f));
 
   //inline Velocity6D operator*(
   //  const float       pK,
@@ -184,7 +200,7 @@ TEST(ALMathTest, variousOperator)
   AL::Math::Position6D pPos6D = AL::Math::Position6D(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
   AL::Math::Velocity6D pVel6DIn = pK*pPos6D;
   AL::Math::Velocity6D pVel6DOut = AL::Math::Velocity6D(10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f);
-  compareVelocity6D(pVel6DIn, pVel6DOut, 0.0001f);
+  EXPECT_TRUE(pVel6DIn.isNear(pVel6DOut, 0.0001f));
 }
 
 TEST(ALMathTest, isLeft)

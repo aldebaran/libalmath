@@ -6,7 +6,9 @@
 
 #include <almath/tools/avoidfootcollision.h>
 #include <almath/types/alpose2d.h>
-#include "../almathtestutils.h"
+#include <almath/tools/altrigonometry.h>
+
+#include <gtest/gtest.h>
 
 TEST(avoidFootCollisionTest, Log)
 {

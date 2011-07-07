@@ -5,8 +5,12 @@
 */
 #include <almath/types/altransform.h>
 #include <almath/tools/almathio.h>
-#include "../almathtestutils.h"
 
+#include <almath/tools/altrigonometry.h>
+
+#include <almath/tools/altransformhelpers.h>
+
+#include <gtest/gtest.h>
 #include <cmath>
 
 TEST(TransformTest, variousOperator)
@@ -29,7 +33,7 @@ TEST(TransformTest, variousOperator)
   pHSol.r3_c4 = 0.4f;
 
   pHIn1 *= pHIn2;
-  compareTransform(pHIn1, pHSol, 0.0001f);
+  EXPECT_TRUE(pHIn1.isNear(pHSol, 0.0001f));
 
   // operator*
   pHIn1 = AL::Math::Transform();
@@ -51,7 +55,7 @@ TEST(TransformTest, variousOperator)
   pHSol.r2_c4 = 1.0f;
   pHSol.r3_c4 = 0.4f;
 
-  compareTransform(pHIn3, pHSol, 0.0001f);
+  EXPECT_TRUE(pHIn3.isNear(pHSol, 0.0001f));
 }
 
 TEST(TransformTest, isNear)
@@ -258,7 +262,7 @@ TEST(TransformTest, inverse)
   pHSol.r3_c3 = 1.00000000000000f;
   pHSol.r3_c4 = 2.00000000000000f;
 
-  compareTransform(pHIn.inverse(), pHSol, 0.0001f);
+  EXPECT_TRUE(pHIn.inverse().isNear(pHSol, 0.0001f));
 }
 
 
@@ -280,7 +284,7 @@ TEST(TransformTest, fromRotXYZ)
   pHOut.r3_c2 = 0.32404302839487f;
   pHOut.r3_c3 = 0.94604234352839f;
 
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 
   // fromRotY
   pHIn  = AL::Math::Transform::fromRotY(-0.65f);
@@ -296,7 +300,7 @@ TEST(TransformTest, fromRotXYZ)
   pHOut.r3_c2 = 0.0f;
   pHOut.r3_c3 = 0.79608379854906f;
 
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 
   // fromRotZ
   pHIn  = AL::Math::Transform::fromRotZ(0.5f);
@@ -305,7 +309,7 @@ TEST(TransformTest, fromRotXYZ)
   pHOut.r1_c2 = -0.47942553860420f;
   pHOut.r2_c1 = 0.47942553860420f;
   pHOut.r2_c2 = 0.87758256189037f;
-  compareTransform(pHIn, pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
 }
 
 TEST(ALTransformHelpersTest, fromRotXYZ2)
@@ -332,15 +336,15 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
   {
     pHIn  = AL::Math::transformFromRotX(pAngleList[i]);
     pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
-    compareTransform(pHIn, pHOut);
+    EXPECT_TRUE(pHIn.isNear(pHOut));
 
     pHIn  = AL::Math::transformFromRotY(pAngleList[i]);
     pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
-    compareTransform(pHIn, pHOut);
+    EXPECT_TRUE(pHIn.isNear(pHOut));
 
     pHIn  = AL::Math::transformFromRotZ(pAngleList[i]);
     pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
-    compareTransform(pHIn, pHOut);
+    EXPECT_TRUE(pHIn.isNear(pHOut));
   }
 
   std::vector<std::vector<float> > pList;
@@ -389,19 +393,19 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
         AL::Math::transformFromRotY(pList[i][1])*
         AL::Math::transformFromRotZ(pList[i][2]);
     pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
-    compareTransform(pHIn, pHOut);
+    EXPECT_TRUE(pHIn.isNear(pHOut));
 
     pHIn  = AL::Math::transformFromRotX(pList[i][2])*
         AL::Math::transformFromRotY(pList[i][0])*
         AL::Math::transformFromRotZ(pList[i][1]);
     pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
-    compareTransform(pHIn, pHOut);
+    EXPECT_TRUE(pHIn.isNear(pHOut));
 
     pHIn  = AL::Math::transformFromRotX(pList[i][1])*
         AL::Math::transformFromRotY(pList[i][2])*
         AL::Math::transformFromRotZ(pList[i][0]);
     pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
-    compareTransform(pHIn, pHOut);
+    EXPECT_TRUE(pHIn.isNear(pHOut));
   }
 
 } // end transformFromRot
@@ -411,22 +415,22 @@ TEST(TransformTest, from3DRotation)
 {
   AL::Math::Transform pHIn  = AL::Math::Transform::from3DRotation(0.0f, 0.0f, 0.0f);
   AL::Math::Transform pHOut = AL::Math::Transform();
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 
   // fromRotX
   pHIn  = AL::Math::Transform::from3DRotation(0.33f, 0.0f, 0.0f);
   pHOut = AL::Math::Transform::fromRotX(0.33f);
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 
   // fromRotY
   pHIn  = AL::Math::Transform::from3DRotation(0.0f, 0.33f, 0.0f);
   pHOut = AL::Math::Transform::fromRotY(0.33f);
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 
   // fromRotZ
   pHIn  = AL::Math::Transform::from3DRotation(0.0f, 0.0f, 0.33f);
   pHOut = AL::Math::Transform::fromRotZ(0.33f);
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 }
 
 
@@ -437,7 +441,7 @@ TEST(TransformTest, fromPosition)
   pHOut.r1_c4 = 1.0f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.1f;
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 }
 
 
@@ -448,28 +452,28 @@ TEST(TransformTest, fromPositionAndRotation)
   pHOut.r1_c4 = 1.0f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.1f;
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 
   pHIn  = AL::Math::Transform::fromPosition(1.0f, 0.2f, 0.1f, 0.2f, 0.0f, 0.0f);
   pHOut = AL::Math::Transform::fromRotX(0.2f);
   pHOut.r1_c4 = 1.0f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.1f;
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 
   pHIn  = AL::Math::Transform::fromPosition(1.0f, 0.2f, 0.1f, 0.0f, 0.2f, 0.0f);
   pHOut = AL::Math::Transform::fromRotY(0.2f);
   pHOut.r1_c4 = 1.0f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.1f;
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 
   pHIn  = AL::Math::Transform::fromPosition(1.0f, 0.2f, 0.1f, 0.0f, 0.0f, 0.2f);
   pHOut = AL::Math::Transform::fromRotZ(0.2f);
   pHOut.r1_c4 = 1.0f;
   pHOut.r2_c4 = 0.2f;
   pHOut.r3_c4 = 0.1f;
-  compareTransform(pHIn, pHOut, 0.00001f);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.00001f));
 }
 
 
@@ -478,17 +482,17 @@ TEST(TransformTest, diff)
   AL::Math::Transform pHIn1 = AL::Math::Transform::fromRotX(0.2f);
   AL::Math::Transform pHIn2 = AL::Math::Transform::fromRotX(-0.3f);
   AL::Math::Transform pHOut = AL::Math::Transform::fromRotX(-0.5f);
-  compareTransform(pHIn1.diff(pHIn2), pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn1.diff(pHIn2).isNear(pHOut, 0.0001f));
 
   pHIn1 = AL::Math::Transform::fromRotY(0.2f);
   pHIn2 = AL::Math::Transform::fromRotY(-0.3f);
   pHOut = AL::Math::Transform::fromRotY(-0.5f);
-  compareTransform(pHIn1.diff(pHIn2), pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn1.diff(pHIn2).isNear(pHOut, 0.0001f));
 
   pHIn1 = AL::Math::Transform::fromRotZ(0.2f);
   pHIn2 = AL::Math::Transform::fromRotZ(-0.3f);
   pHOut = AL::Math::Transform::fromRotZ(-0.5f);
-  compareTransform(pHIn1.diff(pHIn2), pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn1.diff(pHIn2).isNear(pHOut, 0.0001f));
 }
 
 
@@ -524,22 +528,22 @@ TEST(TransformTest, Determinant)
 
 TEST(TransformTest, inverse0)
 {
-  compareTransform(AL::Math::transformInverse(AL::Math::Transform()), AL::Math::Transform());
+  EXPECT_TRUE(AL::Math::transformInverse(AL::Math::Transform()).isNear(AL::Math::Transform()));
 
   AL::Math::Transform pHIn  = AL::Math::Transform::fromRotX(0.5f);
   AL::Math::Transform pHOut = AL::Math::Transform::fromRotX(-0.5f);
-  compareTransform(pHIn.inverse(), pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.inverse().isNear(pHOut, 0.0001f));
 
   pHIn  = AL::Math::Transform::fromRotY(0.5f);
   pHOut = AL::Math::Transform::fromRotY(-0.5f);
-  compareTransform(pHIn.inverse(), pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.inverse().isNear(pHOut, 0.0001f));
 
   pHIn  = AL::Math::Transform::fromRotZ(0.5f);
   pHOut = AL::Math::Transform::fromRotZ(-0.5f);
-  compareTransform(pHIn.inverse(), pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.inverse().isNear(pHOut, 0.0001f));
 
   pHIn  = AL::Math::Transform::fromPosition(0.1f, 0.2f, 0.3f);
   pHOut = AL::Math::Transform::fromPosition(-0.1f, -0.2f, -0.3f);
-  compareTransform(pHIn.inverse(), pHOut, 0.0001f);
+  EXPECT_TRUE(pHIn.inverse().isNear(pHOut, 0.0001f));
 }
 

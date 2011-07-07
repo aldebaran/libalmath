@@ -4,7 +4,8 @@
  *
  */
 #include <almath/types/alpose2d.h>
-#include "../almathtestutils.h"
+
+#include <gtest/gtest.h>
 
 TEST(ALPose2DTest, basicOperator)
 {
@@ -24,55 +25,55 @@ TEST(ALPose2DTest, basicOperator)
   pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D2 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D = pPos2D1 + pPos2D2;
-  comparePose2D(pPos2D, AL::Math::Pose2D(1.0f, -0.6f, 0.2f), 0.001f);
+  EXPECT_TRUE(pPos2D.isNear(AL::Math::Pose2D(1.0f, -0.6f, 0.2f), 0.001f));
 
   // operator + (+a)
   pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D  = AL::Math::Pose2D();
   pPos2D = +pPos2D1;
-  comparePose2D(pPos2D, AL::Math::Pose2D(0.5f, -0.3f, 0.1f), 0.001f);
+  EXPECT_TRUE(pPos2D.isNear(AL::Math::Pose2D(0.5f, -0.3f, 0.1f), 0.001f));
 
   // operator +=
   pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D2 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D1 += pPos2D2;
-  comparePose2D(pPos2D1, AL::Math::Pose2D(1.0f, -0.6f, 0.2f), 0.001f);
+  EXPECT_TRUE(pPos2D1.isNear(AL::Math::Pose2D(1.0f, -0.6f, 0.2f), 0.001f));
 
   // operator - (a-b)
   pPos2D1 = AL::Math::Pose2D(0.5f, +0.3f, 0.1f);
   pPos2D2 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D = pPos2D2 - pPos2D1;
-  comparePose2D(pPos2D, AL::Math::Pose2D(0.0f, -0.6f, 0.0f), 0.001f);
+  EXPECT_TRUE(pPos2D.isNear(AL::Math::Pose2D(0.0f, -0.6f, 0.0f), 0.001f));
 
   // operator - (-a)
   pPos2D1 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D  = AL::Math::Pose2D();
   pPos2D  = - pPos2D1;
-  comparePose2D(pPos2D, AL::Math::Pose2D(-0.5f, 0.3f, -0.1f), 0.001f);
+  EXPECT_TRUE(pPos2D.isNear(AL::Math::Pose2D(-0.5f, 0.3f, -0.1f), 0.001f));
 
   // operator -=
   pPos2D1 = AL::Math::Pose2D(0.6f, -0.4f, 0.2f);
   pPos2D2 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
   pPos2D1 -= pPos2D2;
-  comparePose2D(pPos2D1, AL::Math::Pose2D(0.1f, -0.1f, 0.1f), 0.001f);
+  EXPECT_TRUE(pPos2D1.isNear(AL::Math::Pose2D(0.1f, -0.1f, 0.1f), 0.001f));
 
   // operator *
   pPos2D1 = AL::Math::Pose2D(1.0f, 0.0f, 0.0f);
   pPos2D2 = AL::Math::Pose2D(0.0f, 1.0f, 0.2f);
-  pPos2D = pPos2D1 * pPos2D2;
-  comparePose2D(pPos2D, AL::Math::Pose2D(1.0f, 1.0f, 0.2f), 0.001f);
+  pPos2D = pPos2D1*pPos2D2;
+  EXPECT_TRUE(pPos2D.isNear(AL::Math::Pose2D(1.0f, 1.0f, 0.2f), 0.001f));
 
 //  // operator *
 //  pPos2D1 = AL::Math::Pose2D(-0.13027f, 0.348845f, 3.14151f);
 //  pPos2D2 = AL::Math::Pose2D(0.1f, 0.0f, 0.0f);
 //  pPos2D = pPos2D1*pPos2D2;
-//  comparePose2D(pPos2D, AL::Math::Pose2D(-0.212624f, 0.349525f, 3.14155f), 0.001f);
+//  EXPECT_TRUE(pPos2D.isNear(AL::Math::Pose2D(-0.212624f, 0.349525f, 3.14155f), 0.001f));
 
   // operator *=
   pPos2D1 = AL::Math::Pose2D(1.0f, 0.0f, 0.0f);
   pPos2D2 = AL::Math::Pose2D(0.0f, 1.0f, 0.2f);
   pPos2D1 *= pPos2D2;
-  comparePose2D(pPos2D1, AL::Math::Pose2D(1.0f, 1.0f, 0.2f), 0.001f);
+  EXPECT_TRUE(pPos2D1.isNear(AL::Math::Pose2D(1.0f, 1.0f, 0.2f), 0.001f));
 }
 
 

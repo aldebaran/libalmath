@@ -5,8 +5,9 @@
  */
 #include <almath/types/alpose2d.h>
 #include <almath/tools/aldubinscurve.h>
-#include "../almathtestutils.h"
 
+#include <gtest/gtest.h>
+//#include "../almathtestutils.h"
 
 float pCircleRadius = 0.0f;
 AL::Math::Pose2D pTargetPose = AL::Math::Pose2D();
@@ -19,13 +20,13 @@ TEST(ALDubinsCurveTest, test0)
   std::vector<AL::Math::Pose2D> solution = AL::Math::getDubinsSolutions(pTargetPose, pCircleRadius);
 
   std::cout << "-------------- test 0 - 0 --------------" << std::endl;
-  comparePose2D(solution.at(0), AL::Math::Pose2D(+0.0777402f, +0.0370996f, +0.890525f));
+  EXPECT_TRUE(solution.at(0).isNear(AL::Math::Pose2D(+0.0777402f, +0.0370996f, +0.890525f)));
 
   std::cout << "-------------- test 0 - 1 --------------" << std::endl;
-  comparePose2D(solution.at(1), AL::Math::Pose2D(+0.422260f, +0.462900f, +0.890525f));
+  EXPECT_TRUE(solution.at(1).isNear(AL::Math::Pose2D(+0.422260f, +0.462900f, +0.890525f)));
 
   std::cout << "-------------- test 0 - 2 --------------" << std::endl;
-  comparePose2D(solution.at(2), AL::Math::Pose2D(+0.500000f, +0.500000f, +0.000000f));
+  EXPECT_TRUE(solution.at(2).isNear(AL::Math::Pose2D(+0.500000f, +0.500000f, +0.000000f)));
 }
 
 
@@ -37,13 +38,13 @@ TEST(ALDubinsCurveTest, test1)
   std::vector<AL::Math::Pose2D> solution = AL::Math::getDubinsSolutions(pTargetPose, pCircleRadius);
 
   std::cout << "-------------- test 1 - 0 --------------" << std::endl;
-  comparePose2D(solution.at(0), AL::Math::Pose2D(+0.0207914f, +0.197815f, +2.93215f));
+  EXPECT_TRUE(solution.at(0).isNear(AL::Math::Pose2D(+0.0207914f, +0.197815f, +2.93215f)));
 
   std::cout << "-------------- test 1 - 1 --------------" << std::endl;
-  comparePose2D(solution.at(1), AL::Math::Pose2D(-0.491239f, +0.306652f, +2.93215f));
+  EXPECT_TRUE(solution.at(1).isNear(AL::Math::Pose2D(-0.491239f, +0.306652f, +2.93215f)));
 
   std::cout << "-------------- test 1 - 2 --------------" << std::endl;
-  comparePose2D(solution.at(2), AL::Math::Pose2D(-0.500000f, +0.500000f, +0.300000f));
+  EXPECT_TRUE(solution.at(2).isNear(AL::Math::Pose2D(-0.500000f, +0.500000f, +0.300000f)));
 }
 
 
@@ -55,12 +56,12 @@ TEST(ALDubinsCurveTest, test2)
   std::vector<AL::Math::Pose2D> solution = AL::Math::getDubinsSolutions(pTargetPose, pCircleRadius);
 
   std::cout << "-------------- test 2 - 0 --------------" << std::endl;
-  comparePose2D(solution.at(0), AL::Math::Pose2D(+0.0958873f, -0.128384f, -1.85859f));
+  EXPECT_TRUE(solution.at(0).isNear(AL::Math::Pose2D(+0.0958873f, -0.128384f, -1.85859f)));
 
   std::cout << "-------------- test 2 - 1 --------------" << std::endl;
-  comparePose2D(solution.at(1), AL::Math::Pose2D(-0.125439f, -0.876083f, -1.85859f));
+  EXPECT_TRUE(solution.at(1).isNear(AL::Math::Pose2D(-0.125439f, -0.876083f, -1.85859f)));
 
   std::cout << "-------------- test 2 - 2 --------------" << std::endl;
-  comparePose2D(solution.at(2), AL::Math::Pose2D(0.0f, -1.0f, +0.3f));
+  EXPECT_TRUE(solution.at(2).isNear(AL::Math::Pose2D(0.0f, -1.0f, +0.3f)));
 }
 

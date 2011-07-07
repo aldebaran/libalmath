@@ -4,7 +4,9 @@
  *
  */
 #include <almath/types/alrotation.h>
-#include "../almathtestutils.h"
+
+#include <gtest/gtest.h>
+#include <almath/tools/altrigonometry.h>
 
 TEST(ALRotationTest, isNear)
 {
@@ -21,15 +23,15 @@ TEST(ALRotationTest, transpose)
 {
   AL::Math::Rotation pRotIn  = AL::Math::Rotation::fromRotX(0.3f);
   AL::Math::Rotation pRotOut = AL::Math::Rotation::fromRotX(-0.3f);
-  compareRotation(pRotIn.transpose(), pRotOut, 0.0001f);
+  EXPECT_TRUE(pRotIn.transpose().isNear(pRotOut, 0.0001f));
 
   pRotIn  = AL::Math::Rotation::fromRotY(0.3f);
   pRotOut = AL::Math::Rotation::fromRotY(-0.3f);
-  compareRotation(pRotIn.transpose(), pRotOut, 0.0001f);
+  EXPECT_TRUE(pRotIn.transpose().isNear(pRotOut, 0.0001f));
 
   pRotIn  = AL::Math::Rotation::fromRotZ(0.3f);
   pRotOut = AL::Math::Rotation::fromRotZ(-0.3f);
-  compareRotation(pRotIn.transpose(), pRotOut, 0.0001f);
+  EXPECT_TRUE(pRotIn.transpose().isNear(pRotOut, 0.0001f));
 }
 
 TEST(ALRotationTest, determinant0)
@@ -69,7 +71,7 @@ TEST(ALRotationTest, fromRot)
   pRotOut.r3_c1 = 0.0f;
   pRotOut.r3_c2 = 0.32404302839487f;
   pRotOut.r3_c3 = 0.94604234352839f;
-  compareRotation(pRotIn, pRotOut, 0.0001f);
+  EXPECT_TRUE(pRotIn.isNear(pRotOut, 0.0001f));
 
   pRotIn  = AL::Math::Rotation::fromRotY(-0.65f);
   pRotOut = AL::Math::Rotation();
@@ -82,7 +84,7 @@ TEST(ALRotationTest, fromRot)
   pRotOut.r3_c1 = 0.60518640573604f;
   pRotOut.r3_c2 = 0.0f;
   pRotOut.r3_c3 = 0.79608379854906f;
-  compareRotation(pRotIn, pRotOut, 0.0001f);
+  EXPECT_TRUE(pRotIn.isNear(pRotOut, 0.0001f));
 
   pRotIn  = AL::Math::Rotation::fromRotZ(0.5f);
   pRotOut = AL::Math::Rotation();
@@ -90,7 +92,7 @@ TEST(ALRotationTest, fromRot)
   pRotOut.r1_c2 = -0.47942553860420f;
   pRotOut.r2_c1 = 0.47942553860420f;
   pRotOut.r2_c2 = 0.87758256189037f;
-  compareRotation(pRotIn, pRotOut, 0.0001f);
+  EXPECT_TRUE(pRotIn.isNear(pRotOut, 0.0001f));
 }
 
 TEST(ALRotationTest, from3DRotation)

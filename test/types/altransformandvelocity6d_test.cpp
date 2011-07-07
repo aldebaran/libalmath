@@ -4,7 +4,8 @@
 *
 */
 #include <almath/types/altransformandvelocity6d.h>
-#include "../almathtestutils.h"
+
+#include <gtest/gtest.h>
 
 TEST(ALTransformAndVelocityTest, isNear)
 {
