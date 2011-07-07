@@ -5,6 +5,7 @@
 
 #include <almath/tools/almath.h>
 
+#include <cmath>
 
 namespace AL
 {
@@ -334,40 +335,6 @@ namespace AL
       result.wyd = pK * pDelta.wy;
       result.wzd = pK * pDelta.wz;
       return result;
-    }
-
-
-    float computeGradiant(
-      const Position2D& pPointA,
-      const Position2D& pPointB)
-    {
-      float lGradiant;
-      float lDenominator = pPointA.x - pPointB.x;
-      // Avoid division by zero
-      if (static_cast<float> ( fabsf(lDenominator)) > 1.0*10e-6f)
-      {
-        lGradiant = (pPointA.y - pPointB.y) / lDenominator;
-      }
-      else {
-        // Replace infinite gradiant by high values
-        lGradiant = (pPointA.y - pPointB.y) / 10e-6f;
-      }
-      return lGradiant;
-    }
-
-    float computeOffset(
-      const Position2D& pPointA,
-      const float&      pGradiant)
-    {
-      return (pPointA.y - (pGradiant * pPointA.x));
-    }
-
-    float computeOffset(
-      const Position2D& pPointA,
-      const Position2D& pPointB)
-    {
-      float lGradiant = computeGradiant(pPointA, pPointB);
-      return computeOffset(pPointA, lGradiant);
     }
 
 

@@ -7,6 +7,8 @@
 #include <almath/tools/almathio.h>
 #include "../almathtestutils.h"
 
+#include <cmath>
+
 TEST(TransformTest, variousOperator)
 {
   AL::Math::Transform pHIn1 = AL::Math::Transform();

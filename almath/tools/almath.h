@@ -12,8 +12,6 @@
 #ifndef _LIB_ALMATH_ALMATH_ALMATH_H_
 #define _LIB_ALMATH_ALMATH_ALMATH_H_
 
-#include <cmath>
-
 #include <almath/types/alposition2d.h>
 #include <almath/types/alvelocity3d.h>
 #include <almath/tools/altrigonometry.h>
@@ -23,34 +21,6 @@
 
 namespace AL {
   namespace Math {
-
-    /**
-    * If you want to avoid too small numbers (<5.10^-29 if using float):
-    * a = small_one;
-    * a += killDeNormalNumber;
-    * make_operations(a);
-    * a -= killDeNormalNumber;
-    * it will save a LOT of cpu (a multiplication with a denormal operand takes about 170 cycles !!!)
-    *
-    * for your information : denormal number = (FLOAT_MIN*2^32) = 5.0486911077.10^(-29)
-    * the killDeNormalNumber const is chosen bigger than this denormal number
-    *clipData
-    * for more informations, see : www.musicdsp.org/files/denormal.pdf
-    */
-//#define killDeNormalNumber 1e-20f
-
-//    struct Complex
-//    {
-//      float re;
-//      float im;
-
-//      Complex(
-//          const float pRe = 0.0f,
-//          const float pIm = 0.0f):
-//          re(pRe),
-//          im(pIm) {};
-//    }; // end Complex
-
 
     bool clipData(
       const float& pMin,
@@ -90,14 +60,6 @@ namespace AL {
       const float& pValue1,
       const float& pValue2);
 
-    /**
-    * inlineFactoriel: return the factoriel of the given number
-    * @param pNumber the factoriel you want to compute
-    **/
-    inline unsigned int inlineFactorial(unsigned int pNumber)
-    {
-      return pNumber> 1 ? (pNumber * inlineFactorial(pNumber-1)) : 1;
-    }
 
     Transform transformFromPosition3DAndRotation(
       const float x,
@@ -127,40 +89,6 @@ namespace AL {
       const float       pK,
       const Position6D& pDelta);
 
-
-    /**
-    * Function to compute the gradiant of a line 2D defined by 2 points
-    * This function avoid division by zero
-    *
-    * @param pPointA the first point of the line
-    * @param pPointB the second point of the line
-    * @return the gradiant of the line 2D
-    */
-    float computeGradiant(
-      const Position2D& pPointA,
-      const Position2D& pPointB);
-
-    /**
-    * Function to compute the offset of a line
-    * from a point of the line and the gradiant
-    * @param pPointA the first point of the line
-    * @param pGradiant the gradiant of the line
-    * @return the offset of the line 2D
-    */
-    float computeOffset(
-      const Position2D& pPointA,
-      const float&      pGradiant);
-
-    /**
-    * Function to compute the offset of a line 2D defined by 2 points
-    *
-    * @param pPointA the first point of the line
-    * @param pPointB the second point of the line
-    * @return the offset of the line 2D
-    */
-    float computeOffset(
-      const Position2D& pPointA,
-      const Position2D& pPointB);
 
 
     /**

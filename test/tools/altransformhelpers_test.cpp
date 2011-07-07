@@ -8,6 +8,8 @@
 #include <almath/tools/almathio.h>
 #include "../almathtestutils.h"
 
+#include <cmath>
+
 TEST(ALTransformHelpersTest, normalizeTransform)
 {
   float eps = 0.0001f;

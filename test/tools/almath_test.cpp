@@ -96,13 +96,6 @@ TEST(ALMathTest, Sign)
   EXPECT_NEAR(AL::Math::sign(pValue), 1.0f, 0.0001f);
 }
 
-TEST(ALMathTest, inlineFactorial)
-{
-  EXPECT_TRUE(AL::Math::inlineFactorial(0) == 1);
-  EXPECT_TRUE(AL::Math::inlineFactorial(1) == 1);
-  EXPECT_TRUE(AL::Math::inlineFactorial(2) == 2);
-  EXPECT_TRUE(AL::Math::inlineFactorial(5) == 120);
-}
 
 TEST(ALMathTest, TransformFromPosition3DAndRotation)
 {
@@ -210,13 +203,6 @@ TEST(ALMathTest, isLeft)
 {
 }
 
-TEST(ALMathTest, computeGradiant)
-{
-}
-
-TEST(ALMathTest, computeOffset)
-{
-}
 
 TEST(ALMathTest, FilterPosition6D)
 {
