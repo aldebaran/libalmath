@@ -7,13 +7,10 @@
 ** Copyright (C) 2011 Aldebaran Robotics
 */
 
-
 #pragma once
 
 #ifndef _LIB_ALMATH_ALMATH_ALTRIGONOMETRY_H_
 #define _LIB_ALMATH_ALMATH_ALTRIGONOMETRY_H_
-
-//#include <cmath>
 
 namespace AL {
   namespace Math {

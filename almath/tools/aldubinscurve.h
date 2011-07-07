@@ -12,10 +12,7 @@
 #ifndef _LIB_ALMATH_ALMATH_ALDUBINSCURVE_H_
 #define _LIB_ALMATH_ALMATH_ALDUBINSCURVE_H_
 
-#include <almath/types/alposition2d.h>
 #include <almath/types/alpose2d.h>
-#include <almath/tools/altrigonometry.h>
-
 #include <vector>
 
 namespace AL {

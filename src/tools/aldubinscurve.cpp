@@ -5,6 +5,9 @@
 
 #include <almath/tools/aldubinscurve.h>
 
+#include <almath/types/alposition2d.h>
+#include <almath/tools/altrigonometry.h>
+
 #include "float.h" // for FLT_MAX
 #include <stdexcept>
 

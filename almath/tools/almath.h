@@ -18,13 +18,6 @@
 #include <almath/types/alrotation.h>
 #include <almath/types/altransform.h>
 
-//#include <almath/types/alposition2d.h>
-//#include <almath/types/alvelocity3d.h>
-//#include <almath/types/alpositionandvelocity.h>
-//#include <almath/tools/altrigonometry.h>
-//#include <almath/types/altransformandvelocity6d.h>
-//#include <almath/tools/altransformhelpers.h>
-
 namespace AL {
   namespace Math {
 
