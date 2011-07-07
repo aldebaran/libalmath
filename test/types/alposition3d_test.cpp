@@ -6,6 +6,8 @@
 #include <almath/types/alposition3d.h>
 #include "../almathtestutils.h"
 
+#include <stdexcept>
+
 AL::Math::Position3D pPos3D1 = AL::Math::Position3D();
 AL::Math::Position3D pPos3D2 = AL::Math::Position3D();
 
@@ -51,8 +53,8 @@ TEST(ALPosition3DTest, norm)
 TEST(ALPosition3DTest, normalize)
 {
   //std::cout << "-------------- normalize 0 --------------" << std::endl;
-  //pPos3D1 = AL::Math::Position3D(0.0f, 0.0f, 0.0f);
-  //ASSERT_THROW(AL::Math::normalize(pPos3D1), AL::ALError);
+  pPos3D1 = AL::Math::Position3D(0.0f, 0.0f, 0.0f);
+  ASSERT_THROW(AL::Math::normalize(pPos3D1), std::runtime_error);
 
 
   //std::cout << "-------------- normalize 1 --------------" << std::endl;
@@ -133,7 +135,7 @@ TEST(ALPosition3DTest, Divers)
 
 
   //std::cout << "-------------- division 1 --------------" << std::endl;
-  //pPos3D1 = AL::Math::Position3D(2.0f, 2.0f, 2.0f);
-  //ASSERT_THROW((pPos3D1/0.0f), AL::ALError);
+  pPos3D1 = AL::Math::Position3D(2.0f, 2.0f, 2.0f);
+  ASSERT_THROW((pPos3D1/0.0f), std::runtime_error);
 }
 

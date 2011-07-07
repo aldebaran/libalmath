@@ -50,8 +50,8 @@ TEST(ALPosition2DTest, norm)
 TEST(ALPosition2DTest, normalize)
 {
   //std::cout << "-------------- normalize 0 --------------" << std::endl;
-  //pPos2D1 = AL::Math::Position2D(0.0f, 0.0f);
-  //ASSERT_THROW(AL::Math::normalize(pPos2D1), AL::ALError);
+  pPos2D1 = AL::Math::Position2D(0.0f, 0.0f);
+  ASSERT_THROW(AL::Math::normalize(pPos2D1), std::runtime_error);
 
 
   //std::cout << "-------------- normalize 1 --------------" << std::endl;
@@ -136,7 +136,7 @@ TEST(ALPosition2DTest, Divers)
 
 
   //std::cout << "-------------- division 1 --------------" << std::endl;
-  //pPos2D1 = AL::Math::Position2D(2.0f, 2.0f);
-  //ASSERT_THROW((pPos2D1/0.0f), AL::ALError);
+  pPos2D1 = AL::Math::Position2D(2.0f, 2.0f);
+  ASSERT_THROW((pPos2D1/0.0f), std::runtime_error);
 }
 

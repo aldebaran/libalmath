@@ -30,8 +30,8 @@ TEST(ALVelocity6DTest, norm)
 TEST(ALVelocity6DTest, normalize)
 {
   //std::cout << "-------------- normalize 0 --------------" << std::endl;
-  //pVel6D1 = AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-  //ASSERT_THROW(AL::Math::normalize(pVel6D1), AL::ALError);
+  pVel6D1 = AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+  ASSERT_THROW(AL::Math::normalize(pVel6D1), std::runtime_error);
 
 
   //std::cout << "-------------- normalize 1 --------------" << std::endl;
@@ -85,7 +85,7 @@ TEST(ALVelocity6DTest, Divers)
 
 
   //std::cout << "-------------- division 1 --------------" << std::endl;
-  //pVel6D1 = AL::Math::Velocity6D(2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f);
-  //ASSERT_THROW((pVel6D1/0.0f), AL::ALError);
+  pVel6D1 = AL::Math::Velocity6D(2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f);
+  ASSERT_THROW((pVel6D1/0.0f), std::runtime_error);
 }
 

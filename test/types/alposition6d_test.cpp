@@ -51,8 +51,8 @@ TEST(ALPosition6DTest, norm)
 TEST(ALPosition6DTest, normalize)
 {
   //std::cout << "-------------- normalize 0 --------------" << std::endl;
-  //pPos6D1 = AL::Math::Position6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-  //ASSERT_THROW(AL::Math::normalize(pPos6D1), AL::ALError);
+  pPos6D1 = AL::Math::Position6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+  ASSERT_THROW(AL::Math::normalize(pPos6D1), std::runtime_error);
 
 
   //std::cout << "-------------- normalize 1 --------------" << std::endl;
@@ -123,7 +123,7 @@ TEST(ALPosition6DTest, Divers)
 
 
   //std::cout << "-------------- division 1 --------------" << std::endl;
-  //pPos6D1 = AL::Math::Position6D(2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f);
-  //ASSERT_THROW((pPos6D1/0.0f), AL::ALError);
+  pPos6D1 = AL::Math::Position6D(2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f);
+  ASSERT_THROW((pPos6D1/0.0f), std::runtime_error);
 }
 

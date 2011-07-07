@@ -767,15 +767,15 @@ TEST(ALTransformHelpersTest, transformAxisRotationProjectionInPlace)
   // ************ axisRotationProjectionInPlace ************
 
   // 01
-  //pMathRIn  = AL::Math::Rotation();
-  //pMathPIn  = AL::Math::Position3D();
+  AL::Math::Rotation   pMathRIn = AL::Math::Rotation();
+  AL::Math::Position3D pMathPIn = AL::Math::Position3D();
 
-  //ASSERT_THROW(axisRotationProjectionInPlace(pMathRIn, pMathPIn), AL::ALError);
+  ASSERT_THROW(AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn), std::runtime_error);
 
   // 02
   AL::Math::Transform  pMathHIn  = AL::Math::Transform();
   AL::Math::Transform  pMathHOut = AL::Math::Transform();
-  AL::Math::Position3D pMathPIn  = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  pMathPIn  = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
 
   AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathHIn);
   compareTransform(pMathHIn, AL::Math::Transform());
@@ -896,14 +896,14 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
   // ************ AxisRotationProjectionInPlace ************
 
   // 01
-  //pMathRIn  = AL::Math::Rotation();
-  //pMathPIn  = AL::Math::Position3D();
+  AL::Math::Rotation   pMathRIn = AL::Math::Rotation();
+  AL::Math::Position3D pMathPIn = AL::Math::Position3D();
 
-  //ASSERT_THROW(axisRotationProjectionInPlace(pMathRIn, pMathPIn), AL::ALError);
+  ASSERT_THROW(axisRotationProjectionInPlace(pMathRIn, pMathPIn), std::runtime_error);
 
   // 02
-  AL::Math::Rotation   pMathRIn  = AL::Math::Rotation();
-  AL::Math::Position3D pMathPIn  = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  pMathRIn  = AL::Math::Rotation();
+  pMathPIn  = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
 
   AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
   compareRotation(pMathRIn, AL::Math::Rotation());

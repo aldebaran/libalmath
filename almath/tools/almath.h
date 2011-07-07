@@ -90,35 +90,23 @@ namespace AL {
       const Position6D& pDelta);
 
 
-
-    /**
-    * Function rotationFromAngleDirection :
-    * Computes the matrix rotation given an angle and a direction
-    * It is in almath and not in alrotation so alrotation does not need alposition3D
-    * @param pAngle : The angle of the rotation
-    * @param pDirection : The direction of the rotation
-    * @return The matrix rotation
-    **/
+    /// <summary>
+    /// Creates a 3*3 Rotation Matrix from a an angle and a normalized Position3D.
+    /// </summary>
+    /// <param name="pTheta"> the float value of angle in radian </param>
+    /// <param name="pPos"> the Position3D direction of the vector of the rotation, normalized </param>
+    /// <returns>
+    /// the Rotation matrix
+    /// </returns>
+    /// \ingroup Tools
     AL::Math::Rotation rotationFromAngleDirection(
-      float                       pAngle,
-      const AL::Math::Position3D& pDirection);
+      const float&                pTheta,
+      const AL::Math::Position3D& pPos);
 
     void applyRotation(
-      const AL::Math::Rotation& pRotation,
-      AL::Math::Position3D&     pVector);
+      const AL::Math::Rotation& pRot,
+      AL::Math::Position3D&     pPos);
 
-
-    /// <summary> Private Function to create a trapzeoidale. </summary>
-    /// <param name="pNumSamples">      number of samples to compute. </param>
-    /// <param name="pHeight">          Height of the Trapezoid ans Sign. </param>
-    /// <param name="pAttackFraction">  the NumSamples to use for the attack phase. </param>
-    /// <param name="pDecayFraction">   the NumSamples to use for the decay phase. </param>
-    /// <returns> The Trapezoid Function </returns>
-    std::vector<float> smoothTrapezoid(
-      const unsigned int& pNumSamples,
-      const float&        pHeight,
-      const unsigned int& pAttack,
-      const unsigned int& pDecay);
 
   } // namespace Math
 } // namespace AL

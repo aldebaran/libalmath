@@ -339,14 +339,14 @@ namespace AL
 
 
     AL::Math::Rotation rotationFromAngleDirection(
-      float pAngle,
-      const AL::Math::Position3D& pDirection)
+      const float&                pTheta,
+      const AL::Math::Position3D& pPos)
     {
       return AL::Math::rotationFromAngleDirection(
-            pAngle,
-            pDirection.x,
-            pDirection.y,
-            pDirection.z);
+            pTheta,
+            pPos.x,
+            pPos.y,
+            pPos.z);
     }
 
     void applyRotation(
@@ -360,53 +360,6 @@ namespace AL
       pVector.y = x*pRotation.r2_c1 + y*pRotation.r2_c2 + z*pRotation.r2_c3;
       pVector.z = x*pRotation.r3_c1 + y*pRotation.r3_c2 + z*pRotation.r3_c3;
     }
-
-
-    std::vector<float> smoothTrapezoid(
-      const unsigned int& pNumSamples,
-      const float&        pHeight,
-      const unsigned int& pAttack,
-      const unsigned int& pDecay)
-    {
-
-      std::vector<float> vectorResult;
-
-      float oneOverAttackWidth = (pAttack == 0) ? 0.1f : 1.0f/pAttack;
-      float oneOverDecayWidth = (pDecay == 0) ? 0.1f : 1.0f/pDecay;
-
-      float heightRad = pHeight*TO_RAD;
-
-      float val = 0.0f;
-
-      float t,t2,t3;
-      float A,B; //Interpolation Coefficient
-      A = -3.0f*heightRad;
-      B = 2.0f*heightRad;
-
-      for (unsigned short i=0; i<pNumSamples; i++)
-      {
-        if (i<pAttack)
-        {
-          t = (float)(i+1)*oneOverAttackWidth;
-          t2 = t*t;
-          t3 = t2*t;
-          val = - A*t2 -B*t3;
-        }
-        else if (i>(pNumSamples-pDecay-1))
-        {
-          t = (float)(i-(pNumSamples-pDecay-1))*oneOverDecayWidth;
-          t2 = t*t;
-          t3 = t2*t;
-          val = heightRad+ A*t2+B*t3;
-        }
-        else
-        {
-          val = heightRad;
-        }
-        vectorResult.push_back(val);
-      }
-      return vectorResult;
-    } // smoothTrapezoid
 
 
   } // namespace Math

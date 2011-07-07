@@ -222,13 +222,54 @@ TEST(ALMathTest, AxisMaskToVelocity6DOn)
 
 TEST(ALMathTest, RotationFromAngleDirection)
 {
+  AL::Math::Rotation pRotOut;
+  float pTheta = 0.0f;
+  AL::Math::Position3D pPos = AL::Math::Position3D(0.0f, 0.0f, 0.0f);
+
+  // ****** test 0 ****** //
+  ASSERT_THROW(AL::Math::rotationFromAngleDirection(pTheta, pPos), std::runtime_error);
+
+  // ****** test 1 ****** //
+  pTheta = 0.0f;
+  pPos = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  pRotOut = AL::Math::rotationFromAngleDirection(pTheta, pPos);
+  EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation()));
+
+  // ****** test 2 ****** //
+  pTheta = 0.0f;
+  pPos = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
+  pRotOut = AL::Math::rotationFromAngleDirection(pTheta, pPos);
+  EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation()));
+
+  // ****** test 3 ****** //
+  pTheta = 0.0f;
+  pPos = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
+  pRotOut = AL::Math::rotationFromAngleDirection(pTheta, pPos);
+  EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation()));
+
+
+  // ****** test 4 ****** //
+  pTheta = 15.0f*AL::Math::TO_RAD;
+  pPos = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  pRotOut = AL::Math::rotationFromAngleDirection(pTheta, pPos);
+  EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation::fromRotX(pTheta)));
+  EXPECT_FALSE(pRotOut.isNear(AL::Math::Rotation()));
+
+  // ****** test 5 ****** //
+  pTheta = 15.0f*AL::Math::TO_RAD;
+  pPos = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
+  pRotOut = AL::Math::rotationFromAngleDirection(pTheta, pPos);
+  EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation::fromRotY(pTheta)));
+  EXPECT_FALSE(pRotOut.isNear(AL::Math::Rotation()));
+
+  // ****** test 6 ****** //
+  pTheta = 15.0f*AL::Math::TO_RAD;
+  pPos = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
+  pRotOut = AL::Math::rotationFromAngleDirection(pTheta, pPos);
+  EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation::fromRotZ(pTheta)));
+  EXPECT_FALSE(pRotOut.isNear(AL::Math::Rotation()));
 }
 
 TEST(ALMathTest, ApplyRotation)
 {
 }
-
-TEST(ALMathTest, smoothTrapezoid)
-{
-}
-

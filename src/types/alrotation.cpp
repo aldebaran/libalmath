@@ -5,6 +5,7 @@
 
 #include <almath/types/alrotation.h>
 
+#include <stdexcept>
 # include <cmath>
 
 namespace AL {
@@ -242,6 +243,15 @@ namespace AL {
       const float pY,
       const float pZ)
     {
+      // Need to check if |pX^2+pY^2+pZ^2|=1.0
+
+      float norm = pX*pX + pY*pY + pZ*pZ;
+      if ((norm > 1.00001f) || (norm < 0.99999f))
+      {
+        throw std::runtime_error(
+          "rotationFromAngleDirection: (pX, pY, pZ) norm must be equal to 1.0.");
+      }
+
       Rotation T = Rotation();
       float t1 =  cosf(pAngle);
       float t2 =  1.0f - t1;
