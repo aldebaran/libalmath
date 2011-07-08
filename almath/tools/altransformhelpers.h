@@ -150,7 +150,7 @@ namespace AL {
     void transformMean(
       const Transform& pTIn1,
       const Transform& pTIn2,
-      const float&               pDist,
+      const float&     pVal,
       Transform&       pTOut);
 
     Transform transformMean(
@@ -284,45 +284,6 @@ namespace AL {
     */
     Rotation3D rotation3DFromTransform(const Transform& pT);
 
-    Position3D operator*(
-      const Transform&  pT,
-      const Position3D& pPos);
-
-    Transform& operator+=(
-      Transform&        pT,
-      const Position3D& pPos);
-
-
-    /**
-    * Function AxisRotationProjection :
-    * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param Transform : useful only for Rotation part
-    * @param Position3D : axis of rotation
-    * @return Transform
-    **/
-    void axisRotationProjection(
-      const Position3D& pAxis,
-      Transform&        pH);
-
-
-    Transform axisRotationProjection(
-      const Transform&  pH,
-      const Position3D& pAxis);
-
-    std::vector<Transform> filterTransform(
-      const std::vector<Transform>& pHi,
-      const AXIS_MASK               pAxisMask);
-
-    Transform axisMaskToTransformOn(
-      const Transform& pHi,
-      const AXIS_MASK  pAxisMask);
-
-    void computeMixTransformWithAxisMask(
-      const Transform& pDesired,
-      const Transform& pReference,
-      const AXIS_MASK& pAxisMask,
-      Transform&       pResult);
-
     // Main
     void rotVecToTransform(
       const int         pAxis,
@@ -349,6 +310,30 @@ namespace AL {
       const int&   pAxis,
       const float& pRot);
 
+    Position3D operator*(
+      const Transform&  pT,
+      const Position3D& pPos);
+
+    Transform& operator+=(
+      Transform&        pT,
+      const Position3D& pPos);
+
+
+    /**
+    * Function AxisRotationProjection :
+    * finding the closest rotation Rw of R around an axis (Position3D)
+    * @param Transform : useful only for Rotation part
+    * @param Position3D : axis of rotation
+    * @return Transform
+    **/
+    void axisRotationProjection(
+      const Position3D& pAxis,
+      Transform&        pH);
+
+
+    Transform axisRotationProjection(
+      const Transform&  pH,
+      const Position3D& pAxis);
 
     /**
     * Function AxisRotationProjection :

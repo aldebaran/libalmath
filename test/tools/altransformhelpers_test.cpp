@@ -803,17 +803,6 @@ TEST(ALTransformHelpersTest, rotation2DFromTransformZ)
 {
 }
 
-TEST(ALTransformHelpersTest, filterTransform)
-{
-}
-
-TEST(ALTransformHelpersTest, axisMaskToTransformOn)
-{
-}
-
-TEST(ALTransformHelpersTest, computeMixTransformWithAxisMask)
-{
-}
 
 TEST(ALTransformHelpersTest, rotVecToTransform)
 {
