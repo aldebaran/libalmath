@@ -27,14 +27,23 @@ namespace AL {
 
       /// <summary>
       /// Create a PositionAndVelocity initialize with explicit value.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         q \\
+       *         dq
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pq \\
+       *         pdq
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      /// <param name="pq"> the float value for q (default value = 0.0f) </param>
-      /// <param name="pdq"> the float value for dq (default value = 0.0f) </param>
+      /// <param name="pq"> the float value for q </param>
+      /// <param name="pdq"> the float value for dq </param>
       PositionAndVelocity(
-          const float pq  = 0.0f,
-          const float pdq = 0.0f) :
-          q(pq),
-          dq(pdq) {}
+          const float pq = 0.0f,
+          const float pdq = 0.0f);
 
       /// <summary>
       /// Check if the actual PositionAndVelocity is near the one

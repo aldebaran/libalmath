@@ -31,10 +31,21 @@ namespace AL {
 
       /// <summary>
       /// Create a Rotation initialized to identity.
+      /**
+       *
+       * \f$ \left[\begin{array}{ccc}
+       *         r1c1 & r1c2 & r1c3 \\
+       *         r2c1 & r2c2 & r2c3 \\
+       *         r3c1 & r3c2 & r3c3
+       *      \end{array}\right] =
+       *      \left[\begin{array}{ccc}
+       *         1.0 & 0.0 & 0.0 \\
+       *         0.0 & 1.0 & 0.0 \\
+       *         0.0 & 0.0 & 1.0
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      Rotation(): r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f),
-        r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f),
-        r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f){}
+      Rotation();
 
       /// <summary>
       /// Create a Rotation with an std::vector.
@@ -44,56 +55,38 @@ namespace AL {
       ///
       /// For std::vector<float> of size 9
       ///
-      /// \f$ \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 \\ r2c1 & r2c2 & r2c3 \\ r3c1 & r3c2 & r3c3 \end{array}\right] = \left[\begin{array}{cccc}pFloats[0] & pFloats[1] & pFloats[2] \\ pFloats[3] & pFloats[4] & pFloats[5] \\ pFloats[6] & pFloats[7] & pFloats[8] \end{array}\right]\f$
+      /**
+        *
+        * \f$ \left[\begin{array}{cccc}
+        * r1c1 & r1c2 & r1c3 \\
+        * r2c1 & r2c2 & r2c3 \\
+        * r3c1 & r3c2 & r3c3
+        * \end{array}\right] =
+        * \left[\begin{array}{cccc}
+        * pFloats[0] & pFloats[1] & pFloats[2] \\
+        * pFloats[3] & pFloats[4] & pFloats[5] \\
+        * pFloats[6] & pFloats[7] & pFloats[8]
+        * \end{array}\right]\f$
+        *
+        */
       ///
-      /// For std::vector<float> of size 12 or 16
+      /// For std::vector<float> of size 12 or 16:
       ///
-      /// \f$ \left[\begin{array}{cccc}r1c1 & r1c2 & r1c3 \\ r2c1 & r2c2 & r2c3 \\ r3c1 & r3c2 & r3c3 \end{array}\right] = \left[\begin{array}{cccc}pFloats[0] & pFloats[1] & pFloats[2] \\ pFloats[4] & pFloats[5] & pFloats[6] \\ pFloats[8] & pFloats[9] & pFloats[10] \end{array}\right]\f$
+      /** \f$
+        *
+        * \left[\begin{array}{cccc}
+        * r1c1 & r1c2 & r1c3 \\
+        * r2c1 & r2c2 & r2c3 \\
+        * r3c1 & r3c2 & r3c3
+        * \end{array}\right] =
+        * \left[\begin{array}{cccc}
+        * pFloats[0] & pFloats[1] & pFloats[2] \\
+        * pFloats[4] & pFloats[5] & pFloats[6] \\
+        * pFloats[8] & pFloats[9] & pFloats[10]
+        * \end{array}\right]\f$
+        */
       /// </param>
-      Rotation (const std::vector<float>& pFloats)
-      {
-        if (pFloats.size() == 9)
-        {
-          r1_c1 = pFloats[0];
-          r1_c2 = pFloats[1];
-          r1_c3 = pFloats[2];
-          r2_c1 = pFloats[3];
-          r2_c2 = pFloats[4];
-          r2_c3 = pFloats[5];
-          r3_c1 = pFloats[6];
-          r3_c2 = pFloats[7];
-          r3_c3 = pFloats[8];
-        }
-        else if ((pFloats.size() == 12) || (pFloats.size() == 16))
-        {
-          // if we give a transform, it take rotation part
-          r1_c1 = pFloats[0];
-          r1_c2 = pFloats[1];
-          r1_c3 = pFloats[2];
-
-          r2_c1 = pFloats[4];
-          r2_c2 = pFloats[5];
-          r2_c3 = pFloats[6];
-
-          r3_c1 = pFloats[8];
-          r3_c2 = pFloats[9];
-          r3_c3 = pFloats[10];
-        }
-        else
-        {
-          r1_c1 = 1.0f;
-          r1_c2 = 0.0f;
-          r1_c3 = 0.0f;
-
-          r2_c1 = 0.0f;
-          r2_c2 = 1.0f;
-          r2_c3 = 0.0f;
-
-          r3_c1 = 0.0f;
-          r3_c2 = 0.0f;
-          r3_c3 = 1.0f;
-        }
-      }
+      Rotation (const std::vector<float>& pFloats);
 
       /// <summary>
       /// Overloading of operator *= for Rotation.
@@ -144,7 +137,13 @@ namespace AL {
       /// <summary>
       /// Compute the determinant of the Rotation:
       ///
-      /// \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 + pRot.r1c2*pRot.r2c3*pRot.r3c1 + pRot.r1c3*pRot.r2c1*pRot.r3c2 - pRot.r1c1*pRot.r2c3*pRot.r3c2 - pRot.r1c2*pRot.r2c1*pRot.r3c3 - pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
+      /** \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 +
+        * pRot.r1c2*pRot.r2c3*pRot.r3c1 +
+        * pRot.r1c3*pRot.r2c1*pRot.r3c2 -
+        * pRot.r1c1*pRot.r2c3*pRot.r3c2 -
+        * pRot.r1c2*pRot.r2c1*pRot.r3c3 -
+        * pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
+        */
       /// </summary>
       /// <returns>
       /// the float determinant of the Rotation
@@ -181,8 +180,12 @@ namespace AL {
       /// <summary>
       /// Create a Rotation initialized with explicit rotation around x axis.
       ///
-      /// \f$ pRot = \left[\begin{array}{cccc}1.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) \\ 0.0 & sin(pRotX) & cos(pRotX) \end{array}\right]\f$
-      ///
+      /** \f$ pRot = \left[\begin{array}{cccc}
+        * 1.0 & 0.0 & 0.0 \\
+        * 0.0 & cos(pRotX) & -sin(pRotX) \\
+        * 0.0 & sin(pRotX) & cos(pRotX)
+        * \end{array}\right]\f$
+        */
       /// </summary>
       /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
       static Rotation fromRotX(const float pRotX);
@@ -190,8 +193,12 @@ namespace AL {
       /// <summary>
       /// Create a Rotation initialized with explicit rotation around y axis.
       ///
-      /// \f$ pT = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) \\ 0.0 & 1.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) \end{array}\right]\f$
-      ///
+      /** \f$ pT = \left[\begin{array}{cccc}
+        * cos(pRotY) & 0.0 & sin(pRotY) \\
+        * 0.0 & 1.0 & 0.0 \\
+        * -sin(pRotY) & 0.0 & cos(pRotY)
+        * \end{array}\right]\f$
+        */
       /// </summary>
       /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
       static Rotation fromRotY(const float pRotY);
@@ -199,8 +206,12 @@ namespace AL {
       /// <summary>
       /// Create a Rotation initialized with explicit rotation around z axis.
       ///
-      /// \f$ pT = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 \\ 0.0 & 0.0 & 1.0 \end{array}\right]\f$
-      ///
+      /** \f$ pT = \left[\begin{array}{cccc}
+        * cos(pRotZ) & -sin(pRotZ) & 0.0 \\
+        * sin(pRotZ) & cos(pRotZ) & 0.0 \\
+        * 0.0 & 0.0 & 1.0
+        * \end{array}\right]\f$
+        */
       /// </summary>
       /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
       static Rotation fromRotZ(const float pRotZ);
@@ -222,7 +233,12 @@ namespace AL {
       /// <summary>
       /// Return the Rotation as a vector of float:
       ///
-      /// \f$ \begin{array}{cccc} [r1c1, & r1c2, & r1c3, \\ r2c1, & r2c2, & r2c3, \\ r3c1, & r3c2, & r3c3] \end{array}\f$
+      /** \f$ \begin{array}{cccc}
+        * [r1c1, & r1c2, & r1c3, \\
+        * r2c1, & r2c2, & r2c3, \\
+        * r3c1, & r3c2, & r3c3]
+        * \end{array}\f$
+        */
       /// </summary>
       std::vector<float> toVector() const;
 
@@ -243,7 +259,13 @@ namespace AL {
     /// <summary>
     /// Compute the determinant of the given Rotation:
     ///
-    /// \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 + pRot.r1c2*pRot.r2c3*pRot.r3c1 + pRot.r1c3*pRot.r2c1*pRot.r3c2 - pRot.r1c1*pRot.r2c3*pRot.r3c2 - pRot.r1c2*pRot.r2c1*pRot.r3c3 - pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
+    /** \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 +
+      * pRot.r1c2*pRot.r2c3*pRot.r3c1 +
+      * pRot.r1c3*pRot.r2c1*pRot.r3c2 -
+      * pRot.r1c1*pRot.r2c3*pRot.r3c2 -
+      * pRot.r1c2*pRot.r2c1*pRot.r3c3 -
+      * pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
+      */
     /// </summary>
     /// <param name="pRot"> the given Rotation </param>
     /// <returns>
@@ -304,8 +326,12 @@ namespace AL {
     /// <summary>
     /// Create a Rotation initialized with explicit rotation around x axis.
     ///
-    /// \f$ pRot = \left[\begin{array}{cccc}1.0 & 0.0 & 0.0 \\ 0.0 & cos(pRotX) & -sin(pRotX) \\ 0.0 & sin(pRotX) & cos(pRotX) \end{array}\right]\f$
-    ///
+    /** \f$ pRot = \left[\begin{array}{cccc}
+      * 1.0 & 0.0 & 0.0 \\
+      * 0.0 & cos(pRotX) & -sin(pRotX) \\
+      * 0.0 & sin(pRotX) & cos(pRotX)
+      * \end{array}\right]\f$
+      */
     /// </summary>
     /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
     /// <returns>
@@ -317,8 +343,12 @@ namespace AL {
     /// <summary>
     /// Create a Rotation initialized with explicit rotation around y axis.
     ///
-    /// \f$ pT = \left[\begin{array}{cccc} cos(pRotY) & 0.0 & sin(pRotY) \\ 0.0 & 1.0 & 0.0 \\ -sin(pRotY) & 0.0 & cos(pRotY) \end{array}\right]\f$
-    ///
+    /** \f$ pT = \left[\begin{array}{cccc}
+      * cos(pRotY) & 0.0 & sin(pRotY) \\
+      * 0.0 & 1.0 & 0.0 \\
+      * -sin(pRotY) & 0.0 & cos(pRotY)
+      * \end{array}\right]\f$
+      */
     /// </summary>
     /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
     /// <returns>
@@ -330,8 +360,11 @@ namespace AL {
     /// <summary>
     /// Create a Rotation initialized with explicit rotation around z axis.
     ///
-    /// \f$ pT = \left[\begin{array}{cccc} cos(pRotZ) & -sin(pRotZ) & 0.0 \\ sin(pRotZ) & cos(pRotZ) & 0.0 \\ 0.0 & 0.0 & 1.0 \end{array}\right]\f$
-    ///
+    /** \f$ pT = \left[\begin{array}{cccc}
+      * cos(pRotZ) & -sin(pRotZ) & 0.0 \\
+      * sin(pRotZ) & cos(pRotZ) & 0.0 \\
+      * 0.0 & 0.0 & 1.0 \end{array}\right]\f$
+      */
     /// </summary>
     /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
     /// <returns>

@@ -8,6 +8,12 @@
 namespace AL {
   namespace Math {
 
+  PositionAndVelocity::PositionAndVelocity(
+      const float pq,
+      const float pdq) :
+      q(pq),
+      dq(pdq) {}
+
     bool PositionAndVelocity::isNear(
       const PositionAndVelocity& pDat,
       const float&               pEpsilon) const
