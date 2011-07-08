@@ -39,29 +39,6 @@ namespace AL {
     const float& pMax,
     float&       pData);
 
-    /**
-    * Function Diff Log : cette fonction calcule la differentielle du
-    * logarithme associe a une matrice de type 'Deplacement - matrice homogene' 4x4 (SE3).
-    * @param pM   (Velocity6D) : displacement vector 6D
-    * @param pIn  (Velocity6D) : multiply 6*6 pM by pIn
-    * @param pOut (Velocity6D) : Output solution of DiffLog(pM)*pIn
-    **/
-    void diffLog(
-      const Velocity6D& pM,
-      const Velocity6D& pIn,
-      Velocity6D&       pOut);
-
-    /**
-    * Function Inv Diff Log : Inverse de Diff Log
-    * @param pM   (Velocity6D) : displacement vector 6D
-    * @param pIn  (Velocity6D) : multiply 6*6 inverse pM by pIn
-    * @param pOut (Velocity6D) : Output solution of inverse(DiffLog(pM))*pIn
-    **/
-    void invDiffLog(
-      const Velocity6D& pM,
-      const Velocity6D& pIn,
-      Velocity6D&       pOut);
-
 
     /// <summary>
     /// Create a Transform from a 3D points and a Rotation.
