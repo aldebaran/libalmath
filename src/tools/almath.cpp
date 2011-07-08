@@ -34,60 +34,6 @@ namespace AL
     }
 
 
-    Transform transformFromPosition3DAndRotation(
-      const float&    pX,
-      const float&    pY,
-      const float&    pZ,
-      const Rotation& pRot)
-    {
-      Transform T = Transform();
-
-      T.r1_c4 = pX;
-      T.r2_c4 = pY;
-      T.r3_c4 = pZ;
-
-      T.r1_c1 = pRot.r1_c1;
-      T.r1_c2 = pRot.r1_c2;
-      T.r1_c3 = pRot.r1_c3;
-
-      T.r2_c1 = pRot.r2_c1;
-      T.r2_c2 = pRot.r2_c2;
-      T.r2_c3 = pRot.r2_c3;
-
-      T.r3_c1 = pRot.r3_c1;
-      T.r3_c2 = pRot.r3_c2;
-      T.r3_c3 = pRot.r3_c3;
-
-      return T;
-    }
-
-
-    Transform transformFromPosition3DAndRotation(
-      const Position3D& pPos,
-      const Rotation&   pRot)
-    {
-      Transform T = Transform();
-
-      T.r1_c4 = pPos.x;
-      T.r2_c4 = pPos.y;
-      T.r3_c4 = pPos.z;
-
-      T.r1_c1 = pRot.r1_c1;
-      T.r1_c2 = pRot.r1_c2;
-      T.r1_c3 = pRot.r1_c3;
-
-      T.r2_c1 = pRot.r2_c1;
-      T.r2_c2 = pRot.r2_c2;
-      T.r2_c3 = pRot.r2_c3;
-
-      T.r3_c1 = pRot.r3_c1;
-      T.r3_c2 = pRot.r3_c2;
-      T.r3_c3 = pRot.r3_c3;
-
-      return T;
-    }
-
-
     Position6D position6DFromVelocity6D(const Velocity6D& pVel)
     {
       Position6D pos;

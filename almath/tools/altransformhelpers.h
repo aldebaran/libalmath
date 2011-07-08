@@ -24,6 +24,42 @@
 namespace AL {
   namespace Math {
 
+  /// <summary>
+  /// Create a Transform from a 3D points and a Rotation.
+  ///
+  /// \f$ T = \left[\begin{array}{cccc} pRot.r1c1 & pRot.r1c2 & pRot.r1c3 & pX \\ pRot.r2c1 & pRot.r2c2 & pRot.r2c3 & pY \\ pRot.r3c1 & pRot.r3c2 & pRot.r3c3 & pZ \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
+  ///
+  /// </summary>
+  /// <param name="pX"> the translation along x axis </param>
+  /// <param name="pY"> the translation along y axis </param>
+  /// <param name="pZ"> the translation along z axis </param>
+  /// <param name="pRot"> the given Rotation </param>
+  /// <returns>
+  /// the Transform result.
+  /// </returns>
+  /// \ingroup Tools
+  Transform transformFromPosition3DAndRotation(
+    const float&    pX,
+    const float&    pY,
+    const float&    pZ,
+    const Rotation& pRot);
+
+  /// <summary>
+  /// Create a Transform from a Position3D and a Rotation.
+  ///
+  /// \f$ T = \left[\begin{array}{cccc} pRot.r1c1 & pRot.r1c2 & pRot.r1c3 & pPos.x \\ pRot.r2c1 & pRot.r2c2 & pRot.r2c3 & pPos.y \\ pRot.r3c1 & pRot.r3c2 & pRot.r3c3 & pPos.z \\ 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
+  ///
+  /// </summary>
+  /// <param name="pPos"> the given Position3D </param>
+  /// <param name="pRot"> the given Rotation </param>
+  /// <returns>
+  /// the Transform result.
+  /// </returns>
+  /// \ingroup Tools
+  Transform transformFromPosition3DAndRotation(
+    const Position3D& pPos,
+    const Rotation&   pRot);
+
 //  /**
 //    * Function Transform Logarithme : cette fonction calcule le
 //    * logarithme associe a une matrice de type Deplacement - matrice homogene 4x4 (SE3)

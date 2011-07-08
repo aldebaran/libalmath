@@ -14,6 +14,66 @@
 #include <stdexcept>
 #include <cmath>
 
+
+TEST(ALTransformHelpersTest, TransformFromPosition3DAndRotation)
+{
+  AL::Math::Rotation  pRot = AL::Math::Rotation::fromRotX(0.5f);
+  AL::Math::Transform pHIn = AL::Math::transformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
+  AL::Math::Transform pHOut = AL::Math::Transform::fromRotX(0.5f);
+  pHOut.r1_c4 =  0.2f;
+  pHOut.r2_c4 =  0.5f;
+  pHOut.r3_c4 = -1.2f;
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
+
+
+  pRot = AL::Math::Rotation::fromRotY(0.5f);
+  pHIn = AL::Math::transformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
+  pHOut = AL::Math::Transform::fromRotY(0.5f);
+  pHOut.r1_c4 =  0.2f;
+  pHOut.r2_c4 =  0.5f;
+  pHOut.r3_c4 = -1.2f;
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
+
+
+  pRot = AL::Math::Rotation::fromRotZ(0.5f);
+  pHIn = AL::Math::transformFromPosition3DAndRotation(0.2f, 0.5f, -1.2f, pRot);
+  pHOut = AL::Math::Transform::fromRotZ(0.5f);
+  pHOut.r1_c4 =  0.2f;
+  pHOut.r2_c4 =  0.5f;
+  pHOut.r3_c4 = -1.2f;
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
+
+
+  AL::Math::Position3D pPos3D = AL::Math::Position3D(0.1f, 0.2f, 0.3f);
+  pRot = AL::Math::Rotation::fromRotX(0.5f);
+  pHOut = AL::Math::Transform::fromRotX(0.5f);
+  pHOut.r1_c4 = 0.1f;
+  pHOut.r2_c4 = 0.2f;
+  pHOut.r3_c4 = 0.3f;
+  pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
+
+
+  pPos3D = AL::Math::Position3D(0.1f, 0.2f, 0.3f);
+  pRot = AL::Math::Rotation::fromRotY(0.5f);
+  pHOut = AL::Math::Transform::fromRotY(0.5f);
+  pHOut.r1_c4 = 0.1f;
+  pHOut.r2_c4 = 0.2f;
+  pHOut.r3_c4 = 0.3f;
+  pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
+
+
+  pPos3D = AL::Math::Position3D(0.1f, 0.2f, 0.3f);
+  pRot = AL::Math::Rotation::fromRotZ(0.5f);
+  pHOut = AL::Math::Transform::fromRotZ(0.5f);
+  pHOut.r1_c4 = 0.1f;
+  pHOut.r2_c4 = 0.2f;
+  pHOut.r3_c4 = 0.3f;
+  pHIn = AL::Math::transformFromPosition3DAndRotation(pPos3D, pRot);
+  EXPECT_TRUE(pHIn.isNear(pHOut, 0.0001f));
+}
+
 TEST(ALTransformHelpersTest, normalizeTransform)
 {
   float eps = 0.0001f;
