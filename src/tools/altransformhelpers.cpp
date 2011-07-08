@@ -65,16 +65,16 @@ namespace AL {
   }
 
 
-    AL::Math::Velocity6D transformLogarithme(const AL::Math::Transform& pH)
+    Velocity6D transformLogarithme(const Transform& pH)
     {
-      AL::Math::Velocity6D pV;
+      Velocity6D pV;
       transformLogarithme(pH, pV);
       return pV;
     }
 
     void transformLogarithme(
-      const AL::Math::Transform& pH,
-      AL::Math::Velocity6D&        pVOut)
+      const Transform& pH,
+      Velocity6D&      pVOut)
     {
       float epsilon = 0.001f; // new
 
@@ -241,17 +241,17 @@ namespace AL {
     }
 
 
-    AL::Math::Transform velocityExponential(const AL::Math::Velocity6D& pM)
+    Transform velocityExponential(const Velocity6D& pM)
     {
-      AL::Math::Transform tM;
+      Transform tM;
       velocityExponential(pM, tM);
       return tM;
     }
 
     void changeRepereVelocity6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Velocity6D& pVIn,
-      AL::Math::Velocity6D&       pVOut)
+      const Transform&  pH,
+      const Velocity6D& pVIn,
+      Velocity6D&       pVOut)
     {
       pVOut.xd  = pH.r1_c1 * pVIn.xd  + pH.r1_c2 * pVIn.yd  + pH.r1_c3 * pVIn.zd;
       pVOut.yd  = pH.r2_c1 * pVIn.xd  + pH.r2_c2 * pVIn.yd  + pH.r2_c3 * pVIn.zd;
@@ -263,9 +263,9 @@ namespace AL {
 
 
     void changeReperePosition6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Position6D& pPIn,
-      AL::Math::Position6D&       pPOut)
+      const Transform&  pH,
+      const Position6D& pPIn,
+      Position6D&       pPOut)
     {
       pPOut.x  = pH.r1_c1 * pPIn.x  + pH.r1_c2 * pPIn.y  + pH.r1_c3 * pPIn.z  ;
       pPOut.y  = pH.r2_c1 * pPIn.x  + pH.r2_c2 * pPIn.y  + pH.r2_c3 * pPIn.z  ;
@@ -277,8 +277,8 @@ namespace AL {
 
 
     void changeReperePosition3D(
-      const AL::Math::Transform& pH,
-      AL::Math::Position3D&      pPosOut)
+      const Transform& pH,
+      Position3D&      pPosOut)
     {
       float x, y, z;
       x = pPosOut.x;
@@ -292,8 +292,8 @@ namespace AL {
 
 
     void changeRepereTransposePosition3D(
-      const AL::Math::Transform&  pH,
-      AL::Math::Position3D&         pPosOut)
+      const Transform&  pH,
+      Position3D&       pPosOut)
     {
       float x, y, z;
       x = pPosOut.x;
@@ -307,9 +307,9 @@ namespace AL {
 
 
     void changeReperePosition3D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Position3D&   pPosIn,
-      AL::Math::Position3D&         pPosOut)
+      const Transform&  pH,
+      const Position3D& pPosIn,
+      Position3D&       pPosOut)
     {
       pPosOut.x = pH.r1_c1 * pPosIn.x + pH.r1_c2 * pPosIn.y + pH.r1_c3 * pPosIn.z;
       pPosOut.y = pH.r2_c1 * pPosIn.x + pH.r2_c2 * pPosIn.y + pH.r2_c3 * pPosIn.z;
@@ -318,9 +318,9 @@ namespace AL {
 
 
     void changeRepereTransposePosition3D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Position3D&   pPosIn,
-      AL::Math::Position3D&         pPosOut)
+      const Transform&  pH,
+      const Position3D& pPosIn,
+      Position3D&       pPosOut)
     {
       pPosOut.x = pH.r1_c1 * pPosIn.x + pH.r2_c1 * pPosIn.y + pH.r3_c1 * pPosIn.z;
       pPosOut.y = pH.r1_c2 * pPosIn.x + pH.r2_c2 * pPosIn.y + pH.r3_c2 * pPosIn.z;
@@ -412,11 +412,11 @@ namespace AL {
           "ALMath: TransformMean Distance must be between 0 and 1.");
       }
 
-      AL::Math::Velocity6D pV;
-      AL::Math::Transform pHIn1i;
+      Velocity6D pV;
+      Transform pHIn1i;
 
       transformInverse(pHIn1,pHIn1i);
-      transformLogarithme(pHIn1i*pHIn2,pV);
+      transformLogarithme(pHIn1i*pHIn2, pV);
       velocityExponential(pDist*pV,pHOut);
       pHOut = pHIn1*pHOut;
     }
@@ -1266,190 +1266,6 @@ namespace AL {
 
       return transform;
     }
-
-
-    //unsigned int Transform Orthospace(const Position3D& pAxis, unsigned int& idx)
-    void orthospace(
-      const Position3D& pAxis,
-      Transform&        HOut)
-    {
-      //Transform HOut;
-      Position3D pAxisTmp = Position3D();
-      Position3D pAxis3 = pAxis/norm(pAxis);
-      Position3D pAxis1 = Position3D();
-      Position3D pAxis2 = Position3D();
-
-      // Trouver l indice du premier element non nul
-      float coef = 0.0001f;
-      if (fabsf(pAxis3.x)> coef)
-      {
-        pAxisTmp = Position3D(-pAxis3.y, pAxis3.x, 0.0f);
-      }
-      else if (fabsf(pAxis3.y)> coef)
-      {
-        pAxisTmp = Position3D(0.0f, -pAxis3.z, pAxis3.y);
-      }
-      else
-      {
-        pAxisTmp = Position3D(pAxis3.z, 0.0f, 0.0f);
-      }
-
-      pAxis1 = AL::Math::normalize(pAxisTmp);
-
-      pAxisTmp = crossProduct(pAxis3, pAxis1); // was pAxis3, pAxis1
-      pAxis2 = AL::Math::normalize(pAxisTmp);
-
-      HOut.r1_c1 = pAxis1.x;
-      HOut.r2_c1 = pAxis1.y;
-      HOut.r3_c1 = pAxis1.z;
-
-      HOut.r1_c2 = pAxis2.x;
-      HOut.r2_c2 = pAxis2.y;
-      HOut.r3_c2 = pAxis2.z;
-
-      HOut.r1_c3 = pAxis3.x;
-      HOut.r2_c3 = pAxis3.y;
-      HOut.r3_c3 = pAxis3.z;
-    }
-
-    Transform orthospace(const Position3D& pAxis)
-    {
-      Transform HOut;
-      orthospace(pAxis, HOut);
-      return HOut;
-    }
-
-
-    void diffAxisToAntiSynmetric(
-        const Position3D& pA,
-        const Position3D& pB,
-        Transform&        HOut)
-    {
-      HOut.r1_c1 = 0.0f;
-      HOut.r2_c2 = 0.0f;
-      HOut.r3_c3 = 0.0f;
-
-      HOut.r1_c2 = pB.x*pA.y - pA.x*pB.y;
-      HOut.r1_c3 = pB.x*pA.z-pA.x*pB.z;
-      HOut.r2_c3 = pB.y*pA.z - pA.y*pB.z;
-
-      HOut.r2_c1 = -HOut.r1_c2;
-      HOut.r3_c1 = -HOut.r1_c3;
-      HOut.r3_c2 = -HOut.r2_c3;
-    }
-
-
-    void findRotation(
-        const Position3D& pAxisInit,
-        const Position3D& pAxisFinal,
-        Transform&        pHOut)
-    {
-      // TODO:
-
-      // Calcul le changement de base
-      AL::Math::Transform pHGlobalToLocal;
-      bool isSuccess = findRotationBest(
-          pAxisInit,
-          pAxisFinal,
-          pHGlobalToLocal);
-
-      // Dans la nouvelle base, on tourne
-      AL::Math::Position3D cosSin =  pHGlobalToLocal.inverse()*pAxisFinal;
-      float Ca = cosSin.x;
-      float Sa = cosSin.y;
-
-      if (
-          (!isSuccess) &&
-          ((Ca*Ca + Sa*Sa) < 0.9f))
-      {
-        pHOut = AL::Math::Transform();
-        return;
-      }
-
-      AL::Math::Transform pHLocalRotation = AL::Math::Transform();
-      pHLocalRotation.r1_c1 = Ca;
-      pHLocalRotation.r1_c2 = -Sa;
-      pHLocalRotation.r2_c1 = Sa;
-      pHLocalRotation.r2_c2 = Ca;
-
-      pHOut = pHGlobalToLocal*pHLocalRotation*pHGlobalToLocal.inverse();
-    } // end findRotation
-
-
-    bool findRotationBest(
-        const Position3D& pAxisInit,
-        const Position3D& pAxisFinal,
-        Transform&        pHOut)
-    {
-      AL::Math::Position3D pAxisX = AL::Math::normalize(pAxisInit);
-      AL::Math::Position3D pAxisY;
-      AL::Math::Position3D pAxisZ;
-
-      crossProduct(pAxisInit, pAxisFinal, pAxisZ);
-
-      if (fabsf(AL::Math::norm(pAxisZ)) > 0.001f)
-      {
-        pAxisZ = AL::Math::normalize(pAxisZ);
-      }
-      else
-      {
-        pHOut = AL::Math::Transform();
-        return false;
-      }
-
-      crossProduct(pAxisZ, pAxisX, pAxisY);
-      pAxisY = AL::Math::normalize(pAxisY);
-
-      pHOut.r1_c1 = pAxisX.x;
-      pHOut.r2_c1 = pAxisX.y;
-      pHOut.r3_c1 = pAxisX.z;
-
-      pHOut.r1_c2 = pAxisY.x;
-      pHOut.r2_c2 = pAxisY.y;
-      pHOut.r3_c2 = pAxisY.z;
-
-      pHOut.r1_c3 = pAxisZ.x;
-      pHOut.r2_c3 = pAxisZ.y;
-      pHOut.r3_c3 = pAxisZ.z;
-
-      return true;
-    }
-
-
-    void axisRotationToTransform(
-        const Position3D& pAxisRotation,
-        const float&      Ca,
-        const float&      Sa,
-        Transform&        pHOut)
-    {
-      //         | Ux^2+Ca*(1-Ux^2)              Ux*Uy*(1-Ca)-Uz*Sa     Ux*Uz*(1-Ca)+Uy*Sa |
-      //[R] = | Ux*Uy*(1-Ca)+Uz*Sa    Uy^2+Ca*(1-Uy^2)              Uy*Uz*(1-Ca)-Ux*Sa |
-      //         | Ux*Uz*(1-Ca)-Uy*Sa     Uy*Uz*(1-Ca)+Ux*Sa          Uz^2+Ca*(1-Uz^2)     |
-
-      // Avec Ux, Uy, Uz les composantes du vecteur de rotation.
-      // Je me rappelle pas s il faut qu il soit norme ou pas.
-      // Je sais pas si ca a une influence sur la formule.
-      // Dans le doute, norme d'abord ton vecteur, puis tu verras bien
-      // si t obtiens la meme chose, sans le normer.
-
-      // Ca = cos(alpha) avec alpha l'angle de rotation.
-      // Sa = sin(alpha).
-
-      Position3D N = pAxisRotation.normalize();
-
-      pHOut.r1_c1 = N.x*N.x + Ca*(1.0f - N.x*N.x); // Ux^2+Ca*(1-Ux^2)
-      pHOut.r1_c2 = N.x*N.y*(1.0f - Ca) - N.z*Sa;  // Ux*Uy*(1-Ca)-Uz*Sa
-      pHOut.r1_c3 = N.x*N.z*(1.0f - Ca) + N.y*Sa;  // Ux*Uz*(1-Ca)+Uy*Sa
-
-      pHOut.r2_c1 = N.x*N.y*(1.0f-Ca) + N.z*Sa;    // Ux*Uy*(1-Ca)+Uz*Sa
-      pHOut.r2_c2 = N.y*N.y + Ca*(1.0f - N.y*N.y); // Uy^2+Ca*(1-Uy^2)
-      pHOut.r2_c3 = N.y*N.z*(1.0f - Ca) - N.x*Sa;  // Uy*Uz*(1-Ca)-Ux*Sa
-
-      pHOut.r3_c1 = N.x*N.z*(1.0f - Ca) - N.y*Sa;  // Ux*Uz*(1-Ca)-Uy*Sa
-      pHOut.r3_c2 = N.y*N.z*(1.0f - Ca) + N.x*Sa;  // Uy*Uz*(1-Ca)+Ux*Sa
-      pHOut.r3_c3 = N.z*N.z + Ca*(1.0f - N.z*N.z); // Uz^2+Ca*(1-Uz^2)
-    }
-
 
   } // namespace Math
 } // namespace AL

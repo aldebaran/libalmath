@@ -15,15 +15,16 @@
 #include "almath/types/alrotation3d.h"
 
 #include "almath/types/altransform.h"
-#include "almath/types/altransformandvelocity6d.h"
-#include "almath/tools/altransformhelpers.h"
-
-#include "almath/tools/aldubinscurve.h"
-#include "almath/tools/altrigonometry.h"
 
 #include "almath/types/alvelocity3d.h"
 #include "almath/types/alvelocity6d.h"
 
+#include "almath/types/altransformandvelocity6d.h"
+
+#include "almath/tools/aldubinscurve.h"
+#include "almath/tools/altrigonometry.h"
+
+#include "almath/tools/altransformhelpers.h"
 #include "almath/tools/almath.h"
 %}
 
@@ -39,15 +40,16 @@
 %include "almath/types/alrotation3d.h"
 
 %include "almath/types/altransform.h"
-%include "almath/types/altransformandvelocity6d.h"
-%include "almath/tools/altransformhelpers.h"
-
-%include "almath/tools/aldubinscurve.h"
-%include "almath/tools/altrigonometry.h"
 
 %include "almath/types/alvelocity3d.h"
 %include "almath/types/alvelocity6d.h"
 
+%include "almath/types/altransformandvelocity6d.h"
+
+%include "almath/tools/aldubinscurve.h"
+%include "almath/tools/altrigonometry.h"
+
+%include "almath/tools/altransformhelpers.h"
 %include "almath/tools/almath.h"
 
 

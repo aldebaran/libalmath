@@ -39,9 +39,9 @@ namespace AL {
   /// </returns>
   /// \ingroup Tools
   Transform transformFromPosition3DAndRotation(
-    const float&    pX,
-    const float&    pY,
-    const float&    pZ,
+    const float&              pX,
+    const float&              pY,
+    const float&              pZ,
     const Rotation& pRot);
 
   /// <summary>
@@ -81,11 +81,11 @@ namespace AL {
   /// the Velocity6D logarithme: kinematic screw in se3
   /// </returns>
   /// \ingroup Tools
-    AL::Math::Velocity6D transformLogarithme(const AL::Math::Transform& pT);
+    Velocity6D transformLogarithme(const Transform& pT);
 
     void transformLogarithme(
-      const AL::Math::Transform& pT,
-      AL::Math::Velocity6D&      pVel);
+      const Transform& pT,
+      Velocity6D&      pVel);
 
     /**
     * Function Velocity Exponential : compute homogenous matrix
@@ -94,72 +94,72 @@ namespace AL {
     * @param Transform
     **/
     void velocityExponential(
-      const AL::Math::Velocity6D& pVel,
-      AL::Math::Transform&        pT);
+      const Velocity6D& pVel,
+      Transform&        pT);
 
-    AL::Math::Transform velocityExponential(const AL::Math::Velocity6D& pVel);
+    Transform velocityExponential(const Velocity6D& pVel);
 
     void changeRepereVelocity6D(
-      const AL::Math::Transform&  pT,
-      const AL::Math::Velocity6D& pVelIn,
-      AL::Math::Velocity6D&       pVelOut);
+      const Transform&  pT,
+      const Velocity6D& pVelIn,
+      Velocity6D&       pVelOut);
 
     void changeReperePosition6D(
-      const AL::Math::Transform&  pT,
-      const AL::Math::Position6D& pPosIn,
-      AL::Math::Position6D&       pPosOut);
+      const Transform&  pT,
+      const Position6D& pPosIn,
+      Position6D&       pPosOut);
 
     void changeReperePosition3D(
-      const AL::Math::Transform& pT,
-      AL::Math::Position3D&      pPosOut);
+      const Transform& pT,
+      Position3D&      pPosOut);
 
     void changeRepereTransposePosition3D(
-      const AL::Math::Transform& pT,
-      AL::Math::Position3D&      pPosOut);
+      const Transform& pT,
+      Position3D&      pPosOut);
 
     void changeReperePosition3D(
-      const AL::Math::Transform&  pT,
-      const AL::Math::Position3D& pPosIn,
-      AL::Math::Position3D&       pPosOut);
+      const Transform&  pT,
+      const Position3D& pPosIn,
+      Position3D&       pPosOut);
 
     void changeRepereTransposePosition3D(
-      const AL::Math::Transform&  pT,
-      const AL::Math::Position3D& pPosIn,
-      AL::Math::Position3D&       pPosOut);
+      const Transform&  pT,
+      const Position3D& pPosIn,
+      Position3D&       pPosOut);
 
     void changeRepereTransform(
-      const AL::Math::Transform& pT,
-      const AL::Math::Transform& pTIn,
-      AL::Math::Transform&       pTOut);
+      const Transform& pT,
+      const Transform& pTIn,
+      Transform&       pTOut);
 
     void changeRepereTransposeTransform(
-      const AL::Math::Transform& pT,
-      const AL::Math::Transform& pTIn,
-      AL::Math::Transform&       pTOut);
+      const Transform& pT,
+      const Transform& pTIn,
+      Transform&       pTOut);
 
     void changeRepereTransposeVelocity6D(
-      const AL::Math::Transform&  pT,
-      const AL::Math::Velocity6D& pVelIn,
-      AL::Math::Velocity6D&       pVelOut);
+      const Transform&  pT,
+      const Velocity6D& pVelIn,
+      Velocity6D&       pVelOut);
 
     void changeRepereTransposePosition6D(
-      const AL::Math::Transform&  pT,
-      const AL::Math::Position6D& pPosIn,
-      AL::Math::Position6D&       pPosOut);
+      const Transform&  pT,
+      const Position6D& pPosIn,
+      Position6D&       pPosOut);
 
     void transformMean(
-      const AL::Math::Transform& pTIn1,
-      const AL::Math::Transform& pTIn2,
+      const Transform& pTIn1,
+      const Transform& pTIn2,
       const float&               pDist,
-      AL::Math::Transform&       pTOut);
+      Transform&       pTOut);
 
-    AL::Math::Transform transformMean(
-      const AL::Math::Transform& pTIn1,
-      const AL::Math::Transform& pTIn2);
+    Transform transformMean(
+      const Transform& pTIn1,
+      const Transform& pTIn2);
 
-    AL::Math::Transform transformMean(
-      const AL::Math::Transform& pTIn1,
-      const AL::Math::Transform& pTIn2,
+    Transform transformMean(
+      const Transform& pTIn1,
+      const Transform& pTIn2,
       const float&               pDist);
 
 
@@ -292,14 +292,6 @@ namespace AL {
       Transform&        pT,
       const Position3D& pPos);
 
-//    /**
-//    * Helper method to compose a position 6D from
-//    * a Position3D and a Homogenous Transform
-//    */
-//    Position6D POSITION6D(
-//      const Position3D& pPos,
-//      const Transform&  pHRot);
-
 
     /**
     * Function AxisRotationProjection :
@@ -312,17 +304,18 @@ namespace AL {
       const Position3D& pAxis,
       Transform&        pH);
 
+
     Transform axisRotationProjection(
       const Transform&  pH,
       const Position3D& pAxis);
 
-    std::vector<AL::Math::Transform> filterTransform(
-      const std::vector<AL::Math::Transform>& pHi,
-      const AL::Math::AXIS_MASK               pAxisMask);
+    std::vector<Transform> filterTransform(
+      const std::vector<Transform>& pHi,
+      const AXIS_MASK               pAxisMask);
 
-    AL::Math::Transform axisMaskToTransformOn(
-      const AL::Math::Transform& pHi,
-      const AL::Math::AXIS_MASK  pAxisMask);
+    Transform axisMaskToTransformOn(
+      const Transform& pHi,
+      const AXIS_MASK  pAxisMask);
 
     void computeMixTransformWithAxisMask(
       const Transform& pDesired,
@@ -332,27 +325,27 @@ namespace AL {
 
     // Main
     void rotVecToTransform(
-      const int                   pAxis,
-      const float                 pTheta,
-      const AL::Math::Position3D& pM,
-      Transform&                  pTransform);
+      const int         pAxis,
+      const float       pTheta,
+      const Position3D& pPos,
+      Transform&        pT);
 
-    AL::Math::Transform rotVecToTransform(
-      const int                   pAxis,
-      const float                 pTheta,
-      const AL::Math::Position3D& pM);
+    Transform rotVecToTransform(
+      const int         pAxis,
+      const float       pTheta,
+      const Position3D& pPos);
 
     /**
     @param rotation axis, angle in degree, translation 3D Vector
     @return Transform
     **/
     void rotVecToTransform(
-      const AL::Math::Position3D& pPosition,
-      AL::Math::Transform&        pTransform);
+      const Position3D& pP,
+      Transform&        pT);
 
-    AL::Math::Transform rotVecToTransform(const AL::Math::Position3D& pPosition);
+    Transform rotVecToTransform(const Position3D& pPosition);
 
-    AL::Math::Transform rotVecToTransform(
+    Transform rotVecToTransform(
       const int&   pAxis,
       const float& pRot);
 
@@ -376,7 +369,7 @@ namespace AL {
     **/
     void axisRotationProjectionInPlace(
       const Position3D& pAxis,
-      Transform&        pH);
+      Transform&        pT);
 
     /**
     * Function axisRotationProjectionInPlace :
@@ -386,42 +379,7 @@ namespace AL {
     **/
     void axisRotationProjectionInPlace(
       Rotation&         pRot,
-      const Position3D& pAxis);
-
-    // ORTHSPACE: Plan orthogonal d'une droite vectorielle
-    //
-    // Retourne une base orthonormee de l espace orthogonal au vecteur e3, choisie de
-    // telle sorte que base_espace = [e1 e2 e3] soit une base orthogonale directe de
-    // l espace R3 tout entier (et meme, une base orthonormee directe, si e3 est
-    // norme).
-    //Transform Orthospace(const Position3D& pAxis, unsigned int& idx);
-    void orthospace(
-      const Position3D& pAxis,
-      Transform& HOut);
-
-    Transform orthospace(const Position3D& pAxis);
-
-    // OK
-    void axisRotationToTransform(
-        const Position3D& pAxisRotation,
-        const float&      Ca,
-        const float&      Sa,
-        Transform&        pHOut);
-
-    void diffAxisToAntiSynmetric(
-        const Position3D& pA,
-        const Position3D& pB,
-        Transform&        HOut);
-
-    bool findRotationBest(
-        const Position3D& pAxisInit,
-        const Position3D& pAxisFinal,
-        Transform&        pHOut);
-
-    void findRotation(
-        const Position3D& pAxisInit,
-        const Position3D& pAxisFinal,
-        Transform&        pHOut);
+      const Position3D& pPos);
 
   } // namespace Math
 } // namespace AL

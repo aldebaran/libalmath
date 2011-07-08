@@ -96,7 +96,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Tools
-    AL::Math::Rotation rotationFromAngleDirection(
+    Rotation rotationFromAngleDirection(
       const float&      pTheta,
       const Position3D& pPos);
 

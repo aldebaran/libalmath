@@ -23,9 +23,9 @@ namespace AL {
     /// <param name="pCircleRadius"> The circle radius. </param>
     /// <return> The dubins solution. </return>
     /// \ingroup Tools
-    std::vector<AL::Math::Pose2D> getDubinsSolutions(
-      const AL::Math::Pose2D& pTargetPose,
-      const float             pCircleRadius);
+    std::vector<Pose2D> getDubinsSolutions(
+      const Pose2D& pTargetPose,
+      const float   pCircleRadius);
 
   }
 }

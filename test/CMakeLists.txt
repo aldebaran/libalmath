@@ -4,9 +4,6 @@
 ##
 
 set(almath_tests_srcs
-    almathtestutils.h
-    almathtestutils.cpp
-
     collisions/avoidfootcollision_test.cpp
 
     tools/aldubinscurve_test.cpp

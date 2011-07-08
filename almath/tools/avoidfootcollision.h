@@ -30,10 +30,10 @@ namespace Math {
 /// </returns>
 /// \ingroup Tools
 const bool avoidFootCollision(
-  const std::vector<AL::Math::Pose2D>&  pLFootBoundingBox,
-  const std::vector<AL::Math::Pose2D>&  pRFootBoundingBox,
-  const bool&                           pIsLeftSupport,
-  AL::Math::Pose2D&                     pMove);
+  const std::vector<Pose2D>&  pLFootBoundingBox,
+  const std::vector<Pose2D>&  pRFootBoundingBox,
+  const bool&                 pIsLeftSupport,
+  Pose2D&                     pMove);
 
 } // namespace Math
 } // namespace AL

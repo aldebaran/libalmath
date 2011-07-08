@@ -5,15 +5,13 @@
 */
 
 #include <almath/tools/altransformhelpers.h>
+#include <almath/tools/almath.h> // for Velocity6D = float * Position6D
 #include <almath/tools/almathio.h>
 #include <almath/tools/altrigonometry.h>
-
-#include "../almathtestutils.h"
 
 #include <gtest/gtest.h>
 #include <stdexcept>
 #include <cmath>
-
 
 TEST(ALTransformHelpersTest, TransformFromPosition3DAndRotation)
 {
@@ -1073,165 +1071,6 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
 
 } // end rotationAxisRotationProjectionInPlace
 
-TEST(ALTransformHelpersTest, orthospace)
-{
-  AL::Math::Position3D pAxis;
-  AL::Math::Transform  pH;
-
-  // test 0
-  pAxis = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 1
-  pAxis = AL::Math::Position3D(-0.5f, 0.0f, 0.0f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 2
-  pAxis = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 3
-  pAxis = AL::Math::Position3D(0.0f, -0.5f, 0.0f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 4
-  pAxis = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 5
-  pAxis = AL::Math::Position3D(0.0f, 0.0f, -0.5f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 6
-  pAxis = AL::Math::Position3D(1.0f, 1.0f, 1.0f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 7
-  pAxis = AL::Math::Position3D(-0.5f, -0.5f, -0.5f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-
-  // test 8
-  pAxis = AL::Math::Position3D(0.01f, -0.5f, -0.5f);
-  pH = AL::Math::orthospace(pAxis);
-  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
-}
-
-
-TEST(ALTransformHelpersTest, axisRotationToTransform)
-{
-  float angle = 0.0f;
-  float Ca = 0.0f;
-  float Sa = 0.0f;
-
-  AL::Math::Transform HOut;
-  AL::Math::Transform HDes;
-  AL::Math::Position3D pAxisRotation;
-
-  // Test rot X
-  pAxisRotation = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
-  for (unsigned int i=0; i<36; i++)
-  {
-    angle = i*10.0f*AL::Math::TO_RAD;
-    Ca    = cosf(angle);
-    Sa    = sinf(angle);
-
-    AL::Math::axisRotationToTransform(pAxisRotation, Ca, Sa, HOut);
-
-    HDes = AL::Math::transformFromRotX(angle);
-    EXPECT_TRUE(HOut.isNear(HDes, 0.0001f));
-  }
-
-  // Test rot Y
-  pAxisRotation = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
-  for (unsigned int i=0; i<36; i++)
-  {
-    angle = i*10.0f*AL::Math::TO_RAD;
-    Ca    = cosf(angle);
-    Sa    = sinf(angle);
-
-    axisRotationToTransform(pAxisRotation, Ca, Sa, HOut);
-
-    HDes = AL::Math::transformFromRotY(angle);
-    EXPECT_TRUE(HOut.isNear(HDes, 0.0001f));
-  }
-
-  // Test rot Z
-  pAxisRotation = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
-  for (unsigned int i=0; i<36; i++)
-  {
-    angle = i*10.0f*AL::Math::TO_RAD;
-    Ca    = cosf(angle);
-    Sa    = sinf(angle);
-
-    AL::Math::axisRotationToTransform(pAxisRotation, Ca, Sa, HOut);
-
-    HDes = AL::Math::transformFromRotZ(angle);
-    EXPECT_TRUE(HOut.isNear(HDes, 0.0001f));
-  }
-
-} // end AxisRotationToTransform
-
-TEST(ALTransformHelpersTest, findRotation)
-{
-  AL::Math::Position3D pA;
-  AL::Math::Position3D pB;
-
-  // RotZ
-  // TODO: i=18 a fixer
-  for (unsigned int i=0; i<18; i++)
-  {
-    float angle = i*10.0f*AL::Math::TO_RAD;
-    //std::cout << "i: " << i << std::endl;
-    pA = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
-    pB = AL::Math::Position3D(0.0f, sinf(angle),cosf(angle));
-    validateFindRotation(pA, pB);
-  }
-
-  // +X +Y
-  pA = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
-  pB = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
-  validateFindRotation(pA, pB);
-
-  // +X -Y
-  pA = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
-  pB = AL::Math::Position3D(0.0f, -1.0f, 0.0f);
-  validateFindRotation(pA, pB);
-
-  // -X +Y
-  pA = AL::Math::Position3D(-1.0f, 0.0f, 0.0f);
-  pB = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
-  validateFindRotation(pA, pB);
-
-  // -X -Y
-  pA = AL::Math::Position3D(-1.0f, 0.0f, 0.0f);
-  pB = AL::Math::Position3D(0.0f, -1.0f, 0.0f);
-  validateFindRotation(pA, pB);
-
-  // Cas particulier
-  // X X
-  pA = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
-  pB = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
-  validateFindRotation(pA, pB);
-
-  // Z Z
-  pA = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
-  pB = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
-  validateFindRotation(pA, pB);
-
-  // TODO: a fixer
-  // Y Y
-//  pA = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
-//  pB = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
-//  validateFindRotation(pA, pB);
-}
 
 TEST(ALControlExplosionTest, test0)
 {
