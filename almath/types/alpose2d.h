@@ -31,17 +31,56 @@ namespace AL {
 
       /// <summary>
       /// Create a Pose2D initialized with 0.0f.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         theta
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      Pose2D():x(0.0f), y(0.0f), theta(0.0f) {}
+      Pose2D();
 
       /// <summary>
       /// Create a Pose2D initialize with the same float.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         theta
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pInit \\
+       *         pInit \\
+       *         pInit
+       *      \end{array}\right]\f$
+       */
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
-      explicit Pose2D(float pInit):x(pInit), y(pInit), theta(pInit) {}
+      explicit Pose2D(float pInit);
 
       /// <summary>
       /// Create a Pose2D initialized with explicit value.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         theta
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pX \\
+       *         pY \\
+       *         pTheta
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -49,34 +88,30 @@ namespace AL {
       explicit Pose2D(
         float pX,
         float pY,
-        float pTheta):
-        x(pX),
-        y(pY),
-        theta(pTheta) {}
+        float pTheta);
 
       /// <summary>
       /// Create a Pose2D with an std::vector.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         theta
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pFloats[0] \\
+       *         pFloats[1] \\
+       *         pFloats[2]
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 3 for respectively:
       ///
       /// x, y and theta
       /// </param>
-      Pose2D (const std::vector<float>& pFloats)
-      {
-        if (pFloats.size() == 3)
-        {
-          x = pFloats[0];
-          y = pFloats[1];
-          theta = pFloats[2];
-        }
-        else
-        {
-          x = 0.0f;
-          y = 0.0f;
-          theta = 0.0f;
-        }
-      }
+      Pose2D(const std::vector<float>& pFloats);
 
       /// <summary>
       /// Overloading of operator + for Pose2D.

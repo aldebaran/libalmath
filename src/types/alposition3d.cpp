@@ -10,6 +10,31 @@
 namespace AL {
   namespace Math {
 
+    Position3D::Position3D() : x(0.0f), y(0.0f), z(0.0f) {}
+
+    Position3D::Position3D(float pInit) : x(pInit), y(pInit), z(pInit) {}
+
+    Position3D::Position3D(
+      float pX,
+      float pY,
+      float pZ):
+      x(pX), y(pY), z(pZ) {}
+
+    Position3D::Position3D(const std::vector<float>& pFloats)
+    {
+      if (pFloats.size() == 3)
+      {
+        x = pFloats[0];
+        y = pFloats[1];
+        z = pFloats[2];
+      }
+      else
+      {
+        x = 0.0f;
+        y = 0.0f;
+        z = 0.0f;
+      }
+    }
 
     Position3D Position3D::operator+ (const Position3D& pPos2) const
     {

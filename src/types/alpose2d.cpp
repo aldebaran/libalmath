@@ -9,6 +9,34 @@
 namespace AL {
   namespace Math {
 
+    Pose2D::Pose2D():x(0.0f), y(0.0f), theta(0.0f) {}
+
+    Pose2D::Pose2D(float pInit):x(pInit), y(pInit), theta(pInit) {}
+
+    Pose2D::Pose2D(
+      float pX,
+      float pY,
+      float pTheta):
+      x(pX),
+      y(pY),
+      theta(pTheta) {}
+
+    Pose2D::Pose2D (const std::vector<float>& pFloats)
+    {
+      if (pFloats.size() == 3)
+      {
+        x = pFloats[0];
+        y = pFloats[1];
+        theta = pFloats[2];
+      }
+      else
+      {
+        x = 0.0f;
+        y = 0.0f;
+        theta = 0.0f;
+      }
+    }
+
     Pose2D Pose2D::operator+ (const Pose2D& pPos2) const
     {
       Pose2D res;

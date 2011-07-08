@@ -10,6 +10,24 @@
 namespace AL {
   namespace Math {
 
+    Position2D::Position2D() : x(0.0f), y(0.0f) {}
+
+    Position2D::Position2D(float pX, float pY) : x(pX), y(pY) {}
+
+    Position2D::Position2D (const std::vector<float>& pFloats)
+    {
+      if (pFloats.size() == 2)
+      {
+        x = pFloats[0];
+        y = pFloats[1];
+      }
+      else
+      {
+        x = 0.0f;
+        y = 0.0f;
+      }
+    }
+
     Position2D Position2D::operator+ (const Position2D& pPos2) const
     {
       Position2D res;

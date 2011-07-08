@@ -30,36 +30,57 @@ namespace AL {
 
       /// <summary>
       /// Create a Position2D initialized with 0.0f.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         0.0 \\
+       *         0.0
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      Position2D() : x(0.0f), y(0.0f) {}
+      Position2D();
 
       /// <summary>
       /// Create a Position2D initialized with explicit value.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pX \\
+       *         pY
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
-      Position2D(float pX, float pY) : x(pX), y(pY) {}
+      Position2D(float pX, float pY);
 
       /// <summary>
       /// Create a Position2D with an std::vector.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pFloats[0] \\
+       *         pFloats[1]
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 2 for respectively:
       /// x and y
       /// </param>
-      Position2D (const std::vector<float>& pFloats)
-      {
-        if (pFloats.size() == 2)
-        {
-          x = pFloats[0];
-          y = pFloats[1];
-        }
-        else
-        {
-          x = 0.0f;
-          y = 0.0f;
-        }
-      }
+      Position2D(const std::vector<float>& pFloats);
 
       /// <summary>
       /// Overloading of operator + for Position2D.

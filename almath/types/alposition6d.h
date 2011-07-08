@@ -28,28 +28,75 @@ namespace AL {
 
       /// <summary>
       /// Create a Position6D initialized with 0.0f.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z \\
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      Position6D() : x(0.0f),
-        y(0.0f),
-        z(0.0f),
-        wx(0.0f),
-        wy(0.0f),
-        wz(0.0f) {}
+      Position6D();
 
       /// <summary>
       /// Create a Position6D initialized with the same float.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z \\
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pInit \\
+       *         pInit \\
+       *         pInit \\
+       *         pInit \\
+       *         pInit \\
+       *         pInit
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
-      explicit Position6D(float pInit) : x(pInit),
-        y(pInit),
-        z(pInit),
-        wx(pInit),
-        wy(pInit),
-        wz(pInit) {}
+      explicit Position6D(float pInit);
 
       /// <summary>
       /// Create a Position6D initialized with explicit value.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z \\
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pX \\
+       *         pY \\
+       *         pZ \\
+       *         pWx \\
+       *         pWy \\
+       *         pWz
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -63,43 +110,35 @@ namespace AL {
         float pZ,
         float pWx,
         float pWy,
-        float pWz) : x(pX),
-        y(pY),
-        z(pZ),
-        wx(pWx),
-        wy(pWy),
-        wz(pWz) {}
+        float pWz);
 
       /// <summary>
       /// Create a Position6D with an std::vector.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z \\
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pFloats[0] \\
+       *         pFloats[1] \\
+       *         pFloats[2] \\
+       *         pFloats[3] \\
+       *         pFloats[4] \\
+       *         pFloats[5]
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 6 for respectively:
       /// x, y, z, wx, wy and wz
       /// </param>
-      Position6D(const std::vector<float>& pFloats)
-      {
-        if (pFloats.size() == 6)
-        {
-          x = pFloats[0];
-          y = pFloats[1];
-          z = pFloats[2];
-
-          wx = pFloats[3];
-          wy = pFloats[4];
-          wz = pFloats[5];
-        }
-        else
-        {
-          x = 0.0f;
-          y = 0.0f;
-          z = 0.0f;
-
-          wx = 0.0f;
-          wy = 0.0f;
-          wz = 0.0f;
-        }
-      }
+      Position6D(const std::vector<float>& pFloats);
 
       /// <summary>
       /// Overloading of operator + for Position6D.

@@ -30,18 +30,57 @@ namespace AL {
 
       /// <summary>
       /// Create a Position3D initialize with 0.0f.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      Position3D() : x(0.0f), y(0.0f), z(0.0f) {}
+      Position3D();
 
       /// <summary>
       /// Create a Position3D initialize with the same float.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pInit \\
+       *         pInit \\
+       *         pInit
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
-      Position3D(float pInit) : x(pInit), y(pInit), z(pInit) {}
+      Position3D(float pInit);
 
       /// <summary>
       /// Create a Position3D initialize with explicit value.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pX \\
+       *         pY \\
+       *         pZ
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -49,31 +88,29 @@ namespace AL {
       Position3D(
         float pX,
         float pY,
-        float pZ):
-        x(pX), y(pY), z(pZ) {}
+        float pZ);
 
       /// <summary>
       /// Create a Position3D with an std::vector.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y \\
+       *         z
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pFloats[0] \\
+       *         pFloats[1] \\
+       *         pFloats[2]
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 3 for respectively:
       /// x, y and z
       /// </param>
-      Position3D (const std::vector<float>& pFloats)
-      {
-        if (pFloats.size() == 3)
-        {
-          x = pFloats[0];
-          y = pFloats[1];
-          z = pFloats[2];
-        }
-        else
-        {
-          x = 0.0f;
-          y = 0.0f;
-          z = 0.0f;
-        }
-      }
+      Position3D (const std::vector<float>& pFloats);
 
       /// <summary>
       /// Overloading of operator + for Position3D.

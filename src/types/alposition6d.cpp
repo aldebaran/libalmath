@@ -10,6 +10,57 @@
 namespace AL {
   namespace Math {
 
+    Position6D::Position6D() : x(0.0f),
+      y(0.0f),
+      z(0.0f),
+      wx(0.0f),
+      wy(0.0f),
+      wz(0.0f) {}
+
+    Position6D::Position6D(float pInit) : x(pInit),
+      y(pInit),
+      z(pInit),
+      wx(pInit),
+      wy(pInit),
+      wz(pInit) {}
+
+    Position6D::Position6D(
+      float pX,
+      float pY,
+      float pZ,
+      float pWx,
+      float pWy,
+      float pWz) : x(pX),
+      y(pY),
+      z(pZ),
+      wx(pWx),
+      wy(pWy),
+      wz(pWz) {}
+
+    Position6D::Position6D(const std::vector<float>& pFloats)
+    {
+      if (pFloats.size() == 6)
+      {
+        x = pFloats[0];
+        y = pFloats[1];
+        z = pFloats[2];
+
+        wx = pFloats[3];
+        wy = pFloats[4];
+        wz = pFloats[5];
+      }
+      else
+      {
+        x = 0.0f;
+        y = 0.0f;
+        z = 0.0f;
+
+        wx = 0.0f;
+        wy = 0.0f;
+        wz = 0.0f;
+      }
+    }
+
     Position6D Position6D::operator+ (const Position6D& pPos2) const
     {
       Position6D res;
