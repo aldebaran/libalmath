@@ -27,7 +27,7 @@ namespace AL {
       float x, y, z, wx, wy, wz;
 
       /// <summary>
-      /// Create a Position6D initialize with 0.0f.
+      /// Create a Position6D initialized with 0.0f.
       /// </summary>
       Position6D() : x(0.0f),
         y(0.0f),
@@ -37,7 +37,7 @@ namespace AL {
         wz(0.0f) {}
 
       /// <summary>
-      /// Create a Position6D initialize with the same float.
+      /// Create a Position6D initialized with the same float.
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
@@ -49,7 +49,7 @@ namespace AL {
         wz(pInit) {}
 
       /// <summary>
-      /// Create a Position6D initialize with explicit value.
+      /// Create a Position6D initialized with explicit value.
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -173,14 +173,15 @@ namespace AL {
       Position6D& operator/= (float pVal);
 
       /// <summary>
-      /// Check if the actual Position6D is Near the one
-      /// give in argument.
+      /// Check if the actual Position6D is near the one
+      /// given in argument.
       ///
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
       /// <param name="pEpsilon"> an optional epsilon distance </param>
       /// <returns>
-      /// true if the difference of each float of the two Position6D is less than pEpsilon
+      /// true if the difference of each float of the two Position6D is less
+      /// than pEpsilon
       /// </returns>
       bool isNear(
         const Position6D& pPos2,

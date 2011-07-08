@@ -18,21 +18,21 @@ namespace AL {
   namespace Math {
 
   /// <summary>
-  /// A Rotation3D give 3 composed angle in radian.
+  /// A Rotation3D give 3 composed angles in radians.
   /// </summary>
   /// \ingroup Types
     struct Rotation3D {
       float wx, wy, wz;
 
       /// <summary>
-      /// Create a Rotation3D initialize with 0.0f.
+      /// Create a Rotation3D initialized with 0.0f.
       /// </summary>
       Rotation3D(): wx(0.0f),
         wy(0.0f),
         wz(0.0f) {}
 
       /// <summary>
-      /// Create a Rotation3D initialize with the same float.
+      /// Create a Rotation3D initialized with the same float.
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
@@ -41,7 +41,7 @@ namespace AL {
         wz(pInit) {}
 
       /// <summary>
-      /// Create a Rotation3D initialize with explicit value.
+      /// Create a Rotation3D initialized with explicit value.
       /// </summary>
       /// <param name="pWx"> the float value for wx </param>
       /// <param name="pWy"> the float value for wy </param>
@@ -137,8 +137,8 @@ namespace AL {
       Rotation3D& operator/= (const float pVal);
 
       /// <summary>
-      /// Check if the actual Rotation3D is Near the one
-      /// give in argument.
+      /// Check if the actual Rotation3D is near the one
+      /// given in argument.
       ///
       /// </summary>
       /// <param name="pRot2"> the second Rotation3D </param>

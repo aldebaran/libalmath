@@ -9,6 +9,73 @@
 namespace AL {
   namespace Math {
 
+    Transform::Transform():
+        r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f), r1_c4(0.0f),
+        r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f), r2_c4(0.0f),
+        r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f), r3_c4(0.0f) {}
+
+    Transform::Transform(const std::vector<float>& pFloats)
+    {
+      if (
+        (pFloats.size() == 12) ||
+        (pFloats.size() == 16))
+      {
+        r1_c1 = pFloats[0];
+        r1_c2 = pFloats[1];
+        r1_c3 = pFloats[2];
+        r1_c4 = pFloats[3];
+
+        r2_c1 = pFloats[4];
+        r2_c2 = pFloats[5];
+        r2_c3 = pFloats[6];
+        r2_c4 = pFloats[7];
+
+        r3_c1 = pFloats[8];
+        r3_c2 = pFloats[9];
+        r3_c3 = pFloats[10];
+        r3_c4 = pFloats[11];
+      }
+      else
+      {
+        r1_c1 = 1.0f;
+        r1_c2 = 0.0f;
+        r1_c3 = 0.0f;
+        r1_c4 = 0.0f;
+
+        r2_c1 = 0.0f;
+        r2_c2 = 1.0f;
+        r2_c3 = 0.0f;
+        r2_c4 = 0.0f;
+
+        r3_c1 = 0.0f;
+        r3_c2 = 0.0f;
+        r3_c3 = 1.0f;
+        r3_c4 = 0.0f;
+      }
+    }
+
+    Transform::Transform(
+      const float& pPosX,
+      const float& pPosY,
+      const float& pPosZ)
+    {
+      r1_c1 = 1.0f;
+      r1_c2 = 0.0f;
+      r1_c3 = 0.0f;
+
+      r2_c1 = 0.0f;
+      r2_c2 = 1.0f;
+      r2_c3 = 0.0f;
+
+      r3_c1 = 0.0f;
+      r3_c2 = 0.0f;
+      r3_c3 = 1.0f;
+
+      r1_c4 = pPosX;
+      r2_c4 = pPosY;
+      r3_c4 = pPosZ;
+    }
+
     Transform& Transform::operator*= (const Transform& pT2)
     {
       float c1 = r1_c1;

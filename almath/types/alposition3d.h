@@ -53,7 +53,7 @@ namespace AL {
         x(pX), y(pY), z(pZ) {}
 
       /// <summary>
-      /// Create a Positio3D with an std::vector.
+      /// Create a Position3D with an std::vector.
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 3 for respectively:
@@ -147,7 +147,7 @@ namespace AL {
 
       /// <summary>
       /// Compute the squared distance between the actual
-      /// Position3D and the one give in argument.
+      /// Position3D and the one given in argument.
       ///
       /// \f$(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2\f$
       /// </summary>
@@ -159,7 +159,7 @@ namespace AL {
 
       /// <summary>
       /// Compute the distance between the actual
-      /// Position3D and the one give in argument.
+      /// Position3D and the one given in argument.
       ///
       /// \f$\sqrt{(pPos1.x-pPos2.x)^2+(pPos1.y-pPos2.y)^2+(pPos1.z-pPos2.z)^2}\f$
       /// </summary>
@@ -170,7 +170,7 @@ namespace AL {
       float distance(const Position3D& pPos2) const;
 
       /// <summary>
-      /// Check if the actual Position3D is Near the one
+      /// Check if the actual Position3D is near the one
       /// give in argument.
       ///
       /// </summary>
@@ -339,7 +339,9 @@ namespace AL {
     /// <param name="pPos1"> the first Position3D </param>
     /// <param name="pPos2"> the second Position3D </param>
     /// <param name="pRes">
+    /// <returns>
     /// the Position3D cross product between the two Position3D </param>
+    /// </returns>
     void crossProduct(
       const Position3D& pPos1,
       const Position3D& pPos2,

@@ -30,7 +30,7 @@ namespace AL {
         r3_c1, r3_c2, r3_c3;
 
       /// <summary>
-      /// Create a Rotation initialize to identity.
+      /// Create a Rotation initialized to identity.
       /// </summary>
       Rotation(): r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f),
         r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f),
@@ -127,7 +127,7 @@ namespace AL {
       /// <param name="pRot2"> the second Rotation </param>
       /// <param name="pEpsilon"> an optionnal epsilon distance: default: 0.0001 </param>
       /// <returns>
-      /// true if the distance between the two Rotation is less than pEpsilon
+      /// true if the distance between the two rotations is less than pEpsilon
       /// </returns>
       bool isNear(
         const Rotation& pRot2,
@@ -206,7 +206,7 @@ namespace AL {
       static Rotation fromRotZ(const float pRotZ);
 
       /// <summary>
-      /// Create a Rotation initialize with euler angle.
+      /// Create a Rotation initialized with euler angle.
       ///
       /// Rot = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
       ///
@@ -230,7 +230,7 @@ namespace AL {
 
     /// <summary>
     /// Compute the transpose rotation of
-    /// the one give in argument:
+    /// the one given in argument:
     /// </summary>
     /// <param name="pRot"> the rotation matrix </param>
     /// <returns>
@@ -341,7 +341,7 @@ namespace AL {
     Rotation rotationFromRotZ(const float pRotZ);
 
     /// <summary>
-    /// Create a Rotation initialize with euler angle.
+    /// Create a Rotation initialized with euler angle.
     /// Rot = fromRotZ(pWZ)*fromRotY(pWY)*fromRotX(pWX)
     ///
     /// </summary>

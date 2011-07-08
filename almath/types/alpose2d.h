@@ -41,7 +41,7 @@ namespace AL {
       explicit Pose2D(float pInit):x(pInit), y(pInit), theta(pInit) {}
 
       /// <summary>
-      /// Create a Pose2D initialize with explicit value.
+      /// Create a Pose2D initialized with explicit value.
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -168,7 +168,7 @@ namespace AL {
       Pose2D inverse() const;
 
       /// <summary>
-      /// Check if the actual Pose2D is Near the one
+      /// Check if the actual Pose2D is near the one
       /// given in argument.
       ///
       /// </summary>

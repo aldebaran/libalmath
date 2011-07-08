@@ -37,7 +37,7 @@ namespace AL {
           dq(pdq) {}
 
       /// <summary>
-      /// Check if the actual PositionAndVelocity is Near the one
+      /// Check if the actual PositionAndVelocity is near the one
       /// give in argument.
       ///
       /// </summary>

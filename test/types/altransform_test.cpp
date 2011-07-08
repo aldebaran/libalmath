@@ -13,6 +13,33 @@
 #include <gtest/gtest.h>
 #include <cmath>
 
+TEST(TransformTest, constructor)
+{
+  std::vector<float> pFloats;
+  pFloats.resize(8);
+  AL::Math::Transform pT = AL::Math::Transform(pFloats);
+
+  EXPECT_TRUE(pT.isNear(AL::Math::Transform()));
+
+  pFloats.resize(12);
+  pFloats.at(0)  = 1.0f;
+  pFloats.at(1)  = 0.0f;
+  pFloats.at(2)  = 0.0f;
+  pFloats.at(3)  = 0.0f;
+  pFloats.at(4)  = 0.0f;
+  pFloats.at(5)  = cosf(10.0f*AL::Math::TO_RAD);
+  pFloats.at(6)  = -sinf(10.0f*AL::Math::TO_RAD);
+  pFloats.at(7)  = 0.0f;
+  pFloats.at(8)  = 0.0f;
+  pFloats.at(9)  = sinf(10.0f*AL::Math::TO_RAD);
+  pFloats.at(10) = cosf(10.0f*AL::Math::TO_RAD);
+  pFloats.at(11) = 0.0f;
+  pT = AL::Math::Transform(pFloats);
+
+  EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotX(10.0f*AL::Math::TO_RAD)));
+
+}
+
 TEST(TransformTest, variousOperator)
 {
   AL::Math::Transform pHIn1 = AL::Math::Transform();

@@ -29,12 +29,12 @@ namespace AL {
       float y;
 
       /// <summary>
-      /// Create a Position2D initialize with 0.0f.
+      /// Create a Position2D initialized with 0.0f.
       /// </summary>
       Position2D() : x(0.0f), y(0.0f) {}
 
       /// <summary>
-      /// Create a Position2D initialize with explicit value.
+      /// Create a Position2D initialized with explicit value.
       /// </summary>
       /// <param name="pX"> the float value for x </param>
       /// <param name="pY"> the float value for y </param>
@@ -162,7 +162,7 @@ namespace AL {
       float distance(const Position2D& pPos2) const;
 
       /// <summary>
-      /// Check if the actual Position2D is Near the one
+      /// Check if the actual Position2D is near the one
       /// give in argument.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
