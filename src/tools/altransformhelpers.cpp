@@ -409,7 +409,6 @@ namespace AL {
     {
       if ((pDist>1.0f) || (pDist<0.0f))
       {
-        // was throw std::invalid_argument(
         throw std::runtime_error(
           "ALMath: transformMean Distance must be between 0 and 1.");
       }
@@ -421,19 +420,6 @@ namespace AL {
       transformLogarithme(pHIn1i*pHIn2, pV);
       velocityExponential(pDist*pV,pHOut);
       pHOut = pHIn1*pHOut;
-    }
-
-
-    AL::Math::Transform transformMean(
-      const AL::Math::Transform& pHIn1,
-      const AL::Math::Transform& pHIn2)
-    {
-      AL::Math::Transform pHOut;
-      const float pDist = 0.5f;
-
-      transformMean(pHIn1, pHIn2, pDist, pHOut);
-
-      return pHOut;
     }
 
 

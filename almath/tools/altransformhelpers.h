@@ -420,16 +420,11 @@ namespace AL {
       const float&     pVal,
       Transform&       pTOut);
 
-    // TODO: Use optional arguments.
-    Transform transformMean(
-      const Transform& pTIn1,
-      const Transform& pTIn2);
 
-    // TODO: Use optional arguments.
     Transform transformMean(
       const Transform& pTIn1,
       const Transform& pTIn2,
-      const float&     pDist);
+      const float&     pVal = 0.5f);
 
     /// <summary>
     /**
