@@ -9,12 +9,21 @@
 
 #include <stdexcept>
 
-AL::Math::Position3D pPos3D1 = AL::Math::Position3D();
-AL::Math::Position3D pPos3D2 = AL::Math::Position3D();
+
+
+TEST(ALPosition3DTest, ExplicitConstructor)
+{
+  AL::Math::Position3D pPos3D1 = AL::Math::Position3D(-10.3f);
+  AL::Math::Position3D pPos3D2 = AL::Math::Position3D(-10.3f, -10.3f, -10.3f);
+  EXPECT_TRUE(pPos3D1.isNear(pPos3D2));
+}
 
 TEST(ALPosition3DTest, Distance)
 {
   float kEpsilon = 0.0001f;
+  AL::Math::Position3D pPos3D1 = AL::Math::Position3D();
+  AL::Math::Position3D pPos3D2 = AL::Math::Position3D();
+
   //std::cout << "-------------- Distance 0 --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D();
   pPos3D2 = AL::Math::Position3D();
@@ -37,6 +46,7 @@ TEST(ALPosition3DTest, Distance)
 TEST(ALPosition3DTest, norm)
 {
   float kEpsilon = 0.0001f;
+  AL::Math::Position3D pPos3D1 = AL::Math::Position3D();
 
   //std::cout << "-------------- Norm 0 --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D(0.0f, 0.0f, 0.0f);
@@ -56,6 +66,8 @@ TEST(ALPosition3DTest, norm)
 
 TEST(ALPosition3DTest, normalize)
 {
+  AL::Math::Position3D pPos3D1 = AL::Math::Position3D();
+
   //std::cout << "-------------- normalize 0 --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D(0.0f, 0.0f, 0.0f);
   ASSERT_THROW(AL::Math::normalize(pPos3D1), std::runtime_error);
@@ -74,6 +86,9 @@ TEST(ALPosition3DTest, normalize)
 
 TEST(ALPosition3DTest, crossProduct)
 {
+  AL::Math::Position3D pPos3D1 = AL::Math::Position3D();
+  AL::Math::Position3D pPos3D2 = AL::Math::Position3D();
+
   //std::cout << "-------------- crossProduct 0 --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D();
   pPos3D2 = AL::Math::Position3D();
@@ -89,6 +104,9 @@ TEST(ALPosition3DTest, crossProduct)
 
 TEST(ALPosition3DTest, Divers)
 {
+  AL::Math::Position3D pPos3D1 = AL::Math::Position3D();
+  AL::Math::Position3D pPos3D2 = AL::Math::Position3D();
+
   //std::cout << "-------------- soustraction 0 (-a) --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D(+1.2f, -1.3f, 0.2f);
   pPos3D2 = -pPos3D1;

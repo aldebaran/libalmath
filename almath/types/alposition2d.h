@@ -45,6 +45,24 @@ namespace AL {
       Position2D();
 
       /// <summary>
+      /// Create a Position2D initialize with the same float.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         x \\
+       *         y
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pInit \\
+       *         pInit
+       *      \end{array}\right]\f$
+       */
+      /// </summary>
+      /// <param name="pInit"> the float value for each member </param>
+      /// </summary>
+      explicit Position2D(float pInit);
+
+      /// <summary>
       /// Create a Position2D initialized with explicit value.
       /**
        *

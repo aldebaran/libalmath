@@ -28,22 +28,57 @@ namespace AL {
 
       /// <summary>
       /// Create a Velocity3D initialize with 0.0f.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         xd \\
+       *         yd \\
+       *         zd
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      Velocity3D(): xd(0.0f),
-        yd(0.0f),
-        zd(0.0f) {}
+      Velocity3D();
 
       /// <summary>
       /// Create a Velocity3D initialize with the same float.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         xd \\
+       *         yd \\
+       *         zd
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pInit \\
+       *         pInit \\
+       *         pInit
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
-      explicit Velocity3D(float pInit): xd(pInit),
-        yd(pInit),
-        zd(pInit) {}
+      explicit Velocity3D(float pInit);
 
       /// <summary>
       /// Create a Velocity3D initialize with explicit value.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         xd \\
+       *         yd \\
+       *         zd
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pXd \\
+       *         pYd \\
+       *         pZd
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pXd"> the float value for xd </param>
       /// <param name="pYd"> the float value for yd </param>
@@ -51,32 +86,29 @@ namespace AL {
       Velocity3D(
         float pXd,
         float pYd,
-        float pZd): xd(pXd),
-        yd(pYd),
-        zd(pZd) {}
+        float pZd);
 
       /// <summary>
       /// Create a Velocity3D with an std::vector.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         xd \\
+       *         yd \\
+       *         zd
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pFloats[0] \\
+       *         pFloats[1] \\
+       *         pFloats[2]
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 3 for respectively:
       /// xd, yd, zd
       /// </param>
-      Velocity3D(const std::vector<float>& pFloats)
-      {
-        if (pFloats.size() == 3)
-        {
-          xd = pFloats[0];
-          yd = pFloats[1];
-          zd = pFloats[2];
-        }
-        else
-        {
-          xd = 0.0f;
-          yd = 0.0f;
-          zd = 0.0f;
-        }
-      }
+      Velocity3D(const std::vector<float>& pFloats);
 
       /// <summary>
       /// Overloading of operator + for Velocity3D.

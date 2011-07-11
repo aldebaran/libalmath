@@ -26,22 +26,57 @@ namespace AL {
 
       /// <summary>
       /// Create a Rotation3D initialized with 0.0f.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         0.0 \\
+       *         0.0 \\
+       *         0.0
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      Rotation3D(): wx(0.0f),
-        wy(0.0f),
-        wz(0.0f) {}
+      Rotation3D();
 
       /// <summary>
       /// Create a Rotation3D initialized with the same float.
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pInit \\
+       *         pInit \\
+       *         pInit
+       *      \end{array}\right]\f$
+       */
       /// </summary>
-      explicit Rotation3D(float pInit): wx(pInit),
-        wy(pInit),
-        wz(pInit) {}
+      explicit Rotation3D(float pInit);
 
       /// <summary>
       /// Create a Rotation3D initialized with explicit value.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pWx \\
+       *         pWy \\
+       *         pWz
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pWx"> the float value for wx </param>
       /// <param name="pWy"> the float value for wy </param>
@@ -49,32 +84,29 @@ namespace AL {
       Rotation3D(
         float pWx,
         float pWy,
-        float pWz): wx(pWx),
-        wy(pWy),
-        wz(pWz) {}
+        float pWz);
 
       /// <summary>
       /// Create a Rotation3D with an std::vector.
+      /**
+       *
+       * \f$ \left[\begin{array}{c}
+       *         wx \\
+       *         wy \\
+       *         wz
+       *      \end{array}\right] =
+       *      \left[\begin{array}{c}
+       *         pFloats[0] \\
+       *         pFloats[1] \\
+       *         pFloats[2]
+       *      \end{array}\right]\f$
+       */
       /// </summary>
       /// <param name="pFloats">
       /// An std::vector<float> of size 3 for respectively:
       /// wx, wy and wz
       /// </param>
-      Rotation3D (const std::vector<float>& pFloats)
-      {
-        if (pFloats.size() == 3)
-        {
-          wx = pFloats[0];
-          wy = pFloats[1];
-          wz = pFloats[2];
-        }
-        else
-        {
-          wx = 0.0f;
-          wy = 0.0f;
-          wz = 0.0f;
-        }
-      }
+      Rotation3D (const std::vector<float>& pFloats);
 
       /// <summary>
       /// Overloading of operator + for Rotation3D.

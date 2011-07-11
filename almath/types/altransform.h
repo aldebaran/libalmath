@@ -50,7 +50,6 @@ namespace AL {
       /// </summary>
       Transform();
 
-
       /// <summary>
       /// Create a Transform with an std::vector.
       /// </summary>

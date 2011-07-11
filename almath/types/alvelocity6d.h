@@ -34,30 +34,75 @@ struct Velocity6D {
 
   /// <summary>
   /// Create a Velocity6D initialize with 0.0f.
+  /**
+   *
+   * \f$ \left[\begin{array}{c}
+   *         xd \\
+   *         yd \\
+   *         zd \\
+   *         wxd \\
+   *         wyd \\
+   *         wzd
+   *      \end{array}\right] =
+   *      \left[\begin{array}{c}
+   *         0.0 \\
+   *         0.0 \\
+   *         0.0 \\
+   *         0.0 \\
+   *         0.0 \\
+   *         0.0
+   *      \end{array}\right]\f$
+   */
   /// </summary>
-  Velocity6D():
-    xd(0.0f),
-    yd(0.0f),
-    zd(0.0f),
-    wxd(0.0f),
-    wyd(0.0f),
-    wzd(0.0f) {}
+  Velocity6D();
 
   /// <summary>
   /// Create a Velocity6D initialize with the same float.
+  /**
+   *
+   * \f$ \left[\begin{array}{c}
+   *         xd \\
+   *         yd \\
+   *         zd \\
+   *         wxd \\
+   *         wyd \\
+   *         wzd
+   *      \end{array}\right] =
+   *      \left[\begin{array}{c}
+   *         pInit \\
+   *         pInit \\
+   *         pInit \\
+   *         pInit \\
+   *         pInit \\
+   *         pInit
+   *      \end{array}\right]\f$
+   */
   /// </summary>
   /// <param name="pInit"> the float value for each member </param>
   /// </summary>
-  explicit Velocity6D(float pInit):
-    xd(pInit),
-    yd(pInit),
-    zd(pInit),
-    wxd(pInit),
-    wyd(pInit),
-    wzd(pInit) {}
+  explicit Velocity6D(float pInit);
 
   /// <summary>
   /// Create a Velocity6D initialize with explicit value.
+  /**
+   *
+   * \f$ \left[\begin{array}{c}
+   *         xd \\
+   *         yd \\
+   *         zd \\
+   *         wxd \\
+   *         wyd \\
+   *         wzd
+   *      \end{array}\right] =
+   *      \left[\begin{array}{c}
+   *         pXd \\
+   *         pYd \\
+   *         pZd \\
+   *         pWxd \\
+   *         pWyd \\
+   *         pWzd
+   *      \end{array}\right]\f$
+   */
   /// </summary>
   /// <param name="pXd"> the float value for xd </param>
   /// <param name="pYd"> the float value for yd </param>
@@ -71,43 +116,36 @@ struct Velocity6D {
     float pZd,
     float pWxd,
     float pWyd,
-    float pWzd):
-    xd(pXd),
-    yd(pYd),
-    zd(pZd),
-    wxd(pWxd),
-    wyd(pWyd),
-    wzd(pWzd) {}
+    float pWzd);
 
   /// <summary>
   /// Create a Velocity6D with an std::vector.
+  /**
+   *
+   * \f$ \left[\begin{array}{c}
+   *         xd \\
+   *         yd \\
+   *         zd \\
+   *         wxd \\
+   *         wyd \\
+   *         wzd
+   *      \end{array}\right] =
+   *      \left[\begin{array}{c}
+   *         pFloats[0] \\
+   *         pFloats[1] \\
+   *         pFloats[2] \\
+   *         pFloats[3] \\
+   *         pFloats[4] \\
+   *         pFloats[5]
+   *      \end{array}\right]\f$
+   */
   /// </summary>
   /// <param name="pFloats">
   /// An std::vector<float> of size 6 for respectively:
   ///
   /// xd, yd, zd, wxd, wyd and wzd
   /// </param>
-  Velocity6D(const std::vector<float>& pFloats)
-  {
-    if (pFloats.size() == 6)
-    {
-      xd  = pFloats[0];
-      yd  = pFloats[1];
-      zd  = pFloats[2];
-      wxd = pFloats[3];
-      wyd = pFloats[4];
-      wzd = pFloats[5];
-    }
-    else
-    {
-      xd  = 0.0f;
-      yd  = 0.0f;
-      zd  = 0.0f;
-      wxd = 0.0f;
-      wyd = 0.0f;
-      wzd = 0.0f;
-    }
-  }
+  Velocity6D(const std::vector<float>& pFloats);
 
   /// <summary>
   /// Overloading of operator + for Velocity6D.

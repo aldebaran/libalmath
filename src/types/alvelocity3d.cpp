@@ -10,6 +10,38 @@
 namespace AL {
   namespace Math {
 
+  Velocity3D::Velocity3D(): xd(0.0f),
+    yd(0.0f),
+    zd(0.0f) {}
+
+
+  Velocity3D::Velocity3D(float pInit): xd(pInit),
+    yd(pInit),
+    zd(pInit) {}
+
+  Velocity3D::Velocity3D(
+    float pXd,
+    float pYd,
+    float pZd): xd(pXd),
+    yd(pYd),
+    zd(pZd) {}
+
+  Velocity3D::Velocity3D(const std::vector<float>& pFloats)
+  {
+    if (pFloats.size() == 3)
+    {
+      xd = pFloats[0];
+      yd = pFloats[1];
+      zd = pFloats[2];
+    }
+    else
+    {
+      xd = 0.0f;
+      yd = 0.0f;
+      zd = 0.0f;
+    }
+  }
+
     Velocity3D Velocity3D::operator+ (const Velocity3D& pVel2) const
     {
       Velocity3D res;

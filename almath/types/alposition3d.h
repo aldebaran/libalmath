@@ -64,7 +64,7 @@ namespace AL {
       /// </summary>
       /// <param name="pInit"> the float value for each member </param>
       /// </summary>
-      Position3D(float pInit);
+      explicit Position3D(float pInit);
 
       /// <summary>
       /// Create a Position3D initialize with explicit value.

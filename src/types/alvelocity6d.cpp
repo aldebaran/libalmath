@@ -10,6 +10,58 @@
 namespace AL {
   namespace Math {
 
+  Velocity6D::Velocity6D():
+    xd(0.0f),
+    yd(0.0f),
+    zd(0.0f),
+    wxd(0.0f),
+    wyd(0.0f),
+    wzd(0.0f) {}
+
+  Velocity6D::Velocity6D(float pInit):
+    xd(pInit),
+    yd(pInit),
+    zd(pInit),
+    wxd(pInit),
+    wyd(pInit),
+    wzd(pInit) {}
+
+  Velocity6D::Velocity6D(
+    float pXd,
+    float pYd,
+    float pZd,
+    float pWxd,
+    float pWyd,
+    float pWzd):
+    xd(pXd),
+    yd(pYd),
+    zd(pZd),
+    wxd(pWxd),
+    wyd(pWyd),
+    wzd(pWzd) {}
+
+  Velocity6D::Velocity6D(const std::vector<float>& pFloats)
+  {
+    if (pFloats.size() == 6)
+    {
+      xd  = pFloats[0];
+      yd  = pFloats[1];
+      zd  = pFloats[2];
+      wxd = pFloats[3];
+      wyd = pFloats[4];
+      wzd = pFloats[5];
+    }
+    else
+    {
+      xd  = 0.0f;
+      yd  = 0.0f;
+      zd  = 0.0f;
+      wxd = 0.0f;
+      wyd = 0.0f;
+      wzd = 0.0f;
+    }
+  }
+
     Velocity6D Velocity6D::operator+ (const Velocity6D& pVel2) const
     {
       Velocity6D res;
