@@ -248,6 +248,7 @@ namespace AL {
       return tM;
     }
 
+
     void changeRepereVelocity6D(
       const Transform&  pH,
       const Velocity6D& pVIn,
@@ -267,9 +268,9 @@ namespace AL {
       const Position6D& pPIn,
       Position6D&       pPOut)
     {
-      pPOut.x  = pH.r1_c1 * pPIn.x  + pH.r1_c2 * pPIn.y  + pH.r1_c3 * pPIn.z  ;
-      pPOut.y  = pH.r2_c1 * pPIn.x  + pH.r2_c2 * pPIn.y  + pH.r2_c3 * pPIn.z  ;
-      pPOut.z  = pH.r3_c1 * pPIn.x  + pH.r3_c2 * pPIn.y  + pH.r3_c3 * pPIn.z  ;
+      pPOut.x  = pH.r1_c1 * pPIn.x  + pH.r1_c2 * pPIn.y  + pH.r1_c3 * pPIn.z;
+      pPOut.y  = pH.r2_c1 * pPIn.x  + pH.r2_c2 * pPIn.y  + pH.r2_c3 * pPIn.z;
+      pPOut.z  = pH.r3_c1 * pPIn.x  + pH.r3_c2 * pPIn.y  + pH.r3_c3 * pPIn.z;
       pPOut.wx = pH.r1_c1 * pPIn.wx + pH.r1_c2 * pPIn.wy + pH.r1_c3 * pPIn.wz;
       pPOut.wy = pH.r2_c1 * pPIn.wx + pH.r2_c2 * pPIn.wy + pH.r2_c3 * pPIn.wz;
       pPOut.wz = pH.r3_c1 * pPIn.wx + pH.r3_c2 * pPIn.wy + pH.r3_c3 * pPIn.wz;
@@ -406,10 +407,11 @@ namespace AL {
       const float&                pDist,
       AL::Math::Transform&        pHOut)
     {
-      if ((pDist>1.0f) && (pDist<0.0f))
+      if ((pDist>1.0f) || (pDist<0.0f))
       {
-        throw std::invalid_argument(
-          "ALMath: TransformMean Distance must be between 0 and 1.");
+        // was throw std::invalid_argument(
+        throw std::runtime_error(
+          "ALMath: transformMean Distance must be between 0 and 1.");
       }
 
       Velocity6D pV;
@@ -427,8 +429,7 @@ namespace AL {
       const AL::Math::Transform& pHIn2)
     {
       AL::Math::Transform pHOut;
-      float pDist;
-      pDist = 0.5f;
+      const float pDist = 0.5f;
 
       transformMean(pHIn1, pHIn2, pDist, pHOut);
 

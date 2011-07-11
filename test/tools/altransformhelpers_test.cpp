@@ -731,6 +731,15 @@ TEST(ALTransformHelpersTest, transformMean)
   AL::Math::transformMean(pMathHIn1, pMathHIn2, 0.5f, pMathHOut);
   EXPECT_TRUE(AL::Math::transformFromRotZ(20.0f*AL::Math::TO_RAD).isNear(pMathHOut, 5.0e-4f));
 
+  // 4
+  pMathHIn1 = AL::Math::transformFromRotZ(10.0f*AL::Math::TO_RAD);
+  pMathHIn2 = AL::Math::transformFromRotZ(30.0f*AL::Math::TO_RAD);
+  pMathHOut = AL::Math::Transform();
+  ASSERT_THROW(AL::Math::transformMean(pMathHIn1, pMathHIn2, 1.1f, pMathHOut),
+               std::runtime_error);
+
+  ASSERT_THROW(AL::Math::transformMean(pMathHIn1, pMathHIn2, -0.1f, pMathHOut),
+               std::runtime_error);
 } // end transformMean
 
 TEST(ALTransformHelpersTest, transformFromPosition3D)
