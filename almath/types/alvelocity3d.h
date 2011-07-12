@@ -187,7 +187,7 @@ namespace AL {
 
       /// <summary>
       /// Check if the actual Velocity3D is Near the one
-      /// give in argument.
+      /// given in argument.
       ///
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>

@@ -213,7 +213,7 @@ struct Velocity6D {
 
   /// <summary>
   /// Check if the actual Velocity6D is Near the one
-  /// give in argument.
+  /// given in argument.
   ///
   /// </summary>
   /// <param name="pVel2"> the second Velocity6D </param>

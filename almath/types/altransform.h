@@ -126,7 +126,7 @@ namespace AL {
 
       /// <summary>
       /// Check if the actual Transform is near the one
-      /// give in argument.
+      /// given in argument.
       ///
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
@@ -301,7 +301,7 @@ namespace AL {
 
       /// <summary>
       /// Compute the Transform between the actual
-      /// Transform and the one give in argument:
+      /// Transform and the one given in argument:
       ///
       /// result: inverse(pT1)*pT2
       ///
@@ -312,7 +312,7 @@ namespace AL {
 
       /// <summary>
       /// Compute the squared distance between the actual
-      /// Transform and the one give in argument (translation part):
+      /// Transform and the one given in argument (translation part):
       ///
       /// \f$(pT1.r1c4-pT2.r1C4)^2+(pT1.r2c4-pT2.r2C4)^2+(pT1.r3c4-pT2.r3C4)^2\f$
       /// </summary>
@@ -325,7 +325,7 @@ namespace AL {
 
       /// <summary>
       /// Compute the distance between the actual
-      /// Transform and the one give in argument:
+      /// Transform and the one given in argument:
       ///
       /// \f$\sqrt{(pT1.r1c4-pT2.r1c4)^2+(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2}\f$
       /// </summary>

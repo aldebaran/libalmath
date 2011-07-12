@@ -226,9 +226,9 @@ namespace AL {
 
     /// <summary>
     /** \f$ \left[\begin{array}{c}
-      * xIn  \\
-      * yIn  \\
-      * zIn  \\
+      * pPosOut.x \\
+      * pPosOut.y \\
+      * pPosOut.z \\
       * \end{array}\right]
       * =
       * \left[\begin{array}{ccc}
@@ -238,9 +238,9 @@ namespace AL {
       * \end{array}\right]
       *
       * \left[\begin{array}{c}
-      * xOut  \\
-      * yOut  \\
-      * zOut  \\
+      * pPosIn.x \\
+      * pPosIn.y \\
+      * pPosIn.z \\
       * \end{array}\right]
       * \f$
       */
