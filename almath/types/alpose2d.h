@@ -25,8 +25,11 @@ namespace AL {
     /// </summary>
     /// \ingroup Types
     struct Pose2D {
+      /// <summary> </summary>
       float x;
+      /// <summary> </summary>
       float y;
+      /// <summary> </summary>
       float theta;
 
       /// <summary>

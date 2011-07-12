@@ -22,7 +22,7 @@ namespace AL {
     /// </summary>
     /// <A HREF="http://en.wikipedia.org/wiki/Transformation_matrix">more information</A>
     /// \ingroup Types
-    struct Transform {
+    struct  Transform {
 
       /** \cond PRIVATE */
       float r1_c1, r1_c2, r1_c3, r1_c4;
@@ -624,7 +624,6 @@ namespace AL {
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
-    /// <param name="pTOut"> the inverse of the given Transform </param>
     /// \ingroup Types
     Transform pinv(const Transform& pT);
 

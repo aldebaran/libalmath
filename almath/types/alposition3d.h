@@ -24,8 +24,11 @@ namespace AL {
     /// </summary>
     /// \ingroup Types
     struct Position3D {
+      /// <summary> </summary>
       float x;
+      /// <summary> </summary>
       float y;
+      /// <summary> </summary>
       float z;
 
       /// <summary>

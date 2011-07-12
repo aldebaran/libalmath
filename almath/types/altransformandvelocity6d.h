@@ -23,7 +23,9 @@ namespace AL {
     /// </summary>
     struct TransformAndVelocity6D
     {
+      /// <summary> </summary>
       AL::Math::Transform  T;
+      /// <summary> </summary>
       AL::Math::Velocity6D V;
 
       /// <summary>

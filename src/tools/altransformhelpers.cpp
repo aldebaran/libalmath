@@ -503,6 +503,7 @@ namespace AL {
       return pOut;
     }
 
+
     void transformToPosition3D(
       const Transform& pTransform,
       Position3D&      pPosition)

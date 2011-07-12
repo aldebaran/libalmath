@@ -24,7 +24,18 @@ namespace AL {
     /// </summary>
     /// \ingroup Types
     struct Position6D {
-      float x, y, z, wx, wy, wz;
+      /// <summary> </summary>
+      float x;
+      /// <summary> </summary>
+      float y;
+      /// <summary> </summary>
+      float z;
+      /// <summary> </summary>
+      float wx;
+      /// <summary> </summary>
+      float wy;
+      /// <summary> </summary>
+      float wz;
 
       /// <summary>
       /// Create a Position6D initialized with 0.0f.
@@ -160,7 +171,6 @@ namespace AL {
       /// <summary>
       /// Overloading of operator - for Position6D.
       /// </summary>
-      /// <param name="pPos2"> the second Position6D </param>
       Position6D operator- () const;
 
       /// <summary>

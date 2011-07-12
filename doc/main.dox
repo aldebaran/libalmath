@@ -1,9 +1,8 @@
 /** \mainpage ALMath - an optimized mathematic toolbox for robotics.
 
 \b ALMath is an optimized mathematic toolbox for robotics.
-This library give access to main types and tools to facilitate robotical mathematics.
-
-An effort on optimization was also done into this library.
+This library give access to main types and tools of kinematics and dynamics.
+A large part of the functions is optimised in speed so that they can be ran in an embeded environment.
 
 This manual is divided in the following sections:
 - \subpage overview
@@ -16,7 +15,7 @@ This manual is divided in the following sections:
 TODO
 \endcode
 
-\image html master.png
+
 
 
 */
@@ -26,7 +25,7 @@ TODO
 /**
 \defgroup Types Types
 Types classes provide many usefull defintion in robotics field such as
-homogenous transform matrix, 6D vector of velocty and so on
+homogenous transform matrix, 6D vector of velocty and so on.
 
 \defgroup Tools Tools
 

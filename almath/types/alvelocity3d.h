@@ -24,7 +24,12 @@ namespace AL {
     /// </summary>
     /// \ingroup Types
     struct Velocity3D {
-      float xd, yd, zd;
+      /// <summary> </summary>
+      float xd;
+      /// <summary> </summary>
+      float yd;
+      /// <summary> </summary>
+      float zd;
 
       /// <summary>
       /// Create a Velocity3D initialize with 0.0f.
@@ -230,7 +235,7 @@ namespace AL {
     ///
     /// \f$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2}\f$
     /// </summary>
-    /// <param name="pPos"> the given Velocity3D </param>
+    /// <param name="pVel"> the given Velocity3D </param>
     /// <returns>
     /// the float norm of the given Velocity3D
     /// </returns>

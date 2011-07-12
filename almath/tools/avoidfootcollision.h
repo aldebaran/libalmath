@@ -21,8 +21,8 @@ namespace Math {
 /// <summary>
 /// Compute the best position(orientation) of the foot to avoid collision.
 /// </summary>
-/// <param name="pLFootBoundingBoxe"> vector<Pose2D> of the left footBoundingBox.</param>
-/// <param name="pRFootBoundingBoxe"> vector<Pose2D> of the right footBoundingBox.</param>
+/// <param name="pLFootBoundingBox"> vector<Pose2D> of the left footBoundingBox.</param>
+/// <param name="pRFootBoundingBox"> vector<Pose2D> of the right footBoundingBox.</param>
 /// <param name="pIsLeftSupport">     Bool true if left is the support leg. </param>
 /// <param name="pMove">              the desired and return Pose2D. </param>
 /// <returns>

@@ -19,15 +19,55 @@ namespace AL {
 
   /// <summary>
   /// A 3*3 rotation matrix.
-  ///
+    /**
+     *
+     * \f$ \left[\begin{array}{ccc}
+     *         r1c1 & r1c2 & r1c3 \\
+     *         r2c1 & r2c2 & r2c3 \\
+     *         r3c1 & r3c2 & r3c3
+     *      \end{array}\right]\f$
+     */
   /// </summary>
   /// <A HREF="http://en.wikipedia.org/wiki/Rotation_matrix">more information</A>
   /// \ingroup Types
     struct Rotation
     {
-      float r1_c1, r1_c2, r1_c3,
-        r2_c1, r2_c2, r2_c3,
-        r3_c1, r3_c2, r3_c3;
+      /// <summary>
+      /// row 1 column 1.
+      /// </summary>
+      float r1_c1;
+      /// <summary>
+      /// row 1 column 2.
+      /// </summary>
+      float r1_c2;
+      /// <summary>
+      /// row 1 column 3.
+      /// </summary>
+      float r1_c3;
+      /// <summary>
+      /// row 2 column 1.
+      /// </summary>
+      float r2_c1;
+      /// <summary>
+      /// row 2 column 2.
+      /// </summary>
+      float r2_c2;
+      /// <summary>
+      /// row 2 column 3.
+      /// </summary>
+      float r2_c3;
+      /// <summary>
+      /// row 3 column 1.
+      /// </summary>
+      float r3_c1;
+      /// <summary>
+      /// row 3 column 2.
+      /// </summary>
+      float r3_c2;
+      /// <summary>
+      /// row 3 column 3.
+      /// </summary>
+      float r3_c3;
 
       /// <summary>
       /// Create a Rotation initialized to identity.

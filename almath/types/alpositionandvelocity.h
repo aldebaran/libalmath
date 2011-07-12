@@ -23,7 +23,10 @@ namespace AL {
     /// \ingroup Types
     struct PositionAndVelocity
     {
-      float q, dq;
+      /// <summary> </summary>
+      float q;
+      /// <summary> </summary>
+      float dq;
 
       /// <summary>
       /// Create a PositionAndVelocity initialize with explicit value.

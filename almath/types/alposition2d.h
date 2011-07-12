@@ -25,7 +25,9 @@ namespace AL {
     /// \ingroup Types
     struct Position2D
     {
+      /// <summary> </summary>
       float x;
+      /// <summary> </summary>
       float y;
 
       /// <summary>

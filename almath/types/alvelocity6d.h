@@ -25,11 +25,17 @@ namespace Math {
 /// </summary>
 /// \ingroup Types
 struct Velocity6D {
+  /// <summary> </summary>
   float xd;
+  /// <summary> </summary>
   float yd;
+  /// <summary> </summary>
   float zd;
+  /// <summary> </summary>
   float wxd;
+  /// <summary> </summary>
   float wyd;
+  /// <summary> </summary>
   float wzd;
 
   /// <summary>
@@ -222,7 +228,7 @@ struct Velocity6D {
   /// <summary>
   /// Compute the norm of the actual Velocity6D:
   ///
-  /// \f$\sqrt{pVel.xd^2 + pVel.yd^2 + pVel.zd^2 + pVel.wxd^2 + pVel.wyd^2 + pVel.wzd^2}\f$
+  /// \f$\sqrt{xd^2 + yd^2 + zd^2 + wxd^2 + wyd^2 + wzd^2}\f$
   /// </summary>
   /// <returns>
   /// the float norm of the Velocity6D

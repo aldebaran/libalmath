@@ -19,9 +19,9 @@ namespace AL {
   namespace Math {
 
     /// <summary> Get the dubins solutions. </summary>
-    /// <param name="pTargetPose">   The target pose. </param>
-    /// <param name="pCircleRadius"> The circle radius. </param>
-    /// <return> The dubins solution. </return>
+    /// <param name="pTargetPose">   the target pose </param>
+    /// <param name="pCircleRadius"> the circle radius </param>
+    /// <returns> The dubins solution. </returns>
     /// \ingroup Tools
     std::vector<Pose2D> getDubinsSolutions(
       const Pose2D& pTargetPose,

@@ -22,7 +22,12 @@ namespace AL {
   /// </summary>
   /// \ingroup Types
     struct Rotation3D {
-      float wx, wy, wz;
+      /// <summary> </summary>
+      float wx;
+      /// <summary> </summary>
+      float wy;
+      /// <summary> </summary>
+      float wz;
 
       /// <summary>
       /// Create a Rotation3D initialized with 0.0f.
