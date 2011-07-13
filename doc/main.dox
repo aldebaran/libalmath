@@ -3,6 +3,7 @@
 \b ALMath is an optimized mathematic toolbox for robotics.
 This library give access to main types and tools of kinematics and dynamics.
 A large part of the functions is optimised in speed so that they can be ran in an embeded environment.
+All the arguments and return values are given in SI units : meters, radians,... 
 
 This manual is divided in the following sections:
 - \subpage overview

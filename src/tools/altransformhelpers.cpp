@@ -635,19 +635,19 @@ namespace AL {
 
 
     void position3DFromTransformInPlace(
-      const Transform& pH,
+      const Transform& pT,
       Position3D&      pOut)
     {
-      pOut.x = pH.r1_c4;
-      pOut.y = pH.r2_c4;
-      pOut.z = pH.r3_c4;
+      pOut.x = pT.r1_c4;
+      pOut.y = pT.r2_c4;
+      pOut.z = pT.r3_c4;
     }
 
 
-    Position3D position3DFromTransform(const Transform& pH)
+    Position3D position3DFromTransform(const Transform& pT)
     {
       Position3D pOut;
-      position3DFromTransformInPlace(pH, pOut);
+      position3DFromTransformInPlace(pT, pOut);
       return pOut;
     }
 
@@ -1004,39 +1004,39 @@ namespace AL {
       const int                   pAxis,
       const float                 pTheta,
       const AL::Math::Position3D& pM,
-      Transform&                  pH)
+      Transform&                  pT)
     {
       // Usefull initialization
-      pH = AL::Math::Transform();
+      pT = AL::Math::Transform();
 
       float c = cosf(pTheta); // degree to radian
       float s = sinf(pTheta); // degree to radian
 
-      pH.r1_c4 = pM.x;
-      pH.r2_c4 = pM.y;
-      pH.r3_c4 = pM.z;
+      pT.r1_c4 = pM.x;
+      pT.r2_c4 = pM.y;
+      pT.r3_c4 = pM.z;
 
       switch (pAxis)
       {
       case AL::Math::AXIS_MASK_X:
-        pH.r2_c2 = c;
-        pH.r2_c3 = -s;
-        pH.r3_c2 = s;
-        pH.r3_c3 = c;
+        pT.r2_c2 = c;
+        pT.r2_c3 = -s;
+        pT.r3_c2 = s;
+        pT.r3_c3 = c;
         break;
 
       case AL::Math::AXIS_MASK_Y:
-        pH.r1_c1 = c;
-        pH.r1_c3 = s;
-        pH.r3_c1 = -s;
-        pH.r3_c3 = c;
+        pT.r1_c1 = c;
+        pT.r1_c3 = s;
+        pT.r3_c1 = -s;
+        pT.r3_c3 = c;
         break;
 
       case AL::Math::AXIS_MASK_Z:
-        pH.r1_c1 = c;
-        pH.r1_c2 = -s;
-        pH.r2_c1 = s;
-        pH.r2_c2 = c;
+        pT.r1_c1 = c;
+        pT.r1_c2 = -s;
+        pT.r2_c1 = s;
+        pT.r2_c2 = c;
         break;
 
       default: // identity

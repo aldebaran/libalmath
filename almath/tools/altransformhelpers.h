@@ -536,10 +536,10 @@ namespace AL {
     Transform rotationToTransform(const Rotation& pRotation);
 
     /// <summary>
-    ///
+    /// Extract the position coordinates from a Transform.
     /// </summary>
     /// <param name = "pTransform"> the given transform </param>
-    /// <param name = "pRotation"> position in cartesian coordinates </param>
+    /// <param name = "pRotation"> a Rotation to be set with the reslut </param>
     /// \ingroup Tools
     void rotationFromTransform(
       const Transform& pTransform,
@@ -549,183 +549,234 @@ namespace AL {
     ///
     /// </summary>
     /// <param name = "pTransform"> position in cartesian coordinates </param>
+    /// <returns>
+    /// the Rotation extracted from the Transform
+    /// </returns>
     /// \ingroup Tools
     Rotation rotationFromTransform(const Transform& pTransform);
 
     /// <summary>
     ///
     /// </summary>
-    /// <param name = "pRotation"> position in cartesian coordinates </param>
+    /// <param name = "pRotation"> the Rotation to extract </param>
+    /// <returns>
+    /// the Rotation3D extracted from pRotation
+    /// </returns>
     /// \ingroup Tools
     Rotation3D rotation3DFromRotation(const Rotation& pRotation);
 
     /// <summary>
-    /** Extracts the position coordinates from a Matrix
-      * into a Position3D struct
-      */
+    /// Extracts the position coordinates from a Transform.
+    /// into a Position3D struct
     /// </summary>
     /// <param name = "pTransform"> The transform you want to extract </param>
-    /// <param name = "pPosition"> position in cartesian coordinates </param>
+    /// <param name = "pPosition"> Position3D in cartesian coordinates </param>
     /// \ingroup Tools
     void transformToPosition3D(
       const Transform& pTransform,
       Position3D&      pPosition);
 
     /// <summary>
-    /// extract the Position3D cartesian coordinates from a Transform.
+    /// Extract the Position3D cartesian coordinates from a Transform.
     /// </summary>
-    /// <param name = "pTransform"> The transform you want to extract </param>
+    /// <param name = "pTransform"> the transform you want to extract </param>
     /// <returns> a Position3D with the translation part of the Transform
     /// </returns>
     /// \ingroup Tools
     Position3D transformToPosition3D(const Transform& pTransform);
 
     /// <summary>
-    /// compute Position6D corresponding to 4*4 Homogenous Transform.
+    /// Compute Position6D corresponding to the Transform.
     /// </summary>
-    /// <param name = "pT"> The transform you want to extract </param>
-    /// <param name = "pPos"> The transform you want to extract </param>
+    /// <param name = "pT"> the transform you want to extract </param>
+    /// <param name = "pPos"> the transform you want to extract </param>
     /// \ingroup Tools
     void position6DFromTransform(
         const Transform& pT,
         Position6D&      pPos);
 
     /// <summary>
-    /// compute Position6D corresponding to 4*4 Homogenous Transform.
+    /// Compute Position6D corresponding to 4*4 Homogenous Transform.
     /// </summary>
-    /// <param name = "pT"> The transform you want to extract </param>
-    /// <returns> a 4*4 Homogenous Matrix pT </returns>
+    /// <param name = "pT"> the transform you want to extract </param>
+    /// <returns> the extracted Position6D </returns>
     /// \ingroup Tools
     Position6D position6DFromTransform(const Transform& pT);
 
     /// <summary>
-    /// Create a Transform a from Pose2D
+    /// Compute a Transform from a Pose2D.
     /// </summary>
-    /// <param name = "pPose"> The transform you want to extract </param>
-    /// <param name = "pT"> The transform you want to extract </param>
-    /// <returns> a 4*4 Homogenous Matrix pT </returns>
+    /// <param name = "pPose"> the Pose2D to extract </param>
+    /// <param name = "pT"> the result Transform </param>
     /// \ingroup Tools
     void transformFromPose2D(
         const Pose2D& pPose,
         Transform&    pT);
 
     /// <summary>
-    /// compute Position6D corresponding to 4*4 Homogenous Transform.
+    /// Create a Transform from a Pose2D.
     /// </summary>
     /// <param name = "pPose"> the pose2D you want to extract </param>
-    /// <returns> the extracted Transform </returns>
+    /// <returns> the result Transform </returns>
     /// \ingroup Tools
     Transform transformFromPose2D(const Pose2D& pPose);
 
     /// <summary>
-    /// Compute a Pose2D corresponding to the Transform.
+    /// Compute a Pose2D from a Transform.
     /// </summary>
     /// <param name = "pT"> the Transform you want to extract </param>
-    /// <param name = "pPos"> the Pose to create </param>
+    /// <param name = "pPos"> the result Pose2D </param>
     /// \ingroup Tools
     void pose2DFromTransform(
         const Transform& pT,
         Pose2D&          pPos);
 
     /// <summary>
-    /// Compute a Pose2D corresponding to the Transform.
+    /// Create a Pose2D from a Transform.
     /// </summary>
-    /// <param name = "pT"> The transform you want to extract </param>
-    /// <returns> Pose2D corresponding to the Transform </returns>
+    /// <param name = "pT"> the transform you want to extract </param>
+    /// <returns> the Pose2D extracted from the Transform </returns>
     /// \ingroup Tools
     Pose2D pose2DFromTransform(const Transform& pT);
 
     /// <summary>
-    /// create a Transform from a Roll, Pitch and yaw Angle in radian
+    /// Create a Transform from a Rotation3D.
     /// </summary>
     /// <param name = "pRotation"> the Rotation you want to extract </param>
-    /// <returns> the extracted Transform </returns>
+    /// <returns> the result Transform </returns>
     /// \ingroup Tools
     Transform transformFromRotation3D(const Rotation3D& pRotation);
 
     /// <summary>
-    /// Creates a Transform from a rotation(RPY) and a position
-    /// indicating the translational offsets.
+    /// Create a Transform from a Position6D.
     /// </summary>
     /// <param name = "pPosition6D"> the Position6D you want to extract </param>
-    /// <returns> the extracted Transform </returns>
+    /// <returns> the result Transform </returns>
     /// \ingroup Tools
     Transform transformFromPosition6D(const Position6D& pPosition6D);
 
-    /**
-    * Return a 6 differential motion require to move
-    * from a 4*4 Homogenous transform matrix Current to
-    * a 4*4 Homogenous transform matrix target
-    * @param  pCurrent 4*4 Homogenous transform matrix
-    * @param  pTarget  4*4 Homogenous transform matrix
-    * @param  result   6*1 Position6D
-    */
     /// <summary>
-    /// Creates a Transform from a rotation(RPY) and a position
-    /// indicating the translational offsets.
+    /// Computes a 6 differential motion require to move
+    /// from a 4*4 Homogenous transform matrix Current to
+    /// a 4*4 Homogenous transform matrix target.
     /// </summary>
-    /// <param name = "pPosition6D"> the Position6D you want to extract </param>
-    /// <returns> the extracted Transform </returns>
+    /// <param name = "pCurrent"> the Position6D you want to extract </param>
+    /// <param name = "pTarget"> the Position6D you want to extract </param>
+    /// <param name = "result"> the result Position6D </param>
     /// \ingroup Tools
     void transformDiffToPosition(
       const Transform& pCurrent,
       const Transform& pTarget,
       Position6D&      result);
 
-    /**
-    * Return a 6 differential motion require to move
-    * from a 4*4 Homogenous transform matrix Current to
-    * a 4*4 Homogenous transform matrix target
-    * @param  pCurrent 4*4 Homogenous transform matrix
-    * @param  pTarget  4*4 Homogenous transform matrix
-    * @return  pDelta  6*1 Position6D
-    */
+    /// <summary>
+    /// Computes a 6 differential motion require to move
+    /// from a 4*4 Homogenous transform matrix Current to
+    /// a 4*4 Homogenous transform matrix target.
+    /// </summary>
+    /// <param name = "pCurrent"> the Position6D you want to extract </param>
+    /// <param name = "pTarget"> the Position6D you want to extract </param>
+    /// <returns> the result Position6D </returns>
+    /// \ingroup Tools
     Position6D transformDiffToPosition(
       const Transform& pCurrent,
       const Transform& pTarget);
 
+    /// <summary>
+    /// Compute a Position3D from a Transform.
+    /// </summary>
+    /// <param name = "pT"> the Transform you want to extract </param>
+    /// <param name = "pOut"> the result Position3D </param>
+    /// \ingroup Tools
     void position3DFromTransformInPlace(
-      const Transform& pH,
+      const Transform& pT,
       Position3D&      pOut);
 
-    Position3D position3DFromTransform(const Transform& pH);
+    /// <summary>
+    /// Create a Position3D from a Transform.
+    /// </summary>
+    /// <param name = "pT"> the Transform you want to extract </param>
+    /// <returns> the result Position6D </returns>
+    /// \ingroup Tools
+    Position3D position3DFromTransform(const Transform& pT);
 
+    /// <summary>
+    /// Create a Transform from a Rotation and a Position3D.
+    /// </summary>
+    /// <param name = "pRot"> the Rotation you want to extract </param>
+    /// <param name = "pPos"> the Position3D you want to extract </param>
+    /// <returns> the result Transform </returns>
+    /// \ingroup Tools
     Transform rotationPosition3DToTransform(
       const Rotation&   pRot,
       const Position3D& pPos);
 
-    /**
-    * Return Rotation3D (Roll, Pitch, Yaw) corresponding to the rotational
-    * part of the 4*4 Homogenous Matrix pT
-    * @param pT 4*4 Homogenous Matrix pT
-    */
+    /// <summary>
+    /// Create a Rotation3D (Roll, Pitch, Yaw) corresponding to the rotational
+    /// part of the Transform.
+    /// </summary>
+    /// <param name = "pT"> the Transform you want to extract </param>
+    /// <returns> the result Rotation3D </returns>
+    /// \ingroup Tools
     Rotation3D rotation3DFromTransform(const Transform& pT);
 
-    // Main
+    /// <summary>
+    /// Compute a Transform from
+    /// </summary>
+    /// <param name = "pAxis"> the Rotation you want to extract </param>
+    /// <param name = "pTheta"> the rotation you want to extract </param>
+    /// <param name = "pPos"> the Position3D you want to extract </param>
+    /// <param name = "pT"> the Rotation you want to extract </param>
+    /// \ingroup Tools
     void rotVecToTransform(
       const int         pAxis,
       const float       pTheta,
       const Position3D& pPos,
       Transform&        pT);
 
+    /// <summary>
+    /// Compute a Transform from a Rotation3D.
+    /// </summary>
+    /// <param name = "pAxis"> the Rotation you want to extract </param>
+    /// <param name = "pTheta"> the Rotation you want to extract </param>
+    /// <param name = "pPos"> the Rotation you want to extract </param>
+    /// <returns> the result Transform </returns>
+    /// \ingroup Tools
     Transform rotVecToTransform(
       const int         pAxis,
       const float       pTheta,
       const Position3D& pPos);
 
-    /**
-    @param rotation axis, angle in degree, translation 3D Vector
-    @return Transform
-    **/
+
+    /// <summary>
+    /// Compute a Transform from a Rotation3D.
+    /// </summary>
+    /// <param name = "pPos"> the Rotation you want to extract </param>
+    /// <param name = "pT"> the Rotation you want to extract </param>
+    /// \ingroup Tools
     void rotVecToTransform(
-      const Position3D& pP,
+      const Position3D& pPos,
       Transform&        pT);
 
-    Transform rotVecToTransform(const Position3D& pPosition);
+    /// <summary>
+    /// Compute a Transform from a Rotation3D.
+    /// </summary>
+    /// <param name = "pPos"> the Rotation you want to extract </param>
+    /// <returns> the result Transform </returns>
+    /// \ingroup Tools
+    Transform rotVecToTransform(const Position3D& pPos);
 
+    /// <summary>
+    /// Compute a Transform from a Rotation3D.
+    /// </summary>
+    /// <param name = "pAxis"> the Rotation you want to extract </param>
+    /// <param name = "pTheta"> the Rotation you want to extract </param>
+
+    /// <returns> the result Transform </returns>
+    /// \ingroup Tools
     Transform rotVecToTransform(
       const int&   pAxis,
-      const float& pRot);
+      const float& pTheta);
 
     Position3D operator*(
       const Transform&  pT,
@@ -735,9 +786,7 @@ namespace AL {
       Transform&        pT,
       const Position3D& pPos);
 
-
     /**
-    * Function AxisRotationProjection :
     * finding the closest rotation Rw of R around an axis (Position3D)
     * @param Transform : useful only for Rotation part
     * @param Position3D : axis of rotation
