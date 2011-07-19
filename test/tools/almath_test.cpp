@@ -149,7 +149,3 @@ TEST(ALMathTest, RotationFromAngleDirection)
   EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation::fromRotZ(pTheta)));
   EXPECT_FALSE(pRotOut.isNear(AL::Math::Rotation()));
 }
-
-TEST(ALMathTest, ApplyRotation)
-{
-}

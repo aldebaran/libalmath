@@ -85,19 +85,6 @@ namespace AL
             pPos.z);
     }
 
-    void applyRotation(
-      const AL::Math::Rotation& pRotation,
-      AL::Math::Position3D&     pVector)
-    {
-      float x = pVector.x;
-      float y = pVector.y;
-      float z = pVector.z;
-      pVector.x = x*pRotation.r1_c1 + y*pRotation.r1_c2 + z*pRotation.r1_c3;
-      pVector.y = x*pRotation.r2_c1 + y*pRotation.r2_c2 + z*pRotation.r2_c3;
-      pVector.z = x*pRotation.r3_c1 + y*pRotation.r3_c2 + z*pRotation.r3_c3;
-    }
-
-
   } // namespace Math
 } // namespace AL
 

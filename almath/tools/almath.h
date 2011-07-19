@@ -132,35 +132,6 @@ namespace AL {
       const Position3D& pPos);
 
 
-    /// <summary>
-    /// Apply Rotation to a 3D point.
-    ///
-    /** \f$\left[\begin{array}{c}
-      * pPos.x \\
-      * pPos.y \\
-      * pPos.z
-      * \end{array}\right] =
-      * \left[\begin{array}{ccc}
-      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 \\
-      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 \\
-      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3
-      * \end{array}\right] *
-      * \left[\begin{array}{c}
-      * pPos.x \\
-      * pPos.y \\
-      * pPos.z
-      * \end{array}\right] \f$
-      */
-    ///
-    /// </summary>
-    /// <param name="pRot"> the given rotation </param>
-    /// <param name="pPos"> the 3D point rotated </param>
-    /// \ingroup Tools
-    void applyRotation(
-      const Rotation& pRot,
-      Position3D&     pPos);
-
-
   } // namespace Math
 } // namespace AL
 #endif  // _LIB_ALMATH_ALMATH_ALMATH_H_

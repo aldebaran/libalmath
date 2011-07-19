@@ -127,7 +127,7 @@ namespace AL {
     /// <param name = "pVelOut">  a Velocity6D containing the changed velocity
     /// </param>
     /// \ingroup Tools
-    void changeRepereVelocity6D(
+    void changeReferenceVelocity6D(
       const Transform&  pT,
       const Velocity6D& pVelIn,
       Velocity6D&       pVelOut);
@@ -169,18 +169,18 @@ namespace AL {
     /// <param name = "pPosOut">  a Position6D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeReperePosition6D(
+    void changeReferencePosition6D(
       const Transform&  pT,
       const Position6D& pPosIn,
       Position6D&       pPosOut);
 
     // TODO: rename argument.
-    void changeReperePosition3D(
+    void changeReferencePosition3DInPlace(
       const Transform& pT,
       Position3D&      pPosOut);
 
     // TODO: rename argument.
-    void changeRepereTransposePosition3D(
+    void changeReferenceTransposePosition3DInPlace(
       const Transform& pT,
       Position3D&      pPosOut);
 
@@ -212,7 +212,7 @@ namespace AL {
     /// <param name = "pPosOut">  a Position3D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeReperePosition3D(
+    void changeReferencePosition3D(
       const Transform&  pT,
       const Position3D& pPosIn,
       Position3D&       pPosOut);
@@ -237,7 +237,7 @@ namespace AL {
     /// <param name = "pPosOut"> a Position3D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeRepereTransposePosition3D(
+    void changeReferenceTransposePosition3D(
       const Transform&  pT,
       const Position3D& pPosIn,
       Position3D&       pPosOut);
@@ -262,7 +262,7 @@ namespace AL {
     /// <param name = "pTOut"> the changed Transform
     /// </param>
     /// \ingroup Tools
-    void changeRepereTransform(
+    void changeReferenceTransform(
       const Transform& pT,
       const Transform& pTIn,
       Transform&       pTOut);
@@ -287,7 +287,7 @@ namespace AL {
     /// <param name = "pTOut"> the changed Transform
     /// </param>
     /// \ingroup Tools
-    void changeRepereTransposeTransform(
+    void changeReferenceTransposeTransform(
       const Transform& pT,
       const Transform& pTIn,
       Transform&       pTOut);
@@ -330,7 +330,7 @@ namespace AL {
     /// <param name = "pVelOut">  a Velocity6D containing the changed velocity
     /// </param>
     /// \ingroup Tools
-    void changeRepereTransposeVelocity6D(
+    void changeReferenceTransposeVelocity6D(
       const Transform&  pT,
       const Velocity6D& pVelIn,
       Velocity6D&       pVelOut);
@@ -372,7 +372,7 @@ namespace AL {
     /// <param name = "pPosOut">  a Position6D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeRepereTransposePosition6D(
+    void changeReferenceTransposePosition6D(
       const Transform&  pT,
       const Position6D& pPosIn,
       Position6D&       pPosOut);
@@ -387,7 +387,7 @@ namespace AL {
     /// <param name = "pTOut">  the output Transform.
     /// </param>
     /// \ingroup Tools
-    void transformMean(
+    void transformMeanInPlace(
       const Transform& pTIn1,
       const Transform& pTIn2,
       const float&     pVal,
@@ -469,7 +469,7 @@ namespace AL {
     /// <param name = "pPosition"> a Position3D cartesian coordinates </param>
     /// <param name = "pTransform"> the given Transform </param>
     /// \ingroup Tools
-    void transformFromPosition3D(
+    void transformFromPosition3DInPlace(
       const Position3D& pPosition,
       Transform&        pTransform);
 

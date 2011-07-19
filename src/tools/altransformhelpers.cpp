@@ -250,7 +250,7 @@ namespace AL {
     }
 
 
-    void changeRepereVelocity6D(
+    void changeReferenceVelocity6D(
       const Transform&  pH,
       const Velocity6D& pVIn,
       Velocity6D&       pVOut)
@@ -264,7 +264,7 @@ namespace AL {
     }
 
 
-    void changeReperePosition6D(
+    void changeReferencePosition6D(
       const Transform&  pH,
       const Position6D& pPIn,
       Position6D&       pPOut)
@@ -278,7 +278,7 @@ namespace AL {
     }
 
 
-    void changeReperePosition3D(
+    void changeReferencePosition3DInPlace(
       const Transform& pH,
       Position3D&      pPosOut)
     {
@@ -293,7 +293,7 @@ namespace AL {
     }
 
 
-    void changeRepereTransposePosition3D(
+    void changeReferenceTransposePosition3DInPlace(
       const Transform&  pH,
       Position3D&       pPosOut)
     {
@@ -308,7 +308,7 @@ namespace AL {
     }
 
 
-    void changeReperePosition3D(
+    void changeReferencePosition3D(
       const Transform&  pH,
       const Position3D& pPosIn,
       Position3D&       pPosOut)
@@ -319,7 +319,7 @@ namespace AL {
     }
 
 
-    void changeRepereTransposePosition3D(
+    void changeReferenceTransposePosition3D(
       const Transform&  pH,
       const Position3D& pPosIn,
       Position3D&       pPosOut)
@@ -330,7 +330,7 @@ namespace AL {
     }
 
 
-    void changeRepereTransform(
+    void changeReferenceTransform(
       const AL::Math::Transform&  pH,
       const AL::Math::Transform&  pHIn,
       AL::Math::Transform&        pHOut)
@@ -352,7 +352,7 @@ namespace AL {
     }
 
 
-    void changeRepereTransposeTransform(
+    void changeReferenceTransposeTransform(
       const AL::Math::Transform&  pH,
       const AL::Math::Transform&  pHIn,
       AL::Math::Transform&        pHOut)
@@ -374,7 +374,7 @@ namespace AL {
     }
 
 
-    void changeRepereTransposeVelocity6D(
+    void changeReferenceTransposeVelocity6D(
       const AL::Math::Transform&  pH,
       const AL::Math::Velocity6D& pVIn,
       AL::Math::Velocity6D&       pVOut)
@@ -388,7 +388,7 @@ namespace AL {
     }
 
 
-    void changeRepereTransposePosition6D(
+    void changeReferenceTransposePosition6D(
       const AL::Math::Transform&  pH,
       const AL::Math::Position6D& pPIn,
       AL::Math::Position6D&       pPOut)
@@ -402,7 +402,7 @@ namespace AL {
     }
 
 
-    void transformMean(
+    void transformMeanInPlace(
       const AL::Math::Transform&  pHIn1,
       const AL::Math::Transform&  pHIn2,
       const float&                pDist,
@@ -411,15 +411,15 @@ namespace AL {
       if ((pDist>1.0f) || (pDist<0.0f))
       {
         throw std::runtime_error(
-          "ALMath: transformMean Distance must be between 0 and 1.");
+          "ALMath: transformMeanInPlace Distance must be between 0 and 1.");
       }
 
       Velocity6D pV;
       Transform pHIn1i;
 
-      transformInverse(pHIn1,pHIn1i);
+      transformInverse(pHIn1, pHIn1i);
       transformLogarithmInPlace(pHIn1i*pHIn2, pV);
-      velocityExponentialInPlace(pDist*pV,pHOut);
+      velocityExponentialInPlace(pDist*pV, pHOut);
       pHOut = pHIn1*pHOut;
     }
 
@@ -430,12 +430,12 @@ namespace AL {
       const float&                pDist)
     {
       AL::Math::Transform pHOut;
-      transformMean(pHIn1, pHIn2, pDist, pHOut);
+      transformMeanInPlace(pHIn1, pHIn2, pDist, pHOut);
       return pHOut;
     }
 
 
-    void transformFromPosition3D(
+    void transformFromPosition3DInPlace(
       const Position3D& pPosition,
       Transform&        pTransform)
     {
@@ -448,7 +448,7 @@ namespace AL {
     Transform transformFromPosition3D(const Position3D& pPosition)
     {
       Transform transform = Transform();
-      transformFromPosition3D(pPosition, transform);
+      transformFromPosition3DInPlace(pPosition, transform);
       return transform;
     }
 

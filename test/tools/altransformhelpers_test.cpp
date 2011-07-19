@@ -698,51 +698,51 @@ TEST(ALTransformHelpersTest, changeRepereTransposePosition6D)
 {
 }
 
-TEST(ALTransformHelpersTest, transformMean)
+TEST(ALTransformHelpersTest, transformMeanInPlace)
 {
-  // ************ TransformMean ************
+  // ************ TransformMeanInPlace ************
 
   // 0
   AL::Math::Transform pMathHIn1 = AL::Math::Transform();
   AL::Math::Transform pMathHIn2 = AL::Math::Transform();
   AL::Math::Transform pMathHOut = AL::Math::Transform();
 
-  AL::Math::transformMean(pMathHIn1, pMathHIn2, 0.0f, pMathHOut);
+  AL::Math::transformMeanInPlace(pMathHIn1, pMathHIn2, 0.0f, pMathHOut);
   EXPECT_TRUE(pMathHIn1.isNear(pMathHOut));
 
   // 1
   pMathHIn1 = AL::Math::transformFromRotX(10.0f*AL::Math::TO_RAD);
   pMathHIn2 = AL::Math::transformFromRotX(30.0f*AL::Math::TO_RAD);
 
-  AL::Math::transformMean(pMathHIn1, pMathHIn2, 0.5f, pMathHOut);
+  AL::Math::transformMeanInPlace(pMathHIn1, pMathHIn2, 0.5f, pMathHOut);
   EXPECT_TRUE(AL::Math::transformFromRotX(20.0f*AL::Math::TO_RAD).isNear(pMathHOut, 5.0e-4f));
 
   // 2
   pMathHIn1 = AL::Math::transformFromRotY(10.0f*AL::Math::TO_RAD);
   pMathHIn2 = AL::Math::transformFromRotY(30.0f*AL::Math::TO_RAD);
 
-  AL::Math::transformMean(pMathHIn1, pMathHIn2, 0.5f, pMathHOut);
+  AL::Math::transformMeanInPlace(pMathHIn1, pMathHIn2, 0.5f, pMathHOut);
   EXPECT_TRUE(AL::Math::transformFromRotY(20.0f*AL::Math::TO_RAD).isNear(pMathHOut, 5.0e-4f));
 
   // 3
   pMathHIn1 = AL::Math::transformFromRotZ(10.0f*AL::Math::TO_RAD);
   pMathHIn2 = AL::Math::transformFromRotZ(30.0f*AL::Math::TO_RAD);
 
-  AL::Math::transformMean(pMathHIn1, pMathHIn2, 0.5f, pMathHOut);
+  AL::Math::transformMeanInPlace(pMathHIn1, pMathHIn2, 0.5f, pMathHOut);
   EXPECT_TRUE(AL::Math::transformFromRotZ(20.0f*AL::Math::TO_RAD).isNear(pMathHOut, 5.0e-4f));
 
   // 4
   pMathHIn1 = AL::Math::transformFromRotZ(10.0f*AL::Math::TO_RAD);
   pMathHIn2 = AL::Math::transformFromRotZ(30.0f*AL::Math::TO_RAD);
   pMathHOut = AL::Math::Transform();
-  ASSERT_THROW(AL::Math::transformMean(pMathHIn1, pMathHIn2, 1.1f, pMathHOut),
+  ASSERT_THROW(AL::Math::transformMeanInPlace(pMathHIn1, pMathHIn2, 1.1f, pMathHOut),
                std::runtime_error);
 
-  ASSERT_THROW(AL::Math::transformMean(pMathHIn1, pMathHIn2, -0.1f, pMathHOut),
+  ASSERT_THROW(AL::Math::transformMeanInPlace(pMathHIn1, pMathHIn2, -0.1f, pMathHOut),
                std::runtime_error);
 } // end transformMean
 
-TEST(ALTransformHelpersTest, transformFromPosition3D)
+TEST(ALTransformHelpersTest, transformFromPosition3DInPlace)
 {
 }
 
@@ -1106,7 +1106,7 @@ TEST(ALControlExplosionTest, test0)
       // Compute BODY VELOCITY DES
       fVTrunkWorldConsigne = fVTrunkWorldDes + Kp * fDeltaTrunkWorldPosition;
 
-      AL::Math::changeRepereTransposeVelocity6D(
+      AL::Math::changeReferenceTransposeVelocity6D(
           fHTrunkWorld,
           fVTrunkWorldConsigne,
           fVTrunkTorsoConsigne);
@@ -1128,7 +1128,7 @@ TEST(ALControlExplosionTest, test0)
     // Compute BODY VELOCITY DES
     fVTrunkWorldConsigne = fVTrunkWorldDes + Kp * fDeltaTrunkWorldPosition;
 
-    AL::Math::changeRepereTransposeVelocity6D(
+    AL::Math::changeReferenceTransposeVelocity6D(
         fHTrunkWorld,
         fVTrunkWorldConsigne,
         fVTrunkTorsoConsigne);
