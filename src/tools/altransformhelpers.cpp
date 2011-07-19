@@ -504,24 +504,6 @@ namespace AL {
     }
 
 
-    void transformToPosition3D(
-      const Transform& pTransform,
-      Position3D&      pPosition)
-    {
-      pPosition.x = pTransform.r1_c4;
-      pPosition.y = pTransform.r2_c4;
-      pPosition.z = pTransform.r3_c4;
-    }
-
-
-    Position3D transformToPosition3D(const Transform& pTransform)
-    {
-      return Position3D(
-            pTransform.r1_c4,
-            pTransform.r2_c4,
-            pTransform.r3_c4);
-    }
-
 
     void position6DFromTransform(
         const Transform& pT,
@@ -636,11 +618,11 @@ namespace AL {
 
     void position3DFromTransformInPlace(
       const Transform& pT,
-      Position3D&      pOut)
+      Position3D&      pPos)
     {
-      pOut.x = pT.r1_c4;
-      pOut.y = pT.r2_c4;
-      pOut.z = pT.r3_c4;
+      pPos.x = pT.r1_c4;
+      pPos.y = pT.r2_c4;
+      pPos.z = pT.r3_c4;
     }
 
 
@@ -652,7 +634,7 @@ namespace AL {
     }
 
 
-    Transform rotationPosition3DToTransform(
+    Transform transformFromRotationPosition3D(
       const Rotation&   pRot,
       const Position3D& pPos)
     {
@@ -742,11 +724,11 @@ namespace AL {
 
 
     Rotation axisRotationProjection(
-      const Rotation&   pRot,
-      const Position3D& pAxis)
+      const Position3D& pPos,
+      const Rotation&   pRot)
     {
       Rotation pOut = pRot;
-      axisRotationProjectionInPlace(pAxis, pOut);
+      axisRotationProjectionInPlace(pPos, pOut);
       return pOut;
     }
 
@@ -959,7 +941,7 @@ namespace AL {
 
 
     // Main
-    void rotVecToTransform(
+    void transformFromRotVec(
       const int                   pAxis,
       const float                 pTheta,
       const AL::Math::Position3D& pM,
@@ -1004,38 +986,38 @@ namespace AL {
     }
 
 
-    Transform rotVecToTransform(
+    Transform transformFromRotVec(
       const int                   pAxis,
       const float                 pTheta,
       const AL::Math::Position3D& pM)
     {
       Transform pOut;
-      rotVecToTransform(pAxis, pTheta, pM, pOut);
+      transformFromRotVec(pAxis, pTheta, pM, pOut);
       return pOut;
     }
 
 
-    void rotVecToTransform(
+    void transformFromRotVec(
       const AL::Math::Position3D& pPosition,
       AL::Math::Transform&        pTransform)
     {
       int pAxis  = AL::Math::AXIS_MASK_WX; // 8
       float pRot = 0.0f;
 
-      rotVecToTransform(pAxis, pRot, pPosition, pTransform);
+      transformFromRotVec(pAxis, pRot, pPosition, pTransform);
     }
 
 
-    AL::Math::Transform rotVecToTransform(
+    AL::Math::Transform transformFromRotVec(
       const AL::Math::Position3D& pPosition)
     {
       AL::Math::Transform transform;
-      rotVecToTransform(pPosition, transform);
+      transformFromRotVec(pPosition, transform);
       return transform;
     }
 
 
-    AL::Math::Transform rotVecToTransform(
+    AL::Math::Transform transformFromRotVec(
       const int&   pAxis,
       const float& pRot)
     {
@@ -1043,7 +1025,7 @@ namespace AL {
 
       AL::Math::Position3D pM = AL::Math::Position3D();
 
-      rotVecToTransform(pAxis, pRot, pM, transform);
+      transformFromRotVec(pAxis, pRot, pM, transform);
 
       return transform;
     }

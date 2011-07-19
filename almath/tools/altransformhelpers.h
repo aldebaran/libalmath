@@ -566,26 +566,6 @@ namespace AL {
     Rotation3D rotation3DFromRotation(const Rotation& pRotation);
 
     /// <summary>
-    /// Extracts the position coordinates from a Transform.
-    /// into a Position3D struct
-    /// </summary>
-    /// <param name = "pTransform"> The transform you want to extract </param>
-    /// <param name = "pPosition"> Position3D in cartesian coordinates </param>
-    /// \ingroup Tools
-    void transformToPosition3D(
-      const Transform& pTransform,
-      Position3D&      pPosition);
-
-    /// <summary>
-    /// Extract the Position3D cartesian coordinates from a Transform.
-    /// </summary>
-    /// <param name = "pTransform"> the transform you want to extract </param>
-    /// <returns> a Position3D with the translation part of the Transform
-    /// </returns>
-    /// \ingroup Tools
-    Position3D transformToPosition3D(const Transform& pTransform);
-
-    /// <summary>
     /// Compute Position6D corresponding to the Transform.
     /// </summary>
     /// <param name = "pT"> the transform you want to extract </param>
@@ -684,16 +664,46 @@ namespace AL {
 
     /// <summary>
     /// Compute a Position3D from a Transform.
+    ///
+    /** \f$
+      * \left[\begin{array}{c}
+      *   pPos.x \\
+      *   pPos.y \\
+      *   pPos.z \\
+      * \end{array}\right]
+      * =
+      * \left[\begin{array}{c}
+      *   pT.r_1c_4 \\
+      *   pT.r_2c_4 \\
+      *   pT.r_3c_4 \\
+      * \end{array}\right]
+      * \f$
+      */
     /// </summary>
     /// <param name = "pT"> the Transform you want to extract </param>
-    /// <param name = "pOut"> the result Position3D </param>
+    /// <param name = "pPos"> the result Position3D </param>
     /// \ingroup Tools
     void position3DFromTransformInPlace(
       const Transform& pT,
-      Position3D&      pOut);
+      Position3D&      pPos);
 
     /// <summary>
     /// Create a Position3D from a Transform.
+    ///
+    /** \f$
+      * \left[\begin{array}{c}
+      *   return.x \\
+      *   return.y \\
+      *   return.z \\
+      * \end{array}\right]
+      * =
+      * \left[\begin{array}{c}
+      *   pT.r_1c_4 \\
+      *   pT.r_2c_4 \\
+      *   pT.r_3c_4 \\
+      * \end{array}\right]
+      * \f$
+      */
     /// </summary>
     /// <param name = "pT"> the Transform you want to extract </param>
     /// <returns> the result Position6D </returns>
@@ -702,12 +712,23 @@ namespace AL {
 
     /// <summary>
     /// Create a Transform from a Rotation and a Position3D.
+    ///
+    /** \f$
+      * return =
+      * \left[\begin{array}{cccc}
+      *   pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pPos.x \\
+      *   pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pPos.y \\
+      *   pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pPos.z \\
+      *   0.0 & 0.0 & 0.0 & 1.0
+      * \end{array}\right]
+      * \f$
+      */
     /// </summary>
     /// <param name = "pRot"> the Rotation you want to extract </param>
     /// <param name = "pPos"> the Position3D you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform rotationPosition3DToTransform(
+    Transform transformFromRotationPosition3D(
       const Rotation&   pRot,
       const Position3D& pPos);
 
@@ -728,7 +749,7 @@ namespace AL {
     /// <param name = "pPos"> the Position3D you want to extract </param>
     /// <param name = "pT"> the Rotation you want to extract </param>
     /// \ingroup Tools
-    void rotVecToTransform(
+    void transformFromRotVec(
       const int         pAxis,
       const float       pTheta,
       const Position3D& pPos,
@@ -742,7 +763,7 @@ namespace AL {
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform rotVecToTransform(
+    Transform transformFromRotVec(
       const int         pAxis,
       const float       pTheta,
       const Position3D& pPos);
@@ -754,7 +775,7 @@ namespace AL {
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <param name = "pT"> the Rotation you want to extract </param>
     /// \ingroup Tools
-    void rotVecToTransform(
+    void transformFromRotVec(
       const Position3D& pPos,
       Transform&        pT);
 
@@ -764,7 +785,7 @@ namespace AL {
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform rotVecToTransform(const Position3D& pPos);
+    Transform transformFromRotVec(const Position3D& pPos);
 
     /// <summary>
     /// Compute a Transform from a Rotation3D.
@@ -774,7 +795,7 @@ namespace AL {
 
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform rotVecToTransform(
+    Transform transformFromRotVec(
       const int&   pAxis,
       const float& pTheta);
 
@@ -804,8 +825,9 @@ namespace AL {
     * @return Transform
     **/
     Rotation axisRotationProjection(
-      const Rotation&   pRot,
-      const Position3D& pAxis);
+      const Position3D& pAxis,
+      const Rotation&   pRot);
+
 
     /**
     * Function axisRotationProjectionInPlace :

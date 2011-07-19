@@ -813,7 +813,7 @@ TEST(ALTransformHelpersTest, rotation2DFromTransformZ)
 }
 
 
-TEST(ALTransformHelpersTest, rotVecToTransform)
+TEST(ALTransformHelpersTest, transformFromRotVec)
 {
 }
 
