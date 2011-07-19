@@ -42,7 +42,15 @@ namespace AL {
     /// <summary>
     /// Create a Position6D from a Velocity6D
     ///
-    /// \f$\begin{array}{ccc} result.x & = & pVel.xd \\ result.y & = & pVel.yd \\ result.z & = & pVel.zd \\ result.wx & = & pVel.wxd \\ result.wy & = & pVel.wyd \\ result.wz & = & pVel.wzd \end{array} \f$
+    /** \f$\begin{array}{ccc}
+      * result.x & = & pVel.xd \\
+      * result.y & = & pVel.yd \\
+      * result.z & = & pVel.zd \\
+      * result.wx & = & pVel.wxd \\
+      * result.wy & = & pVel.wyd \\
+      * result.wz & = & pVel.wzd
+      * \end{array} \f$
+      */
     ///
     /// </summary>
     /// <param name="pVel"> the given Velocity6D </param>
@@ -56,7 +64,22 @@ namespace AL {
     /// <summary>
     /// Overloading of operator * between Rotation and Position3D:
     ///
-    /// \f$\left[\begin{array}{c} result.x \\ result.y \\ result.z \end{array}\right] = \left[\begin{array}{ccc} pRot.r1c1 & pRot.r1c2 & pRot.r1c3 \\ pRot.r2c1 & pRot.r2c2 & pRot.r2c3 \\ pRot.r3c1 & pRot.r3c2 & pRot.r3c3 \end{array}\right] * \left[\begin{array}{c} pPos.x \\ pPos.y \\ pPos.z \end{array}\right] \f$
+    /** \f$\left[\begin{array}{c}
+      * result.x \\
+      * result.y \\
+      * result.z
+      * \end{array}\right] =
+      * \left[\begin{array}{ccc}
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3
+      * \end{array}\right] *
+      * \left[\begin{array}{c}
+      * pPos.x \\
+      * pPos.y \\
+      * pPos.z
+      * \end{array}\right] \f$
+      */
     ///
     /// </summary>
     /// <param name="pRot"> the given Rotation </param>
@@ -73,7 +96,15 @@ namespace AL {
     /// <summary>
     /// Overloading of operator * for float to Position6D, give a Velocity6D:
     ///
-    /// \f$\begin{array}{ccc} pVel.xd & = & pVal*pPos.x \\ pVel.yd & = & pVal*pPos.y \\ pVel.zd & = & pVal*pPos.z \\ pVel.wxd & = & pVal*pPos.wx \\ pVel.wyd & = & pVal*pPos.wy \\ pVel.wzd & = & pVal*pPos.wz \end{array} \f$
+    /** \f$\begin{array}{ccc}
+      * pVel.xd & = & pVal*pPos.x \\
+      * pVel.yd & = & pVal*pPos.y \\
+      * pVel.zd & = & pVal*pPos.z \\
+      * pVel.wxd & = & pVal*pPos.wx \\
+      * pVel.wyd & = & pVal*pPos.wy \\
+      * pVel.wzd & = & pVal*pPos.wz
+      * \end{array} \f$
+      */
     ///
     /// </summary>
     /// <param name="pVal"> the given float </param>
@@ -103,6 +134,24 @@ namespace AL {
 
     /// <summary>
     /// Apply Rotation to a 3D point.
+    ///
+    /** \f$\left[\begin{array}{c}
+      * pPos.x \\
+      * pPos.y \\
+      * pPos.z
+      * \end{array}\right] =
+      * \left[\begin{array}{ccc}
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3
+      * \end{array}\right] *
+      * \left[\begin{array}{c}
+      * pPos.x \\
+      * pPos.y \\
+      * pPos.z
+      * \end{array}\right] \f$
+      */
+    ///
     /// </summary>
     /// <param name="pRot"> the given rotation </param>
     /// <param name="pPos"> the 3D point rotated </param>

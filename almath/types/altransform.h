@@ -35,9 +35,9 @@ namespace AL {
       /**
        *
        * \f$ \left[\begin{array}{cccc}
-       *         r1c1 & r1c2 & r1c3 & r1c4 \\
-       *         r2c1 & r2c2 & r2c3 & r2c4 \\
-       *         r3c1 & r3c2 & r3c3 & r3c4 \\
+       *         r_1c_1 & r_1c_2 & r_1c_3 & r_1c_4 \\
+       *         r_2c_1 & r_2c_2 & r_2c_3 & r_2c_4 \\
+       *         r_3c_1 & r_3c_2 & r_3c_3 & r_3c_4 \\
        *         0.0 & 0.0 & 0.0 & 1.0
        *      \end{array}\right] =
        *      \left[\begin{array}{cccc}
@@ -59,9 +59,9 @@ namespace AL {
       /**
        *
        * \f$ \left[\begin{array}{cccc}
-       *         r1c1 & r1c2 & r1c3 & r1c4 \\
-       *         r2c1 & r2c2 & r2c3 & r2c4 \\
-       *         r3c1 & r3c2 & r3c3 & r3c4 \\
+       *         r_1c_1 & r_1c_2 & r_1c_3 & r_1c_4 \\
+       *         r_2c_1 & r_2c_2 & r_2c_3 & r_2c_4 \\
+       *         r_3c_1 & r_3c_2 & r_3c_3 & r_3c_4 \\
        *         0.0 & 0.0 & 0.0 & 1.0
        *      \end{array}\right] =
        *      \left[\begin{array}{cccc}
@@ -79,9 +79,9 @@ namespace AL {
       /**
        *
        * \f$ \left[\begin{array}{cccc}
-       *         r1c1 & r1c2 & r1c3 & r1c4 \\
-       *         r2c1 & r2c2 & r2c3 & r2c4 \\
-       *         r3c1 & r3c2 & r3c3 & r3c4 \\
+       *         r_1c_1 & r_1c_2 & r_1c_3 & r_1c_4 \\
+       *         r_2c_1 & r_2c_2 & r_2c_3 & r_2c_4 \\
+       *         r_3c_1 & r_3c_2 & r_3c_3 & r_3c_4 \\
        *         0.0 & 0.0 & 0.0 & 1.0
        *      \end{array}\right] =
        *      \left[\begin{array}{cccc}
@@ -156,7 +156,7 @@ namespace AL {
       /// <summary>
       /// Compute the norm translation part of the actual Transform:
       ///
-      /// \f$\sqrt{pT.r1c4^2+pT.r2c4^2+pT.r3c4^2}\f$
+      /// \f$\sqrt{pT.r_1c_4^2+pT.r_2c_4^2+pT.r_3c_4^2}\f$
       /// </summary>
       /// <returns>
       /// the float norm of the Transform
@@ -167,9 +167,9 @@ namespace AL {
       /// Compute the determinant of rotation part of the actual Transform:
       ///
       /**
-      * \f$pT.r1c1*pT.r2c2*pT.r3c3 + pT.r1c2*pT.r2c3*pT.r3c1 +
-      *  pT.r1c3*pT.r2c1*pT.r3c2 - pT.r1c1*pT.r2c3*pT.r3c2 -
-      *  pT.r1c2*pT.r2c1*pT.r3c3 - pT.r1c3*pT.r2c2*pT.r3c1\f$
+      * \f$pT.r_1c_1*pT.r_2c_2*pT.r_3c_3 + pT.r_1c_2*pT.r_2c_3*pT.r_3c_1 +
+      *  pT.r_1c_3*pT.r_2c_1*pT.r_3c_2 - pT.r_1c_1*pT.r_2c_3*pT.r_3c_2 -
+      *  pT.r_1c_2*pT.r_2c_1*pT.r_3c_3 - pT.r_1c_3*pT.r_2c_2*pT.r_3c_1\f$
       */
       /// </summary>
       /// <returns>
@@ -185,7 +185,11 @@ namespace AL {
         *  0_{31} & 1 \end{array}\right]\f$
         */
       ///
-      /// \f$ pTOut = \left[\begin{array}{cc}R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
+      /** \f$ pTOut = \left[\begin{array}{cc}
+        * R^t & (-R^t*r) \\
+        * 0_{31} & 1
+        * \end{array}\right]\f$
+        */
       ///
       /// </summary>
       /// <returns>
@@ -196,7 +200,8 @@ namespace AL {
       /// <summary>
       /// Create a Transform initialized with explicit rotation around x axis.
       ///
-      /** \f$ pT = \left[\begin{array}{cccc}1.0 & 0.0 & 0.0 & 0.0 \\
+      /** \f$ pT = \left[\begin{array}{cccc}
+        * 1.0 & 0.0 & 0.0 & 0.0 \\
         * 0.0 & cos(pRotX) & -sin(pRotX) & 0.0 \\
         * 0.0 & sin(pRotX) & cos(pRotX) & 0.0 \\
         * 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right]\f$
@@ -314,7 +319,7 @@ namespace AL {
       /// Compute the squared distance between the actual
       /// Transform and the one given in argument (translation part):
       ///
-      /// \f$(pT1.r1c4-pT2.r1C4)^2+(pT1.r2c4-pT2.r2C4)^2+(pT1.r3c4-pT2.r3C4)^2\f$
+      /// \f$(pT1.r_1c_4-pT2.r_1c_4)^2+(pT1.r_2c_4-pT2.r_2c_4)^2+(pT1.r_3c_4-pT2.r_3c_4)^2\f$
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       /// <returns>
@@ -327,7 +332,7 @@ namespace AL {
       /// Compute the distance between the actual
       /// Transform and the one given in argument:
       ///
-      /// \f$\sqrt{(pT1.r1c4-pT2.r1c4)^2+(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2}\f$
+      /// \f$\sqrt{(pT1.r_1c_4-pT2.r_1c_4)^2+(pT1.r_2c_4-pT2.r_2c_4)^2+(pT1.r_3c_4-pT2.r_3c_4)^2}\f$
       /// </summary>
       /// <param name="pT2"> the second Transform </param>
       /// <returns>
@@ -339,9 +344,9 @@ namespace AL {
       /// Return the Transform as a vector of float:
       ///
       /** \f$ \begin{array}{cccc}
-        * [r1c1, & r1c2, & r1c3, & r1c4, \\
-        * r2c1, & r2c2, & r2c3, & r2c4, \\
-        * r3c1, & r3c2, & r3c3, & r3c4, \\
+        * [r_1c_1, & r_1c_2, & r_1c_3, & r_1c_4, \\
+        * r_2c_1, & r_2c_2, & r_2c_3, & r_2c_4, \\
+        * r_3c_1, & r_3c_2, & r_3c_3, & r_3c_4, \\
         * 0.0, & 0.0, & 0.0, & 1.0]
         * \end{array}\f$
         */
@@ -364,7 +369,7 @@ namespace AL {
     /// <summary>
     /// Compute the norm translation part of the actual Transform:
     ///
-    /// \f$\sqrt{pT.r1c4^2+pT.r2c4^2+pT.r3c4^2}\f$
+    /// \f$\sqrt{pT.r_1c_4^2+pT.r_2c_4^2+pT.r_3c_4^2}\f$
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// <returns>
@@ -378,9 +383,9 @@ namespace AL {
     /// Copy the Transform in a vector of float:
     ///
     /** \f$ \begin{array}{cccc}
-      * [r1c1, & r1c2, & r1c3, & r1c4, \\
-      * r2c1, & r2c2, & r2c3, & r2c4, \\
-      * r3c1, & r3c2, & r3c3, & r3c4, \\
+      * [r_1c_1, & r_1c_2, & r_1c_3, & r_1c_4, \\
+      * r_2c_1, & r_2c_2, & r_2c_3, & r_2c_4, \\
+      * r_3c_1, & r_3c_2, & r_3c_3, & r_3c_4, \\
       * 0.0, & 0.0, & 0.0, & 1.0]
       * \end{array}\f$
       */
@@ -398,9 +403,9 @@ namespace AL {
     ///
     /**
       * \f$ \begin{array}{cccc}
-      * [r1c1, & r1c2, & r1c3, & r1c4, \\
-      * r2c1, & r2c2, & r2c3, & r2c4, \\
-      * r3c1, & r3c2, & r3c3, & r3c4, \\
+      * [r_1c_1, & r_1c_2, & r_1c_3, & r_1c_4, \\
+      * r_2c_1, & r_2c_2, & r_2c_3, & r_2c_4, \\
+      * r_3c_1, & r_3c_2, & r_3c_3, & r_3c_4, \\
       * 0.0, & 0.0, & 0.0, & 1.0]
       * \end{array}\f$
       */
@@ -418,9 +423,9 @@ namespace AL {
     /// <summary>
     /// Compute the determinant of rotation part of the given Transform:
     ///
-    /** \f$pT.r1c1*pT.r2c2*pT.r3c3 + pT.r1c2*pT.r2c3*pT.r3c1 +
-      * pT.r1c3*pT.r2c1 * pT.r3c2 - pT.r1c1*pT.r2c3*pT.r3c2 -
-      * pT.r1c2*pT.r2c1*pT.r3c3 - pT.r1c3*pT.r2c2*pT.r3c1\f$
+    /** \f$pT.r_1c_1*pT.r_2c_2*pT.r_3c_3 + pT.r_1c_2*pT.r_2c_3*pT.r_3c_1 +
+      * pT.r_1c_3*pT.r_2c_1 * pT.r_3c_2 - pT.r_1c_1*pT.r_2c_3*pT.r_3c_2 -
+      * pT.r_1c_2*pT.r_2c_1*pT.r_3c_3 - pT.r_1c_3*pT.r_2c_2*pT.r_3c_1\f$
       */
    /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -448,9 +453,17 @@ namespace AL {
     /// <summary>
     /// Return the transform inverse of the given Transform:
     ///
-    /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
+    /** \f$ pT = \left[\begin{array}{cc}
+      * R & r \\
+      * 0_{31} & 1
+      * \end{array}\right]\f$
+      */
     ///
-    /// \f$ pTOut = \left[\begin{array}{cc} R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
+    /** \f$ pTOut = \left[\begin{array}{cc}
+      * R^t & (-R^t*r) \\
+      * 0_{31} & 1
+      * \end{array}\right]\f$
+      */
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -463,9 +476,17 @@ namespace AL {
     /// <summary>
     /// Return the transform inverse of the given Transform:
     ///
-    /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
+    /** \f$ pT = \left[\begin{array}{cc}
+      * R & r \\
+      * 0_{31} & 1
+      * \end{array}\right]\f$
+      */
     ///
-    /// \f$ pTOut = \left[\begin{array}{cc} R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
+    /** \f$ pTOut = \left[\begin{array}{cc}
+      * R^t & (-R^t*r) \\
+      * 0_{31} & 1
+      * \end{array}\right]\f$
+      */
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -618,9 +639,17 @@ namespace AL {
     /// <summary>
     /// Alternative name for inverse: return the transform inverse of the given Transform:
     ///
-    /// \f$ pT = \left[\begin{array}{cc} R & r \\ 0_{31} & 1 \end{array}\right]\f$
+    /** \f$ pT = \left[\begin{array}{cc}
+      * R & r \\
+      * 0_{31} & 1
+      * \end{array}\right]\f$
+      */
     ///
-    /// \f$ pTOut = \left[\begin{array}{cc} R^t & (-R^t*r) \\ 0_{31} & 1 \end{array}\right]\f$
+    /** \f$ pTOut = \left[\begin{array}{cc}
+      * R^t & (-R^t*r) \\
+      * 0_{31} & 1
+      * \end{array}\right]\f$
+      */
     ///
     /// </summary>
     /// <param name="pT"> the given Transform </param>
@@ -648,7 +677,7 @@ namespace AL {
     /// Compute the squared distance between the actual
     /// Transform and the one give in argument (translation part):
     ///
-    /// \f$(pT1.r1c4-pT2.r1c4)^2 +(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2\f$
+    /// \f$(pT1.r_1c_4-pT2.r_1c_4)^2 +(pT1.r_2c_4-pT2.r_2c_4)^2+(pT1.r_3c_4-pT2.r_3c_4)^2\f$
     /// </summary>
     /// <param name="pT1"> the first Transform </param>
     /// <param name="pT2"> the second Transform </param>
@@ -665,7 +694,7 @@ namespace AL {
     /// Compute the distance between the actual
     /// Transform and the one give in argument:
     ///
-    /// \f$\sqrt{(pT1.r1c4-pT2.r1c4)^2+(pT1.r2c4-pT2.r2c4)^2+(pT1.r3c4-pT2.r3c4)^2}\f$
+    /// \f$\sqrt{(pT1.r_1c_4-pT2.r_1c_4)^2+(pT1.r_2c_4-pT2.r_2c_4)^2+(pT1.r_3c_4-pT2.r_3c_4)^2}\f$
     /// </summary>
     /// <param name="pT1"> the first Transform </param>
     /// <param name="pT2"> the second Transform </param>

@@ -830,7 +830,7 @@ TEST(ALTransformHelpersTest, transformAxisRotationProjectionInPlace)
   AL::Math::Rotation   pMathRIn = AL::Math::Rotation();
   AL::Math::Position3D pMathPIn = AL::Math::Position3D();
 
-  ASSERT_THROW(AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn), std::runtime_error);
+  ASSERT_THROW(AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn), std::runtime_error);
 
   // 02
   AL::Math::Transform  pMathHIn  = AL::Math::Transform();
@@ -959,20 +959,20 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
   AL::Math::Rotation   pMathRIn = AL::Math::Rotation();
   AL::Math::Position3D pMathPIn = AL::Math::Position3D();
 
-  ASSERT_THROW(axisRotationProjectionInPlace(pMathRIn, pMathPIn), std::runtime_error);
+  ASSERT_THROW(axisRotationProjectionInPlace(pMathPIn, pMathRIn), std::runtime_error);
 
   // 02
   pMathRIn  = AL::Math::Rotation();
   pMathPIn  = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
 
-  AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
+  AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn);
   EXPECT_TRUE(pMathRIn.isNear(AL::Math::Rotation()));
 
   // 03
   pMathRIn  = AL::Math::rotationFromRotX(10.0f*AL::Math::TO_RAD);
   pMathPIn  = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
 
-  AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
+  AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn);
   EXPECT_TRUE(pMathRIn.isNear(AL::Math::Rotation()));
 
   // 04
@@ -980,7 +980,7 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
       AL::Math::rotationFromRotX(10.0f*AL::Math::TO_RAD);
   pMathPIn  = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
 
-  AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
+  AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn);
   EXPECT_TRUE(pMathRIn.isNear(AL::Math::rotationFromRotY(10.0f*AL::Math::TO_RAD)));
 
   // 05
@@ -1001,7 +1001,7 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
   pMathROut.r3_c2 = -0.66430504972634f;
   pMathROut.r3_c3 = 0.34261549666919f;
 
-  AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
+  AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn);
   EXPECT_TRUE(pMathRIn.isNear(pMathROut));
 
   // 06
@@ -1022,7 +1022,7 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
   pMathROut.r3_c2 = 0.39424916290792f;
   pMathROut.r3_c3 = -0.91900358951769f;
 
-  AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
+  AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn);
   EXPECT_TRUE(pMathRIn.isNear(pMathROut));
 
   // 07
@@ -1043,7 +1043,7 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
   pMathROut.r3_c2 = 0.0f;
   pMathROut.r3_c3 = -0.14011259929748f;
 
-  AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
+  AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn);
   EXPECT_TRUE(pMathRIn.isNear(pMathROut));
 
   // 08
@@ -1064,7 +1064,7 @@ TEST(ALTransformHelpersTest, rotationAxisRotationProjectionInPlace)
   pMathROut.r3_c2 = 0.0f;
   pMathROut.r3_c3 = 1.0f;
 
-  AL::Math::axisRotationProjectionInPlace(pMathRIn, pMathPIn);
+  AL::Math::axisRotationProjectionInPlace(pMathPIn, pMathRIn);
   EXPECT_TRUE(pMathRIn.isNear(pMathROut));
 
 } // end rotationAxisRotationProjectionInPlace

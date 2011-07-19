@@ -750,7 +750,7 @@ namespace AL {
       rotationFromTransform(pH, pRotationSolution);
 
       // Compute Projection
-      axisRotationProjectionInPlace(pRotationSolution, pAxis);
+      axisRotationProjectionInPlace(pAxis, pRotationSolution);
 
       // Rotation to Transform
       rotationToTransform(pRotationSolution, pH);
@@ -771,7 +771,7 @@ namespace AL {
       // Save position part of Transform in the solution
       AL::Math::Rotation pRotationSolution;
       rotationFromTransform(pH, pRotationSolution);
-      axisRotationProjectionInPlace(pRotationSolution, pAxis);
+      axisRotationProjectionInPlace(pAxis, pRotationSolution);
 
       rotationToTransform(pRotationSolution, pHSol);
       pHSol.r1_c4 = pH.r1_c4;
@@ -787,7 +787,7 @@ namespace AL {
       const Position3D& pAxis)
     {
       Rotation pOut = pRot;
-      axisRotationProjectionInPlace(pOut, pAxis);
+      axisRotationProjectionInPlace(pAxis, pOut);
       return pOut;
     }
 
@@ -795,8 +795,8 @@ namespace AL {
     // NOTE: although this is not about transforms, it is here because
     // other methods here use it.
     void axisRotationProjectionInPlace(
-      Rotation&         pRot,
-      const Position3D& pAxis)
+      const Position3D& pAxis,
+      Rotation&         pRot)
     {
       float inw = norm(pAxis);
       if (inw == 0.0f)

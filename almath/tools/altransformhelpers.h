@@ -28,9 +28,9 @@ namespace AL {
     /// Create a Transform from 3D cartesian coordiantes and a Rotation.
     /**
       * \f$ T = \left[\begin{array}{cccc}
-      * pRot.r1c1 & pRot.r1c2 & pRot.r1c3 & pX \\
-      * pRot.r2c1 & pRot.r2c2 & pRot.r2c3 & pY \\
-      * pRot.r3c1 & pRot.r3c2 & pRot.r3c3 & pZ \\
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pX \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pY \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pZ \\
       * 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
       */
     /// </summary>
@@ -51,9 +51,9 @@ namespace AL {
     /// <summary>
     /// Create a Transform from a Position3D and a Rotation.
     /** \f$ T = \left[\begin{array}{cccc}
-      * pRot.r1c1 & pRot.r1c2 & pRot.r1c3 & pPos.x \\
-      * pRot.r2c1 & pRot.r2c2 & pRot.r2c3 & pPos.y \\
-      * pRot.r3c1 & pRot.r3c2 & pRot.r3c3 & pPos.z \\
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pPos.x \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pPos.y \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pPos.z \\
       * 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
       */
     /// </summary>
@@ -69,7 +69,7 @@ namespace AL {
 
     /// <summary>
     /// Compute the logarithme of a transform.
-    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right].\f$
+    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right] \f$
     /**
       * Cette fonction calcule le
       * logarithme associe a une matrice de type Deplacement -
@@ -89,7 +89,7 @@ namespace AL {
 
     /// <summary>
     /// Compute the logarithme of a transform.
-    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right].\f$
+    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right]\f$
     /**
       * Cette fonction calcule le
       * logarithme associe a une matrice de type Deplacement -
@@ -112,7 +112,7 @@ namespace AL {
 
     /// <summary>
     /// Compute the logarithme of a transform.
-    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right].\f$
+    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right] \f$
     /**
       * Function Velocity Exponential : compute homogenous matrix
       * displacement from a dt * 6D velocity vector.
@@ -150,12 +150,12 @@ namespace AL {
       * \end{array}\right]
       *
       * \left[\begin{array}{c}
+      * pVIn.xd  \\
       * pVIn.yd  \\
-      * pVIn.yd  \\
-      * pVIn.yd  \\
+      * pVIn.zd  \\
+      * pVIn.wxd \\
       * pVIn.wyd \\
-      * pVIn.wyd \\
-      * pVIn.wyd \\
+      * pVIn.wzd \\
       * \end{array}\right]
       * \f$
       */
@@ -192,11 +192,11 @@ namespace AL {
       * \end{array}\right]
       *
       * \left[\begin{array}{c}
+      * pPIn.x  \\
+      * pPIn.y  \\
       * pPIn.z  \\
-      * pPIn.z  \\
-      * pPIn.z  \\
-      * pPIn.wz \\
-      * pPIn.wz \\
+      * pPIn.wx \\
+      * pPIn.wy \\
       * pPIn.wz \\
       * \end{array}\right]
       * \f$
@@ -353,12 +353,12 @@ namespace AL {
       * \end{array}\right]
       *
       * \left[\begin{array}{c}
+      * pVIn.xd  \\
       * pVIn.yd  \\
-      * pVIn.yd  \\
-      * pVIn.yd  \\
+      * pVIn.zd  \\
+      * pVIn.wxd \\
       * pVIn.wyd \\
-      * pVIn.wyd \\
-      * pVIn.wyd \\
+      * pVIn.wzd \\
       * \end{array}\right]
       * \f$
       */
@@ -395,11 +395,11 @@ namespace AL {
       * \end{array}\right]
       *
       * \left[\begin{array}{c}
+      * pPIn.x  \\
+      * pPIn.y  \\
       * pPIn.z  \\
-      * pPIn.z  \\
-      * pPIn.z  \\
-      * pPIn.wz \\
-      * pPIn.wz \\
+      * pPIn.wx \\
+      * pPIn.wy \\
       * pPIn.wz \\
       * \end{array}\right]
       * \f$
@@ -819,7 +819,7 @@ namespace AL {
     * @param pH: a transform
     **/
     void axisRotationProjectionInPlace(
-      const Position3D& pAxis,
+      const Position3D& pPos,
       Transform&        pT);
 
     /**
@@ -829,8 +829,8 @@ namespace AL {
     * @param Position3D : axis of rotation
     **/
     void axisRotationProjectionInPlace(
-      Rotation&         pRot,
-      const Position3D& pPos);
+      const Position3D& pPos,
+      Rotation&         pRot);
 
   } // namespace Math
 } // namespace AL

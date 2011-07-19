@@ -22,9 +22,9 @@ namespace AL {
     /**
      *
      * \f$ \left[\begin{array}{ccc}
-     *         r1c1 & r1c2 & r1c3 \\
-     *         r2c1 & r2c2 & r2c3 \\
-     *         r3c1 & r3c2 & r3c3
+     *         r_1c_1 & r_1c_2 & r_1c_3 \\
+     *         r_2c_1 & r_2c_2 & r_2c_3 \\
+     *         r_3c_1 & r_3c_2 & r_3c_3
      *      \end{array}\right]\f$
      */
   /// </summary>
@@ -74,9 +74,9 @@ namespace AL {
       /**
        *
        * \f$ \left[\begin{array}{ccc}
-       *         r1c1 & r1c2 & r1c3 \\
-       *         r2c1 & r2c2 & r2c3 \\
-       *         r3c1 & r3c2 & r3c3
+       *         r_1c_1 & r_1c_2 & r_1c_3 \\
+       *         r_2c_1 & r_2c_2 & r_2c_3 \\
+       *         r_3c_1 & r_3c_2 & r_3c_3
        *      \end{array}\right] =
        *      \left[\begin{array}{ccc}
        *         1.0 & 0.0 & 0.0 \\
@@ -98,9 +98,9 @@ namespace AL {
       /**
         *
         * \f$ \left[\begin{array}{cccc}
-        * r1c1 & r1c2 & r1c3 \\
-        * r2c1 & r2c2 & r2c3 \\
-        * r3c1 & r3c2 & r3c3
+        * r_1c_1 & r_1c_2 & r_1c_3 \\
+        * r_2c_1 & r_2c_2 & r_2c_3 \\
+        * r_3c_1 & r_3c_2 & r_3c_3
         * \end{array}\right] =
         * \left[\begin{array}{cccc}
         * pFloats[0] & pFloats[1] & pFloats[2] \\
@@ -115,9 +115,9 @@ namespace AL {
       /** \f$
         *
         * \left[\begin{array}{cccc}
-        * r1c1 & r1c2 & r1c3 \\
-        * r2c1 & r2c2 & r2c3 \\
-        * r3c1 & r3c2 & r3c3
+        * r_1c_1 & r_1c_2 & r_1c_3 \\
+        * r_2c_1 & r_2c_2 & r_2c_3 \\
+        * r_3c_1 & r_3c_2 & r_3c_3
         * \end{array}\right] =
         * \left[\begin{array}{cccc}
         * pFloats[0] & pFloats[1] & pFloats[2] \\
@@ -177,12 +177,12 @@ namespace AL {
       /// <summary>
       /// Compute the determinant of the Rotation:
       ///
-      /** \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 +
-        * pRot.r1c2*pRot.r2c3*pRot.r3c1 +
-        * pRot.r1c3*pRot.r2c1*pRot.r3c2 -
-        * pRot.r1c1*pRot.r2c3*pRot.r3c2 -
-        * pRot.r1c2*pRot.r2c1*pRot.r3c3 -
-        * pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
+      /** \f$pRot.r_1c_1*pRot.r_2c_2*pRot.r_3c_3 +
+        * pRot.r_1c_2*pRot.r_2c_3*pRot.r_3c_1 +
+        * pRot.r_1c_3*pRot.r_2c_1*pRot.r_3c_2 -
+        * pRot.r_1c_1*pRot.r_2c_3*pRot.r_3c_2 -
+        * pRot.r_1c_2*pRot.r_2c_1*pRot.r_3c_3 -
+        * pRot.r_1c_3*pRot.r_2c_2*pRot.r_3c_1\f$
         */
       /// </summary>
       /// <returns>
@@ -274,9 +274,9 @@ namespace AL {
       /// Return the Rotation as a vector of float:
       ///
       /** \f$ \begin{array}{cccc}
-        * [r1c1, & r1c2, & r1c3, \\
-        * r2c1, & r2c2, & r2c3, \\
-        * r3c1, & r3c2, & r3c3]
+        * [r_1c_1, & r_1c_2, & r_1c_3, \\
+        * r_2c_1, & r_2c_2, & r_2c_3, \\
+        * r_3c_1, & r_3c_2, & r_3c_3]
         * \end{array}\f$
         */
       /// </summary>
@@ -299,12 +299,12 @@ namespace AL {
     /// <summary>
     /// Compute the determinant of the given Rotation:
     ///
-    /** \f$pRot.r1c1*pRot.r2c2*pRot.r3c3 +
-      * pRot.r1c2*pRot.r2c3*pRot.r3c1 +
-      * pRot.r1c3*pRot.r2c1*pRot.r3c2 -
-      * pRot.r1c1*pRot.r2c3*pRot.r3c2 -
-      * pRot.r1c2*pRot.r2c1*pRot.r3c3 -
-      * pRot.r1c3*pRot.r2c2*pRot.r3c1\f$
+    /** \f$pRot.r_1c_1*pRot.r_2c_2*pRot.r_3c_3 +
+      * pRot.r_1c_2*pRot.r_2c_3*pRot.r_3c_1 +
+      * pRot.r_1c_3*pRot.r_2c_1*pRot.r_3c_2 -
+      * pRot.r_1c_1*pRot.r_2c_3*pRot.r_3c_2 -
+      * pRot.r_1c_2*pRot.r_2c_1*pRot.r_3c_3 -
+      * pRot.r_1c_3*pRot.r_2c_2*pRot.r_3c_1\f$
       */
     /// </summary>
     /// <param name="pRot"> the given Rotation </param>
