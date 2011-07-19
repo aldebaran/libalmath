@@ -113,50 +113,50 @@ TEST(ALTransformHelpersTest, normalizeTransform)
   }
 }
 
-TEST(ALTransformHelpersTest, transformLogarithme)
+TEST(ALTransformHelpersTest, transformLogarithmInPlace)
 {
   // ************ TransformLogarithme ************
 
   // X01
   AL::Math::Transform pMathHIn  = AL::Math::transformFromRotX(10.0f*AL::Math::TO_RAD);
   AL::Math::Velocity6D pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.1745329f, 0.0f, 0.0f), 1.0e-5f));
 
   // X02
   pMathHIn  = AL::Math::transformFromRotX(150.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 2.61799387799149f, 0.0f, 0.0f), 1.0e-5f));
 
   // X03
   pMathHIn  = AL::Math::transformFromRotX(179.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 3.12413936106983f, 0.0f, 0.0f), 1.0e-5f));
 
   // X04
   pMathHIn  = AL::Math::transformFromRotX(181.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, -3.12413936106983f, 0.0f, 0.0f), 1.0e-5f));
 
   // X05
   pMathHIn  = AL::Math::transformFromRotX(-179.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, -3.12413936106983f, 0.0f, 0.0f), 1.0e-5f));
 
   // X06
   pMathHIn  = AL::Math::transformFromRotX(-181.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 3.12413936106983f, 0.0f, 0.0f), 1.0e-5f));
 
   // X07
   pMathHIn  = AL::Math::transformFromRotX(90.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 1.57079632679490f, 0.0f, 0.0f), 1.0e-5f));
 
   // X08
@@ -165,7 +165,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, 0.22567198513826f, 0.28178477701757f, 0.17453292519943f, 0.0f, 0.0f), 1.0e-5f));
 
   // X09
@@ -174,7 +174,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, 0.47134729927687f, -0.30832434343239f, 3.12413936106983f, 0.0f, 0.0f), 1.0e-5f));
 
   // X10
@@ -183,43 +183,43 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, -0.46589450904408f, 0.31650352878158f, -3.12413936106983f, 0.0f, 0.0f), 1.0e-5f));
 
   // X11
   pMathHIn  = AL::Math::transformFromRotX(179.99f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f, 0.0f), 1.0e-5f)); // devrait etre -
 
   // X12
   pMathHIn  = AL::Math::transformFromRotX(180.01f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f, 0.0f), 1.0e-5f));
 
   // X13
   pMathHIn  = AL::Math::transformFromRotX(180.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 3.14159265358979f, 0.0f, 0.0f), 1.0e-5f));
 
   // X14
   pMathHIn  = AL::Math::transformFromRotX(-179.99f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f, 0.0f), 1.0e-5f)); // devrait etre -
 
   // X15
   pMathHIn  = AL::Math::transformFromRotX(-180.01f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f, 0.0f), 1.0e-5f));
 
   // X16
   pMathHIn  = AL::Math::transformFromRotX(-180.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, +3.14159265358979f, 0.0f, 0.0f), 1.0e-5f));
 
   // X17
@@ -228,7 +228,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, +0.47123884392623f, -0.31415928915466f, +3.14159247705847f, 0.0f, 0.0f), 1.0e-5f));
 
   // X18
@@ -237,7 +237,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, 0.20026174861823f, 0.29982539092044f, 0.00174532925199f, 0.0f, 0.0f), 1.0e-5f));
 
   // X19
@@ -246,7 +246,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, 0.19973814984263f, 0.30017445677084f, -0.00174532925199f, 0.0f, 0.0f), 1.0e-5f));
 
   // X20
@@ -255,7 +255,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, 0.20261291689522f, 0.29824705527385f, 0.01745329251994f, 0.0f, 0.0f), 1.0e-5f));
 
   // X21
@@ -264,49 +264,49 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.10000000000000f, 0.19737692913924f, 0.30173771377784f, -0.01745329251994f, 0.0f, 0.0f), 1.0e-5f));
 
   // Y01
   pMathHIn  = AL::Math::transformFromRotY(10.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.1745329f, 0.0f), 1.0e-5f));
 
   // Y02
   pMathHIn  = AL::Math::transformFromRotY(150.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 2.61799387799149f, 0.0f), 1.0e-5f));
 
   // Y03
   pMathHIn  = AL::Math::transformFromRotY(179.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 3.12413936106983f, 0.0f), 1.0e-5f));
 
   // Y04
   pMathHIn  = AL::Math::transformFromRotY(181.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, -3.12413936106983f, 0.0f), 1.0e-5f));
 
   // Y05
   pMathHIn  = AL::Math::transformFromRotY(-179.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, -3.12413936106983f, 0.0f), 1.0e-5f));
 
   // Y06
   pMathHIn  = AL::Math::transformFromRotY(-181.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 3.12413936106983f, 0.0f), 1.0e-5f));
 
   // Y07
   pMathHIn  = AL::Math::transformFromRotY(90.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 1.57079632679490f, 0.0f), 1.0e-5f));
 
   // Y08
@@ -315,7 +315,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.07356608439926f, 0.20000000000000f, 0.30796471579749f, 0.0f, 0.17453292519943f, 0.0f), 1.0e-5f));
 
   // Y09
@@ -324,7 +324,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.46725770660228f, 0.20000000000000f, 0.16029656072809f, 0.0f, 3.12413936106983f, 0.0f), 1.0e-5f));
 
   // Y10
@@ -333,43 +333,43 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.46998410171867f, 0.20000000000000f, -0.15211737537889f, 0.0f, -3.12413936106983f, 0.0f), 1.0e-5f));
 
   // Y11
   pMathHIn  = AL::Math::transformFromRotY(179.99f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f), 1.0e-5f)); // devrait etre -
 
   // Y12
   pMathHIn  = AL::Math::transformFromRotY(180.01f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f), 1.0e-5f));
 
   // Y13
   pMathHIn  = AL::Math::transformFromRotY(180.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 3.14159265358979f, 0.0f), 1.0e-5f));
 
   // Y14
   pMathHIn  = AL::Math::transformFromRotY(-179.99f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f), 1.0e-5f)); // devrait etre -
 
   // Y15
   pMathHIn  = AL::Math::transformFromRotY(-180.01f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f, 0.0f), 1.0e-5f));
 
   // Y16
   pMathHIn  = AL::Math::transformFromRotY(-180.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, +3.14159265358979f, 0.0f), 1.0e-5f));
 
   // Y17
@@ -378,7 +378,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.47092190248947f, 0.20000000000000f, 0.15803061932648f, 0.0f, 3.14159265358979f, 0.0f), 1.0e-3f));
 
   // Y18
@@ -387,7 +387,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.19991268276783f, -0.30000000000000f, -0.10017450754041f, 0.0f, 0.00174532925199f, 0.0f), 1.0e-5f));
 
   // Y19
@@ -396,7 +396,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.20008721569303f, -0.30000000000000f, -0.09982544169001f, 0.0f, -0.00174532925199f, 0.0f), 1.0e-5f));
 
   // Y20
@@ -405,7 +405,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.19912225839123f, -0.30000000000000f, -0.10174279076061f, 0.0f, 0.01745329251994f, 0.0f), 1.0e-5f));
 
   // Y21
@@ -414,49 +414,49 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.20086758764323f, -0.30000000000000f, -0.09825213225662f, 0.0f, -0.01745329251994f, 0.0f), 1.0e-5f));
 
   // Z01
   pMathHIn  = AL::Math::transformFromRotZ(10.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.1745329f), 1.0e-5f));
 
   // Z02
   pMathHIn  = AL::Math::transformFromRotZ(150.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 2.61799387799149f), 1.0e-5f));
 
   // Z03
   pMathHIn  = AL::Math::transformFromRotZ(179.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 3.12413936106983f), 1.0e-5f));
 
   // Z04
   pMathHIn  = AL::Math::transformFromRotZ(181.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -3.12413936106983f), 1.0e-5f));
 
   // Z05
   pMathHIn  = AL::Math::transformFromRotZ(-179.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, -3.12413936106983f), 1.0e-5f));
 
   // Z06
   pMathHIn  = AL::Math::transformFromRotZ(-181.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 3.12413936106983f), 1.0e-5f));
 
   // Z07
   pMathHIn  = AL::Math::transformFromRotZ(90.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.57079632679490f), 1.0e-5f));
 
   // Z08
@@ -465,7 +465,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.11719931569912f, 0.19076540009837f, 0.30000000000000f, 0.0f, 0.0f, 0.17453292519943f), 1.0e-5f));
 
   // Z09
@@ -474,7 +474,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.31377713366518f, -0.15348057293709f, 0.30000000000000f, 0.0f, 0.0f, 3.12413936106983f), 1.0e-5f));
 
   // Z10
@@ -483,43 +483,43 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.31105073854878f, 0.15893336316989f, 0.30000000000000f, 0.0f, 0.0f, -3.12413936106983f), 1.0e-5f));
 
   // Z11
   pMathHIn  = AL::Math::transformFromRotZ(179.99f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f), 1.0e-5f)); // devrait etre -
 
   // Z12
   pMathHIn  = AL::Math::transformFromRotZ(180.01f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f), 1.0e-5f));
 
   // Z13
   pMathHIn  = AL::Math::transformFromRotZ(180.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 3.14159265358979f), 1.0e-5f));
 
   // Z14
   pMathHIn  = AL::Math::transformFromRotZ(-179.99f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f), 1.0e-5f)); // devrait etre -
 
   // Z15
   pMathHIn  = AL::Math::transformFromRotZ(-180.01f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, +3.14141812066260f), 1.0e-5f));
 
   // Z16
   pMathHIn  = AL::Math::transformFromRotZ(-180.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, +3.14159265358979f), 1.0e-5f));
 
   // Z17
@@ -528,7 +528,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.31447626090798f, -0.15644564158149f, 0.30000000000000f, 0.0f, 0.0f, 3.14159265358979f), 1.0e-3f));
 
   // Z18
@@ -537,7 +537,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.20026174861823f, -0.29982539092044f, -0.10000000000000f, 0.0f, 0.0f, 0.00174532925199f), 1.0e-5f));
 
   // Z19
@@ -546,7 +546,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.19973814984263f, -0.30017445677084f, -0.10000000000000f, 0.0f, 0.0f, -0.00174532925199f), 1.0e-5f));
 
   // Z20
@@ -555,7 +555,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.20261291689522f, -0.29824705527385f, -0.10000000000000f, 0.0f, 0.0f, 0.01745329251994f), 1.0e-5f));
 
   // Z21
@@ -564,13 +564,13 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = -0.3f;
   pMathHIn.r3_c4 = -0.1f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.19737692913924f, -0.30173771377784f, -0.10000000000000f, 0.0f, 0.0f, -0.01745329251994f), 1.0e-5f));
 
   // 00
   pMathHIn  = AL::Math::transformFromRotX(0.0f);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f), 1.0e-5f));
 
   // 01
@@ -579,7 +579,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.1f, 0.2f, 0.3f, 0.0f, 0.0f, 0.0f), 1.0e-5f));
 
   // 02
@@ -587,7 +587,7 @@ TEST(ALTransformHelpersTest, transformLogarithme)
       AL::Math::transformFromRotX(-30.0f*AL::Math::TO_RAD)*
       AL::Math::transformFromRotY(-150.0f*AL::Math::TO_RAD);
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(0.0f, 0.0f, 0.0f, -2.19530551593940f, 1.78449667326725f, -1.05305343403968f), 1.0e-5f));
 
   // 03
@@ -598,20 +598,20 @@ TEST(ALTransformHelpersTest, transformLogarithme)
   pMathHIn.r2_c4 = 0.2f;
   pMathHIn.r3_c4 = 0.3f;
   pMathVOut = AL::Math::Velocity6D();
-  AL::Math::transformLogarithme(pMathHIn, pMathVOut);
+  AL::Math::transformLogarithmInPlace(pMathHIn, pMathVOut);
   EXPECT_TRUE(pMathVOut.isNear(AL::Math::Velocity6D(-0.32467607279532f, -0.28979289026856f, 0.35532477264459f, -2.19530551593940f, 1.78449667326725f, -1.05305343403968f), 1.0e-5f));
 
-} // end TransformLogarithme
+} // end TransformLogarithmInPlace
 
 
-TEST(ALTransformHelpersTest, velocityExponential)
+TEST(ALTransformHelpersTest, velocityExponentialInPlace)
 {
-  // ************ velocityExponential ************
+  // ************ velocityExponentialInPlace ************
   AL::Math::Velocity6D pMathVIn  = AL::Math::Velocity6D();
   AL::Math::Transform  pMathHOut = AL::Math::Transform();
   AL::Math::Transform  pMathHSol = AL::Math::Transform();
 
-  AL::Math::velocityExponential(pMathVIn, pMathHOut);
+  AL::Math::velocityExponentialInPlace(pMathVIn, pMathHOut);
   EXPECT_TRUE(pMathHOut.isNear(AL::Math::Transform()));
 
   pMathVIn  = AL::Math::Velocity6D(1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f);
@@ -634,7 +634,7 @@ TEST(ALTransformHelpersTest, velocityExponential)
   pMathHSol.r2_c4 = 1.0f;
   pMathHSol.r3_c4 = 1.0f;
 
-  AL::Math::velocityExponential(pMathVIn, pMathHOut);
+  AL::Math::velocityExponentialInPlace(pMathVIn, pMathHOut);
   EXPECT_TRUE(pMathHOut.isNear(pMathHSol));
 
   pMathVIn  = AL::Math::Velocity6D(1.0f, 0.4f, -0.2f, -0.5f, 0.6f, -0.7f);
@@ -657,10 +657,10 @@ TEST(ALTransformHelpersTest, velocityExponential)
   pMathHSol.r2_c4 = -0.04541275047598f;
   pMathHSol.r3_c4 = -0.51669980898354f;
 
-  AL::Math::velocityExponential(pMathVIn, pMathHOut);
+  AL::Math::velocityExponentialInPlace(pMathVIn, pMathHOut);
   EXPECT_TRUE(pMathHOut.isNear(pMathHSol));
 
-} // end VelocityExponential
+} // end VelocityExponentialInPlace
 
 TEST(ALTransformHelpersTest, changeRepereVelocity6D)
 {

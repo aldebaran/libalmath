@@ -65,14 +65,7 @@ namespace AL {
   }
 
 
-    Velocity6D transformLogarithme(const Transform& pH)
-    {
-      Velocity6D pV;
-      transformLogarithme(pH, pV);
-      return pV;
-    }
-
-    void transformLogarithme(
+    void transformLogarithmInPlace(
       const Transform& pH,
       Velocity6D&      pVOut)
     {
@@ -134,12 +127,12 @@ namespace AL {
           }
           else
           {
-            //std::cout << "TransformLogarithme : co cas non traite" << std::endl;
+            //std::cout << "transformLogarithmInPlace : co cas non traite" << std::endl;
           }
         }
         else
         {
-          //std::cout << "TransformLogarithme : si cas non traite" << std::endl;
+          //std::cout << "transformLogarithmInPlace : si cas non traite" << std::endl;
         }
       }
       else
@@ -189,10 +182,18 @@ namespace AL {
         pH.r2_c4*( coeff_2*( pH.r1_c2 - pH.r2_c1 )*( pH.r3_c1 - pH.r1_c3 )*lambda -
                    0.5f*coeff*( pH.r3_c2 - pH.r2_c3 ));
 
-    } // end transformLogarithme
+    } // end transformLogarithmInPlace
 
 
-    void velocityExponential(
+    Velocity6D transformLogarithm(const Transform& pH)
+    {
+      Velocity6D pV;
+      transformLogarithmInPlace(pH, pV);
+      return pV;
+    }
+
+
+    void velocityExponentialInPlace(
       const AL::Math::Velocity6D& pM,
       AL::Math::Transform&        tM)
     {
@@ -244,7 +245,7 @@ namespace AL {
     Transform velocityExponential(const Velocity6D& pM)
     {
       Transform tM;
-      velocityExponential(pM, tM);
+      velocityExponentialInPlace(pM, tM);
       return tM;
     }
 
@@ -417,8 +418,8 @@ namespace AL {
       Transform pHIn1i;
 
       transformInverse(pHIn1,pHIn1i);
-      transformLogarithme(pHIn1i*pHIn2, pV);
-      velocityExponential(pDist*pV,pHOut);
+      transformLogarithmInPlace(pHIn1i*pHIn2, pV);
+      velocityExponentialInPlace(pDist*pV,pHOut);
       pHOut = pHIn1*pHOut;
     }
 
@@ -452,7 +453,7 @@ namespace AL {
     }
 
 
-    void transformFromRotation(
+    void transformFromRotationInPlace(
       const Rotation& pRot,
       Transform&      pT)
     {
@@ -473,12 +474,12 @@ namespace AL {
     Transform transformFromRotation(const Rotation& pIn)
     {
       Transform pOut = Transform();
-      transformFromRotation(pIn, pOut);
+      transformFromRotationInPlace(pIn, pOut);
       return pOut;
     }
 
 
-    void rotationFromTransform(
+    void rotationFromTransformInPlace(
       const Transform& pIn,
       Rotation&        pOut)
     {
@@ -499,7 +500,7 @@ namespace AL {
     Rotation rotationFromTransform(const Transform& pIn)
     {
       Rotation pOut = Rotation();
-      rotationFromTransform(pIn, pOut);
+      rotationFromTransformInPlace(pIn, pOut);
       return pOut;
     }
 
@@ -686,10 +687,10 @@ namespace AL {
 
       // Save position part of Transform in the solution
       AL::Math::Rotation pRotationSolution;
-      rotationFromTransform(pT, pRotationSolution);
+      rotationFromTransformInPlace(pT, pRotationSolution);
       axisRotationProjectionInPlace(pPos, pRotationSolution);
 
-      transformFromRotation(pRotationSolution, pTSol);
+      transformFromRotationInPlace(pRotationSolution, pTSol);
       pTSol.r1_c4 = pT.r1_c4;
       pTSol.r2_c4 = pT.r2_c4;
       pTSol.r3_c4 = pT.r3_c4;

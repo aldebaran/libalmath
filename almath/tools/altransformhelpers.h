@@ -25,6 +25,30 @@ namespace AL {
   namespace Math {
 
 
+  /// <summary>
+  /// Compute the logarithme of a transform.
+  /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right]\f$
+  /**
+    * Cette fonction calcule le
+    * logarithme associe a une matrice de type Deplacement -
+    * matrice homogene 4x4 (SE3)
+    * La sortie est un torseur cinematique de se3.
+    * Le resultat n'est garanti que pour des angles dans [-pi+0.001,pi-0.001].
+    * cette fonction calcule la differentielle du logarithme associe
+    * a une matrice de type Deplacement - matrice homogene 4x4 (SE3).
+    */
+  /// </summary>
+  /// <param name="pT"> the given Transform </param>
+  /// <param name="pVel"> the given Transform </param>
+  /// <returns>
+  /// the Velocity6D logarithme: kinematic screw in se3
+  /// </returns>
+  /// \ingroup Tools
+  void transformLogarithmInPlace(
+    const Transform& pT,
+    Velocity6D&      pVel);
+
+
     /// <summary>
     /// Compute the logarithme of a transform.
     /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right] \f$
@@ -43,30 +67,8 @@ namespace AL {
     /// the Velocity6D logarithme: kinematic screw in se3
     /// </returns>
     /// \ingroup Tools
-    Velocity6D transformLogarithme(const Transform& pT);
+    Velocity6D transformLogarithm(const Transform& pT);
 
-    /// <summary>
-    /// Compute the logarithme of a transform.
-    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right]\f$
-    /**
-      * Cette fonction calcule le
-      * logarithme associe a une matrice de type Deplacement -
-      * matrice homogene 4x4 (SE3)
-      * La sortie est un torseur cinematique de se3.
-      * Le resultat n'est garanti que pour des angles dans [-pi+0.001,pi-0.001].
-      * cette fonction calcule la differentielle du logarithme associe
-      * a une matrice de type Deplacement - matrice homogene 4x4 (SE3).
-      */
-    /// </summary>
-    /// <param name="pT"> the given Transform </param>
-    /// <param name="pVel"> the given Transform </param>
-    /// <returns>
-    /// the Velocity6D logarithme: kinematic screw in se3
-    /// </returns>
-    /// \ingroup Tools
-    void transformLogarithme(
-      const Transform& pT,
-      Velocity6D&      pVel);
 
     /// <summary>
     /// Compute the logarithme of a transform.
@@ -84,7 +86,7 @@ namespace AL {
     Transform velocityExponential(const Velocity6D& pVel);
 
     // TODO: Add to doc or set private.
-    void velocityExponential(
+    void velocityExponentialInPlace(
       const Velocity6D& pVel,
       Transform&        pT);
 
@@ -512,7 +514,7 @@ namespace AL {
     /// <param name = "pRotation"> the given Rotation </param>
     /// <param name = "pTransform"> the Transform to modify </param>
     /// \ingroup Tools
-    void transformFromRotation(
+    void transformFromRotationInPlace(
       const Rotation& pRotation,
       Transform&      pTransform);
 
@@ -542,7 +544,7 @@ namespace AL {
     /// <param name = "pTransform"> the given transform </param>
     /// <param name = "pRotation"> a Rotation to be set with the reslut </param>
     /// \ingroup Tools
-    void rotationFromTransform(
+    void rotationFromTransformInPlace(
       const Transform& pTransform,
       Rotation&        pRotation);
 
