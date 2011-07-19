@@ -12,11 +12,11 @@
 namespace AL {
   namespace Math {
 
-  Transform transformFromPosition3DAndRotation(
+  Transform transformFromRotationPosition3D(
+    const Rotation& pRot,
     const float&    pX,
     const float&    pY,
-    const float&    pZ,
-    const Rotation& pRot)
+    const float&    pZ)
   {
     Transform T = Transform();
 
@@ -39,9 +39,9 @@ namespace AL {
     return T;
   }
 
-  Transform transformFromPosition3DAndRotation(
-    const Position3D& pPos,
-    const Rotation&   pRot)
+  Transform transformFromRotationPosition3D(
+    const Rotation&   pRot,
+    const Position3D& pPos)
   {
     Transform T = Transform();
 
@@ -452,28 +452,28 @@ namespace AL {
     }
 
 
-    void rotationToTransform(
-      const Rotation& pIn,
-      Transform&      pOut)
+    void transformFromRotation(
+      const Rotation& pRot,
+      Transform&      pT)
     {
-      pOut.r1_c1 = pIn.r1_c1;
-      pOut.r1_c2 = pIn.r1_c2;
-      pOut.r1_c3 = pIn.r1_c3;
+      pT.r1_c1 = pRot.r1_c1;
+      pT.r1_c2 = pRot.r1_c2;
+      pT.r1_c3 = pRot.r1_c3;
 
-      pOut.r2_c1 = pIn.r2_c1;
-      pOut.r2_c2 = pIn.r2_c2;
-      pOut.r2_c3 = pIn.r2_c3;
+      pT.r2_c1 = pRot.r2_c1;
+      pT.r2_c2 = pRot.r2_c2;
+      pT.r2_c3 = pRot.r2_c3;
 
-      pOut.r3_c1 = pIn.r3_c1;
-      pOut.r3_c2 = pIn.r3_c2;
-      pOut.r3_c3 = pIn.r3_c3;
+      pT.r3_c1 = pRot.r3_c1;
+      pT.r3_c2 = pRot.r3_c2;
+      pT.r3_c3 = pRot.r3_c3;
     }
 
 
-    Transform rotationToTransform(const Rotation& pIn)
+    Transform transformFromRotation(const Rotation& pIn)
     {
       Transform pOut = Transform();
-      rotationToTransform(pIn, pOut);
+      transformFromRotation(pIn, pOut);
       return pOut;
     }
 
@@ -584,7 +584,7 @@ namespace AL {
     }
 
 
-    void transformDiffToPosition(
+    void position6DFromTransformDiffInPlace(
       const Transform& pCurrent,
       const Transform& pTarget,
       Position6D&      result)
@@ -606,12 +606,12 @@ namespace AL {
     }
 
 
-    Position6D transformDiffToPosition(
+    Position6D position6DFromTransformDiff(
       const Transform& pCurrent,
       const Transform& pTarget)
     {
       Position6D result;
-      transformDiffToPosition(pCurrent, pTarget, result);
+      position6DFromTransformDiffInPlace(pCurrent, pTarget, result);
       return result;
     }
 
@@ -630,31 +630,6 @@ namespace AL {
     {
       Position3D pOut;
       position3DFromTransformInPlace(pT, pOut);
-      return pOut;
-    }
-
-
-    Transform transformFromRotationPosition3D(
-      const Rotation&   pRot,
-      const Position3D& pPos)
-    {
-      Transform pOut;
-      pOut.r1_c1 = pRot.r1_c1;
-      pOut.r1_c2 = pRot.r1_c2;
-      pOut.r1_c3 = pRot.r1_c3;
-
-      pOut.r2_c1 = pRot.r2_c1;
-      pOut.r2_c2 = pRot.r2_c2;
-      pOut.r2_c3 = pRot.r2_c3;
-
-      pOut.r3_c1 = pRot.r3_c1;
-      pOut.r3_c2 = pRot.r3_c2;
-      pOut.r3_c3 = pRot.r3_c3;
-
-      pOut.r1_c4 = pPos.x;
-      pOut.r2_c4 = pPos.y;
-      pOut.r3_c4 = pPos.z;
-
       return pOut;
     }
 
@@ -714,7 +689,7 @@ namespace AL {
       rotationFromTransform(pT, pRotationSolution);
       axisRotationProjectionInPlace(pPos, pRotationSolution);
 
-      rotationToTransform(pRotationSolution, pTSol);
+      transformFromRotation(pRotationSolution, pTSol);
       pTSol.r1_c4 = pT.r1_c4;
       pTSol.r2_c4 = pT.r2_c4;
       pTSol.r3_c4 = pT.r3_c4;

@@ -24,48 +24,6 @@
 namespace AL {
   namespace Math {
 
-    /// <summary>
-    /// Create a Transform from 3D cartesian coordiantes and a Rotation.
-    /**
-      * \f$ T = \left[\begin{array}{cccc}
-      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pX \\
-      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pY \\
-      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pZ \\
-      * 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
-      */
-    /// </summary>
-    /// <param name="pX"> the translation along x axis </param>
-    /// <param name="pY"> the translation along y axis </param>
-    /// <param name="pZ"> the translation along z axis </param>
-    /// <param name="pRot"> the given Rotation </param>
-    /// <returns>
-    /// the Transform result.
-    /// </returns>
-    /// \ingroup Tools
-    Transform transformFromPosition3DAndRotation(
-      const float&              pX,
-      const float&              pY,
-      const float&              pZ,
-      const Rotation& pRot);
-
-    /// <summary>
-    /// Create a Transform from a Position3D and a Rotation.
-    /** \f$ T = \left[\begin{array}{cccc}
-      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pPos.x \\
-      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pPos.y \\
-      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pPos.z \\
-      * 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
-      */
-    /// </summary>
-    /// <param name="pPos"> the given Position3D </param>
-    /// <param name="pRot"> the given Rotation </param>
-    /// <returns>
-    /// the Transform result.
-    /// </returns>
-    /// \ingroup Tools
-    Transform transformFromPosition3DAndRotation(
-      const Position3D& pPos,
-      const Rotation&   pRot);
 
     /// <summary>
     /// Compute the logarithme of a transform.
@@ -450,6 +408,49 @@ namespace AL {
       const float&     pVal = 0.5f);
 
     /// <summary>
+    /// Create a Transform from 3D cartesian coordiantes and a Rotation.
+    /**
+      * \f$ T = \left[\begin{array}{cccc}
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pX \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pY \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pZ \\
+      * 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
+      */
+    /// </summary>
+    /// <param name="pRot"> the given Rotation </param>
+    /// <param name="pX"> the translation along x axis </param>
+    /// <param name="pY"> the translation along y axis </param>
+    /// <param name="pZ"> the translation along z axis </param>
+    /// <returns>
+    /// the Transform result.
+    /// </returns>
+    /// \ingroup Tools
+    Transform transformFromRotationPosition3D(
+      const Rotation& pRot,
+      const float&    pX,
+      const float&    pY,
+      const float&    pZ);
+
+    /// <summary>
+    /// Create a Transform from a Position3D and a Rotation.
+    /** \f$ T = \left[\begin{array}{cccc}
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pPos.x \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pPos.y \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pPos.z \\
+      * 0.0 & 0.0 & 0.0 & 1.0 \end{array}\right] \f$
+      */
+    /// </summary>
+    /// <param name="pPos"> the given Position3D </param>
+    /// <param name="pRot"> the given Rotation </param>
+    /// <returns>
+    /// the Transform result.
+    /// </returns>
+    /// \ingroup Tools
+    Transform transformFromRotationPosition3D(
+      const Rotation&   pRot,
+      const Position3D& pPos);
+
+    /// <summary>
     /// Modify pTransform to set the translation part to pPosition.
     /** \f$
       * \left[\begin{array}{c}
@@ -511,7 +512,7 @@ namespace AL {
     /// <param name = "pRotation"> the given Rotation </param>
     /// <param name = "pTransform"> the Transform to modify </param>
     /// \ingroup Tools
-    void rotationToTransform(
+    void transformFromRotation(
       const Rotation& pRotation,
       Transform&      pTransform);
 
@@ -533,7 +534,7 @@ namespace AL {
     /// a Transform with the rotation part initialized to pRotation
     /// </returns>
     /// \ingroup Tools
-    Transform rotationToTransform(const Rotation& pRotation);
+    Transform transformFromRotation(const Rotation& pRotation);
 
     /// <summary>
     /// Extract the position coordinates from a Transform.
@@ -644,7 +645,7 @@ namespace AL {
     /// <param name = "pTarget"> the Position6D you want to extract </param>
     /// <param name = "result"> the result Position6D </param>
     /// \ingroup Tools
-    void transformDiffToPosition(
+    void position6DFromTransformDiffInPlace(
       const Transform& pCurrent,
       const Transform& pTarget,
       Position6D&      result);
@@ -658,7 +659,7 @@ namespace AL {
     /// <param name = "pTarget"> the Position6D you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
-    Position6D transformDiffToPosition(
+    Position6D position6DFromTransformDiff(
       const Transform& pCurrent,
       const Transform& pTarget);
 
@@ -710,27 +711,6 @@ namespace AL {
     /// \ingroup Tools
     Position3D position3DFromTransform(const Transform& pT);
 
-    /// <summary>
-    /// Create a Transform from a Rotation and a Position3D.
-    ///
-    /** \f$
-      * return =
-      * \left[\begin{array}{cccc}
-      *   pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 & pPos.x \\
-      *   pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 & pPos.y \\
-      *   pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3 & pPos.z \\
-      *   0.0 & 0.0 & 0.0 & 1.0
-      * \end{array}\right]
-      * \f$
-      */
-    /// </summary>
-    /// <param name = "pRot"> the Rotation you want to extract </param>
-    /// <param name = "pPos"> the Position3D you want to extract </param>
-    /// <returns> the result Transform </returns>
-    /// \ingroup Tools
-    Transform transformFromRotationPosition3D(
-      const Rotation&   pRot,
-      const Position3D& pPos);
 
     /// <summary>
     /// Create a Rotation3D (Roll, Pitch, Yaw) corresponding to the rotational
