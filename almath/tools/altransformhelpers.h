@@ -792,14 +792,9 @@ namespace AL {
     * @param Position3D : axis of rotation
     * @return Transform
     **/
-    void axisRotationProjection(
-      const Position3D& pAxis,
-      Transform&        pH);
-
-
     Transform axisRotationProjection(
-      const Transform&  pH,
-      const Position3D& pAxis);
+      const Position3D& pPos,
+      const Transform&  pT);
 
     /**
     * Function AxisRotationProjection :

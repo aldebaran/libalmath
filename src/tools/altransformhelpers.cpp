@@ -721,64 +721,23 @@ namespace AL {
     }
 
 
-//    Position6D POSITION6D(
-//      const Position3D& pPos,
-//      const Transform&  pHRot)
-//    {
-//      Position6D result;
-//      Rotation3D pRot = Rotation3DFromTransform(pHRot);
-//      result.x = pPos.x;
-//      result.y = pPos.y;
-//      result.z = pPos.z;
-//      result.wx = pRot.wx;
-//      result.wy = pRot.wy;
-//      result.wz = pRot.wz;
-//      return result;
-//    }
-
-
-    void axisRotationProjection(
-      const Position3D& pAxis,
-      Transform&        pH)
-    {
-      // Usefull tempo save ?
-      float x = pH.r1_c4;
-      float y = pH.r2_c4;
-      float z = pH.r3_c4;
-
-      AL::Math::Rotation pRotationSolution;
-      rotationFromTransform(pH, pRotationSolution);
-
-      // Compute Projection
-      axisRotationProjectionInPlace(pAxis, pRotationSolution);
-
-      // Rotation to Transform
-      rotationToTransform(pRotationSolution, pH);
-
-      // Save position part of Transform in the solution
-      pH.r1_c4 = x;
-      pH.r2_c4 = y;
-      pH.r3_c4 = z;
-    } // end AxisRotationProjection
-
-
     Transform axisRotationProjection(
-      const Transform&  pH,
-      const Position3D& pAxis)
+      const Position3D& pPos,
+      const Transform&  pT)
     {
-      AL::Math::Transform pHSol;
+      AL::Math::Transform pTSol;
 
       // Save position part of Transform in the solution
       AL::Math::Rotation pRotationSolution;
-      rotationFromTransform(pH, pRotationSolution);
-      axisRotationProjectionInPlace(pAxis, pRotationSolution);
+      rotationFromTransform(pT, pRotationSolution);
+      axisRotationProjectionInPlace(pPos, pRotationSolution);
 
-      rotationToTransform(pRotationSolution, pHSol);
-      pHSol.r1_c4 = pH.r1_c4;
-      pHSol.r2_c4 = pH.r2_c4;
-      pHSol.r3_c4 = pH.r3_c4;
+      rotationToTransform(pRotationSolution, pTSol);
+      pTSol.r1_c4 = pT.r1_c4;
+      pTSol.r2_c4 = pT.r2_c4;
+      pTSol.r3_c4 = pT.r3_c4;
 
-      return pHSol;
+      return pTSol;
     } // end axisRotationProjection
 
 
