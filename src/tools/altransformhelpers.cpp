@@ -505,7 +505,7 @@ namespace AL {
 
 
 
-    void position6DFromTransform(
+    void position6DFromTransformInPlace(
         const Transform& pT,
         Position6D&      pPos)
     {
@@ -523,12 +523,12 @@ namespace AL {
     Position6D position6DFromTransform(const Transform& pT)
     {
       Position6D pPos;
-      position6DFromTransform(pT, pPos);
+      position6DFromTransformInPlace(pT, pPos);
       return pPos;
     }
 
 
-    void transformFromPose2D(
+    void transformFromPose2DInPlace(
         const Pose2D& pPose,
         Transform&    pT)
     {
@@ -540,12 +540,12 @@ namespace AL {
     Transform transformFromPose2D(const Pose2D& pPos)
     {
       Transform T = Transform();
-      transformFromPose2D(pPos, T);
+      transformFromPose2DInPlace(pPos, T);
       return T;
     }
 
 
-    void pose2DFromTransform(
+    void pose2DFromTransformInPlace(
         const Transform& pT,
         Pose2D&          pPos)
     {
@@ -558,7 +558,7 @@ namespace AL {
     Pose2D pose2DFromTransform(const Transform& pT)
     {
       Pose2D pPos;
-      pose2DFromTransform(pT, pPos);
+      pose2DFromTransformInPlace(pT, pPos);
       return pPos;
     }
 
@@ -916,7 +916,7 @@ namespace AL {
 
 
     // Main
-    void transformFromRotVec(
+    void transformFromRotVecInPlace(
       const int                   pAxis,
       const float                 pTheta,
       const AL::Math::Position3D& pM,
@@ -967,19 +967,19 @@ namespace AL {
       const AL::Math::Position3D& pM)
     {
       Transform pOut;
-      transformFromRotVec(pAxis, pTheta, pM, pOut);
+      transformFromRotVecInPlace(pAxis, pTheta, pM, pOut);
       return pOut;
     }
 
 
-    void transformFromRotVec(
+    void transformFromRotVecInPlace(
       const AL::Math::Position3D& pPosition,
       AL::Math::Transform&        pTransform)
     {
       int pAxis  = AL::Math::AXIS_MASK_WX; // 8
       float pRot = 0.0f;
 
-      transformFromRotVec(pAxis, pRot, pPosition, pTransform);
+      transformFromRotVecInPlace(pAxis, pRot, pPosition, pTransform);
     }
 
 
@@ -987,7 +987,7 @@ namespace AL {
       const AL::Math::Position3D& pPosition)
     {
       AL::Math::Transform transform;
-      transformFromRotVec(pPosition, transform);
+      transformFromRotVecInPlace(pPosition, transform);
       return transform;
     }
 
@@ -1000,7 +1000,7 @@ namespace AL {
 
       AL::Math::Position3D pM = AL::Math::Position3D();
 
-      transformFromRotVec(pAxis, pRot, pM, transform);
+      transformFromRotVecInPlace(pAxis, pRot, pM, transform);
 
       return transform;
     }
