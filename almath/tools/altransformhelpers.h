@@ -7,10 +7,10 @@
 ** Copyright (C) 2011 Aldebaran Robotics
 */
 
-#pragma once
 
-#ifndef _LIB_ALMATH_ALMATH_ALTRANSFORMHELPERS_H_
-#define _LIB_ALMATH_ALMATH_ALTRANSFORMHELPERS_H_
+#pragma once
+#ifndef _LIBALMATH_ALMATH_TOOLS_ALTRANSFORMHELPERS_H_
+#define _LIBALMATH_ALMATH_TOOLS_ALTRANSFORMHELPERS_H_
 
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
@@ -833,4 +833,4 @@ namespace AL {
 
   } // namespace Math
 } // namespace AL
-#endif  // _LIB_ALMATH_ALMATH_ALTRANSFORMHELPERS_H_
+#endif  // _LIBALMATH_ALMATH_TOOLS_ALTRANSFORMHELPERS_H_

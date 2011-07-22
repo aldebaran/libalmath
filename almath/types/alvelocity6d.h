@@ -7,10 +7,10 @@
 ** Copyright (C) 2011 Aldebaran Robotics
 */
 
-#pragma once
 
-#ifndef _LIB_ALMATH_ALMATH_ALVELOCITY6D_H_
-#define _LIB_ALMATH_ALMATH_ALVELOCITY6D_H_
+#pragma once
+#ifndef _LIBALMATH_ALMATH_TYPES_ALVELOCITY6D_H_
+#define _LIBALMATH_ALMATH_TYPES_ALVELOCITY6D_H_
 
 #include <vector>
 
@@ -286,4 +286,4 @@ Velocity6D normalize(const Velocity6D& pVel);
 
 } // end namespace Math
 } // end namespace AL
-#endif  // _LIB_ALMATH_ALMATH_ALVELOCITY6D_H_
+#endif  // _LIBALMATH_ALMATH_TYPES_ALVELOCITY6D_H_

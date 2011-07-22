@@ -7,10 +7,10 @@
 ** Copyright (C) 2011 Aldebaran Robotics
 */
 
-#pragma once
 
-#ifndef _LIB_ALMATH_ALMATH_ALMATHIO_H_
-#define _LIB_ALMATH_ALMATH_ALMATHIO_H_
+#pragma once
+#ifndef _LIBALMATH_ALMATH_TOOLS_ALMATHIO_H_
+#define _LIBALMATH_ALMATH_TOOLS_ALMATHIO_H_
 
 #include <iostream>
 #include <sstream>
@@ -200,4 +200,4 @@ std::string toSpaceSeparated(const Position6D& pPos);
 
 }
 }
-#endif  // _LIB_ALMATH_ALMATH_ALMATHIO_H_
+#endif  // _LIBALMATH_ALMATH_TOOLS_ALMATHIO_H_

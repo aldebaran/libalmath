@@ -7,10 +7,10 @@
 ** Copyright (C) 2011 Aldebaran Robotics
 */
 
-#pragma once
 
-#ifndef _LIB_ALMATH_ALMATH_ALPOSITION6D_H_
-#define _LIB_ALMATH_ALMATH_ALPOSITION6D_H_
+#pragma once
+#ifndef _LIBALMATH_ALMATH_TYPES_ALPOSITION6D_H_
+#define _LIBALMATH_ALMATH_TYPES_ALPOSITION6D_H_
 
 #include <vector>
 
@@ -336,4 +336,4 @@ namespace AL {
   } // end namespace math
 } // end namespace al
 
-#endif  // _LIB_ALMATH_ALMATH_ALPOSITION6D_H_
+#endif  // _LIBALMATH_ALMATH_TYPES_ALPOSITION6D_H_

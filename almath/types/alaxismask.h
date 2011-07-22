@@ -7,10 +7,10 @@
 ** Copyright (C) 2011 Aldebaran Robotics
 */
 
-#pragma once
 
-#ifndef _LIB_ALMATH_ALMATH_ALAXISMASK_H_
-#define _LIB_ALMATH_ALMATH_ALAXISMASK_H_
+#pragma once
+#ifndef _LIBALMATH_ALMATH_TYPES_ALAXISMASK_H_
+#define _LIBALMATH_ALMATH_TYPES_ALAXISMASK_H_
 
 #include <bitset>
 
@@ -50,4 +50,4 @@ namespace AL {
     static const int AXIS_MASK_NONE =  0;
   }
 }
-#endif  // _LIB_ALMATH_ALMATH_ALAXISMASK_H_
+#endif  // _LIBALMATH_ALMATH_TYPES_ALAXISMASK_H_

@@ -7,10 +7,10 @@
 ** Copyright (C) 2011 Aldebaran Robotics
 */
 
-#pragma once
 
-#ifndef _LIB_ALMATH_ALMATH_ALDUBINSCURVE_H_
-#define _LIB_ALMATH_ALMATH_ALDUBINSCURVE_H_
+#pragma once
+#ifndef _LIBALMATH_ALMATH_TOOLS_ALDUBINSCURVE_H_
+#define _LIBALMATH_ALMATH_TOOLS_ALDUBINSCURVE_H_
 
 #include <almath/types/alpose2d.h>
 #include <vector>
@@ -29,4 +29,4 @@ namespace AL {
 
   }
 }
-#endif  // _LIB_ALMATH_ALMATH_ALDUBINSCURVE_H_
+#endif  // _LIBALMATH_ALMATH_TOOLS_ALDUBINSCURVE_H_
