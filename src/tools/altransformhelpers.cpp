@@ -559,7 +559,7 @@ namespace AL {
     Pose2D pose2DFromTransform(const Transform& pT)
     {
       Pose2D pPos;
-      pose2DFromTransformInPlace(pT, pPos);
+      AL::Math::pose2DFromTransformInPlace(pT, pPos);
       return pPos;
     }
 
