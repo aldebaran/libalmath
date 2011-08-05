@@ -1,0 +1,165 @@
+Change log almath: 1.10 -> 1.12
+
+New:
+- doxygen documentation
+- python wrapping
+
+1.10 deleted:
+alinterpolation.h
+alinterpolationarticular.h
+alinterpolationbezier.h
+alinterpolationcartesian.h
+alinterpolationcubicspline.h
+alinterpolationlinear.h
+alinterpolationsmooth.h
+alinterpolationspline.h
+alinterpolationtypes.h
+allinecollisions.h
+alpolynomialsolver.h
+alrandom.h
+alrotation2d.h
+convexhull.h
+isinsidepolygon.h
+mersennetwister.h
+
+New type: alaxismask.h
+New type: alpositionandvelocity.h
+New type: altransformandvelocity6d.h
+New type: aldubinscurve.h
+New tools: altransformhelpers.h most of old almath.h
+
+alpose2d.h move on repository types
+new api: inverse
+new api: isNear
+new api: toVector
+new api: pose2DInverse
+
+alposition2d.h move on repository types
+new api: isNear
+new api: toVector
+
+alposition3d.h move on repository types
+new api: isNear
+new api: toVector
+
+alposition6d.h move on repository types
+new api: isNear
+new api: toVector
+
+alrotation.h move on repository types
+change api: Transpose                  -> transpose
+change api: Determinant                -> determinant
+change api: RotationFromQuaternion     -> fromQuaternion
+change api: RotationFromAngleDirection -> fromAngleDirection
+change api: RotationFromRotX           -> fromRotX
+change api: RotationFromRotY           -> fromRotY
+change api: RotationFromRotZ           -> fromRotZ
+change api: RotationFrom3DRotation     -> from3DRotation
+change api: ApplyRotation              -> applyRotation
+new api: isNear
+new api: toVector
+
+alrotation3d.h move on repository types
+new api: isNear
+new api: toVector
+
+altransform.h move on repository types
+change api: ALTransform               -> Transform
+change api: ALTransformPreMultiply    -> transformPreMultiply
+change api: ALTransformToFloatVector  -> transformToFloatVector
+change api: Determinant               -> determinant
+change api: ALTransformInverse        -> transformInverse
+change api: ALTransformFromRotX       -> transformFromRotX
+change api: ALTransformFromRotY       -> transformFromRotY
+change api: ALTransformFromRotZ       -> transformFromRotZ
+change api: ALTransformFrom3DRotation -> transformFrom3DRotation
+change api: ALTransformFromPosition   -> transformFromPosition
+change api: ALTransformInvertInPlace  -> transformInvertInPlace
+change api: ALTransformDiff           -> transformDiff
+change api: ALTransformSqaredDistance -> transformDistanceSquared
+change api: ALTransformDistance       -> transformDistance
+new api: inverse
+new api: isNear
+new api: isTransform
+new api: fromRotX
+new api: fromRotY
+new api: fromRotZ
+new api: from3DRotation
+new api: fromPosition
+new api: fromPosition
+
+
+alvelocity3d.h move on repository types
+new api: isNear
+new api: toVector
+
+
+alvelocity6d.h move on repository types
+new api: isNear
+new api: toVector
+
+altrigonometry.h move on repository tools
+delete: inlineCosSinArraySize
+delete: inlineACosASinArraySizeinlineCosArray
+delete: inlineSinArray
+delete: inlineACosArray
+delete: inlineASinArray
+delete: freqForInlineCosSin
+delete: stepForInlineCosSin
+delete: freqForInlineACosASin
+delete: stepForInlineACosASin
+delete: inlineCosSinInitialized
+delete: inlineACosASinInitialized
+delete: initInlineCosSin
+delete: initInlineACosASin
+delete: inlineCos
+delete: inlineSin
+delete: inlineACos
+delete: inlineASin
+
+almath.h move to repository tools
+typedef AXIS_MASK move to types/alaxismask.h
+delete ALConplex
+typedef ALPositionAndVelocity move to types/alpositionandvelocity.h ALPositionAndVelocity -> PositionAndVelocity
+typedef ALTransformAndVelocity6D move to types/altransformandvelocity6d.h ALTransformAndVelocity6D -> TransformAndVelocity6D
+delete computeFinalTimeInterpolation
+delete ALDiffLog
+delete ALInvDiffLog
+change ALTransformLogarithme            -> tools/altransformhelpers/transformLogarithm
+change ALVelocityExponential            -> tools/altransformhelpers/velocityExponential
+change ChangeRepereVelocity6D           -> tools/altransformhelpers/changeReferenceVelocity6D
+change ChangeReperePosition6D           -> tools/altransformhelpers/changeReferencePosition6D
+change ChangeReperePosition3D           -> tools/altransformhelpers/changeReferencePosition3D
+change ChangeRepereTransposePosition3D  -> tools/altransformhelpers/changeReferenceTransposePosition3DInPlace
+change ChangeRepereALTransform          -> tools/altransformhelpers/changeReferenceTransform
+change ChangeRepereTransposeALTransform -> tools/altransformhelpers/changeReferenceTransposeTransform
+change ChangeRepereTransposeVelocity6D  -> tools/altransformhelpers/changeReferenceTransposeVelocity6D
+change ChangeRepereTransposePosition6D  -> tools/altransformhelpers/changeReferenceTransposePosition6D
+change ALTransformMean                  -> tools/altransformhelpers/transformMean
+change ALTransformMean                  -> tools/altransformhelpers/transformMeanInPlace
+change ALTransformFromPosition3D        -> tools/altransformhelpers/transformFromPosition3D
+change RotationToALTransform            -> tools/altransformhelpers/transformFromRotation
+change Position6DFromVelocity6D         -> position6DFromVelocity6D
+change RotationFromALTransform          -> tools/altransformhelpers/rotationFromTransform
+change ALTransformToPosition3D          -> tools/altransformhelpers/position3DFromTransform
+change Position6DFromALTransform        -> tools/altransformhelpers/position6DFromTransform
+change ALTransformFromPose2D            -> tools/altransformhelpers/transformFromPose2D
+change Pose2DFromALTransform            -> tools/altransformhelpers/pose2DFromTransform
+change ALTransformFromRotation3D        -> tools/altransformhelpers/transformFromRotation3D
+change ALTransformFromPosition6D        -> tools/altransformhelpers/transformFromPosition6D
+change ALTransformDiffToPosition        -> tools/altransformhelpers/position6DFromTransformDiff
+change Position3DFromALTransform        -> tools/altransformhelpers/position3DFromTransform
+change Rotation3DFromALTransform        -> tools/altransformhelpers/rotation3DFromTransform
+delete POSITION6D
+delete computeGradiant
+delete isLeft
+delete computeOffset
+change AxisRotationProjectionInPlace    -> tools/altransformhelpers/axisRotationProjectionInPlace
+change AxisRotationProjection           -> tools/altransformhelpers/axisRotationProjection
+delete FilterPosition6D
+delete FilterALTransform
+delete AxisMaskToALTransformOn
+delete AxisMaskToPosition6DOn
+delete AxisMaskToPosition6DOff
+delete AxisMaskToVelocity6DOn
+delete computeMixTransformWithAxisMask
