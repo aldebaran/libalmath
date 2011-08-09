@@ -59,6 +59,62 @@ TEST(avoidFootCollisionTest, Log)
   EXPECT_NEAR(pMove.x, 0.0f, 0.0001f );
   EXPECT_NEAR(pMove.y, 0.085f, 0.0001f );
   EXPECT_NEAR(pMove.theta, 0.207257f, 0.0001f );
+}
 
+
+TEST(clipFootWithEllipse, Log)
+{
+  AL::Math::Pose2D pMove;
+  bool pResult;
+
+  //std::cout << "***** clipFootWithEllipse *****" << std::endl;
+  pMove = AL::Math::Pose2D( 0.05f, 0.04f, 0.1f);
+  pResult = clipFootWithEllipse( 0.08f,
+                                 0.06f,
+                                 pMove);
+  EXPECT_FALSE(pResult);
+  EXPECT_NEAR(pMove.x, 0.05f, 0.0001f );
+  EXPECT_NEAR(pMove.y, 0.04f, 0.0001f );
+  EXPECT_NEAR(pMove.theta, 0.1f, 0.0001f );
+
+  //std::cout << "***** clipFootWithEllipse *****" << std::endl;
+  pMove = AL::Math::Pose2D( 0.08f, 0.06f, 0.5f);
+  pResult = clipFootWithEllipse( 0.08f,
+                                 0.06f,
+                                 pMove);
+  EXPECT_TRUE(pResult);
+  EXPECT_NEAR(pMove.x, 0.05656f, 0.0001f );
+  EXPECT_NEAR(pMove.y, 0.04242f, 0.0001f );
+  EXPECT_NEAR(pMove.theta, 0.5f, 0.0001f );
+
+  //std::cout << "***** clipFootWithEllipse *****" << std::endl;
+  pMove = AL::Math::Pose2D( -0.08f, -0.05f, 0.5f);
+  pResult = clipFootWithEllipse( 0.08f,
+                                 0.06f,
+                                 pMove);
+  EXPECT_TRUE(pResult);
+  EXPECT_NEAR(pMove.x, -0.06145f, 0.0001f );
+  EXPECT_NEAR(pMove.y, -0.03841f, 0.0001f );
+  EXPECT_NEAR(pMove.theta, 0.5f, 0.0001f );
+
+  //std::cout << "***** clipFootWithEllipse *****" << std::endl;
+  pMove = AL::Math::Pose2D( -0.04f, 0.06f, -0.5f);
+  pResult = clipFootWithEllipse( 0.04f,
+                                 0.06f,
+                                 pMove);
+  EXPECT_TRUE(pResult);
+  EXPECT_NEAR(pMove.x, -0.02828f, 0.0001f );
+  EXPECT_NEAR(pMove.y, 0.04242f, 0.0001f );
+  EXPECT_NEAR(pMove.theta, -0.5f, 0.0001f );
+
+  //std::cout << "***** clipFootWithEllipse *****" << std::endl;
+  pMove = AL::Math::Pose2D( -0.04f, 0.06f, -0.5f);
+  pResult = clipFootWithEllipse( -0.04f,
+                                 -0.06f,
+                                 pMove);
+  EXPECT_TRUE(pResult);
+  EXPECT_NEAR(pMove.x, -0.02828f, 0.0001f );
+  EXPECT_NEAR(pMove.y, 0.04242f, 0.0001f );
+  EXPECT_NEAR(pMove.theta, -0.5f, 0.0001f );
 }
 

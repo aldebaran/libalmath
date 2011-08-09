@@ -5,11 +5,15 @@
  */
 
 #include <almath/tools/avoidfootcollision.h>
+#include <cmath>
 
 namespace AL
 {
   namespace Math
   {
+    /****************************
+    PRIVATE FUNCTION
+    ****************************/
     // <summary> Query if the points B is inside the box A. </summary>
     // <param name="pBoxA">  vector<Pose2D> of the box A. </param>
     // <param name="pPointB"> Pose2D of the point B. </param>
@@ -44,40 +48,6 @@ namespace AL
       const std::vector<AL::Math::Pose2D>&  pFixesBox,
       const std::vector<AL::Math::Pose2D>&  pMovingBox,
       AL::Math::Pose2D&                     pMove);
-
-    const bool avoidFootCollision(
-      const std::vector<AL::Math::Pose2D>&  pLFootBoundingBox,
-      const std::vector<AL::Math::Pose2D>&  pRFootBoundingBox,
-      const bool&                           pIsLeftSupport,
-      AL::Math::Pose2D&                     pMove)
-    {
-      bool returnCollisionResult = false;
-      std::vector<AL::Math::Pose2D> tmpMovingBox;
-      if (pIsLeftSupport)
-      {
-        // compute nex box position
-        tmpMovingBox = xComputeBox(pRFootBoundingBox, pMove);
-        // test collision
-        if (xIsTwoBoxesAreInCollision(pLFootBoundingBox, tmpMovingBox))
-        {
-          returnCollisionResult = true;
-          xDichotomie(pLFootBoundingBox, pRFootBoundingBox, pMove);
-        }
-      }
-      else
-      {
-        // compute nex box position
-        tmpMovingBox = xComputeBox(pLFootBoundingBox, pMove);
-        // test collision
-        if (xIsTwoBoxesAreInCollision(pRFootBoundingBox, tmpMovingBox))
-        {
-          returnCollisionResult = true;
-          xDichotomie(pRFootBoundingBox, pLFootBoundingBox, pMove);
-        }
-      }
-      return returnCollisionResult;
-    } // end avoidFootCollision()
-
 
     const bool xPointsInsideBox(
       const std::vector<AL::Math::Pose2D>&  pBoxA,
@@ -184,7 +154,77 @@ namespace AL
       pMove.theta = (min + max)/2.0f;
     } // end xDichotomie()
 
-  } // namespace Math
+    /****************************
+    PUBLIC FUNCTION
+    ****************************/
+    const bool avoidFootCollision(
+      const std::vector<AL::Math::Pose2D>&  pLFootBoundingBox,
+      const std::vector<AL::Math::Pose2D>&  pRFootBoundingBox,
+      const bool&                           pIsLeftSupport,
+      AL::Math::Pose2D&                     pMove)
+    {
+      bool returnCollisionResult = false;
+      std::vector<AL::Math::Pose2D> tmpMovingBox;
+      if (pIsLeftSupport)
+      {
+        // compute nex box position
+        tmpMovingBox = xComputeBox(pRFootBoundingBox, pMove);
+        // test collision
+        if (xIsTwoBoxesAreInCollision(pLFootBoundingBox, tmpMovingBox))
+        {
+          returnCollisionResult = true;
+          xDichotomie(pLFootBoundingBox, pRFootBoundingBox, pMove);
+        }
+      }
+      else
+      {
+        // compute nex box position
+        tmpMovingBox = xComputeBox(pLFootBoundingBox, pMove);
+        // test collision
+        if (xIsTwoBoxesAreInCollision(pRFootBoundingBox, tmpMovingBox))
+        {
+          returnCollisionResult = true;
+          xDichotomie(pRFootBoundingBox, pLFootBoundingBox, pMove);
+        }
+      }
+      return returnCollisionResult;
+    } // end avoidFootCollision()
 
+
+    const bool clipFootWithEllipse(
+      const float&    pMaxFootX,
+      const float&    pMaxFootY,
+      Pose2D&         pMove)
+    {
+      // described ellipse parameters
+      float a = fabs(pMaxFootX);
+      float b = fabs(pMaxFootY);
+      float a2 = a*a;
+      float b2 = b*b;
+
+      // first compute is point is outside ellipse or not
+      if( (pMove.x*pMove.x/a2 + pMove.y*pMove.y/b2) < 1 )
+      {
+        // pMove is inside ellipse
+        return false;
+      }
+      else
+      {
+        // we have to clip pMove
+        // compute angle
+        float theta = atan2(pMove.y, pMove.x);
+
+        // then compute polar equation
+        float cosTheta = cos(theta);
+        float sinTheta = sin(theta);
+        float t = (a*b)/( sqrt(b2*cosTheta*cosTheta + a2*sinTheta*sinTheta) );
+
+        // finally compute new pMove
+        pMove.x = t*cosTheta;
+        pMove.y = t*sinTheta;
+        return true;
+      }
+    }
+  } // namespace Math
 } // namespace AL
 
