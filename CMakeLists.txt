@@ -59,7 +59,7 @@ option(ALMATH_PYTHON_BINDING
     "Build almath python binding using Swig."
     ON)
 if(DEFINED QI_SDK_DIR)
-  qi_install_header(KEEP_RELATIVE_PATHS ${ALMATH_H})
+  qi_install_header(almath HEADERS ${ALMATH_H} KEEP_RELATIVE_PATHS)
 endif()
 
 
