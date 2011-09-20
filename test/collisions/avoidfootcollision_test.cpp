@@ -116,5 +116,15 @@ TEST(clipFootWithEllipse, Log)
   EXPECT_NEAR(pMove.x, -0.02828f, 0.0001f );
   EXPECT_NEAR(pMove.y, 0.04242f, 0.0001f );
   EXPECT_NEAR(pMove.theta, -0.5f, 0.0001f );
+
+  //std::cout << "***** clipFootWithEllipse *****" << std::endl;
+  //  {x: +0.00000, y:+0.160000, theta:+0.00000}
+  //  {x: +0.00000, y:-0.160000, theta:+0.00000}
+
+  pMove = AL::Math::Pose2D(0.0f, 0.16f, 0.0f);
+  pResult = clipFootWithEllipse( 0.06f,
+                                 0.16f,
+                                 pMove);
+  EXPECT_FALSE(pResult);
 }
 

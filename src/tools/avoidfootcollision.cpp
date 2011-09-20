@@ -197,13 +197,15 @@ namespace AL
       Pose2D&         pMove)
     {
       // described ellipse parameters
-      float a = fabs(pMaxFootX);
-      float b = fabs(pMaxFootY);
+      float a = fabsf(pMaxFootX);
+      float b = fabsf(pMaxFootY);
       float a2 = a*a;
       float b2 = b*b;
 
+      float norm = pMove.x*pMove.x/a2 + pMove.y*pMove.y/b2;
+
       // first compute is point is outside ellipse or not
-      if( (pMove.x*pMove.x/a2 + pMove.y*pMove.y/b2) < 1 )
+      if (norm < 1.00001f)
       {
         // pMove is inside ellipse
         return false;
@@ -215,9 +217,9 @@ namespace AL
         float theta = atan2(pMove.y, pMove.x);
 
         // then compute polar equation
-        float cosTheta = cos(theta);
-        float sinTheta = sin(theta);
-        float t = (a*b)/( sqrt(b2*cosTheta*cosTheta + a2*sinTheta*sinTheta) );
+        float cosTheta = cosf(theta);
+        float sinTheta = sinf(theta);
+        float t = (a*b)/( sqrtf(b2*cosTheta*cosTheta + a2*sinTheta*sinTheta) );
 
         // finally compute new pMove
         pMove.x = t*cosTheta;
