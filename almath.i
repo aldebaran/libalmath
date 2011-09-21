@@ -23,7 +23,7 @@
 
 #include "almath/tools/aldubinscurve.h"
 #include "almath/tools/altrigonometry.h"
-
+#include "almath/tools/avoidfootcollision.h"
 #include "almath/tools/altransformhelpers.h"
 #include "almath/tools/almath.h"
 %}
@@ -48,7 +48,7 @@
 
 %include "almath/tools/aldubinscurve.h"
 %include "almath/tools/altrigonometry.h"
-
+%include "almath/tools/avoidfootcollision.h"
 %include "almath/tools/altransformhelpers.h"
 %include "almath/tools/almath.h"
 
