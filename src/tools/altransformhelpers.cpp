@@ -1006,5 +1006,62 @@ namespace AL {
       return transform;
     }
 
+
+    void orthogonalSpace(
+      const Position3D& pAxis,
+      Transform&        HOut)
+    {
+      //Transform HOut;
+      Position3D pAxisTmp = Position3D();
+      Position3D pAxis3 = pAxis/norm(pAxis);
+      Position3D pAxis1 = Position3D();
+      Position3D pAxis2 = Position3D();
+
+      // Trouver l indice du premier element non nul
+      float coef = 0.0001f;
+      if (fabsf(pAxis3.x)> coef)
+      {
+        pAxisTmp = Position3D(-pAxis3.y, pAxis3.x, 0.0f);
+      }
+      else if (fabsf(pAxis3.y)> coef)
+      {
+        pAxisTmp = Position3D(0.0f, -pAxis3.z, pAxis3.y);
+      }
+      else
+      {
+        pAxisTmp = Position3D(pAxis3.z, 0.0f, 0.0f);
+      }
+
+      pAxis1 = AL::Math::normalize(pAxisTmp);
+
+      pAxisTmp = crossProduct(pAxis3, pAxis1); // was pAxis3, pAxis1
+      pAxis2 = AL::Math::normalize(pAxisTmp);
+
+      HOut.r1_c1 = pAxis1.x;
+      HOut.r2_c1 = pAxis1.y;
+      HOut.r3_c1 = pAxis1.z;
+
+      HOut.r1_c2 = pAxis2.x;
+      HOut.r2_c2 = pAxis2.y;
+      HOut.r3_c2 = pAxis2.z;
+
+      HOut.r1_c3 = pAxis3.x;
+      HOut.r2_c3 = pAxis3.y;
+      HOut.r3_c3 = pAxis3.z;
+    }
+
+    // ORTHSPACE: Plan orthogonal d'une droite vectorielle
+    //
+    // Retourne une base orthonormee de l espace orthogonal au vecteur e3, choisie de
+    // telle sorte que base_espace = [e1 e2 e3] soit une base orthogonale directe de
+    // l espace R3 tout entier (et meme, une base orthonormee directe, si e3 est
+    // norme).
+    Transform orthogonalSpace(const Position3D& pAxis)
+    {
+      Transform HOut;
+      orthogonalSpace(pAxis, HOut);
+      return HOut;
+    }
+
   } // namespace Math
 } // namespace AL

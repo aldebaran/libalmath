@@ -831,6 +831,13 @@ namespace AL {
       const Position3D& pPos,
       Rotation&         pRot);
 
+
+    void orthogonalSpace(
+      const Position3D& pPos,
+      Transform&        pTOut);
+
+    Transform orthogonalSpace(const Position3D& pPos);
+
   } // namespace Math
 } // namespace AL
 #endif  // _LIBALMATH_ALMATH_TOOLS_ALTRANSFORMHELPERS_H_

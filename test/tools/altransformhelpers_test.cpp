@@ -1099,17 +1099,17 @@ TEST(ALControlExplosionTest, test0)
     for (unsigned j=0; j<1; j++)
     {
       AL::Math::position6DFromTransformDiffInPlace(
-          fHTrunkWorld,
-          fHTrunkWorldDes,
-          fDeltaTrunkWorldPosition);
+            fHTrunkWorld,
+            fHTrunkWorldDes,
+            fDeltaTrunkWorldPosition);
 
       // Compute BODY VELOCITY DES
       fVTrunkWorldConsigne = fVTrunkWorldDes + Kp * fDeltaTrunkWorldPosition;
 
       AL::Math::changeReferenceTransposeVelocity6D(
-          fHTrunkWorld,
-          fVTrunkWorldConsigne,
-          fVTrunkTorsoConsigne);
+            fHTrunkWorld,
+            fVTrunkWorldConsigne,
+            fVTrunkTorsoConsigne);
 
       AL::Math::Transform fDelta_H_root = AL::Math::velocityExponential(dt*fVTrunkTorsoConsigne);
       fHTrunkWorld = fHTrunkWorld * fDelta_H_root;
@@ -1121,21 +1121,71 @@ TEST(ALControlExplosionTest, test0)
   for (unsigned j=0; j<100; j++)
   {
     AL::Math::position6DFromTransformDiffInPlace(
-        fHTrunkWorld,
-        fHTrunkWorldDes,
-        fDeltaTrunkWorldPosition);
+          fHTrunkWorld,
+          fHTrunkWorldDes,
+          fDeltaTrunkWorldPosition);
 
     // Compute BODY VELOCITY DES
     fVTrunkWorldConsigne = fVTrunkWorldDes + Kp * fDeltaTrunkWorldPosition;
 
     AL::Math::changeReferenceTransposeVelocity6D(
-        fHTrunkWorld,
-        fVTrunkWorldConsigne,
-        fVTrunkTorsoConsigne);
+          fHTrunkWorld,
+          fVTrunkWorldConsigne,
+          fVTrunkTorsoConsigne);
 
     AL::Math::Transform fDelta_H_root = AL::Math::velocityExponential(dt*fVTrunkTorsoConsigne);
     fHTrunkWorld = fHTrunkWorld * fDelta_H_root;
   }
+}
 
+TEST(ALTransformHelpersTest, orthogonalSpace)
+{
+  AL::Math::Position3D pAxis;
+  AL::Math::Transform  pH;
+
+  // test 0
+  pAxis = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 1
+  pAxis = AL::Math::Position3D(-0.5f, 0.0f, 0.0f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 2
+  pAxis = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 3
+  pAxis = AL::Math::Position3D(0.0f, -0.5f, 0.0f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 4
+  pAxis = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 5
+  pAxis = AL::Math::Position3D(0.0f, 0.0f, -0.5f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 6
+  pAxis = AL::Math::Position3D(1.0f, 1.0f, 1.0f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 7
+  pAxis = AL::Math::Position3D(-0.5f, -0.5f, -0.5f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
+
+  // test 8
+  pAxis = AL::Math::Position3D(0.01f, -0.5f, -0.5f);
+  pH = AL::Math::orthogonalSpace(pAxis);
+  EXPECT_NEAR(pH.determinant(), 1.0f, 0.001f);
 }
 
