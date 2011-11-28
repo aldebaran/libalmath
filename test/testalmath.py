@@ -73,6 +73,12 @@ print Velocity6D.__repr__()
 print Velocity6D
 print ''
 
+print 'Check Quaternion'
+quaternion = m.Quaternion(0.1, 0.2, 0.3, 0.4)
+print quaternion.__repr__()
+print quaternion
+print ''
+
 # Transform stuff.
 t = m.TransformFromPosition (0.0, 1.3, 2.9)
 t1 = m.TransformFromPosition (0.0, 0.0, 10.0)

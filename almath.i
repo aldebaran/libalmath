@@ -10,6 +10,7 @@
 #include "almath/types/alposition3d.h"
 #include "almath/types/alposition6d.h"
 #include "almath/types/alpositionandvelocity.h"
+#include "almath/types/alquaternion.h"
 
 #include "almath/types/alrotation.h"
 #include "almath/types/alrotation3d.h"
@@ -35,6 +36,7 @@
 %include "almath/types/alposition3d.h"
 %include "almath/types/alposition6d.h"
 %include "almath/types/alpositionandvelocity.h"
+%include "almath/types/alquaternion.h"
 
 %include "almath/types/alrotation.h"
 %include "almath/types/alrotation3d.h"
@@ -93,6 +95,19 @@
    }
 };
 
+
+%extend AL::Math::Quaternion {
+   char *__str__() {
+       static char tmp[1024];
+       sprintf(tmp, "w = %g, x = %g, y = %g, z = %g",
+                      $self->w, $self->x, $self->y, $self->z);
+       return tmp;
+   }
+
+   char *__repr__() {
+        return AL_Math_Quaternion___str__($self);
+   }
+};
 
 %extend AL::Math::Position6D {
    char *__str__() {

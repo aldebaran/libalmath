@@ -21,7 +21,7 @@ set(almath_tests_srcs
     types/altransform_test.cpp
     types/alvelocity3d_test.cpp
     types/alvelocity6d_test.cpp
-
+    types/alquaternion_test.cpp
 )
 
 create_gtest(almath_tests SRC ${almath_tests_srcs} DEPENDENCIES GTEST ALMATH ALLOG)

@@ -20,6 +20,7 @@
 #include <almath/types/altransform.h>
 #include <almath/types/alaxismask.h>
 #include <almath/types/alpose2d.h>
+#include <almath/types/alquaternion.h>
 
 namespace AL {
   namespace Math {
@@ -837,6 +838,12 @@ namespace AL {
       Transform&        pTOut);
 
     Transform orthogonalSpace(const Position3D& pPos);
+
+    Transform transformFromQuaternion(
+      const Quaternion& pQua);
+
+    Quaternion quaternionFromTransform(
+      const Transform& pT);
 
   } // namespace Math
 } // namespace AL

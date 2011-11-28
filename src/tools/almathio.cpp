@@ -79,8 +79,6 @@ namespace AL {
   }
 
 
-
-
     std::ostream& operator<< (std::ostream& pStream, const Rotation& p)
     {
       pStream.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
@@ -278,5 +276,21 @@ namespace AL {
       os << p.wz << " ";
       return os.str();
     }
+
+  std::ostream& operator<< (std::ostream& pStream, const Quaternion& p)
+  {
+    pStream.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
+    pStream << "{w: ";
+    pStream << p.w;
+    pStream << ", x:";
+    pStream << p.x;
+    pStream << ", y:";
+    pStream << p.y;
+    pStream << ", z:";
+    pStream << p.z;
+    pStream << "}";
+    return pStream;
+  }
+
   }
 }

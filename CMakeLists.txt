@@ -28,6 +28,7 @@ set( ALMATH_SRCS
     src/types/alposition2d.cpp
     src/types/alposition3d.cpp
     src/types/alposition6d.cpp
+    src/types/alquaternion.cpp
 )
 
 set(ALMATH_H
@@ -49,6 +50,7 @@ set(ALMATH_H
     almath/types/altransform.h
     almath/types/alvelocity3d.h
     almath/types/alvelocity6d.h
+    almath/types/alquaternion.h
 )
 
 create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})

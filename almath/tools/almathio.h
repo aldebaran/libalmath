@@ -26,7 +26,7 @@
 #include <almath/types/altransformandvelocity6d.h>
 #include <almath/types/alvelocity3d.h>
 #include <almath/types/alvelocity6d.h>
-
+#include <almath/types/alquaternion.h>
 
 /// The purpose of grouping ostream operations in one place, is to speed
 /// compilation times when not requiring output.
@@ -197,6 +197,18 @@ std::string toSpaceSeparated(const Transform& pT);
 /// </returns>
 /// \ingroup Types
 std::string toSpaceSeparated(const Position6D& pPos);
+
+/// <summary>
+/// Overloading of operator << for Quaternion.
+///
+/// </summary>
+/// <param name="pStream"> the given ostream </param>
+/// <param name="pPos"> the given Quaternion </param>
+/// <returns>
+/// the Quaternion print
+/// </returns>
+/// \ingroup Types
+std::ostream& operator<< (std::ostream& pStream, const Quaternion& pQua);
 
 }
 }

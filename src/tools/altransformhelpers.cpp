@@ -1063,5 +1063,19 @@ namespace AL {
       return HOut;
     }
 
+    Transform transformFromQuaternion(
+      const Quaternion& pQua)
+    {
+      Transform TOut;
+      return TOut;
+    }
+
+    Quaternion quaternionFromTransform(
+      const Transform& pT)
+    {
+      Quaternion quaOut;
+      return quaOut;
+    }
+
   } // namespace Math
 } // namespace AL
