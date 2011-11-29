@@ -162,25 +162,25 @@ namespace AL {
       bool operator!= (const Position3D& pPos2) const;
 
       /// <summary>
-      /// Overloading of operator * for Position2D.
+      /// Overloading of operator * for Position3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position3D operator* (float pVal) const;
 
       /// <summary>
-      /// Overloading of operator / for Position2D.
+      /// Overloading of operator / for Position3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position3D operator/ (float pVal) const;
 
       /// <summary>
-      /// Overloading of operator *= for Position2D.
+      /// Overloading of operator *= for Position3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position3D& operator*= (float pVal);
 
       /// <summary>
-      /// Overloading of operator /= for Position2D.
+      /// Overloading of operator /= for Position3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
       Position3D& operator/= (float pVal);
