@@ -1352,3 +1352,49 @@ TEST(ALTransformHelpersTest, quaternionFromTransform)
 //  std::cout << "Expected: " << AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, -sqrtf(0.5f)) << std::endl;
   EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, -sqrtf(0.5f)), 0.0001f));
 }
+
+TEST(ALTransformHelpersTest, quaternionVsTransform)
+{
+  AL::Math::Quaternion pQua;
+  AL::Math::Transform  pTIn;
+  AL::Math::Transform  pTOut;
+
+  unsigned int nbX = 100;
+  unsigned int nbY = 100;
+  unsigned int nbZ = 100;
+
+  for (unsigned int i=0; i<nbX; i++)
+  {
+    for (unsigned int j=0; j<nbY; j++)
+    {
+      for (unsigned int k=0; k<nbZ; k++)
+      {
+        float angleX = ((float)i)/(float(nbX))*2.0f*AL::Math::TO_RAD;
+        float angleY = ((float)j)/(float(nbY))*2.0f*AL::Math::TO_RAD;
+        float angleZ = ((float)k)/(float(nbZ))*2.0f*AL::Math::TO_RAD;
+
+        pTIn = AL::Math::Transform::fromRotX(angleX)*
+            AL::Math::Transform::fromRotY(angleY)*
+            AL::Math::Transform::fromRotZ(angleZ);
+
+        pQua  = AL::Math::quaternionFromTransform(pTIn);
+        pTOut = AL::Math::transformFromQuaternion(pQua);
+
+        //std::cout << "norm: " << pQua.norm() << " " << pQua << std::endl;
+
+        // if (!pTIn.isNear(pTOut, 0.0001f))
+        // {
+        //   std::cout << "[angleX, angleY, angleZ, i, j, k]: "
+        //             << angleX << " " << angleY << " " << angleZ
+        //             << i << " " << j << " " << k << std::endl;
+        // }
+
+        EXPECT_TRUE(pTIn.isNear(pTOut, 0.0001f));
+
+      }
+    }
+  }
+
+//  std::cout << "Result  : " << pQua << std::endl;
+//  std::cout << "Expected: " << AL::Math::Quaternion() << std::endl;
+}

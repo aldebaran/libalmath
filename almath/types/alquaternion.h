@@ -106,6 +106,18 @@ namespace AL {
       Quaternion(const std::vector<float>& pFloats);
 
       /// <summary>
+      /// Overloading of operator *= for Quaternion.
+      /// </summary>
+      /// <param name="pQua2"> the second Quaternion </param>
+      Quaternion& operator*= (const Quaternion& pQu2);
+
+      /// <summary>
+      /// Overloading of operator * for Quaternion.
+      /// </summary>
+      /// <param name="pQua2"> the second Quaternion </param>
+      Quaternion operator* (const Quaternion& pQua2) const;
+
+      /// <summary>
       /// Overloading of operator == for Quaternion.
       /// </summary>
       /// <param name="pQua2"> the second Quaternion </param>
@@ -116,6 +128,18 @@ namespace AL {
       /// </summary>
       /// <param name="pQua2"> the second Quaternion </param>
       bool operator!= (const Quaternion& pQua2) const;
+
+      /// <summary>
+      /// Overloading of operator *= for Quaternion.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Quaternion& operator*= (float pVal);
+
+      /// <summary>
+      /// Overloading of operator /= for Quaternion.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Quaternion& operator/= (float pVal);
 
       /// <summary>
       /// Check if the actual Quaternion is near the one
@@ -132,10 +156,137 @@ namespace AL {
         const float&      pEpsilon=0.0001f) const;
 
       /// <summary>
+      /// Compute the norm of the actual Quaternion.
+      ///
+      /// \f$\sqrt{pQua.w^2+pQua.x^2+pQua.y^2+pQua.z^2}\f$
+      /// </summary>
+      /// <returns>
+      /// the float norm of the Quaternion
+      /// </returns>
+      float norm() const;
+
+      /// <summary>
+      /// Normalize the actual Quaterion.
+      ///
+      /// \f$result = \frac{pQua}{norm(pQua)}\f$
+      /// </summary>
+      /// <returns>
+      /// the Quaternion normalized
+      /// </returns>
+      Quaternion normalize() const;
+
+      /// <summary>
+      /// Compute the quaternion inverse of the actual Quaternion
+      ///
+      /// </summary>
+      /// <returns>
+      /// the Quaternion inverse
+      /// </returns>
+      Quaternion inverse() const;
+
+      /// <summary>
+      /// Create a Quaternion initialized with explicit angle and axis rotation.
+      ///
+      /// </summary>
+      /// <param name="pAngle"> the float value for angle in radian around axis rotation </param>
+      /// <param name="pAxisX"> the float value for x value of axis rotation </param>
+      /// <param name="pAxisY"> the float value for y value of axis rotation </param>
+      /// <param name="pAxisZ"> the float value for z value of axis rotation </param>
+      static Quaternion fromAngleAndAxisRotation(
+        const float pAngle,
+        const float pAxisX,
+        const float pAxisY,
+        const float pAxisZ);
+
+      /// <summary>
       /// Return the Quaternion as a vector of float [w, x, y, z].
       /// </summary>
       std::vector<float> toVector() const;
     };
+
+    /// <summary>
+    /// Compute the norm of a Quaternion:
+    ///
+    /// \f$\sqrt{pQua.w^2+pQua.x^2+pQua.y^2+pQua.z^2}\f$
+    /// </summary>
+    /// <param name="pQua"> the given Quaternion </param>
+    /// <returns>
+    /// the float norm of the given Quaternion
+    /// </returns>
+    /// \ingroup Types
+    float norm(const Quaternion& pQua);
+
+    /// <summary>
+    /// Normalize a Quaternion:
+    ///
+    /// \f$pRes = \frac{pQua}{norm(pQua)}\f$
+    /// </summary>
+    /// <param name="pQua"> the given Quaternion </param>
+    /// <returns>
+    /// the given Quaternion normalized
+    /// </returns>
+    /// \ingroup Types
+    Quaternion normalize(const Quaternion& pQua);
+
+
+    /// <summary>
+    /// Return the quaternion inverse of the given Quaternion:
+    ///
+    /// </summary>
+    /// <param name="pQua"> the given Quaternion </param>
+    /// <param name="pQuaOut"> the inverse of the given Quaternion </param>
+    /// \ingroup Types
+    void quaternionInverse(
+      const Quaternion& pQua,
+      Quaternion&       pQuaOut);
+
+    /// <summary>
+    /// Return the quaternion inverse of the given Quaternion
+    ///
+    /// </summary>
+    /// <param name="pQua"> the given Quaternion </param>
+    /// <returns>
+    /// the Quaternion inverse
+    /// </returns>
+    /// \ingroup Types
+    Quaternion quaternionInverse(const Quaternion& pQua);
+
+
+    /// <summary>
+    /// Create a Quaternion initialized with explicit angle and axis rotation.
+    ///
+    /// </summary>
+    /// <param name="pAngle"> the float value for angle in radian around axis rotation </param>
+    /// <param name="pAxisX"> the float value for x value of axis rotation </param>
+    /// <param name="pAxisY"> the float value for y value of axis rotation </param>
+    /// <param name="pAxisZ"> the float value for z value of axis rotation </param>
+    /// <returns>
+    /// the Quaternion
+    /// </returns>
+    /// \ingroup Types
+    Quaternion quaternionFromAngleAndAxisRotation(
+      const float pAngle,
+      const float pAxisX,
+      const float pAxisY,
+      const float pAxisZ);
+
+
+    /// <summary>
+    /// Compute angle and axis rotation from a Quaternion.
+    ///
+    /// </summary>
+    /// <param name="pQuaternion"> the given quaternion </param>
+    /// <param name="pAngle"> the computed float value for angle in radian around axis rotation </param>
+    /// <param name="pAxisX"> the computed float value for x value of axis rotation </param>
+    /// <param name="pAxisY"> the computed float value for y value of axis rotation </param>
+    /// <param name="pAxisZ"> the computed float value for z value of axis rotation </param>
+    /// \ingroup Types
+    void angleAndAxisRotationFromQuaternion(
+      const Quaternion& pQuaternion,
+      float& pAngle,
+      float& pAxisX,
+      float& pAxisY,
+      float& pAxisZ);
 
   } // end namespace math
 } // end namespace al
