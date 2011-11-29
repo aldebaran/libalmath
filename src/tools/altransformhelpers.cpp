@@ -1067,6 +1067,19 @@ namespace AL {
       const Quaternion& pQua)
     {
       Transform TOut;
+
+      TOut.r1_c1 = 1.0f - 2.0f*(powf(pQua.y, 2) + powf(pQua.z, 2));
+      TOut.r1_c2 = 2.0f*(pQua.x*pQua.y - pQua.z*pQua.w);
+      TOut.r1_c3 = 2.0f*(pQua.x*pQua.z + pQua.y*pQua.w);
+
+      TOut.r2_c1 = 2.0f*(pQua.x*pQua.y + pQua.z*pQua.w);
+      TOut.r2_c2 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.z, 2));
+      TOut.r2_c3 = 2.0f*(pQua.y*pQua.z - pQua.x*pQua.w);
+
+      TOut.r3_c1 = 2.0f*(pQua.x*pQua.z - pQua.y*pQua.w);
+      TOut.r3_c2 = 2.0f*(pQua.y*pQua.z + pQua.x*pQua.w);
+      TOut.r3_c3 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.y, 2));
+
       return TOut;
     }
 
@@ -1075,11 +1088,11 @@ namespace AL {
     {
       Quaternion quaOut;
 
-      float trace = pT.r1_c1 + pT.r2_c2 + pT.r3_c3;
+      // warning: seems to be trace + 1.0 ...
+      float trace = 1.0f + pT.r1_c1 + pT.r2_c2 + pT.r3_c3;
 
       float S = 0.0f;
 
-      // if trace > 0
       if (trace >0.0f)
       {
         S = 1.0f/(2.0f*sqrtf(trace));
@@ -1097,13 +1110,12 @@ namespace AL {
             (pT.r1_c1 > pT.r3_c3)
             )
         {
-          // if r1_c1 is the bigger
-          S = 2.0f*sqrtf(1.0f + pT.r1_c1 - pT.r2_c2 - pT.r3_c3);
+          S = sqrtf(1.0f + pT.r1_c1 - pT.r2_c2 - pT.r3_c3);
 
-          quaOut.w = (pT.r2_c3 - pT.r3_c2)/S;
-          quaOut.x = 1.0f/(2.0f*S);
-          quaOut.y = (pT.r1_c2 - pT.r2_c1)/S;
-          quaOut.z = (pT.r1_c3 - pT.r3_c1)/S;
+          quaOut.w = (pT.r2_c3 - pT.r3_c2)*S;
+          quaOut.x = 0.5f*S;
+          quaOut.y = (pT.r1_c2 - pT.r2_c1)*S;
+          quaOut.z = (pT.r1_c3 - pT.r3_c1)*S;
 
           return quaOut;
         }
@@ -1112,25 +1124,23 @@ namespace AL {
                  (pT.r2_c2 > pT.r3_c3)
                  )
         {
-          // if r2_c2 is the bigger
-          S = 2.0f*sqrtf(1.0f - pT.r1_c1 + pT.r2_c2 - pT.r3_c3);
+          S = sqrtf(1.0f - pT.r1_c1 + pT.r2_c2 - pT.r3_c3);
 
-          quaOut.w = (pT.r1_c3 - pT.r3_c1)/S;
-          quaOut.x = (pT.r1_c2 - pT.r2_c1)/S;
-          quaOut.y = 1.0f/(2.0f*S);
-          quaOut.z = (pT.r2_c3 - pT.r3_c2)/S;
+          quaOut.w = (pT.r1_c3 - pT.r3_c1)*S;
+          quaOut.x = (pT.r1_c2 - pT.r2_c1)*S;
+          quaOut.y = 0.5f*S;
+          quaOut.z = (pT.r2_c3 - pT.r3_c2)*S;
 
           return quaOut;
         }
         else
         {
-          // if r3_c3 is the bigger
-          S = 2.0f*sqrtf(1.0f - pT.r1_c1 - pT.r2_c2 + pT.r3_c3);
+          S = sqrtf(1.0f - pT.r1_c1 - pT.r2_c2 + pT.r3_c3);
 
-          quaOut.w = (pT.r1_c2 - pT.r2_c1)/S;
-          quaOut.x = (pT.r1_c3 - pT.r3_c1)/S;
-          quaOut.y = (pT.r2_c3 - pT.r3_c2)/S;
-          quaOut.z = 1.0f/(2.0f*S);
+          quaOut.w = (pT.r1_c2 - pT.r2_c1)*S;
+          quaOut.x = (pT.r1_c3 - pT.r3_c1)*S;
+          quaOut.y = (pT.r2_c3 - pT.r3_c2)*S;
+          quaOut.z = 0.5f*S;
 
           return quaOut;
         }
