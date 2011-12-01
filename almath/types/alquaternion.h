@@ -150,6 +150,7 @@ namespace AL {
       /// <param name="pEpsilon"> an optionnal epsilon distance </param>
       /// <returns>
       /// true if the distance between the two Quaternion is less than pEpsilon
+      /// Check if |Qua1+Qua2| < epsilon or |Qua1-Qua2| < epsilon
       /// </returns>
       bool isNear(
         const Quaternion& pQua2,

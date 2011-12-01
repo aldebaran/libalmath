@@ -1083,71 +1083,79 @@ namespace AL {
       return TOut;
     }
 
+
     Quaternion quaternionFromTransform(
       const Transform& pT)
     {
+      // TR2Q   Convert homogeneous transform to a unit-quaternion
+      //
+      //   Q = tr2q(T)
+      //
+      //   Return a unit quaternion corresponding to the rotational part of the
+      //   homogeneous transform T.
+      //
+      //   See also: Q2TR
+
       Quaternion quaOut;
 
-      // warning: seems to be trace + 1.0 ...
-      float trace = 1.0f + pT.r1_c1 + pT.r2_c2 + pT.r3_c3;
+      float qs = 0.5f*sqrtf(pT.r1_c1+pT.r2_c2+pT.r3_c3+1.0f);
+      float kx = pT.r3_c2 - pT.r2_c3; // Oz - Ay
+      float ky = pT.r1_c3 - pT.r3_c1; // Ax - Nz
+      float kz = pT.r2_c1 - pT.r1_c2; // Ny - Ox
 
-      float S = 0.0f;
+      float kx1 = 0.0f;
+      float ky1 = 0.0f;
+      float kz1 = 0.0f;
+      bool add  = false;
 
-      if (trace >0.0f)
+      if ((pT.r1_c1 >= pT.r2_c2) && (pT.r1_c1 >= pT.r3_c3))
       {
-        S = 1.0f/(2.0f*sqrtf(trace));
+        kx1 = pT.r1_c1 - pT.r2_c2 - pT.r3_c3 + 1.0f; // Nx - Oy - Az + 1
+        ky1 = pT.r2_c1 + pT.r1_c2;                   // Ny + Ox
+        kz1 = pT.r3_c1 + pT.r1_c3;                   // Nz + Ax
+        add = (kx >= 0.0f);
+      }
+      else if (pT.r2_c2 >= pT.r3_c3)
+      {
+        kx1 = pT.r2_c1 + pT.r1_c2;                   // Ny + Ox
+        ky1 = pT.r2_c2 - pT.r1_c1 - pT.r3_c3 + 1.0f; // Oy - Nx - Az + 1
+        kz1 = pT.r3_c2 + pT.r2_c3;                   // Oz + Ay
+        add = (ky >= 0.0f);
+      }
+        else
+      {
+        kx1 = pT.r3_c1 + pT.r1_c3;                   // Nz + Ax
+        ky1 = pT.r3_c2 + pT.r2_c3;                   // Oz + Ay
+        kz1 = pT.r3_c3 - pT.r1_c1 - pT.r2_c2 + 1.0f; // Az - Nx - Oy + 1
+        add = (kz >= 0.0f);
+      }
 
-        quaOut.w = 1.0/(4.0f*S);
-        quaOut.x = (pT.r3_c2 - pT.r2_c3)*S;
-        quaOut.y = (pT.r1_c3 - pT.r3_c1)*S;
-        quaOut.z = (pT.r2_c1 - pT.r1_c2)*S;
-        return quaOut;
+      if (add)
+      {
+        kx = kx + kx1;
+        ky = ky + ky1;
+        kz = kz + kz1;
       }
       else
       {
-        if (
-            (pT.r1_c1 > pT.r2_c2) &&
-            (pT.r1_c1 > pT.r3_c3)
-            )
-        {
-          S = sqrtf(1.0f + pT.r1_c1 - pT.r2_c2 - pT.r3_c3);
-
-          quaOut.w = (pT.r2_c3 - pT.r3_c2)*S;
-          quaOut.x = 0.5f*S;
-          quaOut.y = (pT.r1_c2 - pT.r2_c1)*S;
-          quaOut.z = (pT.r1_c3 - pT.r3_c1)*S;
-
-          return quaOut;
-        }
-        else if (
-                 (pT.r2_c2 > pT.r1_c1) &&
-                 (pT.r2_c2 > pT.r3_c3)
-                 )
-        {
-          S = sqrtf(1.0f - pT.r1_c1 + pT.r2_c2 - pT.r3_c3);
-
-          quaOut.w = (pT.r1_c3 - pT.r3_c1)*S;
-          quaOut.x = (pT.r1_c2 - pT.r2_c1)*S;
-          quaOut.y = 0.5f*S;
-          quaOut.z = (pT.r2_c3 - pT.r3_c2)*S;
-
-          return quaOut;
-        }
-        else
-        {
-          S = sqrtf(1.0f - pT.r1_c1 - pT.r2_c2 + pT.r3_c3);
-
-          quaOut.w = (pT.r1_c2 - pT.r2_c1)*S;
-          quaOut.x = (pT.r1_c3 - pT.r3_c1)*S;
-          quaOut.y = (pT.r2_c3 - pT.r3_c2)*S;
-          quaOut.z = 0.5f*S;
-
-          return quaOut;
-        }
+        kx = kx - kx1;
+        ky = ky - ky1;
+        kz = kz - kz1;
       }
 
-    } // end quaternionFromTransform
+      float nm = sqrtf(powf(kx,2) + powf(ky,2) + powf(kz,2));
 
+      if (nm == 0.0f)
+      {
+        quaOut = Quaternion();
+      }
+      else
+      {
+        float s = sqrtf(1.0f - powf(qs,2)) / nm;
+        quaOut = Quaternion(qs, s*kx, s*ky, s*kz);
+      }
+      return quaOut;
+    } // end quaternionFromTransform
 
   } // namespace Math
 } // namespace AL

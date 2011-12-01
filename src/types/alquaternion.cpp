@@ -67,16 +67,27 @@ namespace AL {
       const float&      pEpsilon) const
     {
       if (
-        (fabsf(w - pQua2.w) > pEpsilon) ||
-        (fabsf(x - pQua2.x) > pEpsilon) ||
-        (fabsf(y - pQua2.y) > pEpsilon) ||
-        (fabsf(z - pQua2.z) > pEpsilon))
+          // |pQua1 - pQua2| < epsilon
+          (
+            (fabsf(w - pQua2.w) < pEpsilon) &&
+            (fabsf(x - pQua2.x) < pEpsilon) &&
+            (fabsf(y - pQua2.y) < pEpsilon) &&
+            (fabsf(z - pQua2.z) < pEpsilon)
+            ) ||
+          (
+            // |pQua1 + pQua2| < epsilon
+            (fabsf(w + pQua2.w) < pEpsilon) &&
+            (fabsf(x + pQua2.x) < pEpsilon) &&
+            (fabsf(y + pQua2.y) < pEpsilon) &&
+            (fabsf(z + pQua2.z) < pEpsilon)
+            )
+          )
       {
-        return false;
+        return true;
       }
       else
       {
-        return true;
+        return false;
       }
     }
 
