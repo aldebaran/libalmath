@@ -138,31 +138,16 @@ TEST(ALQuaternionTest, creation)
   EXPECT_NEAR(pQua1Vect.at(2), 3.0f, 0.0001f);
   EXPECT_NEAR(pQua1Vect.at(3), 4.0f, 0.0001f);
 
-
-  // function angleAndAxisRotationFromQuaternion
-  float pAngle = 0.0f;
-  float pAxeX = 0.0f;
-  float pAxeY = 0.0f;
-  float pAxeZ = 0.0f;
-
-  // TODO: fix
-//  float angleDes = 10.0f*AL::Math::TO_RAD;
-//  pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotX(angleDes));
-//  AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngle, pAxeX, pAxeY, pAxeZ);
-//  EXPECT_NEAR(pAngle, angleDes, 0.0001f);
-//  EXPECT_NEAR(pAxeX, 1.0f, 0.0001f);
-//  EXPECT_NEAR(pAxeY, 0.0f, 0.0001f);
-//  EXPECT_NEAR(pAxeZ, 0.0f, 0.0001f);
-
   unsigned int nbX = 10;
   unsigned int nbY = 10;
   unsigned int nbZ = 10;
 
   // fromAngleAndAxisRotation
   // function quaternionFromAngleAndAxisRotation
+  // angleAndAxisRotationFromQuaternion
   for (unsigned int i=0; i<nbX; i++)
   {
-    float angle = ((float)i)/(float(nbX))*AL::Math::_2_PI_;
+    float angle = ((float)(i+1))/(float(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
 
     pQua1 = AL::Math::Quaternion::fromAngleAndAxisRotation(angle, 1.0f, 0.0f, 0.0f);
     pT1   = AL::Math::Transform::fromRotX(angle);
@@ -175,6 +160,109 @@ TEST(ALQuaternionTest, creation)
     pQua1 = AL::Math::Quaternion::fromAngleAndAxisRotation(angle, 0.0f, 0.0f, 1.0f);
     pT1   = AL::Math::Transform::fromRotZ(angle);
     EXPECT_TRUE(pQua1.isNear(AL::Math::quaternionFromTransform(pT1), 0.0001f));
+
+    float pAngleResult = 0.0f;
+    float pAxeXResult  = 0.0f;
+    float pAxeYResult  = 0.0f;
+    float pAxeZResult  = 0.0f;
+
+    pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotX(angle));
+    AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
+
+    float epsilon = 0.0001f;
+    bool isSuccess = false;
+    if (
+        (
+          (fabsf(angle-pAngleResult) < epsilon) &&
+          (fabsf(pAxeXResult-1.0f) < epsilon) &&
+          (fabsf(pAxeYResult-0.0f) < epsilon) &&
+          (fabsf(pAxeZResult-0.0f) < epsilon)
+          ) ||
+        (
+          (fabsf(angle+pAngleResult) < epsilon) &&
+          (fabsf(pAxeXResult+1.0f) < epsilon) &&
+          (fabsf(pAxeYResult+0.0f) < epsilon) &&
+          (fabsf(pAxeZResult+0.0f) < epsilon)
+          )
+        )
+    {
+      isSuccess = true;
+    }
+    else
+    {
+//      std::cout << "XX angleDes: " << angle
+//                << " pAngleResult: " << pAngleResult
+//                << " pAxeX: " << pAxeXResult
+//                << " pAxeY: " << pAxeYResult
+//                << " pAxeZ: " << pAxeZResult
+//                << std::endl;
+      isSuccess = false;
+    }
+    EXPECT_TRUE(isSuccess);
+
+    pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotY(angle));
+    AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
+
+    if (
+        (
+          (fabsf(angle-pAngleResult) < epsilon) &&
+          (fabsf(pAxeXResult-0.0f) < epsilon) &&
+          (fabsf(pAxeYResult-1.0f) < epsilon) &&
+          (fabsf(pAxeZResult-0.0f) < epsilon)
+          ) ||
+        (
+          (fabsf(angle+pAngleResult) < epsilon) &&
+          (fabsf(pAxeXResult+0.0f) < epsilon) &&
+          (fabsf(pAxeYResult+1.0f) < epsilon) &&
+          (fabsf(pAxeZResult+0.0f) < epsilon)
+          )
+        )
+    {
+      isSuccess = true;
+    }
+    else
+    {
+//      std::cout << "YY angleDes: " << angle
+//                << " pAngleResult: " << pAngleResult
+//                << " pAxeX: " << pAxeXResult
+//                << " pAxeY: " << pAxeYResult
+//                << " pAxeZ: " << pAxeZResult
+//                << std::endl;
+      isSuccess = false;
+    }
+    EXPECT_TRUE(isSuccess);
+
+    pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotZ(angle));
+    AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
+
+    if (
+        (
+          (fabsf(angle-pAngleResult) < epsilon) &&
+          (fabsf(pAxeXResult-0.0f) < epsilon) &&
+          (fabsf(pAxeYResult-0.0f) < epsilon) &&
+          (fabsf(pAxeZResult-1.0f) < epsilon)
+          ) ||
+        (
+          (fabsf(angle+pAngleResult) < epsilon) &&
+          (fabsf(pAxeXResult+0.0f) < epsilon) &&
+          (fabsf(pAxeYResult+0.0f) < epsilon) &&
+          (fabsf(pAxeZResult+1.0f) < epsilon)
+          )
+        )
+    {
+      isSuccess = true;
+    }
+    else
+    {
+//      std::cout << "ZZ angleDes: " << angle
+//                << " pAngleResult: " << pAngleResult
+//                << " pAxeX: " << pAxeXResult
+//                << " pAxeY: " << pAxeYResult
+//                << " pAxeZ: " << pAxeZResult
+//                << std::endl;
+      isSuccess = false;
+    }
+    EXPECT_TRUE(isSuccess);
   }
 
   for (unsigned int i=0; i<nbX; i++)
@@ -203,7 +291,7 @@ TEST(ALQuaternionTest, creation)
 
         // operator *= with Quaternion
         // operator *  with Quaternion
-        EXPECT_TRUE(pQua3.isNear(AL::Math::quaternionFromTransform(pT3), 0.0001f));
+        EXPECT_TRUE(pQua3.isNear(AL::Math::quaternionFromTransform(pT3), 0.001f));
 
         pT1 = AL::Math::Transform::fromRotX(angleX)*
             AL::Math::Transform::fromRotY(angleY)*
@@ -213,20 +301,21 @@ TEST(ALQuaternionTest, creation)
         pQua2 = pQua1.inverse();
         // inverse
         // function quaternionInverse
-        EXPECT_TRUE(pQua2.isNear(AL::Math::quaternionFromTransform(pT1.inverse()), 0.0001f));
 
-        // if (!pQua3.isNear(AL::Math::quaternionFromTransform(pT3), 0.0001f))
-        // {
-        //   std::cout << pQua3.isNear(AL::Math::quaternionFromTransform(pT3)) << " "
-        //             << angleX*AL::Math::TO_DEG << " "
-        //             << angleY*AL::Math::TO_DEG << " "
-        //             << angleZ*AL::Math::TO_DEG << std::endl;
+        EXPECT_TRUE(pQua2.isNear(AL::Math::quaternionFromTransform(pT1.inverse()), 0.001f));
 
-        //   std::cout << "pQua3" << std::endl << pQua3 << std::endl;
-        //   std::cout << "AL::Math::quaternionFromTransform(pT3)" << std::endl
-        //             << AL::Math::quaternionFromTransform(pT3) << std::endl;
-        //   std::cout << std::endl;
-        // }
+//         if (!pQua2.isNear(AL::Math::quaternionFromTransform(pT1), 0.0001f))
+//         {
+//           std::cout << pQua2.isNear(AL::Math::quaternionFromTransform(pT1)) << " "
+//                     << angleX*AL::Math::TO_DEG << " "
+//                     << angleY*AL::Math::TO_DEG << " "
+//                     << angleZ*AL::Math::TO_DEG << std::endl;
+
+//           std::cout << "pQua2" << std::endl << pQua2 << std::endl;
+//           std::cout << "AL::Math::quaternionFromTransform(pT1)" << std::endl
+//                     << AL::Math::quaternionFromTransform(pT1) << std::endl;
+//           std::cout << std::endl;
+//         }
 
         // if (!pTIn.isNear(pTOut, 0.0001f))
         // {
@@ -240,9 +329,3 @@ TEST(ALQuaternionTest, creation)
   }
 
 }
-
-TEST(ALQuaternionTest, normalize)
-{
-  AL::Math::Quaternion pQuaD1 = AL::Math::Quaternion();
-}
-

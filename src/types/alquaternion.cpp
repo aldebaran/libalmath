@@ -249,16 +249,25 @@ namespace AL {
     {
       Quaternion copy = pQuaternion;
       copy.normalize();
-      pAngle      = acos(copy.w) * AL::Math::_2_PI_;
-      float sin_angle  = sqrtf( 1.0 - powf(copy.w,2));
+      pAngle          = 2.0f*acos(copy.w); // * AL::Math::_2_PI_;
+      float sin_angle = sqrtf(1.0f - powf(copy.w, 2));
 
       if (fabsf(sin_angle) < 0.0005f)
       {
         sin_angle = 1.0f;
       }
+
       pAxisX = copy.x / sin_angle;
       pAxisY = copy.y / sin_angle;
       pAxisZ = copy.z / sin_angle;
+
+      float normAxe = sqrtf(powf(pAxisX, 2) + powf(pAxisY, 2) + powf(pAxisZ, 2));
+      if (normAxe < 0.0001f)
+      {
+        pAxisX = 1.0f;
+        pAxisY = 0.0f;
+        pAxisZ = 0.0f;
+      }
     }
 
   } // end namespace math
