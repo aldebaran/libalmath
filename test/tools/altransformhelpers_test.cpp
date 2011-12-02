@@ -674,7 +674,11 @@ TEST(ALTransformHelpersTest, changeReperePosition6D)
 
 TEST(ALTransformHelpersTest, changeReperePosition3D)
 {
-
+  AL::Math::Transform pTransf = AL::Math::Transform(1.0f, 2.0f, 3.0f);
+  AL::Math::Position3D pPos3D = AL::Math::Position3D(10.0f, 20.0f, 30.0f);
+  AL::Math::Position3D pPosIn = pTransf * pPos3D;
+  AL::Math::Position3D pPosOut = AL::Math::Position3D(11.0f, 22.0f, 33.0f);
+  EXPECT_TRUE(pPosIn.isNear(pPosOut, 0.0001f));
 }
 
 TEST(ALTransformHelpersTest, changeRepereTransposePosition3D)
