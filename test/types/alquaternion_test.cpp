@@ -138,9 +138,9 @@ TEST(ALQuaternionTest, creation)
   EXPECT_NEAR(pQua1Vect.at(2), 3.0f, 0.0001f);
   EXPECT_NEAR(pQua1Vect.at(3), 4.0f, 0.0001f);
 
-  unsigned int nbX = 10;
-  unsigned int nbY = 10;
-  unsigned int nbZ = 10;
+  unsigned int nbX = 101;
+  unsigned int nbY = 101;
+  unsigned int nbZ = 101;
 
   // fromAngleAndAxisRotation
   // function quaternionFromAngleAndAxisRotation
@@ -169,7 +169,7 @@ TEST(ALQuaternionTest, creation)
     pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotX(angle));
     AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
 
-    float epsilon = 0.0001f;
+    float epsilon = 0.001f;
     bool isSuccess = false;
     if (
         (
@@ -230,6 +230,13 @@ TEST(ALQuaternionTest, creation)
 //                << std::endl;
       isSuccess = false;
     }
+
+    // Identity special case
+    if (fabsf(angle) < epsilon)
+    {
+      isSuccess = true;
+    }
+
     EXPECT_TRUE(isSuccess);
 
     pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotZ(angle));
@@ -262,18 +269,25 @@ TEST(ALQuaternionTest, creation)
 //                << std::endl;
       isSuccess = false;
     }
+    // Identity special case
+    if (fabsf(angle) < epsilon)
+    {
+      isSuccess = true;
+    }
     EXPECT_TRUE(isSuccess);
   }
 
+  // operator *= with Quaternion
+  // operator *  with Quaternion
   for (unsigned int i=0; i<nbX; i++)
   {
     for (unsigned int j=0; j<nbY; j++)
     {
       for (unsigned int k=0; k<nbZ; k++)
       {
-        float angleX = ((float)i)/(float(nbX))*AL::Math::_2_PI_;
-        float angleY = ((float)j)/(float(nbY))*AL::Math::_2_PI_;
-        float angleZ = ((float)k)/(float(nbZ))*AL::Math::_2_PI_;
+        float angleX = ((float)(i+1))/(float(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleY = ((float)(j+1))/(float(nbY+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleZ = ((float)(k+1))/(float(nbZ+1))*AL::Math::_2_PI_ - AL::Math::PI;
 
         pT1 = AL::Math::Transform::fromRotX(angleX)*
             AL::Math::Transform::fromRotY(angleY)*
@@ -289,9 +303,23 @@ TEST(ALQuaternionTest, creation)
         pQua2 = AL::Math::quaternionFromTransform(pT2);
         pQua3 = pQua1*pQua2;
 
-        // operator *= with Quaternion
-        // operator *  with Quaternion
         EXPECT_TRUE(pQua3.isNear(AL::Math::quaternionFromTransform(pT3), 0.001f));
+
+      }
+    }
+  }
+
+  // inverse
+  // function quaternionInverse
+  for (unsigned int i=0; i<nbX; i++)
+  {
+    for (unsigned int j=0; j<nbY; j++)
+    {
+      for (unsigned int k=0; k<nbZ; k++)
+      {
+        float angleX = ((float)(i+1))/(float(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleY = ((float)(j+1))/(float(nbY+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleZ = ((float)(k+1))/(float(nbZ+1))*AL::Math::_2_PI_ - AL::Math::PI;
 
         pT1 = AL::Math::Transform::fromRotX(angleX)*
             AL::Math::Transform::fromRotY(angleY)*
@@ -299,30 +327,11 @@ TEST(ALQuaternionTest, creation)
 
         pQua1 = AL::Math::quaternionFromTransform(pT1);
         pQua2 = pQua1.inverse();
-        // inverse
-        // function quaternionInverse
 
-        EXPECT_TRUE(pQua2.isNear(AL::Math::quaternionFromTransform(pT1.inverse()), 0.001f));
+        pT2 = AL::Math::pinv(pT1);
+        pQua3 = AL::Math::quaternionFromTransform(pT2);
 
-//         if (!pQua2.isNear(AL::Math::quaternionFromTransform(pT1), 0.0001f))
-//         {
-//           std::cout << pQua2.isNear(AL::Math::quaternionFromTransform(pT1)) << " "
-//                     << angleX*AL::Math::TO_DEG << " "
-//                     << angleY*AL::Math::TO_DEG << " "
-//                     << angleZ*AL::Math::TO_DEG << std::endl;
-
-//           std::cout << "pQua2" << std::endl << pQua2 << std::endl;
-//           std::cout << "AL::Math::quaternionFromTransform(pT1)" << std::endl
-//                     << AL::Math::quaternionFromTransform(pT1) << std::endl;
-//           std::cout << std::endl;
-//         }
-
-        // if (!pTIn.isNear(pTOut, 0.0001f))
-        // {
-        //   std::cout << "[angleX, angleY, angleZ, i, j, k]: "
-        //             << angleX << " " << angleY << " " << angleZ
-        //             << i << " " << j << " " << k << std::endl;
-        // }
+        EXPECT_TRUE(pQua2.isNear(pQua3, 0.001f));
 
       }
     }

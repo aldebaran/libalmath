@@ -1098,7 +1098,6 @@ namespace AL {
 
       Quaternion quaOut;
 
-      float qs = 0.5f*sqrtf(pT.r1_c1+pT.r2_c2+pT.r3_c3+1.0f);
       float kx = pT.r3_c2 - pT.r2_c3; // Oz - Ay
       float ky = pT.r1_c3 - pT.r3_c1; // Ax - Nz
       float kz = pT.r2_c1 - pT.r1_c2; // Ny - Ox
@@ -1151,6 +1150,13 @@ namespace AL {
       }
       else
       {
+        float trace = pT.r1_c1 + pT.r2_c2 + pT.r3_c3 + 1.0f;
+        if (trace < 0.0f)
+        {
+          trace = 0.0f;
+        }
+
+        float qs = 0.5f*sqrtf(trace);
         float s = sqrtf(1.0f - powf(qs,2)) / nm;
         quaOut = Quaternion(qs, s*kx, s*ky, s*kz);
       }
