@@ -1394,7 +1394,7 @@ TEST(ALTransformHelpersTest, quaternionVsTransform)
         pQua  = AL::Math::quaternionFromTransform(pTIn);
         pTOut = AL::Math::transformFromQuaternion(pQua);
 
-         if (!pTIn.isNear(pTOut, 0.0003f))
+         if (!pTIn.isNear(pTOut, 0.0005f))
          {
            std::cout << "[angleX, angleY, angleZ, i, j, k]: "
                      << angleX*AL::Math::TO_DEG << " "
@@ -1410,7 +1410,7 @@ TEST(ALTransformHelpersTest, quaternionVsTransform)
            pQua  = AL::Math::quaternionFromTransform(pTIn);
          }
 
-        EXPECT_TRUE(pTIn.isNear(pTOut, 0.0003f));
+        EXPECT_TRUE(pTIn.isNear(pTOut, 0.0005f));
 
       }
     }
