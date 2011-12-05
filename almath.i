@@ -150,7 +150,11 @@
    }
 
    char *__repr__() {
-        return AL_Math_Rotation___str__($self);
+       return AL_Math_Rotation___str__($self);
+   }
+
+   AL::Math::Position3D __mul__(AL::Math::Position3D rhs) const {
+       return (*$self) * rhs;
    }
 };
 
@@ -164,7 +168,7 @@
    }
 
    char *__repr__() {
-        return AL_Math_Rotation3D___str__($self);
+       return AL_Math_Rotation3D___str__($self);
    }
 };
 
@@ -182,7 +186,11 @@
    }
 
    char *__repr__() {
-        return AL_Math_Transform___str__($self);
+       return AL_Math_Transform___str__($self);
+   }
+
+   AL::Math::Position3D __mul__(AL::Math::Position3D rhs) const {
+       return (*$self) * rhs;
    }
 };
 
@@ -232,8 +240,11 @@
    char *__repr__() {
         return AL_Math_Velocity6D___str__($self);
    }
-};
 
+   AL::Math::Velocity6D __rmul__(const float lhs) const {
+       return lhs * (*$self);
+   }
+};
 
 %include "std_vector.i"
 namespace std {

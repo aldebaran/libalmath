@@ -670,15 +670,6 @@ namespace AL {
     }
 
 
-    Transform& operator+=(Transform& pT, const Position3D& pPos)
-    {
-      pT.r1_c4 += pPos.x;
-      pT.r2_c4 += pPos.y;
-      pT.r3_c4 += pPos.z;
-      return pT;
-    }
-
-
     Transform axisRotationProjection(
       const Position3D& pPos,
       const Transform&  pT)

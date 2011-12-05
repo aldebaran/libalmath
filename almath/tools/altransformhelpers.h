@@ -786,10 +786,6 @@ namespace AL {
       const Transform&  pT,
       const Position3D& pPos);
 
-    Transform& operator+=(
-      Transform&        pT,
-      const Position3D& pPos);
-
     /**
     * finding the closest rotation Rw of R around an axis (Position3D)
     * @param Transform : useful only for Rotation part
