@@ -4,8 +4,7 @@
 project(ALMATH)
 
 cmake_minimum_required(VERSION 2.6.4)
-include("${CMAKE_CURRENT_SOURCE_DIR}/bootstrap.cmake")
-
+include("qibuild.cmake")
 
 # Add BEFORE keyword so that we can rebuild almath against a sdk
 # without getting conflicts.
@@ -53,26 +52,23 @@ set(ALMATH_H
     almath/types/alquaternion.h
 )
 
-create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
+qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
 
-stage_lib(almath ALMATH)
+qi_stage_lib(almath ALMATH)
 
 option(ALMATH_PYTHON_BINDING
     "Build almath python binding using Swig."
     ON)
-if(DEFINED QI_SDK_DIR)
-  qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
-endif()
-
+qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
 
 # ALMath python bindings. Optional for now.
 if (ALMATH_PYTHON_BINDING STREQUAL "ON")
-    use(PYTHON-TOOLS)
-
-    wrap_python(almath almath.i SRCS
-        src/types/alpose2d.cpp
-        DEPENDENCIES ALMATH)
-    add_python_test(TestALMathPy "${CMAKE_CURRENT_SOURCE_DIR}/test/almath_test.py")
+  #use(PYTHON-TOOLS)
+  include(qibuild/swig/python)
+  qi_swig_wrap_python(almath almath.i SRC
+    src/types/alpose2d.cpp
+    DEPENDS ALMATH)
+  #add_python_test(TestALMathPy "${CMAKE_CURRENT_SOURCE_DIR}/test/almath_test.py")
 endif()
 
 add_subdirectory(test)

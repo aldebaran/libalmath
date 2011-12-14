@@ -1,6 +1,6 @@
 ## Author: Cyrille Collette <ccollette@aldebaran-robotics.com>
 ##
-## Copyright (C) 2010 Aldebaran Robotics
+## Copyright (C) 2010, 2011 Aldebaran Robotics
 ##
 
 set(almath_tests_srcs
@@ -24,5 +24,5 @@ set(almath_tests_srcs
     types/alquaternion_test.cpp
 )
 
-create_gtest(almath_tests SRC ${almath_tests_srcs} DEPENDENCIES GTEST ALMATH ALLOG)
+qi_create_gtest(almath_tests ${almath_tests_srcs} DEPENDS GTEST ALMATH)
 
