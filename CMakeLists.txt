@@ -6,6 +6,8 @@ project(ALMATH)
 cmake_minimum_required(VERSION 2.6.4)
 include("qibuild.cmake")
 
+enable_testing()
+
 # Add BEFORE keyword so that we can rebuild almath against a sdk
 # without getting conflicts.
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
