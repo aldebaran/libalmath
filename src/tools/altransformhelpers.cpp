@@ -30,74 +30,74 @@
 #include <almath/tools/altransformhelpers.h>
 #include <stdexcept>
 #include <almath/tools/altrigonometry.h>
-#include <almath/tools/almathio.h> // tmp TODO
+#include <almath/tools/almathio.h>
 
 namespace AL {
   namespace Math {
 
-  Transform transformFromRotationPosition3D(
-    const Rotation& pRot,
-    const float&    pX,
-    const float&    pY,
-    const float&    pZ)
-  {
-    Transform T = Transform();
+    Transform transformFromRotationPosition3D(
+        const Rotation& pRot,
+        const float&    pX,
+        const float&    pY,
+        const float&    pZ)
+    {
+      Transform T = Transform();
 
-    T.r1_c4 = pX;
-    T.r2_c4 = pY;
-    T.r3_c4 = pZ;
+      T.r1_c4 = pX;
+      T.r2_c4 = pY;
+      T.r3_c4 = pZ;
 
-    T.r1_c1 = pRot.r1_c1;
-    T.r1_c2 = pRot.r1_c2;
-    T.r1_c3 = pRot.r1_c3;
+      T.r1_c1 = pRot.r1_c1;
+      T.r1_c2 = pRot.r1_c2;
+      T.r1_c3 = pRot.r1_c3;
 
-    T.r2_c1 = pRot.r2_c1;
-    T.r2_c2 = pRot.r2_c2;
-    T.r2_c3 = pRot.r2_c3;
+      T.r2_c1 = pRot.r2_c1;
+      T.r2_c2 = pRot.r2_c2;
+      T.r2_c3 = pRot.r2_c3;
 
-    T.r3_c1 = pRot.r3_c1;
-    T.r3_c2 = pRot.r3_c2;
-    T.r3_c3 = pRot.r3_c3;
+      T.r3_c1 = pRot.r3_c1;
+      T.r3_c2 = pRot.r3_c2;
+      T.r3_c3 = pRot.r3_c3;
 
-    return T;
-  }
+      return T;
+    }
 
-  Transform transformFromRotationPosition3D(
-    const Rotation&   pRot,
-    const Position3D& pPos)
-  {
-    Transform T = Transform();
+    Transform transformFromRotationPosition3D(
+        const Rotation&   pRot,
+        const Position3D& pPos)
+    {
+      Transform T = Transform();
 
-    T.r1_c4 = pPos.x;
-    T.r2_c4 = pPos.y;
-    T.r3_c4 = pPos.z;
+      T.r1_c4 = pPos.x;
+      T.r2_c4 = pPos.y;
+      T.r3_c4 = pPos.z;
 
-    T.r1_c1 = pRot.r1_c1;
-    T.r1_c2 = pRot.r1_c2;
-    T.r1_c3 = pRot.r1_c3;
+      T.r1_c1 = pRot.r1_c1;
+      T.r1_c2 = pRot.r1_c2;
+      T.r1_c3 = pRot.r1_c3;
 
-    T.r2_c1 = pRot.r2_c1;
-    T.r2_c2 = pRot.r2_c2;
-    T.r2_c3 = pRot.r2_c3;
+      T.r2_c1 = pRot.r2_c1;
+      T.r2_c2 = pRot.r2_c2;
+      T.r2_c3 = pRot.r2_c3;
 
-    T.r3_c1 = pRot.r3_c1;
-    T.r3_c2 = pRot.r3_c2;
-    T.r3_c3 = pRot.r3_c3;
+      T.r3_c1 = pRot.r3_c1;
+      T.r3_c2 = pRot.r3_c2;
+      T.r3_c3 = pRot.r3_c3;
 
-    return T;
-  }
+      return T;
+    }
 
 
     void transformLogarithmInPlace(
-      const Transform& pH,
-      Velocity6D&      pVOut)
+        const Transform& pH,
+        Velocity6D&      pVOut)
     {
       float epsilon = 0.001f; // new
 
       // square root of sum of squares of the elements
       float si = 0.5f*sqrtf( (pH.r3_c2 - pH.r2_c3)*(pH.r3_c2 - pH.r2_c3) +
-        (pH.r1_c3 - pH.r3_c1)*(pH.r1_c3 - pH.r3_c1) +
-        (pH.r2_c1 - pH.r1_c2)*(pH.r2_c1 - pH.r1_c2) );
+                             (pH.r1_c3 - pH.r3_c1)*(pH.r1_c3 - pH.r3_c1) +
+                             (pH.r2_c1 - pH.r1_c2)*(pH.r2_c1 - pH.r1_c2) );
       float co = 0.5f*( pH.r1_c1 + pH.r2_c2 + pH.r3_c3 - 1.0f);
 
       float angle = atan2f(si, co);// arctan(sin/cos)
@@ -108,7 +108,7 @@ namespace AL {
       {
         if (co > 1.0f - epsilon)
         {
-          coeff = angle/( 2.0f*si + epsilon ); // was pow(2.0f,-52)
+          coeff = angle/( 2.0f*si + epsilon );
           pVOut.wxd = coeff * (pH.r3_c2 - pH.r2_c3);
           pVOut.wyd = coeff * (pH.r1_c3 - pH.r3_c1);
           pVOut.wzd = coeff * (pH.r2_c1 - pH.r1_c2);
@@ -192,18 +192,18 @@ namespace AL {
       pVOut.yd = pH.r2_c4*(
           coeff_2*(( pH.r2_c3 - pH.r3_c2 )*( pH.r3_c2 - pH.r2_c3 ) +
                    ( pH.r1_c2 - pH.r2_c1 )*( pH.r2_c1 - pH.r1_c2 ))*lambda + 1.0f) +
-        pH.r1_c4*( coeff_2*( pH.r3_c1 - pH.r1_c3 )*( pH.r2_c3 - pH.r3_c2 )*lambda -
-                   0.5f*coeff*( pH.r2_c1 - pH.r1_c2 )) +
-        pH.r3_c4*( coeff_2*( pH.r2_c1 - pH.r1_c2 )*( pH.r1_c3 - pH.r3_c1 )*lambda -
-                   0.5f*coeff*( pH.r2_c3 - pH.r3_c2 ));
+          pH.r1_c4*( coeff_2*( pH.r3_c1 - pH.r1_c3 )*( pH.r2_c3 - pH.r3_c2 )*lambda -
+                     0.5f*coeff*( pH.r2_c1 - pH.r1_c2 )) +
+          pH.r3_c4*( coeff_2*( pH.r2_c1 - pH.r1_c2 )*( pH.r1_c3 - pH.r3_c1 )*lambda -
+                     0.5f*coeff*( pH.r2_c3 - pH.r3_c2 ));
 
       pVOut.zd = pH.r3_c4*(
           coeff_2*(( pH.r2_c3 - pH.r3_c2 )*( pH.r3_c2 - pH.r2_c3 ) +
                    ( pH.r1_c3 - pH.r3_c1 )*( pH.r3_c1 - pH.r1_c3 ))*lambda + 1.0f ) +
-        pH.r1_c4*( coeff_2*( pH.r2_c1 - pH.r1_c2 )*( pH.r3_c2 - pH.r2_c3 )*lambda -
-                   0.5f*coeff*( pH.r3_c1 - pH.r1_c3 )) +
-        pH.r2_c4*( coeff_2*( pH.r1_c2 - pH.r2_c1 )*( pH.r3_c1 - pH.r1_c3 )*lambda -
-                   0.5f*coeff*( pH.r3_c2 - pH.r2_c3 ));
+          pH.r1_c4*( coeff_2*( pH.r2_c1 - pH.r1_c2 )*( pH.r3_c2 - pH.r2_c3 )*lambda -
+                     0.5f*coeff*( pH.r3_c1 - pH.r1_c3 )) +
+          pH.r2_c4*( coeff_2*( pH.r1_c2 - pH.r2_c1 )*( pH.r3_c1 - pH.r1_c3 )*lambda -
+                     0.5f*coeff*( pH.r3_c2 - pH.r2_c3 ));
 
     } // end transformLogarithmInPlace
 
@@ -217,8 +217,8 @@ namespace AL {
 
 
     void velocityExponentialInPlace(
-      const AL::Math::Velocity6D& pM,
-      AL::Math::Transform&        tM)
+        const AL::Math::Velocity6D& pM,
+        AL::Math::Transform&        tM)
     {
       float t;
       // square root of sum of squares of the elements (w.norm_Frobenius())
@@ -230,7 +230,6 @@ namespace AL {
       {
         CC  = (1-cosf(t)) / (t*t); // motionCos cardinal cosinus
         SC  = sinf(t) / t;       // motionSin cardinal sinus
-        // CK WTF Cyrille ... store and reuse
         dSC = (t-sinf(t)) / powf(t, 3); // motionSin cardinal sinus derivative powf
       }
       else
@@ -252,16 +251,16 @@ namespace AL {
       tM.r3_c3 = 1 - CC*(pM.wxd*pM.wxd + pM.wyd*pM.wyd);
 
       tM.r1_c4 = (SC + dSC*pM.wxd*pM.wxd)*pM.xd +
-        (-CC*pM.wzd + dSC*pM.wxd*pM.wyd)*pM.yd +
-        (+CC*pM.wyd + dSC*pM.wxd*pM.wzd)*pM.zd;
+                 (-CC*pM.wzd + dSC*pM.wxd*pM.wyd)*pM.yd +
+                 (+CC*pM.wyd + dSC*pM.wxd*pM.wzd)*pM.zd;
 
       tM.r2_c4 = (CC*pM.wzd + dSC*pM.wyd*pM.wxd)*pM.xd +
-        (SC + dSC*pM.wyd*pM.wyd)*pM.yd +
-        (-CC*pM.wxd + dSC*pM.wyd*pM.wzd)*pM.zd;
+                 (SC + dSC*pM.wyd*pM.wyd)*pM.yd +
+                 (-CC*pM.wxd + dSC*pM.wyd*pM.wzd)*pM.zd;
 
       tM.r3_c4 = (-CC*pM.wyd + dSC*pM.wzd*pM.wxd)*pM.xd +
-        (CC*pM.wxd + dSC*pM.wzd*pM.wyd)*pM.yd +
-        (SC + dSC*pM.wzd*pM.wzd)*pM.zd;
+                 (CC*pM.wxd + dSC*pM.wzd*pM.wyd)*pM.yd +
+                 (SC + dSC*pM.wzd*pM.wzd)*pM.zd;
     }
 
 
@@ -274,9 +273,9 @@ namespace AL {
 
 
     void changeReferenceVelocity6D(
-      const Transform&  pH,
-      const Velocity6D& pVIn,
-      Velocity6D&       pVOut)
+        const Transform&  pH,
+        const Velocity6D& pVIn,
+        Velocity6D&       pVOut)
     {
       pVOut.xd  = pH.r1_c1 * pVIn.xd  + pH.r1_c2 * pVIn.yd  + pH.r1_c3 * pVIn.zd;
       pVOut.yd  = pH.r2_c1 * pVIn.xd  + pH.r2_c2 * pVIn.yd  + pH.r2_c3 * pVIn.zd;
@@ -288,9 +287,9 @@ namespace AL {
 
 
     void changeReferencePosition6D(
-      const Transform&  pH,
-      const Position6D& pPIn,
-      Position6D&       pPOut)
+        const Transform&  pH,
+        const Position6D& pPIn,
+        Position6D&       pPOut)
     {
       pPOut.x  = pH.r1_c1 * pPIn.x  + pH.r1_c2 * pPIn.y  + pH.r1_c3 * pPIn.z;
       pPOut.y  = pH.r2_c1 * pPIn.x  + pH.r2_c2 * pPIn.y  + pH.r2_c3 * pPIn.z;
@@ -302,8 +301,8 @@ namespace AL {
 
 
     void changeReferencePosition3DInPlace(
-      const Transform& pH,
-      Position3D&      pPosOut)
+        const Transform& pH,
+        Position3D&      pPosOut)
     {
       float x, y, z;
       x = pPosOut.x;
@@ -317,8 +316,8 @@ namespace AL {
 
 
     void changeReferenceTransposePosition3DInPlace(
-      const Transform&  pH,
-      Position3D&       pPosOut)
+        const Transform&  pH,
+        Position3D&       pPosOut)
     {
       float x, y, z;
       x = pPosOut.x;
@@ -332,9 +331,9 @@ namespace AL {
 
 
     void changeReferencePosition3D(
-      const Transform&  pH,
-      const Position3D& pPosIn,
-      Position3D&       pPosOut)
+        const Transform&  pH,
+        const Position3D& pPosIn,
+        Position3D&       pPosOut)
     {
       pPosOut.x = pH.r1_c1 * pPosIn.x + pH.r1_c2 * pPosIn.y + pH.r1_c3 * pPosIn.z;
       pPosOut.y = pH.r2_c1 * pPosIn.x + pH.r2_c2 * pPosIn.y + pH.r2_c3 * pPosIn.z;
@@ -343,9 +342,9 @@ namespace AL {
 
 
     void changeReferenceTransposePosition3D(
-      const Transform&  pH,
-      const Position3D& pPosIn,
-      Position3D&       pPosOut)
+        const Transform&  pH,
+        const Position3D& pPosIn,
+        Position3D&       pPosOut)
     {
       pPosOut.x = pH.r1_c1 * pPosIn.x + pH.r2_c1 * pPosIn.y + pH.r3_c1 * pPosIn.z;
       pPosOut.y = pH.r1_c2 * pPosIn.x + pH.r2_c2 * pPosIn.y + pH.r3_c2 * pPosIn.z;
@@ -354,9 +353,9 @@ namespace AL {
 
 
     void changeReferenceTransform(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Transform&  pHIn,
-      AL::Math::Transform&        pHOut)
+        const AL::Math::Transform&  pH,
+        const AL::Math::Transform&  pHIn,
+        AL::Math::Transform&        pHOut)
     {
       pHOut.r1_c1 = (pH.r1_c1 * pHIn.r1_c1) + (pH.r1_c2 * pHIn.r2_c1) + (pH.r1_c3 * pHIn.r3_c1);
       pHOut.r1_c2 = (pH.r1_c1 * pHIn.r1_c2) + (pH.r1_c2 * pHIn.r2_c2) + (pH.r1_c3 * pHIn.r3_c2);
@@ -376,9 +375,9 @@ namespace AL {
 
 
     void changeReferenceTransposeTransform(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Transform&  pHIn,
-      AL::Math::Transform&        pHOut)
+        const AL::Math::Transform&  pH,
+        const AL::Math::Transform&  pHIn,
+        AL::Math::Transform&        pHOut)
     {
       pHOut.r1_c1 = (pH.r1_c1 * pHIn.r1_c1) + (pH.r2_c1 * pHIn.r2_c1) + (pH.r3_c1 * pHIn.r3_c1);
       pHOut.r1_c2 = (pH.r1_c1 * pHIn.r1_c2) + (pH.r2_c1 * pHIn.r2_c2) + (pH.r3_c1 * pHIn.r3_c2);
@@ -398,9 +397,9 @@ namespace AL {
 
 
     void changeReferenceTransposeVelocity6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Velocity6D& pVIn,
-      AL::Math::Velocity6D&       pVOut)
+        const AL::Math::Transform&  pH,
+        const AL::Math::Velocity6D& pVIn,
+        AL::Math::Velocity6D&       pVOut)
     {
       pVOut.xd  = pH.r1_c1 * pVIn.xd  + pH.r2_c1 * pVIn.yd  + pH.r3_c1 * pVIn.zd  ;
       pVOut.yd  = pH.r1_c2 * pVIn.xd  + pH.r2_c2 * pVIn.yd  + pH.r3_c2 * pVIn.zd  ;
@@ -412,9 +411,9 @@ namespace AL {
 
 
     void changeReferenceTransposePosition6D(
-      const AL::Math::Transform&  pH,
-      const AL::Math::Position6D& pPIn,
-      AL::Math::Position6D&       pPOut)
+        const AL::Math::Transform&  pH,
+        const AL::Math::Position6D& pPIn,
+        AL::Math::Position6D&       pPOut)
     {
       pPOut.x  = pH.r1_c1 * pPIn.x  + pH.r2_c1 * pPIn.y  + pH.r3_c1 * pPIn.z  ;
       pPOut.y  = pH.r1_c2 * pPIn.x  + pH.r2_c2 * pPIn.y  + pH.r3_c2 * pPIn.z  ;
@@ -426,15 +425,15 @@ namespace AL {
 
 
     void transformMeanInPlace(
-      const AL::Math::Transform&  pHIn1,
-      const AL::Math::Transform&  pHIn2,
-      const float&                pDist,
-      AL::Math::Transform&        pHOut)
+        const AL::Math::Transform&  pHIn1,
+        const AL::Math::Transform&  pHIn2,
+        const float&                pDist,
+        AL::Math::Transform&        pHOut)
     {
       if ((pDist>1.0f) || (pDist<0.0f))
       {
         throw std::runtime_error(
-          "ALMath: transformMeanInPlace Distance must be between 0 and 1.");
+            "ALMath: transformMeanInPlace Distance must be between 0 and 1.");
       }
 
       Velocity6D pV;
@@ -448,9 +447,9 @@ namespace AL {
 
 
     AL::Math::Transform transformMean(
-      const AL::Math::Transform&  pHIn1,
-      const AL::Math::Transform&  pHIn2,
-      const float&                pDist)
+        const AL::Math::Transform&  pHIn1,
+        const AL::Math::Transform&  pHIn2,
+        const float&                pDist)
     {
       AL::Math::Transform pHOut;
       transformMeanInPlace(pHIn1, pHIn2, pDist, pHOut);
@@ -459,8 +458,8 @@ namespace AL {
 
 
     void transformFromPosition3DInPlace(
-      const Position3D& pPosition,
-      Transform&        pTransform)
+        const Position3D& pPosition,
+        Transform&        pTransform)
     {
       pTransform.r1_c4 = pPosition.x;
       pTransform.r2_c4 = pPosition.y;
@@ -477,8 +476,8 @@ namespace AL {
 
 
     void transformFromRotationInPlace(
-      const Rotation& pRot,
-      Transform&      pT)
+        const Rotation& pRot,
+        Transform&      pT)
     {
       pT.r1_c1 = pRot.r1_c1;
       pT.r1_c2 = pRot.r1_c2;
@@ -503,8 +502,8 @@ namespace AL {
 
 
     void rotationFromTransformInPlace(
-      const Transform& pIn,
-      Rotation&        pOut)
+        const Transform& pIn,
+        Rotation&        pOut)
     {
       pOut.r1_c1 = pIn.r1_c1;
       pOut.r1_c2 = pIn.r1_c2;
@@ -590,49 +589,49 @@ namespace AL {
     Transform transformFromRotation3D(const Rotation3D& pRotation)
     {
       return transformFrom3DRotation(
-            pRotation.wx,
-            pRotation.wy,
-            pRotation.wz);
+          pRotation.wx,
+          pRotation.wy,
+          pRotation.wz);
     }
 
 
     Transform transformFromPosition6D(const Position6D& pPosition6D)
     {
       return transformFromPosition(
-        pPosition6D.x,
-        pPosition6D.y,
-        pPosition6D.z,
-        pPosition6D.wx,
-        pPosition6D.wy,
-        pPosition6D.wz);
+          pPosition6D.x,
+          pPosition6D.y,
+          pPosition6D.z,
+          pPosition6D.wx,
+          pPosition6D.wy,
+          pPosition6D.wz);
     }
 
 
     void position6DFromTransformDiffInPlace(
-      const Transform& pCurrent,
-      const Transform& pTarget,
-      Position6D&      result)
+        const Transform& pCurrent,
+        const Transform& pTarget,
+        Position6D&      result)
     {
       result.x = pTarget.r1_c4 - pCurrent.r1_c4;
       result.y = pTarget.r2_c4 - pCurrent.r2_c4;
       result.z = pTarget.r3_c4 - pCurrent.r3_c4;
       result.wx = 0.5f * ( ((pCurrent.r2_c1 * pTarget.r3_c1) - (pCurrent.r3_c1 * pTarget.r2_c1)) +
-        ((pCurrent.r2_c2 * pTarget.r3_c2) - (pCurrent.r3_c2 * pTarget.r2_c2)) +
-        ((pCurrent.r2_c3 * pTarget.r3_c3) - (pCurrent.r3_c3 * pTarget.r2_c3)) );
+                           ((pCurrent.r2_c2 * pTarget.r3_c2) - (pCurrent.r3_c2 * pTarget.r2_c2)) +
+                           ((pCurrent.r2_c3 * pTarget.r3_c3) - (pCurrent.r3_c3 * pTarget.r2_c3)) );
 
       result.wy = 0.5f * ( ((pCurrent.r3_c1 * pTarget.r1_c1) - (pCurrent.r1_c1 * pTarget.r3_c1)) +
-        ((pCurrent.r3_c2 * pTarget.r1_c2) - (pCurrent.r1_c2 * pTarget.r3_c2)) +
-        ((pCurrent.r3_c3 * pTarget.r1_c3) - (pCurrent.r1_c3 * pTarget.r3_c3)) );
+                           ((pCurrent.r3_c2 * pTarget.r1_c2) - (pCurrent.r1_c2 * pTarget.r3_c2)) +
+                           ((pCurrent.r3_c3 * pTarget.r1_c3) - (pCurrent.r1_c3 * pTarget.r3_c3)) );
 
       result.wz = 0.5f * ( ((pCurrent.r1_c1 * pTarget.r2_c1) - (pCurrent.r2_c1 * pTarget.r1_c1)) +
-        ((pCurrent.r1_c2 * pTarget.r2_c2) - (pCurrent.r2_c2 * pTarget.r1_c2)) +
-        ((pCurrent.r1_c3 * pTarget.r2_c3) - (pCurrent.r2_c3 * pTarget.r1_c3)) );
+                           ((pCurrent.r1_c2 * pTarget.r2_c2) - (pCurrent.r2_c2 * pTarget.r1_c2)) +
+                           ((pCurrent.r1_c3 * pTarget.r2_c3) - (pCurrent.r2_c3 * pTarget.r1_c3)) );
     }
 
 
     Position6D position6DFromTransformDiff(
-      const Transform& pCurrent,
-      const Transform& pTarget)
+        const Transform& pCurrent,
+        const Transform& pTarget)
     {
       Position6D result;
       position6DFromTransformDiffInPlace(pCurrent, pTarget, result);
@@ -641,8 +640,8 @@ namespace AL {
 
 
     void position3DFromTransformInPlace(
-      const Transform& pT,
-      Position3D&      pPos)
+        const Transform& pT,
+        Position3D&      pPos)
     {
       pPos.x = pT.r1_c4;
       pPos.y = pT.r2_c4;
@@ -682,8 +681,8 @@ namespace AL {
     }
 
     Position3D operator*(
-      const Transform& pT,
-      const Position3D&  pPos)
+        const Transform& pT,
+        const Position3D&  pPos)
     {
       Position3D result;
       result.x = (pT.r1_c1 * pPos.x) + (pT.r1_c2 * pPos.y) + (pT.r1_c3 * pPos.z) + pT.r1_c4;
@@ -694,8 +693,8 @@ namespace AL {
 
 
     Transform axisRotationProjection(
-      const Position3D& pPos,
-      const Transform&  pT)
+        const Position3D& pPos,
+        const Transform&  pT)
     {
       AL::Math::Transform pTSol;
 
@@ -714,8 +713,8 @@ namespace AL {
 
 
     Rotation axisRotationProjection(
-      const Position3D& pPos,
-      const Rotation&   pRot)
+        const Position3D& pPos,
+        const Rotation&   pRot)
     {
       Rotation pOut = pRot;
       axisRotationProjectionInPlace(pPos, pOut);
@@ -723,17 +722,15 @@ namespace AL {
     }
 
 
-    // NOTE: although this is not about transforms, it is here because
-    // other methods here use it.
     void axisRotationProjectionInPlace(
-      const Position3D& pAxis,
-      Rotation&         pRot)
+        const Position3D& pAxis,
+        Rotation&         pRot)
     {
       float inw = norm(pAxis);
       if (inw == 0.0f)
       {
         throw std::runtime_error(
-          "ALMath: axisRotationProjectionInPlace Division by zeros.");
+            "ALMath: axisRotationProjectionInPlace Division by zeros.");
       }
 
       inw = 1.0f/inw;
@@ -747,26 +744,26 @@ namespace AL {
       float z_2 = powf(z, 2);
 
       float a =
-        x*(pRot.r2_c3 - z*(x*pRot.r2_c1 + y*pRot.r2_c2 + z*pRot.r2_c3)) +
-        y*(pRot.r3_c1 - x*(x*pRot.r3_c1 + y*pRot.r3_c2 + z*pRot.r3_c2)) +
-        z*(pRot.r1_c2 - y*(x*pRot.r1_c1 + y*pRot.r1_c2 + z*pRot.r1_c3));
+          x*(pRot.r2_c3 - z*(x*pRot.r2_c1 + y*pRot.r2_c2 + z*pRot.r2_c3)) +
+          y*(pRot.r3_c1 - x*(x*pRot.r3_c1 + y*pRot.r3_c2 + z*pRot.r3_c2)) +
+          z*(pRot.r1_c2 - y*(x*pRot.r1_c1 + y*pRot.r1_c2 + z*pRot.r1_c3));
 
       float b =
-        x*(-pRot.r3_c1*z + pRot.r3_c3*x) +
-        y*( pRot.r1_c1*y - pRot.r1_c2*x) +
-        z*( pRot.r2_c2*z - pRot.r2_c3*y);
+          x*(-pRot.r3_c1*z + pRot.r3_c3*x) +
+          y*( pRot.r1_c1*y - pRot.r1_c2*x) +
+          z*( pRot.r2_c2*z - pRot.r2_c3*y);
 
       float c =
-        x*(z*x*pRot.r2_c1 + z*y*pRot.r2_c2 + z*z*pRot.r2_c3) +
-        y*(x*x*pRot.r3_c1 + x*y*pRot.r3_c2 + x*z*pRot.r3_c3) +
-        z*(y*x*pRot.r1_c1 + y*y*pRot.r1_c2 + y*z*pRot.r1_c3);
+          x*(z*x*pRot.r2_c1 + z*y*pRot.r2_c2 + z*z*pRot.r2_c3) +
+          y*(x*x*pRot.r3_c1 + x*y*pRot.r3_c2 + x*z*pRot.r3_c3) +
+          z*(y*x*pRot.r1_c1 + y*y*pRot.r1_c2 + y*z*pRot.r1_c3);
 
       float d2 = a*a + b*b - c*c;
 
       if (d2<0)
       {
         throw std::runtime_error(
-          "ALMath: axisRotationProjectionInPlace d2 < 0");
+            "ALMath: axisRotationProjectionInPlace d2 < 0");
         return;
       }
 
@@ -780,24 +777,24 @@ namespace AL {
       float sin_2 = sinf( alpha - beta );
 
       float trace_1 = pRot.r1_c1*( cos_1*( - z_2 - y_2 ) + 1.0f ) +
-        pRot.r2_c2*( cos_1*( - z_2 - x_2 ) + 1.0f ) +
-        pRot.r3_c2*( cos_1*y*z + sin_1*x ) +
-        pRot.r2_c3*( cos_1*y*z - sin_1*x ) +
-        pRot.r1_c3*( cos_1*x*z + sin_1*y ) +
-        pRot.r3_c1*( cos_1*x*z - sin_1*y ) +
-        pRot.r2_c1*( sin_1*z + cos_1*x*y ) +
-        pRot.r1_c2*( cos_1*x*y - sin_1*z ) +
-        pRot.r3_c3*( cos_1*( - y_2 - x_2 ) + 1.0f );
+                      pRot.r2_c2*( cos_1*( - z_2 - x_2 ) + 1.0f ) +
+                      pRot.r3_c2*( cos_1*y*z + sin_1*x ) +
+                      pRot.r2_c3*( cos_1*y*z - sin_1*x ) +
+                      pRot.r1_c3*( cos_1*x*z + sin_1*y ) +
+                      pRot.r3_c1*( cos_1*x*z - sin_1*y ) +
+                      pRot.r2_c1*( sin_1*z + cos_1*x*y ) +
+                      pRot.r1_c2*( cos_1*x*y - sin_1*z ) +
+                      pRot.r3_c3*( cos_1*( - y_2 - x_2 ) + 1.0f );
 
       float trace_2 = pRot.r1_c1*( cos_2*( - z_2 - y_2 ) + 1.0f ) +
-        pRot.r2_c2*( cos_2*( - z_2 - x_2 ) + 1.0f ) +
-        pRot.r3_c2*( cos_2*y*z + sin_2*x ) +
-        pRot.r2_c3*( cos_2*y*z - sin_2*x ) +
-        pRot.r1_c3*( cos_2*x*z + sin_2*y ) +
-        pRot.r3_c1*( cos_2*x*z - sin_2*y ) +
-        pRot.r2_c1*( sin_2*z + cos_2*x*y ) +
-        pRot.r1_c2*( cos_2*x*y - sin_2*z ) +
-        pRot.r3_c3*( cos_2*( - y_2 - x_2 ) + 1.0f );
+                      pRot.r2_c2*( cos_2*( - z_2 - x_2 ) + 1.0f ) +
+                      pRot.r3_c2*( cos_2*y*z + sin_2*x ) +
+                      pRot.r2_c3*( cos_2*y*z - sin_2*x ) +
+                      pRot.r1_c3*( cos_2*x*z + sin_2*y ) +
+                      pRot.r3_c1*( cos_2*x*z - sin_2*y ) +
+                      pRot.r2_c1*( sin_2*z + cos_2*x*y ) +
+                      pRot.r1_c2*( cos_2*x*y - sin_2*z ) +
+                      pRot.r3_c3*( cos_2*( - y_2 - x_2 ) + 1.0f );
 
       if (trace_1 < trace_2)
       {
@@ -829,14 +826,14 @@ namespace AL {
 
 
     void axisRotationProjectionInPlace(
-      const Position3D& pAxis,
-      Transform&        pH)
+        const Position3D& pAxis,
+        Transform&        pH)
     {
       float inw = norm(pAxis);
       if (inw == 0.0f)
       {
         throw std::runtime_error(
-          "ALMath: axisRotationProjectionInPlace Division by zeros.");
+            "ALMath: axisRotationProjectionInPlace Division by zeros.");
       }
 
       inw = 1.0f/inw;
@@ -850,26 +847,26 @@ namespace AL {
       float z_2 = powf(z, 2);
 
       float a =
-        x*(pH.r2_c3 - z*(x*pH.r2_c1 + y*pH.r2_c2 + z*pH.r2_c3)) +
-        y*(pH.r3_c1 - x*(x*pH.r3_c1 + y*pH.r3_c2 + z*pH.r3_c2)) +
-        z*(pH.r1_c2 - y*(x*pH.r1_c1 + y*pH.r1_c2 + z*pH.r1_c3));
+          x*(pH.r2_c3 - z*(x*pH.r2_c1 + y*pH.r2_c2 + z*pH.r2_c3)) +
+          y*(pH.r3_c1 - x*(x*pH.r3_c1 + y*pH.r3_c2 + z*pH.r3_c2)) +
+          z*(pH.r1_c2 - y*(x*pH.r1_c1 + y*pH.r1_c2 + z*pH.r1_c3));
 
       float b =
-        x*(-pH.r3_c1*z + pH.r3_c3*x) +
-        y*( pH.r1_c1*y - pH.r1_c2*x) +
-        z*( pH.r2_c2*z - pH.r2_c3*y);
+          x*(-pH.r3_c1*z + pH.r3_c3*x) +
+          y*( pH.r1_c1*y - pH.r1_c2*x) +
+          z*( pH.r2_c2*z - pH.r2_c3*y);
 
       float c =
-        x*(z*x*pH.r2_c1 + z*y*pH.r2_c2 + z*z*pH.r2_c3) +
-        y*(x*x*pH.r3_c1 + x*y*pH.r3_c2 + x*z*pH.r3_c3) +
-        z*(y*x*pH.r1_c1 + y*y*pH.r1_c2 + y*z*pH.r1_c3);
+          x*(z*x*pH.r2_c1 + z*y*pH.r2_c2 + z*z*pH.r2_c3) +
+          y*(x*x*pH.r3_c1 + x*y*pH.r3_c2 + x*z*pH.r3_c3) +
+          z*(y*x*pH.r1_c1 + y*y*pH.r1_c2 + y*z*pH.r1_c3);
 
       float d2 = a*a + b*b - c*c;
 
       if (d2<0)
       {
         throw std::runtime_error(
-          "ALMath: axisRotationProjectionInPlace d2 < 0");
+            "ALMath: axisRotationProjectionInPlace d2 < 0");
         return;
       }
 
@@ -883,24 +880,24 @@ namespace AL {
       float sin_2 = sinf( alpha - beta );
 
       float trace_1 = pH.r1_c1*( cos_1*( - z_2 - y_2 ) + 1.0f ) +
-        pH.r2_c2*( cos_1*( - z_2 - x_2 ) + 1.0f ) +
-        pH.r3_c2*( cos_1*y*z + sin_1*x ) +
-        pH.r2_c3*( cos_1*y*z - sin_1*x ) +
-        pH.r1_c3*( cos_1*x*z + sin_1*y ) +
-        pH.r3_c1*( cos_1*x*z - sin_1*y ) +
-        pH.r2_c1*( sin_1*z + cos_1*x*y ) +
-        pH.r1_c2*( cos_1*x*y - sin_1*z ) +
-        pH.r3_c3*( cos_1*( - y_2 - x_2 ) + 1.0f );
+                      pH.r2_c2*( cos_1*( - z_2 - x_2 ) + 1.0f ) +
+                      pH.r3_c2*( cos_1*y*z + sin_1*x ) +
+                      pH.r2_c3*( cos_1*y*z - sin_1*x ) +
+                      pH.r1_c3*( cos_1*x*z + sin_1*y ) +
+                      pH.r3_c1*( cos_1*x*z - sin_1*y ) +
+                      pH.r2_c1*( sin_1*z + cos_1*x*y ) +
+                      pH.r1_c2*( cos_1*x*y - sin_1*z ) +
+                      pH.r3_c3*( cos_1*( - y_2 - x_2 ) + 1.0f );
 
       float trace_2 = pH.r1_c1*( cos_2*( - z_2 - y_2 ) + 1.0f ) +
-        pH.r2_c2*( cos_2*( - z_2 - x_2 ) + 1.0f ) +
-        pH.r3_c2*( cos_2*y*z + sin_2*x ) +
-        pH.r2_c3*( cos_2*y*z - sin_2*x ) +
-        pH.r1_c3*( cos_2*x*z + sin_2*y ) +
-        pH.r3_c1*( cos_2*x*z - sin_2*y ) +
-        pH.r2_c1*( sin_2*z + cos_2*x*y ) +
-        pH.r1_c2*( cos_2*x*y - sin_2*z ) +
-        pH.r3_c3*( cos_2*( - y_2 - x_2 ) + 1.0f );
+                      pH.r2_c2*( cos_2*( - z_2 - x_2 ) + 1.0f ) +
+                      pH.r3_c2*( cos_2*y*z + sin_2*x ) +
+                      pH.r2_c3*( cos_2*y*z - sin_2*x ) +
+                      pH.r1_c3*( cos_2*x*z + sin_2*y ) +
+                      pH.r3_c1*( cos_2*x*z - sin_2*y ) +
+                      pH.r2_c1*( sin_2*z + cos_2*x*y ) +
+                      pH.r1_c2*( cos_2*x*y - sin_2*z ) +
+                      pH.r3_c3*( cos_2*( - y_2 - x_2 ) + 1.0f );
 
       if (trace_1 < trace_2)
       {
@@ -932,16 +929,16 @@ namespace AL {
 
     // Main
     void transformFromRotVecInPlace(
-      const int                   pAxis,
-      const float                 pTheta,
-      const AL::Math::Position3D& pM,
-      Transform&                  pT)
+        const int                   pAxis,
+        const float                 pTheta,
+        const AL::Math::Position3D& pM,
+        Transform&                  pT)
     {
       // Usefull initialization
       pT = AL::Math::Transform();
 
-      float c = cosf(pTheta); // degree to radian
-      float s = sinf(pTheta); // degree to radian
+      float c = cosf(pTheta);
+      float s = sinf(pTheta);
 
       pT.r1_c4 = pM.x;
       pT.r2_c4 = pM.y;
@@ -977,9 +974,9 @@ namespace AL {
 
 
     Transform transformFromRotVec(
-      const int                   pAxis,
-      const float                 pTheta,
-      const AL::Math::Position3D& pM)
+        const int                   pAxis,
+        const float                 pTheta,
+        const AL::Math::Position3D& pM)
     {
       Transform pOut;
       transformFromRotVecInPlace(pAxis, pTheta, pM, pOut);
@@ -988,8 +985,8 @@ namespace AL {
 
 
     void transformFromRotVecInPlace(
-      const AL::Math::Position3D& pPosition,
-      AL::Math::Transform&        pTransform)
+        const AL::Math::Position3D& pPosition,
+        AL::Math::Transform&        pTransform)
     {
       int pAxis  = AL::Math::AXIS_MASK_WX; // 8
       float pRot = 0.0f;
@@ -999,7 +996,7 @@ namespace AL {
 
 
     AL::Math::Transform transformFromRotVec(
-      const AL::Math::Position3D& pPosition)
+        const AL::Math::Position3D& pPosition)
     {
       AL::Math::Transform transform;
       transformFromRotVecInPlace(pPosition, transform);
@@ -1008,8 +1005,8 @@ namespace AL {
 
 
     AL::Math::Transform transformFromRotVec(
-      const int&   pAxis,
-      const float& pRot)
+        const int&   pAxis,
+        const float& pRot)
     {
       AL::Math::Transform transform;
 
@@ -1022,8 +1019,8 @@ namespace AL {
 
 
     void orthogonalSpace(
-      const Position3D& pAxis,
-      Transform&        HOut)
+        const Position3D& pAxis,
+        Transform&        HOut)
     {
       //Transform HOut;
       Position3D pAxisTmp = Position3D();
@@ -1031,7 +1028,6 @@ namespace AL {
       Position3D pAxis1 = Position3D();
       Position3D pAxis2 = Position3D();
 
-      // Trouver l indice du premier element non nul
       float coef = 0.0001f;
       if (fabsf(pAxis3.x)> coef)
       {
@@ -1048,7 +1044,7 @@ namespace AL {
 
       pAxis1 = AL::Math::normalize(pAxisTmp);
 
-      pAxisTmp = crossProduct(pAxis3, pAxis1); // was pAxis3, pAxis1
+      pAxisTmp = crossProduct(pAxis3, pAxis1);
       pAxis2 = AL::Math::normalize(pAxisTmp);
 
       HOut.r1_c1 = pAxis1.x;
@@ -1064,12 +1060,6 @@ namespace AL {
       HOut.r3_c3 = pAxis3.z;
     }
 
-    // ORTHSPACE: Plan orthogonal d'une droite vectorielle
-    //
-    // Retourne une base orthonormee de l espace orthogonal au vecteur e3, choisie de
-    // telle sorte que base_espace = [e1 e2 e3] soit une base orthogonale directe de
-    // l espace R3 tout entier (et meme, une base orthonormee directe, si e3 est
-    // norme).
     Transform orthogonalSpace(const Position3D& pAxis)
     {
       Transform HOut;
@@ -1078,7 +1068,7 @@ namespace AL {
     }
 
     Transform transformFromQuaternion(
-      const Quaternion& pQua)
+        const Quaternion& pQua)
     {
       Transform TOut;
 
@@ -1099,7 +1089,7 @@ namespace AL {
 
 
     Quaternion quaternionFromTransform(
-      const Transform& pT)
+        const Transform& pT)
     {
       // TR2Q   Convert homogeneous transform to a unit-quaternion
       //
@@ -1135,7 +1125,7 @@ namespace AL {
         kz1 = pT.r3_c2 + pT.r2_c3;                   // Oz + Ay
         add = (ky >= 0.0f);
       }
-        else
+      else
       {
         kx1 = pT.r3_c1 + pT.r1_c3;                   // Nz + Ax
         ky1 = pT.r3_c2 + pT.r2_c3;                   // Oz + Ay

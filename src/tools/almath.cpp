@@ -83,8 +83,6 @@ namespace AL
       const float       pVal,
       const Position6D& pPos)
     {
-      /** cyrille 27/04/2009 static ? **/
-
       Velocity6D pVel;
       pVel.xd  = pVal * pPos.x;
       pVel.yd  = pVal * pPos.y;
@@ -106,7 +104,6 @@ namespace AL
             pPos.y,
             pPos.z);
     }
-
   } // namespace Math
 } // namespace AL
 
