@@ -1,0 +1,23 @@
+ALMath
+=======
+
+ALMath is an optimized mathematic toolbox for robotics. 
+This library give access to main types and tools of kinematics and dynamics. 
+A large part of the functions is optimised in speed so that they 
+can be ran in an embeded environment
+
+git repository:
+https://github.com/aldebaran
+
+Mailing list:
+naoqi-dev@aldebaran-robotics.com
+
+Documentation:
+http://developer.aldebaran-robotics.com/doc/1-12/ref/libalmath/index.html
+
+Maintainers:
+David Gouaillier <dgouaillier@aldebaran-robotics.com>
+Cyrille Collette <ccollette@aldebaran-robotics.com>
+Chris kilner <ckilner@aldebaran-robotics.com>
+Sebastien Barthelemy <sbarthelemy@aldebaran-robotics.com>
+
