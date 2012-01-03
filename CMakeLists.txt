@@ -4,7 +4,7 @@
 project(ALMATH)
 
 cmake_minimum_required(VERSION 2.6.4)
-include("qibuild.cmake")
+find_package(qibuild)
 
 enable_testing()
 
