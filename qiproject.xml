@@ -1,0 +1,5 @@
+<project name="libalmath">
+
+  <doxydoc name="libalmath" src="." dest="ref/libalmath" />
+
+</project>
