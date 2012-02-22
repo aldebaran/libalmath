@@ -70,83 +70,59 @@ namespace std {
 
 
 %extend AL::Math::Pose2D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "x = %g, y = %g, theta = %g",
-                      $self->x, $self->y, $self->theta);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_Pose2D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Pose2D(x=%g, y=%g, theta=%g)",
+               $self->x, $self->y, $self->theta);
+       return tmp;
    }
 };
 
 %extend AL::Math::Position2D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "x = %g, y = %g",
-                      $self->x, $self->y);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_Position2D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Position2D(x=%g, y=%g)",
+               $self->x, $self->y);
+       return tmp;
    }
 };
 
 
 %extend AL::Math::Position3D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "x = %g, y = %g, z = %g",
-                      $self->x, $self->y, $self->z);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_Position3D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Position3D(x=%g, y=%g, z=%g)",
+               $self->x, $self->y, $self->z);
+       return tmp;
    }
 };
 
 
 %extend AL::Math::Quaternion {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "w = %g, x = %g, y = %g, z = %g",
-                      $self->w, $self->x, $self->y, $self->z);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_Quaternion___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Quaternion(w=%g, x=%g, y=%g, z=%g)",
+               $self->w, $self->x, $self->y, $self->z);
+       return tmp;
    }
 };
 
 %extend AL::Math::Position6D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "x = %g, y = %g, z = %g, wx = %g, wy = %g, wz = %g",
-                    $self->x, $self->y, $self->z,
-                    $self->wx, $self->wy, $self->wz);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_Position6D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Position6D(x=%g, y=%g, z=%g, wx=%g, wy=%g, wz=%g)",
+               $self->x, $self->y, $self->z,
+               $self->wx, $self->wy, $self->wz);
+       return tmp;
    }
 };
 
 %extend AL::Math::PositionAndVelocity {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "q = %g, dq = %g",
-                    $self->q, $self->dq);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_PositionAndVelocity___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "PositionAndVelocity(q=%g, dq=%g)",
+               $self->q, $self->dq);
+       return tmp;
    }
 };
 
@@ -157,14 +133,21 @@ namespace std {
        sprintf(tmp, "[[%g, %g, %g]\n"
                     " [%g, %g, %g]\n"
                     " [%g, %g, %g]]",
-                      $self->r1_c1, $self->r1_c2, $self->r1_c3,
-                      $self->r2_c1, $self->r2_c2, $self->r2_c3,
-                      $self->r3_c1, $self->r3_c2, $self->r3_c3);
+               $self->r1_c1, $self->r1_c2, $self->r1_c3,
+               $self->r2_c1, $self->r2_c2, $self->r2_c3,
+               $self->r3_c1, $self->r3_c2, $self->r3_c3);
        return tmp;
    }
 
    char *__repr__() {
-       return AL_Math_Rotation___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Rotation([%g, %g, %g\n"
+                    "          %g, %g, %g\n"
+                    "          %g, %g, %g])",
+               $self->r1_c1, $self->r1_c2, $self->r1_c3,
+               $self->r2_c1, $self->r2_c2, $self->r2_c3,
+               $self->r3_c1, $self->r3_c2, $self->r3_c3);
+       return tmp;
    }
 
    AL::Math::Position3D __mul__(AL::Math::Position3D rhs) const {
@@ -174,15 +157,11 @@ namespace std {
 
 
 %extend AL::Math::Rotation3D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "wx = %g, wy = %g, wz = %g",
-                      $self->wx, $self->wy, $self->wz);
-       return tmp;
-   }
-
    char *__repr__() {
-       return AL_Math_Rotation3D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Rotation3D(wx=%g, wy=%g, wz=%g)",
+               $self->wx, $self->wy, $self->wz);
+       return tmp;
    }
 };
 
@@ -193,14 +172,21 @@ namespace std {
        sprintf(tmp, "[[%g, %g, %g, %g]\n"
                     " [%g, %g, %g, %g]\n"
                     " [%g, %g, %g, %g]]",
-                      $self->r1_c1, $self->r1_c2, $self->r1_c3, $self->r1_c4,
-                      $self->r2_c1, $self->r2_c2, $self->r2_c3, $self->r2_c4,
-                      $self->r3_c1, $self->r3_c2, $self->r3_c3, $self->r3_c4);
+               $self->r1_c1, $self->r1_c2, $self->r1_c3, $self->r1_c4,
+               $self->r2_c1, $self->r2_c2, $self->r2_c3, $self->r2_c4,
+               $self->r3_c1, $self->r3_c2, $self->r3_c3, $self->r3_c4);
        return tmp;
    }
 
    char *__repr__() {
-       return AL_Math_Transform___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Transform([%g, %g, %g, %g\n"
+                    "           %g, %g, %g, %g\n"
+                    "           %g, %g, %g, %g])",
+               $self->r1_c1, $self->r1_c2, $self->r1_c3, $self->r1_c4,
+               $self->r2_c1, $self->r2_c2, $self->r2_c3, $self->r2_c4,
+               $self->r3_c1, $self->r3_c2, $self->r3_c3, $self->r3_c4);
+   return tmp;
    }
 
    AL::Math::Position3D __mul__(AL::Math::Position3D rhs) const {
@@ -210,49 +196,38 @@ namespace std {
 
 
 %extend AL::Math::TransformAndVelocity6D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "[[%g, %g, %g, %g]\n"
-                    " [%g, %g, %g, %g]\n"
-                    " [%g, %g, %g, %g]]\n"
-                    "[xd = %g, yd = %g, zd = %g, wxd = %g, wyd = %g, wzd = %g]",
-                      $self->T.r1_c1, $self->T.r1_c2, $self->T.r1_c3, $self->T.r1_c4,
-                      $self->T.r2_c1, $self->T.r2_c2, $self->T.r2_c3, $self->T.r2_c4,
-                      $self->T.r3_c1, $self->T.r3_c2, $self->T.r3_c3, $self->T.r3_c4,
-                      $self->V.xd,  $self->V.yd,  $self->V.zd,
-                      $self->V.wxd, $self->V.wyd, $self->V.wzd);
-       return tmp;
-   }
-
+   // TODO: fix these 2 methods
    char *__repr__() {
-        return AL_Math_TransformAndVelocity6D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "TransformAndVelocity6D(T=Transform([%g, %g, %g, %g\n"
+                    "                                    %g, %g, %g, %g\n"
+                    "                                    %g, %g, %g, %g]),\n"
+                    "                       V=Velocity6D(xd=%g, yd=%g, zd=%g, wxd=%g, wyd=%g, wzd=%g))",
+               $self->T.r1_c1, $self->T.r1_c2, $self->T.r1_c3, $self->T.r1_c4,
+               $self->T.r2_c1, $self->T.r2_c2, $self->T.r2_c3, $self->T.r2_c4,
+               $self->T.r3_c1, $self->T.r3_c2, $self->T.r3_c3, $self->T.r3_c4,
+               $self->V.xd,  $self->V.yd,  $self->V.zd,
+               $self->V.wxd, $self->V.wyd, $self->V.wzd);
+       return tmp;
    }
 };
 
 %extend AL::Math::Velocity3D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "xd = %g, yd = %g, zd = %g",
-                      $self->xd, $self->yd, $self->zd);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_Velocity3D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Velocity3D(xd=%g, yd=%g, zd=%g)",
+               $self->xd, $self->yd, $self->zd);
+       return tmp;
    }
 };
 
 %extend AL::Math::Velocity6D {
-   char *__str__() {
-       static char tmp[1024];
-       sprintf(tmp, "xd = %g, yd = %g, zd = %g, wxd = %g, wyd = %g, wzd = %g",
-                    $self->xd,  $self->yd,  $self->zd,
-                    $self->wxd, $self->wyd, $self->wzd);
-       return tmp;
-   }
-
    char *__repr__() {
-        return AL_Math_Velocity6D___str__($self);
+       static char tmp[1024];
+       sprintf(tmp, "Velocity6D(xd=%g, yd=%g, zd=%g, wxd=%g, wyd=%g, wzd=%g",
+               $self->xd,  $self->yd,  $self->zd,
+               $self->wxd, $self->wyd, $self->wzd);
+       return tmp;
    }
 
    AL::Math::Velocity6D __rmul__(const float lhs) const {
