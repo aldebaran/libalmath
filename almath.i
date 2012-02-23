@@ -9,6 +9,8 @@
 %feature("autodoc", "1");
 
 %{
+#include <sstream>
+
 #include "almath/types/alaxismask.h"
 
 #include "almath/types/alpose2d.h"
@@ -33,14 +35,91 @@
 #include "almath/tools/avoidfootcollision.h"
 #include "almath/tools/altransformhelpers.h"
 #include "almath/tools/almath.h"
+
+// forward-declare function that swig will create (thanks to the %extend
+// below) and that we use to print some std::vector
+static char * AL_Math_Position2D___repr__(AL::Math::Position2D *);
+static char * AL_Math_Pose2D___repr__(AL::Math::Pose2D *);
+static char * AL_Math_Position6D___repr__(AL::Math::Position6D *);
 %}
 
 %include "std_vector.i"
+%include "std_string.i"
+
 namespace std {
-   %template(vectorFloat) vector<float>;
-   %template(vectorPosition2D) vector<AL::Math::Position2D>;
-   %template(vectorPose2D) vector<AL::Math::Pose2D>;
-   %template(vectorPosition6D) vector<AL::Math::Position6D>;
+  %template(vectorFloat) vector<float>;
+  %template(vectorPosition2D) vector<AL::Math::Position2D>;
+  %template(vectorPose2D) vector<AL::Math::Pose2D>;
+  %template(vectorPosition6D) vector<AL::Math::Position6D>;
+
+
+  %extend vector<float> {
+    std::string __repr__() {
+      std::ostringstream out;
+      out << "vectorFloat([";
+      if ($self->size() > 0) {
+        std::vector<float>::iterator it = $self->begin();
+        // print all but the last element
+        for ( ; it<$self->end()-1; ++it)
+          out << *it << ", ";
+        // print the last element, without the trailing ", "
+        out << *it;
+      }
+      out << "])" << std::endl;
+      return out.str();
+    }
+  }
+
+  %extend vector<AL::Math::Position2D> {
+    std::string __repr__() {
+      std::ostringstream out;
+      out << "vectorPosition2D([";
+      if ($self->size() > 0) {
+        std::vector<AL::Math::Position2D>::iterator it = $self->begin();
+        // print all but the last element
+        for ( ; it<$self->end()-1; ++it)
+          out << AL_Math_Position2D___repr__(&(*it)) << ", ";
+        // print the last element, without the trailing ", "
+        out << AL_Math_Position2D___repr__(&(*it));
+      }
+      out << "])" << std::endl;
+      return out.str();
+    }
+  }
+
+  %extend vector<AL::Math::Pose2D> {
+    std::string __repr__() {
+      std::ostringstream out;
+      out << "vectorPose2D([";
+      if ($self->size() > 0) {
+        std::vector<AL::Math::Pose2D>::iterator it = $self->begin();
+        // print all but the last element
+        for ( ; it<$self->end()-1; ++it)
+          out << AL_Math_Pose2D___repr__(&(*it)) << ", ";
+        // print the last element, without the trailing ", "
+        out << AL_Math_Pose2D___repr__(&(*it));
+      }
+      out << "])" << std::endl;
+      return out.str();
+    }
+  }
+
+  %extend vector<AL::Math::Position6D> {
+    std::string __repr__() {
+      std::ostringstream out;
+      out << "vectorPosition6D([";
+      if ($self->size() > 0) {
+        std::vector<AL::Math::Position6D>::iterator it = $self->begin();
+        // print all but the last element
+        for ( ; it<$self->end()-1; ++it)
+          out << AL_Math_Position6D___repr__(&(*it)) << ", ";
+        // print the last element, without the trailing ", "
+        out << AL_Math_Position6D___repr__(&(*it));
+      }
+      out << "])" << std::endl;
+      return out.str();
+    }
+  }
 }
 
 %include "almath/types/alaxismask.h"
