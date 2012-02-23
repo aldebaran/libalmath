@@ -35,6 +35,14 @@
 #include "almath/tools/almath.h"
 %}
 
+%include "std_vector.i"
+namespace std {
+   %template(vectorFloat) vector<float>;
+   %template(vectorPosition2D) vector<AL::Math::Position2D>;
+   %template(vectorPose2D) vector<AL::Math::Pose2D>;
+   %template(vectorPosition6D) vector<AL::Math::Position6D>;
+}
+
 %include "almath/types/alaxismask.h"
 
 %include "almath/types/alpose2d.h"
@@ -251,12 +259,3 @@
        return lhs * (*$self);
    }
 };
-
-%include "std_vector.i"
-namespace std {
-   %template(vectorFloat) vector<float>;
-   %template(vectorPosition2D) vector<AL::Math::Position2D>;
-   %template(vectorPose2D) vector<AL::Math::Pose2D>;
-   %template(vectorPosition6D) vector<AL::Math::Position6D>;
-}
-
