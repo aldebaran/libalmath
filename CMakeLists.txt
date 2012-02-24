@@ -70,6 +70,9 @@ if (ALMATH_PYTHON_BINDING STREQUAL "ON")
   qi_swig_wrap_python(almath almath.i SRC
     src/types/alpose2d.cpp
     DEPENDS ALMATH)
+  # we install the swing interface file since it is needed to wrap extensions
+  # of almath, such as almathinternal.
+  qi_install_header(almath.i KEEP_RELATIVE_PATHS)
   #add_python_test(TestALMathPy "${CMAKE_CURRENT_SOURCE_DIR}/test/almath_test.py")
 endif()
 
