@@ -63,17 +63,10 @@ option(ALMATH_PYTHON_BINDING
     ON)
 qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
 
-# ALMath python bindings. Optional for now.
-if (ALMATH_PYTHON_BINDING STREQUAL "ON")
-  #use(PYTHON-TOOLS)
-  include(qibuild/swig/python)
-  qi_swig_wrap_python(almath almath.i SRC
-    src/types/alpose2d.cpp
-    DEPENDS ALMATH)
-  # we install the swig interface file since it is needed to wrap extensions
-  # of almath, such as almathinternal.
-  qi_install_header(almath.i KEEP_RELATIVE_PATHS)
-  #add_python_test(TestALMathPy "${CMAKE_CURRENT_SOURCE_DIR}/test/almath_test.py")
-endif()
+include(qibuild/swig/python)
+qi_swig_wrap_python(almath almath.i DEPENDS ALMATH)
+# we install the swig interface file since it is needed to wrap extensions
+# of almath, such as almathinternal.
+qi_install_header(almath.i KEEP_RELATIVE_PATHS)
 
 add_subdirectory(test)
