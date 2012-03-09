@@ -172,6 +172,30 @@ namespace AL {
       bool operator!=(const Pose2D& pPos2) const;
 
       /// <summary>
+      /// Overloading of operator * for Pose2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Pose2D operator* (float pVal) const;
+
+      /// <summary>
+      /// Overloading of operator / for Pose2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Pose2D operator/ (float pVal) const;
+
+      /// <summary>
+      /// Overloading of operator *= for Pose2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Pose2D& operator*= (float pVal);
+
+      /// <summary>
+      /// Overloading of operator /= for Pose2D.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Pose2D& operator/= (float pVal);
+
+      /// <summary>
       /// Compute the squared distance between the actual
       /// Pose2D and the one give in argument.
       ///

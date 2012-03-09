@@ -6,6 +6,7 @@
 
 #include <almath/types/alpose2d.h>
 #include <cmath>
+#include <stdexcept>
 
 namespace AL {
   namespace Math {
@@ -138,6 +139,46 @@ namespace AL {
     {
       return Math::distance(*this, pPos2);
     }
+
+
+    Pose2D Pose2D::operator* (float pVal) const
+    {
+      Pose2D res;
+      res.x     = x * pVal;
+      res.y     = y * pVal;
+      res.theta = theta * pVal;
+      return res;
+    }
+
+    Pose2D Pose2D::operator/ (float pVal) const
+    {
+      if (pVal == 0.0f)
+      {
+        throw std::runtime_error(
+          "ALPose2D: operator/ Division by zeros.");
+      }
+      return *this * (1.0f/pVal);
+    }
+
+    Pose2D& Pose2D::operator*= (const float pVal)
+    {
+      x     *= pVal;
+      y     *= pVal;
+      theta *= pVal;
+      return *this;
+    }
+
+    Pose2D& Pose2D::operator/= (float pVal)
+    {
+      if (pVal == 0.0f)
+      {
+        throw std::runtime_error(
+          "ALPose2D: operator/= Division by zeros.");
+      }
+      *this *= (1.0f/pVal);
+      return *this;
+    }
+
 
     std::vector<float> Pose2D::toVector() const
     {
