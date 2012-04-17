@@ -163,6 +163,17 @@ std::ostream& operator<< (std::ostream& pStream, const Velocity3D& pVel);
 std::ostream& operator<< (std::ostream& pStream, const Velocity6D& pVel);
 
 /// <summary>
+/// Create a string of Position3D.
+///
+/// </summary>
+/// <param name="pPos"> the given Position3D </param>
+/// <returns>
+/// the Velocity6D string
+/// </returns>
+/// \ingroup Types
+std::string toSpaceSeparated(const Position3D& pPos);
+
+/// <summary>
 /// Create a string of Velocity6D.
 ///
 /// </summary>
