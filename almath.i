@@ -184,6 +184,10 @@ namespace std {
                $self->x, $self->y, $self->theta);
        return tmp;
    }
+
+   AL::Math::Pose2D __rmul__(const float lhs) {
+       return (*$self) * lhs;
+   }
 };
 
 %extend AL::Math::Position2D {
@@ -192,6 +196,10 @@ namespace std {
        sprintf(tmp, "Position2D(x=%g, y=%g)",
                $self->x, $self->y);
        return tmp;
+   }
+
+   AL::Math::Position2D __rmul__(const float lhs) {
+       return (*$self) * lhs;
    }
 };
 
@@ -202,6 +210,10 @@ namespace std {
        sprintf(tmp, "Position3D(x=%g, y=%g, z=%g)",
                $self->x, $self->y, $self->z);
        return tmp;
+   }
+
+   AL::Math::Position3D __rmul__(const float lhs) {
+       return (*$self) * lhs;
    }
 };
 
@@ -222,6 +234,10 @@ namespace std {
                $self->x, $self->y, $self->z,
                $self->wx, $self->wy, $self->wz);
        return tmp;
+   }
+
+   AL::Math::Position6D __rmul__(const float lhs) {
+       return (*$self) * lhs;
    }
 };
 
@@ -326,6 +342,10 @@ namespace std {
        sprintf(tmp, "Velocity3D(xd=%g, yd=%g, zd=%g)",
                $self->xd, $self->yd, $self->zd);
        return tmp;
+   }
+
+   AL::Math::Velocity3D __rmul__(const float lhs) {
+       return (*$self) * lhs;
    }
 };
 
