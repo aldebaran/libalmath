@@ -295,13 +295,6 @@ namespace AL {
       const Pose2D& pPos,
       Pose2D&       pRes);
 
-    struct TrajectoryPose2D{
-      AL::Math::Pose2D position;
-      AL::Math::Pose2D velocity;
-      AL::Math::Pose2D acceleration;
-    };
-
-
   } // end namespace math
 } // end namespace AL
 #endif  // _LIBALMATH_ALMATH_TYPES_ALPOSE2D_H_
