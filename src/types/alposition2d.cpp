@@ -162,6 +162,11 @@ namespace AL {
       return Math::normalize(*this);
     }
 
+    float Position2D::dotProduct(const Position2D& pPos2) const
+    {
+      return Math::dotProduct(*this, pPos2);
+    }
+
     float Position2D::crossProduct(const Position2D& pPos2) const
     {
       return Math::crossProduct(*this, pPos2);
@@ -225,6 +230,14 @@ namespace AL {
       ret /= tmpNorm;
       return ret;
     }
+
+    float dotProduct(
+      const Position2D& pPos1,
+      const Position2D& pPos2)
+    {
+      return (pPos1.x * pPos2.x + pPos1.y * pPos2.y);
+    }
+
 
     float crossProduct(
       const Position2D& pPos1,

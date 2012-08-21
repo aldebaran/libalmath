@@ -233,6 +233,18 @@ namespace AL {
       Position2D normalize() const;
 
       /// <summary>
+      /// Compute the dot Product between the actual
+      /// Position2D and the one give in argument.
+      ///
+      /// \f$result = (pPos1.x*pPos2.x + pPos1.y*pPos2.y)\f$
+      /// </summary>
+      /// <param name="pPos2"> the second Position2D </param>
+      /// <returns>
+      /// the float dot product between the two Position2D
+      /// </returns>
+      float dotProduct(const Position2D& pPos2) const;
+
+      /// <summary>
       /// Compute the cross Product between the actual
       /// Position2D and the one give in argument.
       ///
@@ -308,6 +320,20 @@ namespace AL {
     /// </returns>
     /// \ingroup Types
     Position2D normalize(const Position2D& pPos);
+
+    /// <summary>
+    /// Compute the dot Product between two Position2D:
+    ///
+    /// \f$pRes = (pPos1.x*pPos2.x + pPos1.y*pPos2.y)\f$
+    /// </summary>
+    /// <param name="pPos1"> the first Position2D </param>
+    /// <param name="pPos2"> the second Position2D </param>
+    /// <returns>
+    /// the float dot product between the two Position2D
+    /// </returns>
+    float dotProduct(
+      const Position2D& pPos1,
+      const Position2D& pPos2);
 
     /// <summary>
     /// Compute the cross Product of two Position2D.
