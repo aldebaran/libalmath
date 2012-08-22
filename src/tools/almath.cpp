@@ -72,6 +72,16 @@ namespace AL
       return pVel;
     }
 
+    Velocity3D operator*(
+      const float       pVal,
+      const Position3D& pPos)
+    {
+      Velocity3D pVel;
+      pVel.xd  = pVal * pPos.x;
+      pVel.yd  = pVal * pPos.y;
+      pVel.zd  = pVal * pPos.z;
+      return pVel;
+    }
 
     AL::Math::Rotation rotationFromAngleDirection(
       const float&                pTheta,

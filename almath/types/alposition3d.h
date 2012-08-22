@@ -272,16 +272,6 @@ namespace AL {
       std::vector<float> toVector() const;
     };
 
-    // TODO : Need this ?
-    Position3D operator* (
-      const float       pM,
-      const Position3D& pPos1);
-
-    // Does it make sense to define 2.0 / Position3D() ??
-    Position3D operator/ (
-      const float       pM,
-      const Position3D& pPos1);
-
     /// <summary>
     /// Compute the squared distance between two Position3D:
     ///

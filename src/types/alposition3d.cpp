@@ -117,13 +117,6 @@ namespace AL {
       return res;
     }
 
-    Position3D operator* (
-      const float       pVal,
-      const Position3D& pPos1)
-    {
-      return pPos1 * pVal;
-    }
-
     Position3D Position3D::operator/ (float pVal) const
     {
       if (pVal == 0.0f)
@@ -132,18 +125,6 @@ namespace AL {
           "ALPosition3D: operator/ Division by zeros.");
       }
       return *this * (1.0f/pVal);
-    }
-
-    Position3D operator/ (
-      const float       pVal,
-      const Position3D& pPos1)
-    {
-      if (pVal == 0.0f)
-      {
-        throw std::runtime_error(
-          "ALPosition3D: operator/ Division by zeros.");
-      }
-      return (1.0f/pVal) * pPos1;
     }
 
     Position3D& Position3D::operator*= (float pVal)

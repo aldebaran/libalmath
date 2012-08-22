@@ -9,6 +9,7 @@
 #ifndef _LIBALMATH_ALMATH_TOOLS_ALMATH_H_
 #define _LIBALMATH_ALMATH_TOOLS_ALMATH_H_
 
+#include <almath/types/alvelocity3d.h>
 #include <almath/types/alvelocity6d.h>
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
@@ -113,6 +114,27 @@ namespace AL {
     Velocity6D operator*(
       const float       pVal,
       const Position6D& pPos);
+
+    /// <summary>
+    /// Overloading of operator * for float to Position3D, give a Velocity3D:
+    ///
+    /** \f$\begin{array}{ccc}
+      * pVel.xd & = & pVal*pPos.x \\
+      * pVel.yd & = & pVal*pPos.y \\
+      * pVel.zd & = & pVal*pPos.z \\
+      * \end{array} \f$
+      */
+    ///
+    /// </summary>
+    /// <param name="pVal"> the given float </param>
+    /// <param name="pPos"> the given Position3D </param>
+    /// <returns>
+    /// the Velocity3D
+    /// </returns>
+    /// \ingroup Tools
+    Velocity3D operator*(
+      const float       pVal,
+      const Position3D& pPos);
 
 
     /// <summary>

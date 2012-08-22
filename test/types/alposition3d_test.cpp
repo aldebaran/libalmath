@@ -145,16 +145,9 @@ TEST(ALPosition3DTest, Divers)
   pPos3D1 = AL::Math::Position3D(1.0f, 1.0f, 1.0f);
   EXPECT_TRUE((pPos3D1*2.0f).isNear(AL::Math::Position3D(2.0f, 2.0f, 2.0f)));
 
-
-  //std::cout << "-------------- multiplication 1 --------------" << std::endl;
-  pPos3D1 = AL::Math::Position3D(1.0f, 1.0f, 1.0f);
-  EXPECT_TRUE((2.0f*pPos3D1).isNear(AL::Math::Position3D(2.0f, 2.0f, 2.0f)));
-
-
   //std::cout << "-------------- division 0 --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D(2.0f, 2.0f, 2.0f);
   EXPECT_TRUE((pPos3D1/2.0f).isNear(AL::Math::Position3D(1.0f, 1.0f, 1.0f)));
-
 
   //std::cout << "-------------- division 1 --------------" << std::endl;
   pPos3D1 = AL::Math::Position3D(2.0f, 2.0f, 2.0f);
