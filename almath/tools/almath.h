@@ -14,6 +14,7 @@
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
 #include <almath/types/alrotation.h>
+#include <almath/types/alquaternion.h>
 
 namespace AL {
   namespace Math {
@@ -89,6 +90,19 @@ namespace AL {
     Position3D operator*(
       const Rotation&   pRot,
       const Position3D& pPos);
+
+    /// <summary>
+    /// Overloading of operator * between Quaternion and Position3D
+    /// </summary>
+    /// <param name="pQuat"> the given Quaternion </param>
+    /// <param name="pPos"> the given Position3D </param>
+    /// <returns>
+    /// the Position3D result.
+    /// </returns>
+    /// \ingroup Tools
+    Position3D operator*(
+        const Quaternion& pQuat,
+        const Position3D& pPos);
 
 
     /// <summary>

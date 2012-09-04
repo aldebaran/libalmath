@@ -58,6 +58,27 @@ namespace AL
       return result;
     }
 
+    Position3D operator*(
+        const Quaternion& pQuat,
+        const Position3D& pPos) {
+      Position3D result;
+      result.x = pQuat.w * pQuat.w * pPos.x + 2.0f *pQuat.y * pQuat.w * pPos.z;
+      result.x += - 2.0f * pQuat.z * pQuat.w * pPos.y + pQuat.x * pQuat.x * pPos.x;
+      result.x += 2.0f * pQuat.y * pQuat.x * pPos.y + 2.0f * pQuat.z * pQuat.x * pPos.z;
+      result.x += - pQuat.z * pQuat.z * pPos.x - pQuat.y * pQuat.y * pPos.x;
+
+      result.y = 2.0f * pQuat.x * pQuat.y * pPos.x + pQuat.y * pQuat.y * pPos.y;
+      result.y += 2.0f * pQuat.z * pQuat.y * pPos.z + 2.0f * pQuat.w * pQuat.z * pPos.x;
+      result.y += - pQuat.z * pQuat.z * pPos.y + pQuat.w * pQuat.w * pPos.y;
+      result.y += - 2.0f * pQuat.x * pQuat.w * pPos.z - pQuat.x * pQuat.x * pPos.y;
+
+      result.z = 2.0f * pQuat.x * pQuat.z * pPos.x + 2.0f * pQuat.y * pQuat.z * pPos.y;
+      result.z += pQuat.z * pQuat.z * pPos.z - 2.0f * pQuat.w * pQuat.y * pPos.x;
+      result.z += - pQuat.y * pQuat.y * pPos.z + 2.0f * pQuat.w * pQuat.x * pPos.y;
+      result.z += - pQuat.x * pQuat.x * pPos.z + pQuat.w * pQuat.w * pPos.z;
+      return result;
+    }
+
     Velocity6D operator*(
       const float       pVal,
       const Position6D& pPos)

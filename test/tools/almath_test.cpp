@@ -149,3 +149,38 @@ TEST(ALMathTest, RotationFromAngleDirection)
   EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation::fromRotZ(pTheta)));
   EXPECT_FALSE(pRotOut.isNear(AL::Math::Rotation()));
 }
+
+TEST(ALMathTest, quaternionOperator) {
+  AL::Math::Quaternion pQuat;
+  AL::Math::Position3D pPos;
+  AL::Math::Position3D result;
+  result = pQuat * pPos;
+  EXPECT_NEAR(pPos.x, 0.0f, 1e-6f);
+  EXPECT_NEAR(pPos.y, 0.0f, 1e-6f);
+  EXPECT_NEAR(pPos.z, 0.0f, 1e-6f);
+
+  // Test 90° rotation around the x axis.
+  pQuat = AL::Math::Quaternion(0.7071f, 0.7071f, 0.0f, 0.0f);
+  pPos = AL::Math::Position3D(0.0f, 1.0f, 0.0f);
+  result = pQuat * pPos;
+  EXPECT_NEAR(result.x, 0.0f, 1e-4f);
+  EXPECT_NEAR(result.y, 0.0f, 1e-4f);
+  EXPECT_NEAR(result.z, 1.0f, 1e-4f);
+
+  // Test 90° rotation around the y axis.
+  pQuat = AL::Math::Quaternion(0.7071f, 0.0f, 0.7071f, 0.0f);
+  pPos = AL::Math::Position3D(0.0f, 0.0f, 1.0f);
+  result = pQuat * pPos;
+  EXPECT_NEAR(result.x, 1.0f, 1e-4f);
+  EXPECT_NEAR(result.y, 0.0f, 1e-4f);
+  EXPECT_NEAR(result.z, 0.0f, 1e-4f);
+
+  // Test 90° rotation around the z axis.
+  pQuat = AL::Math::Quaternion(0.7071f, 0.0f, 0.0f, 0.7071f);
+  pPos = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  result = pQuat * pPos;
+  EXPECT_NEAR(result.x, 0.0f, 1e-4f);
+  EXPECT_NEAR(result.y, 1.0f, 1e-4f);
+  EXPECT_NEAR(result.z, 0.0f, 1e-4f);
+
+}
