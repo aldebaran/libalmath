@@ -36,6 +36,17 @@ TEST(ALMathTest, clipData)
 }
 
 
+TEST(ALMathTest, position3DFromPosition6D)
+{
+  AL::Math::Position6D pPose6d        = AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
+  AL::Math::Position3D pPos3dExpected = AL::Math::Position3D(0.1f, 0.2f, 0.3f);
+
+  AL::Math::Position3D pPose3dResult = AL::Math::position3DFromPosition6D(pPose6d);
+
+  EXPECT_TRUE(pPose3dResult.isNear(pPos3dExpected, 0.0001f));
+}
+
+
 TEST(ALMathTest, Position6DFromVelocity6D)
 {
   AL::Math::Velocity6D pVIn    = AL::Math::Velocity6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
@@ -45,6 +56,7 @@ TEST(ALMathTest, Position6DFromVelocity6D)
 
   EXPECT_TRUE(pPosIn.isNear(pPosOut, 0.0001f));
 }
+
 
 TEST(ALMathTest, variousOperator)
 {

@@ -35,6 +35,16 @@ namespace AL
     }
 
 
+    Position3D position3DFromPosition6D(const Position6D& pPose6d)
+    {
+      Position3D pose3d;
+      pose3d.x = pPose6d.x;
+      pose3d.y = pPose6d.y;
+      pose3d.z = pPose6d.z;
+      return pose3d;
+    }
+
+
     Position6D position6DFromVelocity6D(const Velocity6D& pVel)
     {
       Position6D pos;

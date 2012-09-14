@@ -60,6 +60,23 @@ namespace AL {
     /// \ingroup Tools
     Position6D position6DFromVelocity6D(const Velocity6D& pVel);
 
+    /// <summary>
+    /// Create a Position3D from a Position6D
+    ///
+    /** \f$\begin{array}{ccc}
+      * result.x & = & pPose6d.x \\
+      * result.y & = & pPose6d.y \\
+      * result.z & = & pPose6d.z \\
+      * \end{array} \f$
+      */
+    ///
+    /// </summary>
+    /// <param name="pPose3d"> the given Position3D </param>
+    /// <returns>
+    /// the Position3D result.
+    /// </returns>
+    /// \ingroup Tools
+    Position3D position3DFromPosition6D(const Position6D& pPose6d);
 
     /// <summary>
     /// Overloading of operator * between Rotation and Position3D:
