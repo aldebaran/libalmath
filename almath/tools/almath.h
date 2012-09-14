@@ -15,6 +15,7 @@
 #include <almath/types/alposition6d.h>
 #include <almath/types/alrotation.h>
 #include <almath/types/alquaternion.h>
+#include <almath/types/alpose2d.h>
 
 namespace AL {
   namespace Math {
@@ -163,6 +164,43 @@ namespace AL {
     Rotation rotationFromAngleDirection(
       const float&      pTheta,
       const Position3D& pPos);
+
+
+    /// <summary>
+    /// Compute a Position6D from a Pose2D.
+    /// </summary>
+    /// <param name = "pPose"> the Pose2D to extract </param>
+    /// <param name = "pPos"> the result Position6D </param>
+    /// \ingroup Tools
+    void position6DFromPose2DInPlace(
+        const Pose2D& pPose2d,
+        Position6D&   pPose6d);
+
+    /// <summary>
+    /// Create a Position6D from a Pose2D.
+    /// </summary>
+    /// <param name = "pPose"> the pose2D you want to extract </param>
+    /// <returns> the result Position6D </returns>
+    /// \ingroup Tools
+    Position6D position6DFromPose2D(const Pose2D& pPose2d);
+
+    /// <summary>
+    /// Compute a Pose2D from a Position6D.
+    /// </summary>
+    /// <param name = "pPose6d"> the Position6D you want to extract </param>
+    /// <param name = "pPose2d"> the result Pose2D </param>
+    /// \ingroup Tools
+    void pose2DFromPosition6DInPlace(
+        const Position6D& pPose6d,
+        Pose2D&           pPose2d);
+
+    /// <summary>
+    /// Create a Pose2D from a Position6D.
+    /// </summary>
+    /// <param name = "pPose6d"> the position6d you want to extract </param>
+    /// <returns> the Pose2D extracted from the Position6D </returns>
+    /// \ingroup Tools
+    Pose2D pose2DFromPosition6D(const Position6D& pPose6d);
 
 
   } // namespace Math

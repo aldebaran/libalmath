@@ -114,6 +114,41 @@ namespace AL
             pPos.y,
             pPos.z);
     }
+
+
+    void position6DFromPose2DInPlace(
+        const Pose2D& pPose2d,
+        Position6D&   pPose6d)
+    {
+      pPose6d = Position6D(pPose2d.x, pPose2d.y, 0.0f, 0.0f, 0.0f, pPose2d.theta);
+    }
+
+
+    Position6D position6DFromPose2D(const Pose2D& pPose2d)
+    {
+      Position6D pose6d = Position6D();
+      position6DFromPose2DInPlace(pPose2d, pose6d);
+      return pose6d;
+    }
+
+
+    void pose2DFromPosition6DInPlace(
+        const Position6D& pPose6d,
+        Pose2D&           pPose2d)
+    {
+      pPose2d.x     = pPose6d.x;
+      pPose2d.y     = pPose6d.y;
+      pPose2d.theta = pPose6d.wz;
+    }
+
+
+    Pose2D pose2DFromPosition6D(const Position6D& pPose6d)
+    {
+      Pose2D pPose2d;
+      AL::Math::pose2DFromPosition6DInPlace(pPose6d, pPose2d);
+      return pPose2d;
+    }
+
   } // namespace Math
 } // namespace AL
 

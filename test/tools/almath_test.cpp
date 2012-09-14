@@ -150,7 +150,8 @@ TEST(ALMathTest, RotationFromAngleDirection)
   EXPECT_FALSE(pRotOut.isNear(AL::Math::Rotation()));
 }
 
-TEST(ALMathTest, quaternionOperator) {
+TEST(ALMathTest, quaternionOperator)
+{
   AL::Math::Quaternion pQuat;
   AL::Math::Position3D pPos;
   AL::Math::Position3D result;
@@ -184,3 +185,49 @@ TEST(ALMathTest, quaternionOperator) {
   EXPECT_NEAR(result.z, 0.0f, 1e-4f);
 
 }
+
+TEST(ALMathTest, position6DFromPose2DInPlace)
+{
+  AL::Math::Pose2D pPose2d = AL::Math::Pose2D(0.1f, 0.2f, 0.3f);
+  AL::Math::Position6D pPose6dExpected = AL::Math::Position6D(0.1f, 0.2f, 0.0f, 0.0f, 0.0f, 0.3f);
+
+  AL::Math::Position6D pPose6dComputed;
+  AL::Math::position6DFromPose2DInPlace(
+        pPose2d,
+        pPose6dComputed);
+
+  EXPECT_TRUE(pPose6dComputed.isNear(pPose6dExpected, 0.0001f));
+}
+
+TEST(ALMathTest, position6DFromPose2D)
+{
+  AL::Math::Pose2D pPose2d = AL::Math::Pose2D(0.1f, 0.2f, 0.3f);
+  AL::Math::Position6D pPose6dExpected = AL::Math::Position6D(0.1f, 0.2f, 0.0f, 0.0f, 0.0f, 0.3f);
+
+  AL::Math::Position6D pPose6dComputed = AL::Math::position6DFromPose2D(pPose2d);
+
+  EXPECT_TRUE(pPose6dComputed.isNear(pPose6dExpected, 0.0001f));
+}
+
+TEST(ALMathTest, pose2DFromPosition6DInPlace)
+{
+  AL::Math::Position6D pPose6d = AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
+  AL::Math::Pose2D pPose2dExpected = AL::Math::Pose2D(0.1f, 0.2f, 0.6f);
+
+  AL::Math::Pose2D pPose2dComputed;
+  AL::Math::pose2DFromPosition6DInPlace(pPose6d, pPose2dComputed);
+
+  EXPECT_TRUE(pPose2dComputed.isNear(pPose2dExpected, 0.0001f));
+}
+
+TEST(ALMathTest, pose2DFromPosition6D)
+{
+  AL::Math::Position6D pPose6d = AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
+  AL::Math::Pose2D pPose2dExpected = AL::Math::Pose2D(0.1f, 0.2f, 0.6f);
+
+  AL::Math::Pose2D pPose2dComputed = AL::Math::pose2DFromPosition6D(pPose6d);
+
+  EXPECT_TRUE(pPose2dComputed.isNear(pPose2dExpected, 0.0001f));
+}
+
+
