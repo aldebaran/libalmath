@@ -227,6 +227,16 @@ namespace AL {
       Pose2D inverse() const;
 
       /// <summary>
+      /// Compute the Pose2D between the actual
+      /// Pose2D and the one given in argument:
+      ///
+      /// result: inverse(pPos1)*pPos2
+      ///
+      /// </summary>
+      /// <param name="pPos2"> the second Pose2D </param>
+      Pose2D diff(const Pose2D& pPos2) const;
+
+      /// <summary>
       /// Check if the actual Pose2D is near the one
       /// given in argument.
       ///
@@ -274,6 +284,39 @@ namespace AL {
     /// </returns>
     /// \ingroup Types
     float distance(
+      const Pose2D& pPos1,
+      const Pose2D& pPos2);
+
+    /// <summary>
+    /// Inverse the given Pose2D in place:
+    ///
+    /// </summary>
+    /// <param name="pPos"> the given Pose2D </param>
+    /// \ingroup Types
+    void pose2dInvertInPlace(Pose2D& pPos);
+
+    /// <summary>
+    /// Alternative name for inverse: return the pose2d inverse of the given Pose2D.
+    ///
+    /// </summary>
+    /// <param name="pPos"> the given Pose2D </param>
+    /// \ingroup Types
+    Pose2D pinv(const Pose2D& pPos);
+
+
+    /// <summary>
+    /// Compute the Pose2D between the actual Pose2D and the one give in argument result:
+    ///
+    /// inverse(pPos1)*pPos2
+    ///
+    /// </summary>
+    /// <param name="pPos1"> the first Pose2D </param>
+    /// <param name="pPos2"> the second Pose2D </param>
+    /// <returns>
+    /// the Pose2D
+    /// </returns>
+    /// \ingroup Types
+    Pose2D pose2dDiff(
       const Pose2D& pPos1,
       const Pose2D& pPos2);
 

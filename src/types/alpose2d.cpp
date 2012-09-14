@@ -179,6 +179,10 @@ namespace AL {
       return *this;
     }
 
+    Pose2D Pose2D::diff(const Pose2D& pPos2) const
+    {
+      return Math::pose2dDiff(*this, pPos2);
+    }
 
     std::vector<float> Pose2D::toVector() const
     {
@@ -242,11 +246,43 @@ namespace AL {
       pOut.y = -( pIn.y*cos + pIn.x*sin);
     }
 
+    void pose2dInvertInPlace(Pose2D& pPos)
+    {
+      pPos.theta = -pPos.theta;
+
+      float cos = cosf(pPos.theta);
+      float sin = sinf(pPos.theta);
+      float x   = pPos.x;
+
+      pPos.x = -(x*cos - pPos.y*sin);
+      pPos.y = -(pPos.y*cos + x*sin);
+    }
+
+    Pose2D pose2dDiff(
+      const Pose2D& pPos1,
+      const Pose2D& pPos2)
+    {
+      Pose2D result = pPos1;
+
+      pose2dInvertInPlace(result);
+      result *= pPos2;
+      return result;
+    }
+
     Pose2D pose2DInverse(const Pose2D& pIn)
     {
       Pose2D pOut;
       pose2DInverse(pIn, pOut);
       return pOut;
     }
+
+    Pose2D pinv(const Pose2D& pPos)
+    {
+      Pose2D result = pPos;
+      pose2dInvertInPlace(result);
+      return result;
+    }
+
+
   } // end namespace math
 } // end namespace AL

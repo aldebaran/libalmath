@@ -4,7 +4,7 @@
  * found in the COPYING file.
  */
 #include <almath/types/alpose2d.h>
-
+#include <almath/tools/altrigonometry.h>
 #include <gtest/gtest.h>
 
 TEST(ALPose2DTest, basicOperator)
@@ -99,25 +99,87 @@ TEST(ALPose2DTest, distanceSquared)
   EXPECT_NEAR(pPos2D.distanceSquared(AL::Math::Pose2D(0.0f, 0.0f, 0.0f)), 5.0f, 0.0001f);
 }
 
-TEST(ALPose2DTest, inverse)
+TEST(ALPose2DTest, pose2DInverse)
 {
   AL::Math::Pose2D pPose2D = AL::Math::Pose2D(0.1f, -0.1f, -0.5f);
   AL::Math::Pose2D pResult = AL::Math::Pose2D(-0.135701f, 0.0398157f, 0.5f);
   AL::Math::Pose2D pInverse = pPose2D.inverse();
-  EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
-  EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
-  EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
+  EXPECT_TRUE(pInverse.isNear(pResult, 0.0001f));
+  EXPECT_TRUE((pInverse*pPose2D).isNear(AL::Math::Pose2D(), 0.0001f));
 
   pInverse = AL::Math::Pose2D();
   pInverse = AL::Math::pose2DInverse(pPose2D);
-  EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
-  EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
-  EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
+  EXPECT_TRUE(pInverse.isNear(pResult, 0.0001f));
+  EXPECT_TRUE((pInverse*pPose2D).isNear(AL::Math::Pose2D(), 0.0001f));
 
   pInverse = AL::Math::Pose2D();
   AL::Math::pose2DInverse(pPose2D, pInverse);
-  EXPECT_NEAR(pInverse.x, pResult.x, 0.0001f);
-  EXPECT_NEAR(pInverse.y, pResult.y, 0.0001f);
-  EXPECT_NEAR(pInverse.theta, pResult.theta, 0.0001f);
+  EXPECT_TRUE(pInverse.isNear(pResult, 0.0001f));
+  EXPECT_TRUE((pInverse*pPose2D).isNear(AL::Math::Pose2D(), 0.0001f));
 }
 
+TEST(ALPose2DTest, pose2dInvertInPlace)
+{
+  // We use pose2dInverse, previously tested
+  AL::Math::Pose2D pIn = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pCopy = pIn;
+  AL::Math::Pose2D pInverse = AL::Math::pose2DInverse(pIn);
+
+  AL::Math::pose2dInvertInPlace(pIn);
+
+  EXPECT_TRUE(pIn.isNear(pInverse, 0.0001f));
+  EXPECT_TRUE((pIn*pCopy).isNear(AL::Math::Pose2D(), 0.0001f));
+}
+
+TEST(ALPose2DTest, pose2dDiff)
+{
+  // We use pose2dInverse, previously tested
+  //inverse(pPos1)*pPos2
+  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pPos2   = pPos1;
+  AL::Math::Pose2D pResult = AL::Math::pose2dDiff(pPos2, pPos1);
+
+  EXPECT_TRUE(pResult.isNear(AL::Math::Pose2D(), 0.0001f));
+
+  pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  pPos2   = AL::Math::Pose2D(-1.2f, 0.1f, -10.0*AL::Math::TO_RAD);
+  pResult = AL::Math::pose2dDiff(pPos1, pPos2);
+
+  AL::Math::Pose2D pExpected = AL::Math::pose2DInverse(pPos1)*pPos2;
+  EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
+}
+
+
+TEST(ALPose2DTest, diff)
+{
+  // We use pose2dInverse, previously tested
+  //inverse(pPos1)*pPos2
+  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pPos2   = pPos1;
+  AL::Math::Pose2D pResult = pPos1.diff(pPos2);
+
+  EXPECT_TRUE(pResult.isNear(AL::Math::Pose2D(), 0.0001f));
+
+  pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  pPos2   = AL::Math::Pose2D(-1.2f, 0.1f, -10.0*AL::Math::TO_RAD);
+  pResult = pPos1.diff(pPos2);
+
+  AL::Math::Pose2D pExpected = AL::Math::pose2DInverse(pPos1)*pPos2;
+  EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
+}
+
+TEST(ALPose2DTest, pinv)
+{
+  // We use pose2dInverse, previously tested
+  //inverse(pPos1)*pPos2
+  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pPos2   = AL::Math::pinv(pPos1);
+  AL::Math::Pose2D pResult = pPos2*pPos1;
+  EXPECT_TRUE(pResult.isNear(AL::Math::Pose2D(), 0.0001f));
+
+  pPos1     = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  pResult   = AL::Math::pinv(pPos1);
+  AL::Math::Pose2D pExpected = AL::Math::pose2DInverse(pPos1);
+
+  EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
+}
