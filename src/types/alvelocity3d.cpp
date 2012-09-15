@@ -7,6 +7,7 @@
 #include <almath/types/alvelocity3d.h>
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 namespace AL {
   namespace Math {
@@ -37,6 +38,11 @@ namespace AL {
     }
     else
     {
+      std::cout << "ALMath: WARNING: "
+                << "Velocity3D constructor call with a wrong size of vector. "
+                << "Size expected: 3. Size given: " << pFloats.size() << ". "
+                << "Velocity3D is set to default value." << std::endl;
+
       xd = 0.0f;
       yd = 0.0f;
       zd = 0.0f;

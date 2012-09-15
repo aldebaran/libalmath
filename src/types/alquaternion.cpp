@@ -8,6 +8,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <almath/tools/altrigonometry.h>
+#include <iostream>
 
 namespace AL {
   namespace Math {
@@ -32,6 +33,11 @@ namespace AL {
       }
       else
       {
+        std::cout << "ALMath: WARNING: "
+                  << "Quaternion constructor call with a wrong size of vector. "
+                  << "Size expected: 4. Size given: " << pFloats.size() << ". "
+                  << "Quaternion is set to default value." << std::endl;
+
         w = 0.0f;
         x = 0.0f;
         y = 0.0f;

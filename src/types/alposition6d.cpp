@@ -7,6 +7,7 @@
 #include <almath/types/alposition6d.h>
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 namespace AL {
   namespace Math {
@@ -52,6 +53,11 @@ namespace AL {
       }
       else
       {
+        std::cout << "ALMath: WARNING: "
+                  << "Position6D constructor call with a wrong size of vector. "
+                  << "Size expected: 6. Size given: " << pFloats.size() << ". "
+                  << "Position6D is set to default value." << std::endl;
+
         x = 0.0f;
         y = 0.0f;
         z = 0.0f;

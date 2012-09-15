@@ -7,6 +7,7 @@
 #include <almath/types/alpose2d.h>
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 namespace AL {
   namespace Math {
@@ -33,6 +34,11 @@ namespace AL {
       }
       else
       {
+        std::cout << "ALMath: WARNING: "
+                  << "Pose2D constructor call with a wrong size of vector. "
+                  << "Size expected: 3. Size given: " << pFloats.size() << ". "
+                  << "Pose2D is set to default value." << std::endl;
+
         x = 0.0f;
         y = 0.0f;
         theta = 0.0f;

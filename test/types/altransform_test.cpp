@@ -574,3 +574,16 @@ TEST(TransformTest, inverse0)
   EXPECT_TRUE(pHIn.inverse().isNear(pHOut, 0.0001f));
 }
 
+
+TEST(TransformTest, strangeConstruction)
+{
+ std::vector<float> listData;
+ listData.push_back(1.0f);
+ listData.push_back(2.0f);
+ listData.push_back(3.0f);
+
+ AL::Math::Transform pH(listData);
+
+ EXPECT_TRUE(pH.isNear(AL::Math::Transform()));
+}
+

@@ -6,6 +6,7 @@
 
 #include <almath/types/altransform.h>
 #include <cmath>
+#include <iostream>
 
 namespace AL {
   namespace Math {
@@ -38,6 +39,11 @@ namespace AL {
       }
       else
       {
+        std::cout << "ALMath: WARNING: "
+                  << "Transform constructor call with a wrong size of vector. "
+                  << "Size expected: 12 or 16. Size given: " << pFloats.size() << ". "
+                  << "Transform is set to identity." << std::endl;
+
         r1_c1 = 1.0f;
         r1_c2 = 0.0f;
         r1_c3 = 0.0f;
