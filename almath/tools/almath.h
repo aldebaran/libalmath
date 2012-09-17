@@ -21,6 +21,25 @@ namespace AL {
   namespace Math {
 
   /// <summary>
+  /// Set an angle between ]-PI, PI].
+  ///
+  /// </summary>
+  /// <param name="pAngle"> the input/output angle </param>
+  /// \ingroup Tools
+  void modulo2PIInPlace(float& pAngle);
+
+  /// <summary>
+  /// Return an angle between ]-PI, PI].
+  ///
+  /// </summary>
+  /// <param name="pAngle"> the input angle </param>
+  /// <returns>
+  /// Return an angle between ]-PI, PI].
+  /// </returns>
+  /// \ingroup Tools
+  float modulo2PI(float pAngle);
+
+  /// <summary>
   /// Clip an input data inside min and max limit.
   ///
   /// \f$ pMin \leq pData \leq pMax \f$

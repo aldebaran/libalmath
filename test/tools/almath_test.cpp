@@ -10,6 +10,64 @@
 #include <gtest/gtest.h>
 #include <stdexcept>
 
+TEST(ALMathTest, moduloPI)
+{
+  float epsilon = 0.001f;
+  float pAngle  = 0.0f;
+
+  // case 0
+  pAngle = 0.0f;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, 0.0f, epsilon);
+
+  pAngle = 0.99f*AL::Math::PI;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, 0.99f*AL::Math::PI, epsilon);
+
+  pAngle = -0.99f*AL::Math::PI;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, -0.99f*AL::Math::PI, epsilon);
+
+  // case 1
+  pAngle = AL::Math::PI + 0.5f;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, 0.5f-AL::Math::PI, epsilon);
+
+  pAngle = -AL::Math::PI - 0.5f;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, -0.5f+AL::Math::PI, epsilon);
+
+  // case 2
+  pAngle  = 10.0f*AL::Math::PI + 0.5f;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, 0.5f, epsilon);
+
+  pAngle  = -10.0f*AL::Math::PI - 0.5f;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, -0.5f, epsilon);
+
+  // case 3
+  pAngle  = 11.0f*AL::Math::PI + 0.5f;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, 0.5f-AL::Math::PI, epsilon);
+
+  pAngle  = -11.0f*AL::Math::PI - 0.5f;
+  AL::Math::modulo2PIInPlace(pAngle);
+  EXPECT_NEAR(pAngle, -0.5f+AL::Math::PI, epsilon);
+
+  pAngle = 1.0f;
+  EXPECT_NEAR(AL::Math::modulo2PI(pAngle), 1.0f, 1e-4f);
+  pAngle = 2 * AL::Math::PI;
+  EXPECT_NEAR(AL::Math::modulo2PI(pAngle), 0.0f, 1e-4f);
+  pAngle = -5 * AL::Math::PI_2;
+  EXPECT_NEAR(AL::Math::modulo2PI(pAngle), -AL::Math::PI_2, 1e-4f);
+  pAngle = 3 * AL::Math::PI_2;
+  EXPECT_NEAR(AL::Math::modulo2PI(pAngle), -AL::Math::PI_2, 1e-4f);
+  pAngle = AL::Math::PI;
+  EXPECT_NEAR(AL::Math::modulo2PI(pAngle), AL::Math::PI, 1e-4f);
+}
+
+
 TEST(ALMathTest, clipData)
 {
   float pMin  = -0.2f;

@@ -5,6 +5,7 @@
  */
 
 #include <almath/tools/almath.h>
+#include <almath/tools/altrigonometry.h>
 
 #include <cmath>
 
@@ -12,6 +13,27 @@ namespace AL
 {
   namespace Math
   {
+
+    void modulo2PIInPlace(float& pAngle)
+    {
+      pAngle = fmod(pAngle, AL::Math::_2_PI_);
+
+      if (pAngle>AL::Math::PI)
+      {
+        pAngle = pAngle - AL::Math::_2_PI_;
+      }
+      else if (pAngle<-AL::Math::PI)
+      {
+        pAngle = pAngle + AL::Math::_2_PI_;
+      }
+    }
+
+    float modulo2PI(float pAngle)
+    {
+      float result = pAngle;
+      modulo2PIInPlace(result);
+      return result;
+    }
 
     bool clipData(
       const float& pMin,
