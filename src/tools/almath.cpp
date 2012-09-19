@@ -50,10 +50,9 @@ namespace AL
         pData = pMax;
         return true;
       }
-      else
-      {
-        return false;
-      }
+
+      return false;
+    }
 
 
     void changeReferencePose2D(
@@ -118,7 +117,8 @@ namespace AL
 
     Position3D operator*(
         const Quaternion& pQuat,
-        const Position3D& pPos) {
+        const Position3D& pPos)
+    {
       Position3D result;
       result.x = pQuat.w * pQuat.w * pPos.x + 2.0f *pQuat.y * pQuat.w * pPos.z;
       result.x += - 2.0f * pQuat.z * pQuat.w * pPos.y + pQuat.x * pQuat.x * pPos.x;
