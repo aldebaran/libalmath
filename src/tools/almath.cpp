@@ -54,6 +54,32 @@ namespace AL
       {
         return false;
       }
+
+
+    void changeReferencePose2D(
+        const float&  pTheta,
+        const Pose2D& pPosIn,
+        Pose2D&       pPosOut)
+    {
+      float cs = cosf(pTheta);
+      float sn = sinf(pTheta);
+      pPosOut.x = cs*pPosIn.x - sn*pPosIn.y;
+      pPosOut.y = sn*pPosIn.x + cs*pPosIn.y;
+      pPosOut.theta = pPosIn.theta;
+    }
+
+
+    void changeReferencePose2DInPlace(
+        const float& pTheta,
+        Pose2D&      pPosOut)
+    {
+      float cs = cosf(pTheta);
+      float sn = sinf(pTheta);
+      float xOld = pPosOut.x;
+      float yOld = pPosOut.y;
+
+      pPosOut.x = cs*xOld - sn*yOld;
+      pPosOut.y = sn*xOld + cs*yOld;
     }
 
 

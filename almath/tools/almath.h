@@ -57,6 +57,45 @@ namespace AL {
     const float& pMax,
     float&       pData);
 
+  /// <summary>
+  /** \f$ \left[\begin{array}{c}
+    * pPosOut.x \\
+    * pPosOut.y \\
+    * pPosOut.theta \\
+    * \end{array}\right]
+    * =
+    * \left[\begin{array}{cccccc}
+    * cos(pTheta) & -sin(pTheta) & 0 \\
+    * sin(pTheta) & cos(pTheta) & 0 \\
+    * 0 & 0 & 1 \\
+    * \end{array}\right]
+    *
+    * \left[\begin{array}{c}
+    * pPosIn.x \\
+    * pPosIn.y \\
+    * pPosIn.theta \\
+    * \end{array}\right]
+    * \f$
+    */
+  /// </summary>
+  /// <param name = "pTheta"> the given angle in radian </param>
+  /// <param name = "pPosIn"> a input Pose2D </param>
+  /// <param name = "pPosOut"> the output Pose2D </param>
+  /// \ingroup Tools
+  void changeReferencePose2D(
+      const float&  pTheta,
+      const Pose2D& pPosIn,
+      Pose2D&       pPosOut);
+
+  /// <summary>
+  /// Change orientation of a Pose2D in place.
+  /// </summary>
+  /// <param name = "pTheta"> the given angle in radian </param>
+  /// <param name = "pPosOut"> the input output Pose2D </param>
+  /// \ingroup Tools
+  void changeReferencePose2DInPlace(
+      const float& pTheta,
+      Pose2D&      pPosOut);
 
     /// <summary>
     /// Create a Position6D from a Velocity6D

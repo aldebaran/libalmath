@@ -94,6 +94,52 @@ TEST(ALMathTest, clipData)
 }
 
 
+TEST(ALMathTest, changeReferencePose2D)
+{
+  float pTheta = 90.0f*AL::Math::TO_RAD;
+  AL::Math::Pose2D pPosIn;
+  AL::Math::Pose2D pPosOut;
+
+  pPosIn = AL::Math::Pose2D(10.0f, 0.0f, 0.5f);
+  AL::Math::changeReferencePose2D(pTheta, pPosIn, pPosOut);
+  EXPECT_TRUE(pPosOut.isNear(AL::Math::Pose2D(0.0f, 10.0f, 0.5f), 0.001f));
+
+  pPosIn = AL::Math::Pose2D(0.0f, 10.0f, 0.5f);
+  AL::Math::changeReferencePose2D(pTheta, pPosIn, pPosOut);
+  EXPECT_TRUE(pPosOut.isNear(AL::Math::Pose2D(-10.0f, 0.0f, 0.5f), 0.001f));
+
+  pPosIn = AL::Math::Pose2D(-10.0f, 0.0f, 0.5f);
+  AL::Math::changeReferencePose2D(pTheta, pPosIn, pPosOut);
+  EXPECT_TRUE(pPosOut.isNear(AL::Math::Pose2D(0.0f, -10.0f, 0.5f), 0.001f));
+
+  pPosIn = AL::Math::Pose2D(0.0f, -10.0f, 0.5f);
+  AL::Math::changeReferencePose2D(pTheta, pPosIn, pPosOut);
+  EXPECT_TRUE(pPosOut.isNear(AL::Math::Pose2D(10.0f, 0.0f, 0.5f), 0.001f));
+}
+
+TEST(ALMathTest, changeReferencePose2DInPlace)
+{
+  float pTheta = 90.0f*AL::Math::TO_RAD;
+  AL::Math::Pose2D pPosIn;
+
+  pPosIn = AL::Math::Pose2D(10.0f, 0.0f, 0.5f);
+  AL::Math::changeReferencePose2DInPlace(pTheta, pPosIn);
+  EXPECT_TRUE(pPosIn.isNear(AL::Math::Pose2D(0.0f, 10.0f, 0.5f), 0.001f));
+
+  pPosIn = AL::Math::Pose2D(0.0f, 10.0f, 0.5f);
+  AL::Math::changeReferencePose2DInPlace(pTheta, pPosIn);
+  EXPECT_TRUE(pPosIn.isNear(AL::Math::Pose2D(-10.0f, 0.0f, 0.5f), 0.001f));
+
+  pPosIn = AL::Math::Pose2D(-10.0f, 0.0f, 0.5f);
+  AL::Math::changeReferencePose2DInPlace(pTheta, pPosIn);
+  EXPECT_TRUE(pPosIn.isNear(AL::Math::Pose2D(0.0f, -10.0f, 0.5f), 0.001f));
+
+  pPosIn = AL::Math::Pose2D(0.0f, -10.0f, 0.5f);
+  AL::Math::changeReferencePose2DInPlace(pTheta, pPosIn);
+  EXPECT_TRUE(pPosIn.isNear(AL::Math::Pose2D(10.0f, 0.0f, 0.5f), 0.001f));
+}
+
+
 TEST(ALMathTest, position3DFromPosition6D)
 {
   AL::Math::Position6D pPose6d        = AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
