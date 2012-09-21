@@ -207,6 +207,15 @@ namespace AL
       return pPose2d;
     }
 
+    Position2D operator*(
+      const Pose2D&     pVal,
+      const Position2D& pPos)
+    {
+      return Position2D(
+            pVal.x + cosf(pVal.theta)*pPos.x - sinf(pVal.theta)*pPos.y,
+            pVal.y + sinf(pVal.theta)*pPos.x + cosf(pVal.theta)*pPos.y);
+    }
+
   } // namespace Math
 } // namespace AL
 

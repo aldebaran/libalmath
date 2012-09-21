@@ -11,6 +11,7 @@
 
 #include <almath/types/alvelocity3d.h>
 #include <almath/types/alvelocity6d.h>
+#include <almath/types/alposition2d.h>
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
 #include <almath/types/alrotation.h>
@@ -276,6 +277,27 @@ namespace AL {
     /// <returns> the Pose2D extracted from the Position6D </returns>
     /// \ingroup Tools
     Pose2D pose2DFromPosition6D(const Position6D& pPose6d);
+
+
+    /// <summary>
+    /// Overloading of operator * for Pose2D to Position2D, give a Position2D:
+    ///
+    /** \f$\begin{array}{ccc}
+      * pRes.x & = & pVal.x + cos(pVal.theta)*pPos.x - sin(pVal.theta)*pPos.y \\
+      * pRes.y & = & pVal.y + sin(pVal.theta)*pPos.x + cos(pVal.theta)*pPos.y \\
+      * \end{array} \f$
+      */
+    ///
+    /// </summary>
+    /// <param name="pVal"> the given Pose2D </param>
+    /// <param name="pPos"> the given Position2D </param>
+    /// <returns>
+    /// the Position2D
+    /// </returns>
+    /// \ingroup Tools
+    Position2D operator*(
+      const Pose2D& pVal,
+      const Position2D& pPos);
 
 
   } // namespace Math

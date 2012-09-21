@@ -346,4 +346,29 @@ TEST(ALMathTest, pose2DFromPosition6D)
   EXPECT_TRUE(pPose2dComputed.isNear(pPose2dExpected, 0.0001f));
 }
 
+TEST(ALMathTest, multiplicationPose2DPosition2D)
+{
+  AL::Math::Pose2D pVal;
+  AL::Math::Position2D pPos;
+  AL::Math::Position2D pExpected;
+  AL::Math::Position2D pResult;
+
+  pVal      = AL::Math::Pose2D(0.0f, 0.0f, AL::Math::PI_2);
+  pPos      = AL::Math::Position2D(1.0f, 0.0f);
+  pExpected = AL::Math::Position2D(0.0f, 1.0f);
+  pResult   = pVal*pPos;
+  EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
+
+  pVal      = AL::Math::Pose2D(0.0f, 0.0f, AL::Math::PI_2);
+  pPos      = AL::Math::Position2D(0.0f, 1.0f);
+  pExpected = AL::Math::Position2D(-1.0f, 0.0f);
+  pResult   = pVal*pPos;
+  EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
+
+  pVal      = AL::Math::Pose2D(1.0f, 1.0f, -AL::Math::PI_2);
+  pPos      = AL::Math::Position2D(1.0f, 0.0f);
+  pExpected = AL::Math::Position2D(1.0f, 0.0f);
+  pResult   = pVal*pPos;
+  EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
+}
 
