@@ -161,6 +161,8 @@ TEST(ALQuaternionTest, creation)
     pT1   = AL::Math::Transform::fromRotZ(angle);
     EXPECT_TRUE(pQua1.isNear(AL::Math::quaternionFromTransform(pT1), 0.0001f));
 
+    float epsilon = 0.001f;
+
     float pAngleResult = 0.0f;
     float pAxeXResult  = 0.0f;
     float pAxeYResult  = 0.0f;
@@ -169,7 +171,13 @@ TEST(ALQuaternionTest, creation)
     pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotX(angle));
     AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
 
-    float epsilon = 0.001f;
+    std::vector<float> result = AL::Math::angleAndAxisRotationFromQuaternion(pQua1);
+    EXPECT_TRUE(result.size()==4);
+    EXPECT_NEAR(result.at(0), pAngleResult, epsilon);
+    EXPECT_NEAR(result.at(1), pAxeXResult, epsilon);
+    EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
+    EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
+
     bool isSuccess = false;
     if (
         (
@@ -202,6 +210,13 @@ TEST(ALQuaternionTest, creation)
 
     pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotY(angle));
     AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
+
+    result = AL::Math::angleAndAxisRotationFromQuaternion(pQua1);
+    EXPECT_TRUE(result.size()==4);
+    EXPECT_NEAR(result.at(0), pAngleResult, epsilon);
+    EXPECT_NEAR(result.at(1), pAxeXResult, epsilon);
+    EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
+    EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
     if (
         (
@@ -241,6 +256,13 @@ TEST(ALQuaternionTest, creation)
 
     pQua1 = AL::Math::quaternionFromTransform(AL::Math::Transform::fromRotZ(angle));
     AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
+
+    result = AL::Math::angleAndAxisRotationFromQuaternion(pQua1);
+    EXPECT_TRUE(result.size()==4);
+    EXPECT_NEAR(result.at(0), pAngleResult, epsilon);
+    EXPECT_NEAR(result.at(1), pAxeXResult, epsilon);
+    EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
+    EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
     if (
         (

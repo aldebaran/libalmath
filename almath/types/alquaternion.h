@@ -286,6 +286,19 @@ namespace AL {
       float& pAxisY,
       float& pAxisZ);
 
+    /// <summary>
+    /// Compute angle and axis rotation from a Quaternion.
+    ///
+    /// </summary>
+    /// <param name="pQuaternion"> the given quaternion </param>
+    /// <returns>
+    /// a vector containing angle, axisX, axisY, axisZ.
+    /// </returns>
+    /// \ingroup Types
+    std::vector<float> angleAndAxisRotationFromQuaternion(
+      const Quaternion& pQuaternion);
+
+
   } // end namespace math
 } // end namespace al
 #endif  // _LIBALMATH_ALMATH_TYPES_ALQUATERNION_H_

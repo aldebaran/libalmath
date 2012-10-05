@@ -256,7 +256,7 @@ namespace AL {
     {
       Quaternion copy = pQuaternion;
       copy.normalize();
-      pAngle          = 2.0f*acos(copy.w); // * AL::Math::_2_PI_;
+      pAngle          = 2.0f*acosf(copy.w); // * AL::Math::_2_PI_;
       float sin_angle = sqrtf(1.0f - powf(copy.w, 2));
 
       if (fabsf(sin_angle) < 0.0005f)
@@ -275,6 +275,21 @@ namespace AL {
         pAxisY = 0.0f;
         pAxisZ = 0.0f;
       }
+    }
+
+    std::vector<float> angleAndAxisRotationFromQuaternion(
+      const Quaternion& pQuaternion)
+    {
+      std::vector<float> result(4, 0.0f);
+
+      angleAndAxisRotationFromQuaternion(
+            pQuaternion,
+            result[0],
+            result[1],
+            result[2],
+            result[3]);
+
+      return result;
     }
 
   } // end namespace math
