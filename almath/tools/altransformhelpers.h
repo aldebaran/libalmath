@@ -557,7 +557,8 @@ namespace AL {
     Rotation rotationFromTransform(const Transform& pTransform);
 
     /// <summary>
-    ///
+    /// return 3 angles which result in the equivalent rotation when composed
+    /// in the following order: Rz(wz) * Ry(wy) * Rx(wx) = R
     /// </summary>
     /// <param name = "pRotation"> the Rotation to extract </param>
     /// <returns>
@@ -621,7 +622,9 @@ namespace AL {
     Pose2D pose2DFromTransform(const Transform& pT);
 
     /// <summary>
-    /// Create a Transform from a Rotation3D.
+    /// Create a Transform from the 3 angles stored in a Rotation3D.
+    /// The angles are composed in the following order:
+    /// Rz(wz) * Ry(wy) * Rx(wx) = R
     /// </summary>
     /// <param name = "pRotation"> the Rotation you want to extract </param>
     /// <returns> the result Transform </returns>
@@ -715,6 +718,7 @@ namespace AL {
     /// <summary>
     /// Create a Rotation3D (Roll, Pitch, Yaw) corresponding to the rotational
     /// part of the Transform.
+    /// R =  Rz(wz) * Ry(wy) * Rx(wx)
     /// </summary>
     /// <param name = "pT"> the Transform you want to extract </param>
     /// <returns> the result Rotation3D </returns>
@@ -736,7 +740,6 @@ namespace AL {
       Transform&        pT);
 
     /// <summary>
-    /// Compute a Transform from a Rotation3D.
     /// </summary>
     /// <param name = "pAxis"> the Rotation you want to extract </param>
     /// <param name = "pTheta"> the Rotation you want to extract </param>
@@ -750,7 +753,6 @@ namespace AL {
 
 
     /// <summary>
-    /// Compute a Transform from a Rotation3D.
     /// </summary>
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <param name = "pT"> the Rotation you want to extract </param>
@@ -760,7 +762,6 @@ namespace AL {
       Transform&        pT);
 
     /// <summary>
-    /// Compute a Transform from a Rotation3D.
     /// </summary>
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <returns> the result Transform </returns>
@@ -768,7 +769,6 @@ namespace AL {
     Transform transformFromRotVec(const Position3D& pPos);
 
     /// <summary>
-    /// Compute a Transform from a Rotation3D.
     /// </summary>
     /// <param name = "pAxis"> the Rotation you want to extract </param>
     /// <param name = "pTheta"> the Rotation you want to extract </param>
