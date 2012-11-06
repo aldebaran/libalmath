@@ -70,32 +70,20 @@ namespace AL {
 
 
     bool Quaternion::isNear(
-      const Quaternion& pQua2,
-      const float&      pEpsilon) const
+        const Quaternion& pQua2,
+        const float&      pEpsilon) const
     {
-      if (
-          // |pQua1 - pQua2| < epsilon
-          (
-            (fabsf(w - pQua2.w) < pEpsilon) &&
-            (fabsf(x - pQua2.x) < pEpsilon) &&
-            (fabsf(y - pQua2.y) < pEpsilon) &&
-            (fabsf(z - pQua2.z) < pEpsilon)
-            ) ||
-          (
-            // |pQua1 + pQua2| < epsilon
-            (fabsf(w + pQua2.w) < pEpsilon) &&
-            (fabsf(x + pQua2.x) < pEpsilon) &&
-            (fabsf(y + pQua2.y) < pEpsilon) &&
-            (fabsf(z + pQua2.z) < pEpsilon)
-            )
-          )
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (// |pQua1 - pQua2| < epsilon
+              (fabsf(w - pQua2.w) < pEpsilon &&
+               fabsf(x - pQua2.x) < pEpsilon &&
+               fabsf(y - pQua2.y) < pEpsilon &&
+               fabsf(z - pQua2.z) < pEpsilon) ||
+              (// |pQua1 + pQua2| < epsilon
+               fabsf(w + pQua2.w) < pEpsilon &&
+               fabsf(x + pQua2.x) < pEpsilon &&
+               fabsf(y + pQua2.y) < pEpsilon &&
+               fabsf(z + pQua2.z) < pEpsilon)
+              );
     }
 
 
@@ -123,18 +111,10 @@ namespace AL {
 
     bool Quaternion::operator== (const Quaternion& pQua2) const
     {
-      if(
-        (w == pQua2.w) &&
-        (x == pQua2.x) &&
-        (y == pQua2.y) &&
-        (z == pQua2.z))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (w == pQua2.w &&
+              x == pQua2.x &&
+              y == pQua2.y &&
+              z == pQua2.z);
     }
 
     bool Quaternion::operator!= (const Quaternion& pQua2) const

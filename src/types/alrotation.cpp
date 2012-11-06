@@ -101,23 +101,15 @@ namespace AL {
 
     bool Rotation::operator==(const Rotation& pRot2) const
     {
-      if (
-        (r1_c1 == pRot2.r1_c1) &&
-        (r1_c2 == pRot2.r1_c2) &&
-        (r1_c3 == pRot2.r1_c3) &&
-        (r2_c1 == pRot2.r2_c1) &&
-        (r2_c2 == pRot2.r2_c2) &&
-        (r2_c3 == pRot2.r2_c3) &&
-        (r3_c1 == pRot2.r3_c1) &&
-        (r3_c2 == pRot2.r3_c2) &&
-        (r3_c3 == pRot2.r3_c3))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (r1_c1 == pRot2.r1_c1 &&
+              r1_c2 == pRot2.r1_c2 &&
+              r1_c3 == pRot2.r1_c3 &&
+              r2_c1 == pRot2.r2_c1 &&
+              r2_c2 == pRot2.r2_c2 &&
+              r2_c3 == pRot2.r2_c3 &&
+              r3_c1 == pRot2.r3_c1 &&
+              r3_c2 == pRot2.r3_c2 &&
+              r3_c3 == pRot2.r3_c3);
     }
 
     bool Rotation::operator!=(const Rotation& pRot2) const
@@ -126,28 +118,19 @@ namespace AL {
     }
 
 
-
     bool Rotation::isNear(
-      const Rotation& pRot2,
-      const float&    pEpsilon) const
+        const Rotation& pRot2,
+        const float&    pEpsilon) const
     {
-      if (
-        (fabsf(r1_c1 - pRot2.r1_c1) > pEpsilon) ||
-        (fabsf(r1_c2 - pRot2.r1_c2) > pEpsilon) ||
-        (fabsf(r1_c3 - pRot2.r1_c3) > pEpsilon) ||
-        (fabsf(r2_c1 - pRot2.r2_c1) > pEpsilon) ||
-        (fabsf(r2_c2 - pRot2.r2_c2) > pEpsilon) ||
-        (fabsf(r2_c3 - pRot2.r2_c3) > pEpsilon) ||
-        (fabsf(r3_c1 - pRot2.r3_c1) > pEpsilon) ||
-        (fabsf(r3_c2 - pRot2.r3_c2) > pEpsilon) ||
-        (fabsf(r3_c3 - pRot2.r3_c3) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(r1_c1 - pRot2.r1_c1) <= pEpsilon &&
+              fabsf(r1_c2 - pRot2.r1_c2) <= pEpsilon &&
+              fabsf(r1_c3 - pRot2.r1_c3) <= pEpsilon &&
+              fabsf(r2_c1 - pRot2.r2_c1) <= pEpsilon &&
+              fabsf(r2_c2 - pRot2.r2_c2) <= pEpsilon &&
+              fabsf(r2_c3 - pRot2.r2_c3) <= pEpsilon &&
+              fabsf(r3_c1 - pRot2.r3_c1) <= pEpsilon &&
+              fabsf(r3_c2 - pRot2.r3_c2) <= pEpsilon &&
+              fabsf(r3_c3 - pRot2.r3_c3) <= pEpsilon);
     }
 
 
@@ -247,16 +230,12 @@ namespace AL {
 
     float determinant(const Rotation& pRot)
     {
-      float det;
-
-      det = pRot.r1_c1 * pRot.r2_c2 * pRot.r3_c3 +
+      return pRot.r1_c1 * pRot.r2_c2 * pRot.r3_c3 +
         pRot.r1_c2 * pRot.r2_c3 * pRot.r3_c1 +
         pRot.r1_c3 * pRot.r2_c1 * pRot.r3_c2 -
         pRot.r1_c1 * pRot.r2_c3 * pRot.r3_c2 -
         pRot.r1_c2 * pRot.r2_c1 * pRot.r3_c3 -
         pRot.r1_c3 * pRot.r2_c2 * pRot.r3_c1;
-
-      return det;
     }
 
 

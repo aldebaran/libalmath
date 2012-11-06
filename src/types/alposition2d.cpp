@@ -91,16 +91,11 @@ namespace AL {
 
 
     bool Position2D::isNear(
-      const Position2D& pPos2,
-      const float&      pEpsilon) const
+        const Position2D& pPos2,
+        const float&      pEpsilon) const
     {
-      if (
-        (fabsf(x - pPos2.x) > pEpsilon) ||
-        (fabsf(y - pPos2.y) > pEpsilon))
-      {
-        return false;
-      }
-      return true;
+      return (fabsf(x - pPos2.x) <= pEpsilon &&
+              fabsf(y - pPos2.y) <= pEpsilon);
     }
 
 
@@ -131,8 +126,8 @@ namespace AL {
 
     Position2D& Position2D::operator*= (float pVal)
     {
-      x *=pVal;
-      y *=pVal;
+      x *= pVal;
+      y *= pVal;
       return *this;
     }
 
@@ -180,15 +175,8 @@ namespace AL {
 
     bool Position2D::operator==(const Position2D& pPos2) const
     {
-      if ((x == pPos2.x) &&
-          (y == pPos2.y))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (x == pPos2.x &&
+              y == pPos2.y);
     }
 
     std::vector<float> Position2D::toVector() const
@@ -223,16 +211,14 @@ namespace AL {
 
     Position2D normalize(const Position2D& p)
     {
-      Position2D ret;
-      ret = p;
-
-      float tmpNorm = norm(p);
+      const float tmpNorm = norm(p);
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition2D: normalize Division by zeros.");
       }
 
+      Position2D ret = p;
       ret /= tmpNorm;
       return ret;
     }

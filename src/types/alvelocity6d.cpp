@@ -144,21 +144,12 @@ namespace AL {
 
     bool Velocity6D::operator== (const Velocity6D& pVel2) const
     {
-      if(
-          (xd == pVel2.xd) &&
-          (yd == pVel2.yd) &&
-          (zd == pVel2.zd) &&
-          (wxd == pVel2.wxd) &&
-          (wyd == pVel2.wyd) &&
-          (wzd == pVel2.wzd)
-          )
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (xd == pVel2.xd &&
+              yd == pVel2.yd &&
+              zd == pVel2.zd &&
+              wxd == pVel2.wxd &&
+              wyd == pVel2.wyd &&
+              wzd == pVel2.wzd);
     }
 
 
@@ -193,23 +184,15 @@ namespace AL {
     }
 
     bool Velocity6D::isNear(
-      const Velocity6D& pVel2,
-      const float&      pEpsilon) const
+        const Velocity6D& pVel2,
+        const float&      pEpsilon) const
     {
-      if (
-        (fabsf(xd  - pVel2.xd)  > pEpsilon) ||
-        (fabsf(yd  - pVel2.yd)  > pEpsilon) ||
-        (fabsf(zd  - pVel2.zd)  > pEpsilon) ||
-        (fabsf(wxd - pVel2.wxd) > pEpsilon) ||
-        (fabsf(wyd - pVel2.wyd) > pEpsilon) ||
-        (fabsf(wzd - pVel2.wzd) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(xd  - pVel2.xd)  <= pEpsilon &&
+              fabsf(yd  - pVel2.yd)  <= pEpsilon &&
+              fabsf(zd  - pVel2.zd)  <= pEpsilon &&
+              fabsf(wxd - pVel2.wxd) <= pEpsilon &&
+              fabsf(wyd - pVel2.wyd) <= pEpsilon &&
+              fabsf(wzd - pVel2.wzd) <= pEpsilon);
     }
 
     float Velocity6D::norm() const
@@ -250,27 +233,25 @@ namespace AL {
     float norm(const Velocity6D& pVel)
     {
       // norm of a 6 component vector
-      return sqrtf( (pVel.xd*pVel.xd) +
-                    (pVel.yd*pVel.yd) +
-                    (pVel.zd*pVel.zd) +
-                    (pVel.wxd*pVel.wxd) +
-                    (pVel.wyd*pVel.wyd) +
-                    (pVel.wzd*pVel.wzd));
+      return sqrtf(pVel.xd*pVel.xd +
+                   pVel.yd*pVel.yd +
+                   pVel.zd*pVel.zd +
+                   pVel.wxd*pVel.wxd +
+                   pVel.wyd*pVel.wyd +
+                   pVel.wzd*pVel.wzd);
     }
 
 
     Velocity6D normalize(const Velocity6D& pVel)
     {
-      Velocity6D ret;
-      ret = pVel;
-      float tmpNorm = norm(pVel);
-
+      const float tmpNorm = norm(pVel);
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
           "ALVelocity6D: normalize Division by zeros.");
       }
 
+      Velocity6D ret = pVel;
       ret /= tmpNorm;
       return ret;
     }

@@ -11,20 +11,11 @@ namespace AL {
 
 
     bool TransformAndVelocity6D::isNear(
-      const TransformAndVelocity6D& pDat,
-      const float&                  pEpsilon) const
+        const TransformAndVelocity6D& pDat,
+        const float&                  pEpsilon) const
     {
-
-      if (
-        T.isNear(pDat.T, pEpsilon) &&
-        V.isNear(pDat.V, pEpsilon))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (T.isNear(pDat.T, pEpsilon) &&
+              V.isNear(pDat.V, pEpsilon));
     }
 
 
