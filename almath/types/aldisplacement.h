@@ -26,6 +26,18 @@ namespace AL {
       Quaternion Q;
 
       /// <summary>
+      /// Create a Displacement initialized with default values
+      /// </summary>
+      explicit Displacement();
+
+      /// <summary>
+      /// Create a Displacement with the given Position3D and Quaternion
+      /// </summary>
+      /// <param name="pos3d"> the pose of the created Displacement </param>
+      /// <param name="quat"> the rotation of the created Displacement </param>
+      Displacement(const Position3D& pos3d, const Quaternion& quat);
+
+      /// <summary>
       /// Check if the current Displacement is Near the one
       /// given in argument.
       /// </summary>

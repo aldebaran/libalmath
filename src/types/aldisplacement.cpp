@@ -8,6 +8,13 @@
 
 namespace AL {
   namespace Math {
+    Displacement::Displacement() : P(), Q() {}
+
+    Displacement::Displacement(
+      const Position3D& pos3d,
+      const Quaternion& quat) : P(pos3d), Q(quat) {}
+
+
     bool Displacement::isNear(
       const Displacement& pDisp,
       const float         pEpsilon) const
