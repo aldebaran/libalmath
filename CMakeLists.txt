@@ -30,6 +30,7 @@ set( ALMATH_SRCS
     src/types/alposition3d.cpp
     src/types/alposition6d.cpp
     src/types/alquaternion.cpp
+    src/types/aldisplacement.cpp
 )
 
 set(ALMATH_H
@@ -52,6 +53,7 @@ set(ALMATH_H
     almath/types/alvelocity3d.h
     almath/types/alvelocity6d.h
     almath/types/alquaternion.h
+    almath/types/aldisplacement.h
 )
 
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})

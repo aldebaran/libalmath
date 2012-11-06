@@ -44,6 +44,7 @@
 #include "almath/types/alposition6d.h"
 #include "almath/types/alpositionandvelocity.h"
 #include "almath/types/alquaternion.h"
+#include "almath/types/aldisplacement.h"
 
 #include "almath/types/alrotation.h"
 #include "almath/types/alrotation3d.h"
@@ -159,6 +160,7 @@ namespace std {
 %include "almath/types/alposition6d.h"
 %include "almath/types/alpositionandvelocity.h"
 %include "almath/types/alquaternion.h"
+%include "almath/types/aldisplacement.h"
 
 %include "almath/types/alrotation.h"
 %include "almath/types/alrotation3d.h"
@@ -332,6 +334,17 @@ namespace std {
                $self->T.r3_c1, $self->T.r3_c2, $self->T.r3_c3, $self->T.r3_c4,
                $self->V.xd,  $self->V.yd,  $self->V.zd,
                $self->V.wxd, $self->V.wyd, $self->V.wzd);
+       return tmp;
+   }
+};
+
+%extend AL::Math::Displacement {
+   char *__repr__() {
+       static char tmp[1024];
+       sprintf(tmp, "Displacement(P=Position3D(x=%g, y=%g, z=%g)\n"
+                    "             Q=Quaternion(w=%g, x=%g, y=%g, z=%g))\n",
+               $self->P.x, $self->P.y, $self->P.z,
+               $self->Q.w, $self->Q.x, $self->Q.y, $self->Q.z);
        return tmp;
    }
 };

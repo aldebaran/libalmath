@@ -21,6 +21,7 @@ set(almath_tests_srcs
     types/alvelocity3d_test.cpp
     types/alvelocity6d_test.cpp
     types/alquaternion_test.cpp
+    types/aldisplacement_test.cpp
 )
 
 qi_create_gtest(almath_tests ${almath_tests_srcs} DEPENDS GTEST ALMATH)
