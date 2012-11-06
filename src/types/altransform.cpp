@@ -131,26 +131,18 @@ namespace AL {
 
     bool Transform::operator==(const Transform& pT2) const
     {
-      if (
-        (r1_c1 == pT2.r1_c1) &&
-        (r1_c2 == pT2.r1_c2) &&
-        (r1_c3 == pT2.r1_c3) &&
-        (r1_c4 == pT2.r1_c4) &&
-        (r2_c1 == pT2.r2_c1) &&
-        (r2_c2 == pT2.r2_c2) &&
-        (r2_c3 == pT2.r2_c3) &&
-        (r2_c4 == pT2.r2_c4) &&
-        (r3_c1 == pT2.r3_c1) &&
-        (r3_c2 == pT2.r3_c2) &&
-        (r3_c3 == pT2.r3_c3) &&
-        (r3_c4 == pT2.r3_c4))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (r1_c1 == pT2.r1_c1 &&
+              r1_c2 == pT2.r1_c2 &&
+              r1_c3 == pT2.r1_c3 &&
+              r1_c4 == pT2.r1_c4 &&
+              r2_c1 == pT2.r2_c1 &&
+              r2_c2 == pT2.r2_c2 &&
+              r2_c3 == pT2.r2_c3 &&
+              r2_c4 == pT2.r2_c4 &&
+              r3_c1 == pT2.r3_c1 &&
+              r3_c2 == pT2.r3_c2 &&
+              r3_c3 == pT2.r3_c3 &&
+              r3_c4 == pT2.r3_c4);
     }
 
     bool Transform::operator!=(const Transform& pT2) const
@@ -160,30 +152,21 @@ namespace AL {
 
 
     bool Transform::isNear(
-      const Transform& pT2,
-      const float&     pEpsilon)const
+        const Transform& pT2,
+        const float&     pEpsilon)const
     {
-
-      if (
-        (fabsf(r1_c1 - pT2.r1_c1) > pEpsilon) ||
-        (fabsf(r1_c2 - pT2.r1_c2) > pEpsilon) ||
-        (fabsf(r1_c3 - pT2.r1_c3) > pEpsilon) ||
-        (fabsf(r2_c1 - pT2.r2_c1) > pEpsilon) ||
-        (fabsf(r2_c2 - pT2.r2_c2) > pEpsilon) ||
-        (fabsf(r2_c3 - pT2.r2_c3) > pEpsilon) ||
-        (fabsf(r3_c1 - pT2.r3_c1) > pEpsilon) ||
-        (fabsf(r3_c2 - pT2.r3_c2) > pEpsilon) ||
-        (fabsf(r3_c3 - pT2.r3_c3) > pEpsilon) ||
-        (fabsf(r1_c4 - pT2.r1_c4) > pEpsilon) ||
-        (fabsf(r2_c4 - pT2.r2_c4) > pEpsilon) ||
-        (fabsf(r3_c4 - pT2.r3_c4) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(r1_c1 - pT2.r1_c1) <= pEpsilon &&
+              fabsf(r1_c2 - pT2.r1_c2) <= pEpsilon &&
+              fabsf(r1_c3 - pT2.r1_c3) <= pEpsilon &&
+              fabsf(r2_c1 - pT2.r2_c1) <= pEpsilon &&
+              fabsf(r2_c2 - pT2.r2_c2) <= pEpsilon &&
+              fabsf(r2_c3 - pT2.r2_c3) <= pEpsilon &&
+              fabsf(r3_c1 - pT2.r3_c1) <= pEpsilon &&
+              fabsf(r3_c2 - pT2.r3_c2) <= pEpsilon &&
+              fabsf(r3_c3 - pT2.r3_c3) <= pEpsilon &&
+              fabsf(r1_c4 - pT2.r1_c4) <= pEpsilon &&
+              fabsf(r2_c4 - pT2.r2_c4) <= pEpsilon &&
+              fabsf(r3_c4 - pT2.r3_c4) <= pEpsilon);
     }
 
 
@@ -235,10 +218,7 @@ namespace AL {
       {
         return false;
       }
-      else
-      {
-        return true;
-      }
+      return true;
     } // end isTransform
 
 
@@ -421,33 +401,32 @@ namespace AL {
 
     float determinant(const Transform& pT)
     {
-      float det;
-
-      det = pT.r1_c1 * pT.r2_c2 * pT.r3_c3 +
-        pT.r1_c2 * pT.r2_c3 * pT.r3_c1 +
-        pT.r1_c3 * pT.r2_c1 * pT.r3_c2 -
-        pT.r1_c1 * pT.r2_c3 * pT.r3_c2 -
-        pT.r1_c2 * pT.r2_c1 * pT.r3_c3 -
-        pT.r1_c3 * pT.r2_c2 * pT.r3_c1;
-
-      return det;
+      return pT.r1_c1 * pT.r2_c2 * pT.r3_c3 +
+          pT.r1_c2 * pT.r2_c3 * pT.r3_c1 +
+          pT.r1_c3 * pT.r2_c1 * pT.r3_c2 -
+          pT.r1_c1 * pT.r2_c3 * pT.r3_c2 -
+          pT.r1_c2 * pT.r2_c1 * pT.r3_c3 -
+          pT.r1_c3 * pT.r2_c2 * pT.r3_c1;
     }
 
     float determinant(const std::vector<float>& pFloats)
     {
-      float det = 0.0f;
-      if (
-          (pFloats.size() == 12) ||
-          (pFloats.size() == 16))
+      if (pFloats.size() != 12 &&
+          pFloats.size() != 16)
       {
-        det = pFloats[0] * pFloats[5] * pFloats[10] +
-            pFloats[1] * pFloats[6] * pFloats[8] +
-            pFloats[2] * pFloats[4] * pFloats[9] -
-            pFloats[0] * pFloats[6] * pFloats[9] -
-            pFloats[1] * pFloats[4] * pFloats[10] -
-            pFloats[2] * pFloats[5] * pFloats[8];
+        std::cout << "ALMath: WARNING: "
+                  << "determinant call with a wrong size of vector. "
+                  << "Size expected: 12 or 16. Size given: " << pFloats.size() << ". "
+                  << "Determinant is set to zero." << std::endl;
+        return 0.0f;
       }
-      return det;
+
+      return pFloats[0] * pFloats[5] * pFloats[10] +
+          pFloats[1] * pFloats[6] * pFloats[8] +
+          pFloats[2] * pFloats[4] * pFloats[9] -
+          pFloats[0] * pFloats[6] * pFloats[9] -
+          pFloats[1] * pFloats[4] * pFloats[10] -
+          pFloats[2] * pFloats[5] * pFloats[8];
     }
 
 

@@ -105,20 +105,12 @@ namespace AL {
 
 
     bool Velocity3D::isNear(
-      const Velocity3D& pVel2,
-      const float&      pEpsilon) const
+        const Velocity3D& pVel2,
+        const float&      pEpsilon) const
     {
-      if (
-        (fabsf(xd - pVel2.xd) > pEpsilon) ||
-        (fabsf(yd - pVel2.yd) > pEpsilon) ||
-        (fabsf(zd - pVel2.zd) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(xd - pVel2.xd) <= pEpsilon &&
+              fabsf(yd - pVel2.yd) <= pEpsilon &&
+              fabsf(zd - pVel2.zd) <= pEpsilon);
     }
 
 
@@ -152,17 +144,9 @@ namespace AL {
 
     bool Velocity3D::operator== (const Velocity3D& pVel2) const
     {
-      if(
-        (xd == pVel2.xd) &&
-        (yd == pVel2.yd) &&
-        (zd == pVel2.zd))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (xd == pVel2.xd &&
+              yd == pVel2.yd &&
+              zd == pVel2.zd);
     }
 
 
@@ -223,16 +207,14 @@ namespace AL {
 
     Velocity3D normalize(const Velocity3D& pVel)
     {
-      Velocity3D ret;
-      ret = pVel;
-      float tmpNorm = norm(pVel);
-
+      const float tmpNorm = norm(pVel);
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
           "ALVelocity3D: normalize Division by zeros.");
       }
 
+      Velocity3D ret = pVel;
       ret /= tmpNorm;
       return ret;
     }

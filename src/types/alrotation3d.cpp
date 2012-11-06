@@ -80,17 +80,9 @@ namespace AL {
 
     bool Rotation3D::operator== (const Rotation3D& pRot2) const
     {
-      if(
-          (wx == pRot2.wx) &&
-          (wy == pRot2.wy) &&
-          (wz == pRot2.wz))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (wx == pRot2.wx &&
+              wy == pRot2.wy &&
+              wz == pRot2.wz);
     }
 
     bool Rotation3D::operator!= (const Rotation3D& pRot2) const
@@ -138,21 +130,14 @@ namespace AL {
 
 
     bool Rotation3D::isNear(
-      const Rotation3D& pRot2,
-      const float&      pEpsilon) const
+        const Rotation3D& pRot2,
+        const float&      pEpsilon) const
     {
-      if (
-        (fabsf(wx - pRot2.wx) > pEpsilon) ||
-        (fabsf(wy - pRot2.wy) > pEpsilon) ||
-        (fabsf(wz - pRot2.wz) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(wx - pRot2.wx) <= pEpsilon &&
+              fabsf(wy - pRot2.wy) <= pEpsilon &&
+              fabsf(wz - pRot2.wz) <= pEpsilon);
     }
+
 
     float Rotation3D::norm() const
     {

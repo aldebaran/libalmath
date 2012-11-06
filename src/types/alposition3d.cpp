@@ -98,20 +98,12 @@ namespace AL {
 
 
     bool Position3D::isNear(
-      const Position3D& pPos2,
-      const float&      pEpsilon) const
+        const Position3D& pPos2,
+        const float&      pEpsilon) const
     {
-      if (
-        (fabsf(x - pPos2.x) > pEpsilon) ||
-        (fabsf(y - pPos2.y) > pEpsilon) ||
-        (fabsf(z - pPos2.z) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(x - pPos2.x) <= pEpsilon &&
+              fabsf(y - pPos2.y) <= pEpsilon &&
+              fabsf(z - pPos2.z) <= pEpsilon);
     }
 
     Position3D Position3D::operator* (float pVal) const
@@ -154,17 +146,9 @@ namespace AL {
 
     bool Position3D::operator== (const Position3D& pPos2) const
     {
-      if(
-        (x == pPos2.x) &&
-        (y == pPos2.y) &&
-        (z == pPos2.z))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (x == pPos2.x &&
+              y == pPos2.y &&
+              z == pPos2.z);
     }
 
     bool Position3D::operator!= (const Position3D& pPos2) const
@@ -238,9 +222,7 @@ namespace AL {
 
     Position3D normalize(const Position3D& pPos)
     {
-      Position3D ret;
-      ret = pPos;
-      float tmpNorm = norm(pPos);
+      const float tmpNorm = norm(pPos);
 
       if (tmpNorm == 0.0f)
       {
@@ -248,6 +230,7 @@ namespace AL {
           "ALPosition3D: normalize Division by zeros.");
       }
 
+      Position3D ret = pPos;
       ret /= tmpNorm;
       return ret;
     }

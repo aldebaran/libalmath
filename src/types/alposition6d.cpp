@@ -142,23 +142,15 @@ namespace AL {
 
 
     bool Position6D::isNear(
-      const Position6D& pPos2,
-      const float&      pEpsilon) const
+        const Position6D& pPos2,
+        const float&      pEpsilon) const
     {
-      if (
-        (fabsf(x - pPos2.x) > pEpsilon) ||
-        (fabsf(y - pPos2.y) > pEpsilon) ||
-        (fabsf(z - pPos2.z) > pEpsilon) ||
-        (fabsf(wx - pPos2.wx) > pEpsilon) ||
-        (fabsf(wy - pPos2.wy) > pEpsilon) ||
-        (fabsf(wz - pPos2.wz) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(x - pPos2.x) <= pEpsilon &&
+              fabsf(y - pPos2.y) <= pEpsilon &&
+              fabsf(z - pPos2.z) <= pEpsilon &&
+              fabsf(wx - pPos2.wx) <= pEpsilon &&
+              fabsf(wy - pPos2.wy) <= pEpsilon &&
+              fabsf(wz - pPos2.wz) <= pEpsilon);
     }
 
     Position6D Position6D::operator* (float pVal) const
@@ -185,20 +177,12 @@ namespace AL {
 
     bool Position6D::operator== (const Position6D& pPos2) const
     {
-      if(
-          (x == pPos2.x) &&
-          (y == pPos2.y) &&
-          (z == pPos2.z) &&
-          (wx == pPos2.wx) &&
-          (wy == pPos2.wy) &&
-          (wz == pPos2.wz))
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (x == pPos2.x &&
+              y == pPos2.y &&
+              z == pPos2.z &&
+              wx == pPos2.wx &&
+              wy == pPos2.wy &&
+              wz == pPos2.wz);
     }
 
     bool Position6D::operator!= (const Position6D& pPos2) const
@@ -258,8 +242,8 @@ namespace AL {
     }
 
     float distanceSquared(
-      const Position6D& pPos1,
-      const Position6D& pPos2)
+        const Position6D& pPos1,
+        const Position6D& pPos2)
     {
       return (pPos1.x-pPos2.x)*(pPos1.x-pPos2.x)+
           (pPos1.y-pPos2.y)*(pPos1.y-pPos2.y)+
@@ -281,15 +265,15 @@ namespace AL {
 
     Position6D normalize(const Position6D& pPos)
     {
-      Position6D ret;
-      ret = pPos;
-      float tmpNorm = norm(pPos);
+      const float tmpNorm = norm(pPos);
 
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
           "ALPosition6D: normalize Division by zeros.");
       }
+
+      Position6D ret = pPos;
 
       ret /= tmpNorm;
       return ret;

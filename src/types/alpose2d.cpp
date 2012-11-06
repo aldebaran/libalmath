@@ -118,17 +118,9 @@ namespace AL {
 
     bool Pose2D::operator==(const Pose2D& pPos2) const
     {
-       if (
-         (x == pPos2.x) &&
-         (y == pPos2.y) &&
-         (theta == pPos2.theta) )
-       {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return (x == pPos2.x &&
+              y == pPos2.y &&
+              theta == pPos2.theta);
     }
 
     bool Pose2D::operator!=(const Pose2D& pPos2) const
@@ -145,7 +137,6 @@ namespace AL {
     {
       return Math::distance(*this, pPos2);
     }
-
 
     Pose2D Pose2D::operator* (float pVal) const
     {
@@ -217,21 +208,12 @@ namespace AL {
 
 
     bool Pose2D::isNear(
-      const Pose2D& pPos2,
-      const float&  pEpsilon) const
+        const Pose2D& pPos2,
+        const float&  pEpsilon) const
     {
-
-      if (
-        (fabsf(x - pPos2.x) > pEpsilon) ||
-        (fabsf(y - pPos2.y) > pEpsilon) ||
-        (fabsf(theta - pPos2.theta) > pEpsilon))
-      {
-        return false;
-      }
-      else
-      {
-        return true;
-      }
+      return (fabsf(x - pPos2.x) <= pEpsilon &&
+              fabsf(y - pPos2.y) <= pEpsilon &&
+              fabsf(theta - pPos2.theta) <= pEpsilon);
     }
 
     Pose2D Pose2D::inverse() const
