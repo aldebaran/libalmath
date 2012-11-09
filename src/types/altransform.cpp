@@ -39,7 +39,7 @@ namespace AL {
       }
       else
       {
-        std::cout << "ALMath: WARNING: "
+        std::cerr << "ALMath: WARNING: "
                   << "Transform constructor call with a wrong size of vector. "
                   << "Size expected: 12 or 16. Size given: " << pFloats.size() << ". "
                   << "Transform is set to identity." << std::endl;
@@ -85,9 +85,16 @@ namespace AL {
 
     Transform& Transform::operator*= (const Transform& pT2)
     {
+      if (this == &pT2)
+      {
+        // copy to manage case: a *= a
+        return *this *= Transform(pT2);
+      }
+
       float c1 = r1_c1;
       float c2 = r1_c2;
       float c3 = r1_c3;
+
       r1_c1 = (c1 * pT2.r1_c1) + (c2 * pT2.r2_c1) + (c3 * pT2.r3_c1);
       r1_c2 = (c1 * pT2.r1_c2) + (c2 * pT2.r2_c2) + (c3 * pT2.r3_c2);
       r1_c3 = (c1 * pT2.r1_c3) + (c2 * pT2.r2_c3) + (c3 * pT2.r3_c3);
@@ -299,8 +306,8 @@ namespace AL {
 
     std::vector<float> Transform::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(16);
+      std::vector<float> returnVector(16, 0.0f);
+
       returnVector[0]  = r1_c1;
       returnVector[1]  = r1_c2;
       returnVector[2]  = r1_c3;

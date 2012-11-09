@@ -7,6 +7,7 @@
 #include <almath/types/alrotation3d.h>
 #include <cmath>
 #include <stdexcept>
+#include <iostream>
 
 namespace AL {
   namespace Math {
@@ -36,6 +37,11 @@ namespace AL {
     }
     else
     {
+      std::cerr << "ALMath: WARNING: "
+                << "Rotation3D constructor call with a wrong size of vector. "
+                << "Size expected: 3. Size given: " << pFloats.size() << ". "
+                << "Rotation3D is set to default value." << std::endl;
+
       wx = 0.0f;
       wy = 0.0f;
       wz = 0.0f;
@@ -147,8 +153,7 @@ namespace AL {
 
     std::vector<float> Rotation3D::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(3);
+      std::vector<float> returnVector(3, 0.0f);
 
       returnVector[0] = wx;
       returnVector[1] = wy;

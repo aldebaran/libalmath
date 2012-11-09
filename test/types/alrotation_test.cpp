@@ -8,6 +8,29 @@
 #include <gtest/gtest.h>
 #include <almath/tools/altrigonometry.h>
 
+#include <almath/tools/almathio.h>
+
+TEST(ALRotationTest, basicOperator)
+{
+  // operator *= with Rotation
+  AL::Math::Rotation pRot1 = AL::Math::Rotation::from3DRotation(0.3f, -0.2f, 0.1f);
+  AL::Math::Rotation pRot2 = AL::Math::Rotation();
+  AL::Math::Rotation pRot3 = AL::Math::Rotation();
+
+  pRot2 = pRot1;
+  pRot2 *= pRot1;
+  pRot1 *= pRot1;
+  EXPECT_TRUE(pRot2.isNear(pRot1));
+
+  pRot1 = AL::Math::Rotation::from3DRotation(0.3f, -0.2f, 0.1f);
+  pRot2 = AL::Math::Rotation::from3DRotation(0.2f, -0.1f, 1.1f);
+
+  pRot3 = pRot1*pRot2;
+  pRot1 *= pRot2;
+
+  EXPECT_TRUE(pRot3.isNear(pRot1));
+}
+
 TEST(ALRotationTest, isNear)
 {
   AL::Math::Rotation pRotIn  = AL::Math::Rotation();

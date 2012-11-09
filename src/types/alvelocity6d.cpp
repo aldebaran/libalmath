@@ -55,7 +55,7 @@ namespace AL {
     }
     else
     {
-      std::cout << "ALMath: WARNING: "
+      std::cerr << "ALMath: WARNING: "
                 << "Velocity6D constructor call with a wrong size of vector. "
                 << "Size expected: 6. Size given: " << pFloats.size() << ". "
                 << "Velocity6D is set to default value." << std::endl;
@@ -207,8 +207,7 @@ namespace AL {
 
     std::vector<float> Velocity6D::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(6);
+      std::vector<float> returnVector(6, 0.0f);
 
       returnVector[0] = xd;
       returnVector[1] = yd;

@@ -32,7 +32,7 @@ namespace AL {
       }
       else
       {
-        std::cout << "ALMath: WARNING: "
+        std::cerr << "ALMath: WARNING: "
                   << "Position3D constructor call with a wrong size of vector. "
                   << "Size expected: 3. Size given: " << pFloats.size() << ". "
                   << "Position3D is set to default value." << std::endl;
@@ -188,8 +188,8 @@ namespace AL {
 
     std::vector<float> Position3D::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(3);
+      std::vector<float> returnVector(3, 0.0f);
+
       returnVector[0] = x;
       returnVector[1] = y;
       returnVector[2] = z;

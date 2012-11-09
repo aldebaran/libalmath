@@ -86,13 +86,13 @@ namespace AL {
       pStream << p.r1_c2;
       pStream << " ";
       pStream << p.r1_c3;
-      pStream << " ";
+      pStream << std::endl;
       pStream << p.r2_c1;
       pStream << " ";
       pStream << p.r2_c2;
       pStream << " ";
       pStream << p.r2_c3;
-      pStream << " ";
+      pStream << std::endl;
       pStream << p.r3_c1;
       pStream << " ";
       pStream << p.r3_c2;

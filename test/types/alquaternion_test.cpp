@@ -3,7 +3,7 @@
  * Use of this source code is governed by a BSD-style license that can be
  * found in the COPYING file.
  */
-//#include <almath/types/alquaternion.h>
+
 #include <almath/tools/altransformhelpers.h>
 #include <almath/tools/altrigonometry.h>
 #include <almath/tools/almathio.h>
@@ -14,6 +14,114 @@
 
 #include <stdexcept>
 
+TEST(ALQuaternionTest, basicOperator)
+{
+  AL::Math::Quaternion pQua1 = AL::Math::Quaternion();
+  AL::Math::Quaternion pQua2 = AL::Math::Quaternion();
+  AL::Math::Quaternion pQua3 = AL::Math::Quaternion();
+  AL::Math::Transform  pT1   = AL::Math::Transform();
+  AL::Math::Transform  pT2   = AL::Math::Transform();
+  AL::Math::Transform  pT3   = AL::Math::Transform();
+
+  // operator == with Quaternion
+  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  pQua2 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  EXPECT_TRUE(pQua1==pQua2);
+
+  // operator != with Quaternion
+  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  pQua2 = AL::Math::Quaternion(0.11f, 0.2f, 0.3f, 0.4f);
+  EXPECT_TRUE(pQua1!=pQua2);
+
+  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  pQua2 = AL::Math::Quaternion(0.1f, 0.21f, 0.3f, 0.4f);
+  EXPECT_TRUE(pQua1!=pQua2);
+
+  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  pQua2 = AL::Math::Quaternion(0.1f, 0.2f, 0.31f, 0.4f);
+  EXPECT_TRUE(pQua1!=pQua2);
+
+  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  pQua2 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.41f);
+  EXPECT_TRUE(pQua1!=pQua2);
+
+  // operator *= with float
+  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  pQua1 *= 2.0f;
+  pQua2 = AL::Math::Quaternion(0.2f, 0.4f, 0.6f, 0.8f);
+  EXPECT_TRUE(pQua1==pQua2);
+
+  // operator /= with float
+  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
+  pQua2 = AL::Math::Quaternion(0.2f, 0.4f, 0.6f, 0.8f);
+  pQua2 /= 2.0f;
+  EXPECT_TRUE(pQua1==pQua2);
+
+  // operator *= with Quaternion
+  pQua1 = AL::Math::Quaternion();
+  pQua2 = AL::Math::Quaternion();
+  pQua2 = pQua1;
+  pQua2 *= pQua1;
+  pQua1 *= pQua1;
+  EXPECT_TRUE(pQua2.isNear(pQua1));
+
+  AL::Math::Transform tf = AL::Math::Transform::from3DRotation(0.2f, 0.1f, -0.3f);
+  pQua1 = AL::Math::quaternionFromTransform(tf);
+  pQua2 = pQua1;
+
+  pQua2 *= pQua1;
+  pQua1 *= pQua1;
+
+  EXPECT_TRUE(pQua2.isNear(pQua1));
+
+  // operator *= with Quaternion
+  // operator *  with Quaternion
+  unsigned int nbX = 101;
+  unsigned int nbY = 101;
+  unsigned int nbZ = 101;
+
+  for (unsigned int i=0; i<nbX; ++i)
+  {
+    for (unsigned int j=0; j<nbY; ++j)
+    {
+      for (unsigned int k=0; k<nbZ; ++k)
+      {
+        float angleX = static_cast<float>(i+1)/(static_cast<float>(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleY = static_cast<float>(j+1)/(static_cast<float>(nbY+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleZ = static_cast<float>(k+1)/(static_cast<float>(nbZ+1))*AL::Math::_2_PI_ - AL::Math::PI;
+
+        pT1 = AL::Math::Transform::fromRotX(angleX)*
+            AL::Math::Transform::fromRotY(angleY)*
+            AL::Math::Transform::fromRotZ(angleZ);
+
+        pT2 = AL::Math::Transform::fromRotZ(angleY)*
+            AL::Math::Transform::fromRotX(-angleZ)*
+            AL::Math::Transform::fromRotY(-angleX);
+
+        pT3 = pT1*pT2;
+        // test A
+        pQua1 = AL::Math::quaternionFromTransform(pT1);
+        pQua2 = AL::Math::quaternionFromTransform(pT2);
+        pQua3 = pQua1*pQua2;
+        EXPECT_TRUE(pQua3.isNear(AL::Math::quaternionFromTransform(pT3), 0.001f));
+
+        // test B
+        pQua1 = AL::Math::quaternionFromTransform(pT1);
+        pQua2 = AL::Math::quaternionFromTransform(pT2);
+        pQua1 *= pQua2;
+        EXPECT_TRUE(pQua1.isNear(AL::Math::quaternionFromTransform(pT3), 0.001f));
+
+        // test C
+        pQua1 = AL::Math::quaternionFromTransform(pT1);
+        pQua2 = pQua1;
+        pQua2 *= pQua1;
+        pQua1 *= pQua1;
+        EXPECT_TRUE(pQua2.isNear(pQua1));
+      }
+    }
+  }
+
+}
 
 TEST(ALQuaternionTest, creation)
 {
@@ -51,39 +159,6 @@ TEST(ALQuaternionTest, creation)
   EXPECT_TRUE(pQua1.y == 0.3f);
   EXPECT_TRUE(pQua1.z == 0.4f);
 
-  // operator == with Quaternion
-  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  pQua2 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  EXPECT_TRUE((pQua1==pQua2));
-
-  // operator != with Quaternion
-  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  pQua2 = AL::Math::Quaternion(0.11f, 0.2f, 0.3f, 0.4f);
-  EXPECT_TRUE((pQua1!=pQua2));
-
-  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  pQua2 = AL::Math::Quaternion(0.1f, 0.21f, 0.3f, 0.4f);
-  EXPECT_TRUE((pQua1!=pQua2));
-
-  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  pQua2 = AL::Math::Quaternion(0.1f, 0.2f, 0.31f, 0.4f);
-  EXPECT_TRUE((pQua1!=pQua2));
-
-  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  pQua2 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.41f);
-  EXPECT_TRUE((pQua1!=pQua2));
-
-  // operator *= with float
-  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  pQua1 *= 2.0f;
-  pQua2 = AL::Math::Quaternion(0.2f, 0.4f, 0.6f, 0.8f);
-  EXPECT_TRUE((pQua1==pQua2));
-
-  // operator /= with float
-  pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
-  pQua2 = AL::Math::Quaternion(0.2f, 0.4f, 0.6f, 0.8f);
-  pQua2 /= 2.0f;
-  EXPECT_TRUE((pQua1==pQua2));
 
   // isNear
   pQua1 = AL::Math::Quaternion(0.1f, 0.2f, 0.3f, 0.4f);
@@ -147,7 +222,7 @@ TEST(ALQuaternionTest, creation)
   // angleAndAxisRotationFromQuaternion
   for (unsigned int i=0; i<nbX; i++)
   {
-    float angle = ((float)(i+1))/(float(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
+    float angle = static_cast<float>(i+1)/(static_cast<float>(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
 
     pQua1 = AL::Math::Quaternion::fromAngleAndAxisRotation(angle, 1.0f, 0.0f, 0.0f);
     pT1   = AL::Math::Transform::fromRotX(angle);
@@ -179,15 +254,12 @@ TEST(ALQuaternionTest, creation)
     EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
     bool isSuccess = false;
-    if (
-        (
-          (fabsf(angle-pAngleResult) < epsilon) &&
+    if (((fabsf(angle-pAngleResult) < epsilon) &&
           (fabsf(pAxeXResult-1.0f) < epsilon) &&
           (fabsf(pAxeYResult-0.0f) < epsilon) &&
           (fabsf(pAxeZResult-0.0f) < epsilon)
           ) ||
-        (
-          (fabsf(angle+pAngleResult) < epsilon) &&
+        ((fabsf(angle+pAngleResult) < epsilon) &&
           (fabsf(pAxeXResult+1.0f) < epsilon) &&
           (fabsf(pAxeYResult+0.0f) < epsilon) &&
           (fabsf(pAxeZResult+0.0f) < epsilon)
@@ -198,12 +270,6 @@ TEST(ALQuaternionTest, creation)
     }
     else
     {
-//      std::cout << "XX angleDes: " << angle
-//                << " pAngleResult: " << pAngleResult
-//                << " pAxeX: " << pAxeXResult
-//                << " pAxeY: " << pAxeYResult
-//                << " pAxeZ: " << pAxeZResult
-//                << std::endl;
       isSuccess = false;
     }
     EXPECT_TRUE(isSuccess);
@@ -218,31 +284,22 @@ TEST(ALQuaternionTest, creation)
     EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
     EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
-    if (
-        (
-          (fabsf(angle-pAngleResult) < epsilon) &&
-          (fabsf(pAxeXResult-0.0f) < epsilon) &&
-          (fabsf(pAxeYResult-1.0f) < epsilon) &&
-          (fabsf(pAxeZResult-0.0f) < epsilon)
-          ) ||
-        (
-          (fabsf(angle+pAngleResult) < epsilon) &&
-          (fabsf(pAxeXResult+0.0f) < epsilon) &&
-          (fabsf(pAxeYResult+1.0f) < epsilon) &&
-          (fabsf(pAxeZResult+0.0f) < epsilon)
-          )
+    if (((fabsf(angle-pAngleResult) < epsilon) &&
+         (fabsf(pAxeXResult-0.0f) < epsilon) &&
+         (fabsf(pAxeYResult-1.0f) < epsilon) &&
+         (fabsf(pAxeZResult-0.0f) < epsilon)
+         ) ||
+        ((fabsf(angle+pAngleResult) < epsilon) &&
+         (fabsf(pAxeXResult+0.0f) < epsilon) &&
+         (fabsf(pAxeYResult+1.0f) < epsilon) &&
+         (fabsf(pAxeZResult+0.0f) < epsilon)
+         )
         )
     {
       isSuccess = true;
     }
     else
     {
-//      std::cout << "YY angleDes: " << angle
-//                << " pAngleResult: " << pAngleResult
-//                << " pAxeX: " << pAxeXResult
-//                << " pAxeY: " << pAxeYResult
-//                << " pAxeZ: " << pAxeZResult
-//                << std::endl;
       isSuccess = false;
     }
 
@@ -264,15 +321,12 @@ TEST(ALQuaternionTest, creation)
     EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
     EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
-    if (
-        (
-          (fabsf(angle-pAngleResult) < epsilon) &&
+    if (((fabsf(angle-pAngleResult) < epsilon) &&
           (fabsf(pAxeXResult-0.0f) < epsilon) &&
           (fabsf(pAxeYResult-0.0f) < epsilon) &&
           (fabsf(pAxeZResult-1.0f) < epsilon)
           ) ||
-        (
-          (fabsf(angle+pAngleResult) < epsilon) &&
+        ((fabsf(angle+pAngleResult) < epsilon) &&
           (fabsf(pAxeXResult+0.0f) < epsilon) &&
           (fabsf(pAxeYResult+0.0f) < epsilon) &&
           (fabsf(pAxeZResult+1.0f) < epsilon)
@@ -283,12 +337,6 @@ TEST(ALQuaternionTest, creation)
     }
     else
     {
-//      std::cout << "ZZ angleDes: " << angle
-//                << " pAngleResult: " << pAngleResult
-//                << " pAxeX: " << pAxeXResult
-//                << " pAxeY: " << pAxeYResult
-//                << " pAxeZ: " << pAxeZResult
-//                << std::endl;
       isSuccess = false;
     }
     // Identity special case
@@ -299,49 +347,17 @@ TEST(ALQuaternionTest, creation)
     EXPECT_TRUE(isSuccess);
   }
 
-  // operator *= with Quaternion
-  // operator *  with Quaternion
-  for (unsigned int i=0; i<nbX; i++)
-  {
-    for (unsigned int j=0; j<nbY; j++)
-    {
-      for (unsigned int k=0; k<nbZ; k++)
-      {
-        float angleX = ((float)(i+1))/(float(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
-        float angleY = ((float)(j+1))/(float(nbY+1))*AL::Math::_2_PI_ - AL::Math::PI;
-        float angleZ = ((float)(k+1))/(float(nbZ+1))*AL::Math::_2_PI_ - AL::Math::PI;
-
-        pT1 = AL::Math::Transform::fromRotX(angleX)*
-            AL::Math::Transform::fromRotY(angleY)*
-            AL::Math::Transform::fromRotZ(angleZ);
-
-        pT2 = AL::Math::Transform::fromRotZ(angleY)*
-            AL::Math::Transform::fromRotX(-angleZ)*
-            AL::Math::Transform::fromRotY(-angleX);
-
-        pT3 = pT1*pT2;
-
-        pQua1 = AL::Math::quaternionFromTransform(pT1);
-        pQua2 = AL::Math::quaternionFromTransform(pT2);
-        pQua3 = pQua1*pQua2;
-
-        EXPECT_TRUE(pQua3.isNear(AL::Math::quaternionFromTransform(pT3), 0.001f));
-
-      }
-    }
-  }
-
   // inverse
   // function quaternionInverse
-  for (unsigned int i=0; i<nbX; i++)
+  for (unsigned int i=0; i<nbX; ++i)
   {
-    for (unsigned int j=0; j<nbY; j++)
+    for (unsigned int j=0; j<nbY; ++j)
     {
-      for (unsigned int k=0; k<nbZ; k++)
+      for (unsigned int k=0; k<nbZ; ++k)
       {
-        float angleX = ((float)(i+1))/(float(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
-        float angleY = ((float)(j+1))/(float(nbY+1))*AL::Math::_2_PI_ - AL::Math::PI;
-        float angleZ = ((float)(k+1))/(float(nbZ+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleX = static_cast<float>(i+1)/(static_cast<float>(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleY = static_cast<float>(j+1)/(static_cast<float>(nbY+1))*AL::Math::_2_PI_ - AL::Math::PI;
+        float angleZ = static_cast<float>(k+1)/(static_cast<float>(nbZ+1))*AL::Math::_2_PI_ - AL::Math::PI;
 
         pT1 = AL::Math::Transform::fromRotX(angleX)*
             AL::Math::Transform::fromRotY(angleY)*

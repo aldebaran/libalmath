@@ -34,7 +34,7 @@ namespace AL {
       }
       else
       {
-        std::cout << "ALMath: WARNING: "
+        std::cerr << "ALMath: WARNING: "
                   << "Pose2D constructor call with a wrong size of vector. "
                   << "Size expected: 3. Size given: " << pFloats.size() << ". "
                   << "Pose2D is set to default value." << std::endl;
@@ -93,6 +93,11 @@ namespace AL {
 
     Pose2D& Pose2D::operator*= (const Pose2D& pPos2)
     {
+      if (this == &pPos2)
+      {
+        return *this *= Pose2D(pPos2);
+      }
+
       x += cosf(theta) * pPos2.x - sinf(theta) * pPos2.y;
       y += sinf(theta) * pPos2.x + cosf(theta) * pPos2.y;
       theta += pPos2.theta;
@@ -183,8 +188,8 @@ namespace AL {
 
     std::vector<float> Pose2D::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(3);
+      std::vector<float> returnVector(3, 0.0f);
+
       returnVector[0] = x;
       returnVector[1] = y;
       returnVector[2] = theta;

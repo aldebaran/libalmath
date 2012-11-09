@@ -27,7 +27,7 @@ namespace AL {
       }
       else
       {
-        std::cout << "ALMath: WARNING: "
+        std::cerr << "ALMath: WARNING: "
                   << "Position2D constructor call with a wrong size of vector. "
                   << "Size expected: 2. Size given: " << pFloats.size() << ". "
                   << "Position2D is set to default value." << std::endl;
@@ -181,8 +181,8 @@ namespace AL {
 
     std::vector<float> Position2D::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(2);
+      std::vector<float> returnVector(2, 0.0f);
+
       returnVector[0] = x;
       returnVector[1] = y;
 

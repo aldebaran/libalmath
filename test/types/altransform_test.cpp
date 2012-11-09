@@ -62,6 +62,13 @@ TEST(TransformTest, variousOperator)
   pHIn1 *= pHIn2;
   EXPECT_TRUE(pHIn1.isNear(pHSol, 0.0001f));
 
+  pHIn1 = AL::Math::Transform::from3DRotation(0.3f, -0.2f, 0.1f);
+  pHIn2 = AL::Math::Transform();
+  pHIn2 = pHIn1;
+  pHIn2 *= pHIn1;
+  pHIn1 *= pHIn1;
+  EXPECT_TRUE(pHIn2.isNear(pHIn1));
+
   // operator*
   pHIn1 = AL::Math::Transform();
   pHIn2 = AL::Math::Transform();

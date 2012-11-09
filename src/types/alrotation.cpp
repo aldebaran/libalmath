@@ -8,65 +8,78 @@
 
 #include <stdexcept>
 # include <cmath>
+#include <iostream>
 
 namespace AL {
   namespace Math {
 
-  Rotation::Rotation():
-    r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f),
-    r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f),
-    r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f){}
+    Rotation::Rotation():
+      r1_c1(1.0f), r1_c2(0.0f), r1_c3(0.0f),
+      r2_c1(0.0f), r2_c2(1.0f), r2_c3(0.0f),
+      r3_c1(0.0f), r3_c2(0.0f), r3_c3(1.0f){}
 
-  Rotation::Rotation (const std::vector<float>& pFloats)
-  {
-    if (pFloats.size() == 9)
+    Rotation::Rotation (const std::vector<float>& pFloats)
     {
-      r1_c1 = pFloats[0];
-      r1_c2 = pFloats[1];
-      r1_c3 = pFloats[2];
-      r2_c1 = pFloats[3];
-      r2_c2 = pFloats[4];
-      r2_c3 = pFloats[5];
-      r3_c1 = pFloats[6];
-      r3_c2 = pFloats[7];
-      r3_c3 = pFloats[8];
+      if (pFloats.size() == 9)
+      {
+        r1_c1 = pFloats[0];
+        r1_c2 = pFloats[1];
+        r1_c3 = pFloats[2];
+        r2_c1 = pFloats[3];
+        r2_c2 = pFloats[4];
+        r2_c3 = pFloats[5];
+        r3_c1 = pFloats[6];
+        r3_c2 = pFloats[7];
+        r3_c3 = pFloats[8];
+      }
+      else if ((pFloats.size() == 12) || (pFloats.size() == 16))
+      {
+        // if we give a transform, it take rotation part
+        r1_c1 = pFloats[0];
+        r1_c2 = pFloats[1];
+        r1_c3 = pFloats[2];
+
+        r2_c1 = pFloats[4];
+        r2_c2 = pFloats[5];
+        r2_c3 = pFloats[6];
+
+        r3_c1 = pFloats[8];
+        r3_c2 = pFloats[9];
+        r3_c3 = pFloats[10];
+      }
+      else
+      {
+        std::cerr << "ALMath: WARNING: "
+                  << "Rotation constructor call with a wrong size of vector. "
+                  << "Size expected: 9, 12 or 16. Size given: " << pFloats.size() << ". "
+                  << "Rotation is set to default identity." << std::endl;
+
+        r1_c1 = 1.0f;
+        r1_c2 = 0.0f;
+        r1_c3 = 0.0f;
+
+        r2_c1 = 0.0f;
+        r2_c2 = 1.0f;
+        r2_c3 = 0.0f;
+
+        r3_c1 = 0.0f;
+        r3_c2 = 0.0f;
+        r3_c3 = 1.0f;
+      }
     }
-    else if ((pFloats.size() == 12) || (pFloats.size() == 16))
-    {
-      // if we give a transform, it take rotation part
-      r1_c1 = pFloats[0];
-      r1_c2 = pFloats[1];
-      r1_c3 = pFloats[2];
 
-      r2_c1 = pFloats[4];
-      r2_c2 = pFloats[5];
-      r2_c3 = pFloats[6];
-
-      r3_c1 = pFloats[8];
-      r3_c2 = pFloats[9];
-      r3_c3 = pFloats[10];
-    }
-    else
-    {
-      r1_c1 = 1.0f;
-      r1_c2 = 0.0f;
-      r1_c3 = 0.0f;
-
-      r2_c1 = 0.0f;
-      r2_c2 = 1.0f;
-      r2_c3 = 0.0f;
-
-      r3_c1 = 0.0f;
-      r3_c2 = 0.0f;
-      r3_c3 = 1.0f;
-    }
-  }
 
     Rotation& Rotation::operator*= (const Rotation& pRot2)
     {
       float c1 = r1_c1;
       float c2 = r1_c2;
       float c3 = r1_c3;
+
+      if (this == &pRot2)
+      {
+        // copy to manage case: a *= a
+        return *this *= Rotation(pRot2);
+      }
 
       r1_c1 = (c1 * pRot2.r1_c1) + (c2 * pRot2.r2_c1) + (c3 * pRot2.r3_c1);
       r1_c2 = (c1 * pRot2.r1_c2) + (c2 * pRot2.r2_c2) + (c3 * pRot2.r3_c2);
@@ -87,6 +100,7 @@ namespace AL {
       r3_c1 = (c1 * pRot2.r1_c1) + (c2 * pRot2.r2_c1) + (c3 * pRot2.r3_c1);
       r3_c2 = (c1 * pRot2.r1_c2) + (c2 * pRot2.r2_c2) + (c3 * pRot2.r3_c2);
       r3_c3 = (c1 * pRot2.r1_c3) + (c2 * pRot2.r2_c3) + (c3 * pRot2.r3_c3);
+
       return *this;
     }
 
@@ -146,19 +160,19 @@ namespace AL {
 
 
     Rotation Rotation::fromQuaternion(
-      const float pA,
-      const float pB,
-      const float pC,
-      const float pD)
+        const float pA,
+        const float pB,
+        const float pC,
+        const float pD)
     {
       return Math::rotationFromQuaternion(pA, pB, pC, pD);
     }
 
     Rotation Rotation::fromAngleDirection(
-      const float pAngle,
-      const float pX,
-      const float pY,
-      const float pZ)
+        const float pAngle,
+        const float pX,
+        const float pY,
+        const float pZ)
     {
       return Math::rotationFromAngleDirection(pAngle, pX, pY, pZ);
     }
@@ -179,9 +193,9 @@ namespace AL {
     }
 
     Rotation Rotation::from3DRotation(
-      const float& pWX,
-      const float& pWY,
-      const float& pWZ)
+        const float& pWX,
+        const float& pWY,
+        const float& pWZ)
     {
       return Math::rotationFrom3DRotation(pWX, pWY, pWZ);
     }
@@ -189,8 +203,7 @@ namespace AL {
 
     std::vector<float> Rotation::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(9);
+      std::vector<float> returnVector(9, 0.0f);
 
       returnVector[0] = r1_c1;
       returnVector[1] = r1_c2;
@@ -231,19 +244,19 @@ namespace AL {
     float determinant(const Rotation& pRot)
     {
       return pRot.r1_c1 * pRot.r2_c2 * pRot.r3_c3 +
-        pRot.r1_c2 * pRot.r2_c3 * pRot.r3_c1 +
-        pRot.r1_c3 * pRot.r2_c1 * pRot.r3_c2 -
-        pRot.r1_c1 * pRot.r2_c3 * pRot.r3_c2 -
-        pRot.r1_c2 * pRot.r2_c1 * pRot.r3_c3 -
-        pRot.r1_c3 * pRot.r2_c2 * pRot.r3_c1;
+          pRot.r1_c2 * pRot.r2_c3 * pRot.r3_c1 +
+          pRot.r1_c3 * pRot.r2_c1 * pRot.r3_c2 -
+          pRot.r1_c1 * pRot.r2_c3 * pRot.r3_c2 -
+          pRot.r1_c2 * pRot.r2_c1 * pRot.r3_c3 -
+          pRot.r1_c3 * pRot.r2_c2 * pRot.r3_c1;
     }
 
 
     Rotation rotationFromQuaternion(
-      const float pA,
-      const float pB,
-      const float pC,
-      const float pD)
+        const float pA,
+        const float pB,
+        const float pC,
+        const float pD)
     {
       Rotation T = Rotation();
       float t2 =  pA*pB;
@@ -268,10 +281,10 @@ namespace AL {
     }
 
     Rotation rotationFromAngleDirection(
-      const float pAngle,
-      const float pX,
-      const float pY,
-      const float pZ)
+        const float pAngle,
+        const float pX,
+        const float pY,
+        const float pZ)
     {
       // Need to check if |pX^2+pY^2+pZ^2|=1.0
 
@@ -279,7 +292,7 @@ namespace AL {
       if ((norm > 1.00001f) || (norm < 0.99999f))
       {
         throw std::runtime_error(
-          "rotationFromAngleDirection: (pX, pY, pZ) norm must be equal to 1.0.");
+              "rotationFromAngleDirection: (pX, pY, pZ) norm must be equal to 1.0.");
       }
 
       Rotation T = Rotation();
@@ -310,10 +323,10 @@ namespace AL {
 
 
     void applyRotation(
-      const AL::Math::Rotation& pRot,
-      float& pX,
-      float& pY,
-      float& pZ)
+        const AL::Math::Rotation& pRot,
+        float& pX,
+        float& pY,
+        float& pZ)
     {
       float x = pX;
       float y = pY;
@@ -364,9 +377,9 @@ namespace AL {
 
 
     Rotation rotationFrom3DRotation(
-      const float& pWX,
-      const float& pWY,
-      const float& pWZ)
+        const float& pWX,
+        const float& pWY,
+        const float& pWZ)
     {
       Rotation T = Rotation();
       T  = rotationFromRotZ(pWZ);

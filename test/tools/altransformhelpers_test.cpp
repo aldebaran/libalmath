@@ -1358,7 +1358,7 @@ TEST(ALTransformHelpersTest, quaternionFromTransform)
   // close to identity
   for (unsigned int i=0; i<150; i++)
   {
-    float angle = 0.00001f/((float)i+1);
+    float angle = 0.00001f/(static_cast<float>(i+1));
 
     pT   = AL::Math::Transform::fromRotX(angle);
     pQua = AL::Math::quaternionFromTransform(pT);
@@ -1383,9 +1383,9 @@ TEST(ALTransformHelpersTest, quaternionVsTransform)
     {
       for (unsigned int k=0; k<nbZ; k++)
       {
-        float angleX = ((float)i)/(float(nbX))*AL::Math::_2_PI_;
-        float angleY = ((float)j)/(float(nbY))*AL::Math::_2_PI_;
-        float angleZ = ((float)k)/(float(nbZ))*AL::Math::_2_PI_;
+        float angleX = static_cast<float>(i)/(static_cast<float>(nbX))*AL::Math::_2_PI_;
+        float angleY = static_cast<float>(j)/(static_cast<float>(nbY))*AL::Math::_2_PI_;
+        float angleZ = static_cast<float>(k)/(static_cast<float>(nbZ))*AL::Math::_2_PI_;
 
         pTIn = AL::Math::Transform::fromRotX(angleX)*
             AL::Math::Transform::fromRotY(angleY)*

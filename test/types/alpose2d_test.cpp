@@ -39,6 +39,12 @@ TEST(ALPose2DTest, basicOperator)
   pPos2D1 += pPos2D2;
   EXPECT_TRUE(pPos2D1.isNear(AL::Math::Pose2D(1.0f, -0.6f, 0.2f), 0.001f));
 
+  pPos2D1 = AL::Math::Pose2D(1.0f, 0.7f, 0.5f);
+  pPos2D2 = pPos2D1;
+  pPos2D2 += pPos2D1;
+  pPos2D1 += pPos2D1;
+  EXPECT_TRUE(pPos2D2.isNear(pPos2D1));
+
   // operator - (a-b)
   pPos2D1 = AL::Math::Pose2D(0.5f, +0.3f, 0.1f);
   pPos2D2 = AL::Math::Pose2D(0.5f, -0.3f, 0.1f);
@@ -74,6 +80,12 @@ TEST(ALPose2DTest, basicOperator)
   pPos2D2 = AL::Math::Pose2D(0.0f, 1.0f, 0.2f);
   pPos2D1 *= pPos2D2;
   EXPECT_TRUE(pPos2D1.isNear(AL::Math::Pose2D(1.0f, 1.0f, 0.2f), 0.001f));
+
+  pPos2D1 = AL::Math::Pose2D(1.0f, 0.7f, 0.5f);
+  pPos2D2 = pPos2D1;
+  pPos2D2 *= pPos2D1;
+  pPos2D1 *= pPos2D1;
+  EXPECT_TRUE(pPos2D2.isNear(pPos2D1));
 }
 
 

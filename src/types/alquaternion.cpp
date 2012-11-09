@@ -33,7 +33,7 @@ namespace AL {
       }
       else
       {
-        std::cout << "ALMath: WARNING: "
+        std::cerr << "ALMath: WARNING: "
                   << "Quaternion constructor call with a wrong size of vector. "
                   << "Size expected: 4. Size given: " << pFloats.size() << ". "
                   << "Quaternion is set to default value." << std::endl;
@@ -47,10 +47,17 @@ namespace AL {
 
     Quaternion& Quaternion::operator*= (const Quaternion& pQua2)
     {
-      float w1 = w;
-      float x1 = x;
-      float y1 = y;
-      float z1 = z;
+      const float w1 = w;
+      const float x1 = x;
+      const float y1 = y;
+      const float z1 = z;
+
+      if (this == &pQua2)
+      {
+        // copy to manage case: a *= a
+        return *this *= Quaternion(pQua2);
+      }
+
       w = w1*pQua2.w - x1*pQua2.x - y1*pQua2.y - z1*pQua2.z;
       x = w1*pQua2.x + pQua2.w*x1 + y1*pQua2.z - z1*pQua2.y;
       y = w1*pQua2.y + pQua2.w*y1 + z1*pQua2.x - x1*pQua2.z;
@@ -160,8 +167,8 @@ namespace AL {
 
     std::vector<float> Quaternion::toVector() const
     {
-      std::vector<float> returnVector;
-      returnVector.resize(4);
+      std::vector<float> returnVector(4, 0.0f);
+
       returnVector[0] = w;
       returnVector[1] = x;
       returnVector[2] = y;
