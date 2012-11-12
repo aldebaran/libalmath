@@ -1,7 +1,9 @@
-#include <almath/types/aldisplacement.h>
-
-#include <gtest/gtest.h>
 #include <stdexcept>
+#include <gtest/gtest.h>
+#include <almath/tools/altransformhelpers.h>
+#include <almath/types/aldisplacement.h>
+#include <almath/types/alrotation.h>
+#include <almath/types/altransform.h>
 
 namespace AL{
 
@@ -30,6 +32,27 @@ TEST(ALDisplacementTest, Constructor)
   ASSERT_TRUE(test.P.isNear(pose));
   ASSERT_TRUE(test.Q.isNear(quat));
 }
+
+TEST(ALDisplacementTest, CompositionOp)
+{
+  Position3D translation(1.f, 2.f, 3.f);
+  Rotation rotation = Rotation::fromAngleDirection(0.78f, 0.f, 1.f, 0.f);
+  Transform transform = transformFromRotation(rotation);
+  transform.r1_c4 += translation.x;
+  transform.r2_c4 += translation.y;
+  transform.r3_c4 += translation.z;
+  Displacement disp(translation, quaternionFromTransform(transform));
+  Displacement disp2 = disp;
+  disp2 *= disp;
+  Transform transform2 = transform;
+  transform2 *= transform;
+  Transform result = transformFromDisplacement(disp2);
+  ASSERT_TRUE(result.isNear(transform2));
+  disp2 = disp * disp;
+  result = transformFromDisplacement(disp2);
+  ASSERT_TRUE(result.isNear(transform2));
+}
+
 
 } // ends namespace Math
 

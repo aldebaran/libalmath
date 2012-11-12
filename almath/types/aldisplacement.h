@@ -38,6 +38,25 @@ namespace AL {
       Displacement(const Position3D& pos3d, const Quaternion& quat);
 
       /// <summary>
+      /// Defining composition of Displacement with * sign
+      /// </summary>
+      /// <param name="pDisp"> the displacement that is composed with the
+      /// current displacement </param>
+      /// <returns>
+      /// The composed Displacement
+      /// </returns>
+      Displacement& operator*=(const Displacement& pDisp);
+
+      /// <summary>
+      /// Define the binary operation of a composition of Displacements.
+      /// </summary>
+      /// <param name="pDisp"> second operand of the composition </param>
+      /// <returns>
+      /// The resulting Displacement
+      /// </returns>
+      Displacement operator*(const Displacement& pDisp);
+
+      /// <summary>
       /// Check if the current Displacement is Near the one
       /// given in argument.
       /// </summary>
