@@ -1419,3 +1419,89 @@ TEST(ALTransformHelpersTest, quaternionVsTransform)
 //  std::cout << "Result  : " << pQua << std::endl;
 //  std::cout << "Expected: " << AL::Math::Quaternion() << std::endl;
 }
+
+TEST(ALMathTransformHelpers, displacementFromTransform)
+{
+  AL::Math::Position3D translation1(1.f, 2.f, 3.f);
+  AL::Math::Position3D translation2(-1.f, -2.f, -3.f);
+  AL::Math::Position3D translation3(1.1f, 1.2f, 1.3f);
+
+  AL::Math::Rotation rotation1 =
+    AL::Math::Rotation::fromAngleDirection(AL::Math::PI_2, 1.f, 0.f,  0.f);
+   AL::Math::Rotation rotation2 =
+    AL::Math::Rotation::fromAngleDirection(-AL::Math::PI_2, 0.f, 0.f,  1.f);
+  AL::Math::Rotation rotation3 =
+    AL::Math::Rotation::fromAngleDirection(AL::Math::PI, 0.f, 1.f,  0.f);
+
+  AL::Math::Transform transform1 = AL::Math::transformFromRotation(rotation1);
+  transform1.r1_c4 = translation1.x;
+  transform1.r2_c4 = translation1.y;
+  transform1.r3_c4 = translation1.z;
+  AL::Math::Transform transform2 = AL::Math::transformFromRotation(rotation2);
+  transform2.r1_c4 = translation2.x;
+  transform2.r2_c4 = translation2.y;
+  transform2.r3_c4 = translation2.z;
+  AL::Math::Transform transform3 = AL::Math::transformFromRotation(rotation3);
+  transform3.r1_c4 = translation3.x;
+  transform3.r2_c4 = translation3.y;
+  transform3.r3_c4 = translation3.z;
+
+  AL::Math::Displacement resDisp1 = displacementFromTransform(transform1);
+  AL::Math::Displacement resDisp2 = displacementFromTransform(transform2);
+  AL::Math::Displacement resDisp3 = displacementFromTransform(transform3);
+
+  AL::Math::Quaternion expQuat1(sqrtf(0.5f), sqrtf(.5f), 0.f, 0.f);
+  AL::Math::Quaternion expQuat2(sqrtf(0.5f), 0.f, 0.f, -sqrtf(0.5f));
+  AL::Math::Quaternion expQuat3(0.f, 0.f, 1.f, 0.f);
+
+  AL::Math::Displacement expDisp1(translation1, expQuat1);
+  AL::Math::Displacement expDisp2(translation2, expQuat2);
+  AL::Math::Displacement expDisp3(translation3, expQuat3);
+
+  ASSERT_TRUE(resDisp1.isNear(expDisp1));
+  ASSERT_TRUE(resDisp2.isNear(expDisp2));
+  ASSERT_TRUE(resDisp3.isNear(expDisp3));
+}
+
+TEST(ALMathTransformHelpers, transformFromDisplacement)
+{
+  AL::Math::Position3D translation1(1.f, 2.f, 3.f);
+  AL::Math::Position3D translation2(-1.f, -2.f, -3.f);
+  AL::Math::Position3D translation3(1.1f, 1.2f, 1.3f);
+
+  AL::Math::Quaternion quaternion1(sqrtf(0.5f), sqrtf(.5f), 0.f, 0.f);
+  AL::Math::Quaternion quaternion2(sqrtf(0.5f), 0.f, 0.f, -sqrtf(0.5f));
+  AL::Math::Quaternion quaternion3(0.f, 0.f, 1.f, 0.f);
+
+  AL::Math::Displacement disp1(translation1, quaternion1);
+  AL::Math::Displacement disp2(translation2, quaternion2);
+  AL::Math::Displacement disp3(translation3, quaternion3);
+
+  AL::Math::Transform resTrans1 = transformFromDisplacement(disp1);
+  AL::Math::Transform resTrans2 = transformFromDisplacement(disp2);
+  AL::Math::Transform resTrans3 = transformFromDisplacement(disp3);
+
+  AL::Math::Rotation expRot1 =
+    AL::Math::Rotation::fromAngleDirection(AL::Math::PI_2, 1.f, 0.f,  0.f);
+   AL::Math::Rotation expRot2 =
+    AL::Math::Rotation::fromAngleDirection(-AL::Math::PI_2, 0.f, 0.f,  1.f);
+  AL::Math::Rotation expRot3 =
+    AL::Math::Rotation::fromAngleDirection(AL::Math::PI, 0.f, 1.f,  0.f);
+
+  AL::Math::Transform expTrans1 = AL::Math::transformFromRotation(expRot1);
+  expTrans1.r1_c4 = translation1.x;
+  expTrans1.r2_c4 = translation1.y;
+  expTrans1.r3_c4 = translation1.z;
+  AL::Math::Transform expTrans2 = AL::Math::transformFromRotation(expRot2);
+  expTrans2.r1_c4 = translation2.x;
+  expTrans2.r2_c4 = translation2.y;
+  expTrans2.r3_c4 = translation2.z;
+  AL::Math::Transform expTrans3 = AL::Math::transformFromRotation(expRot3);
+  expTrans3.r1_c4 = translation3.x;
+  expTrans3.r2_c4 = translation3.y;
+  expTrans3.r3_c4 = translation3.z;
+
+  ASSERT_TRUE(resTrans1.isNear(expTrans1));
+  ASSERT_TRUE(resTrans2.isNear(expTrans2));
+  ASSERT_TRUE(resTrans3.isNear(expTrans3));
+}

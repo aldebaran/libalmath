@@ -1146,5 +1146,21 @@ namespace AL {
       return quaOut;
     } // end quaternionFromTransform
 
+    Transform transformFromDisplacement(const Displacement& pDisp)
+    {
+      Transform result = transformFromQuaternion(pDisp.Q);
+      result.r1_c4 = pDisp.P.x;
+      result.r2_c4 = pDisp.P.y;
+      result.r3_c4 = pDisp.P.z;
+      return result;
+    }
+
+    Displacement displacementFromTransform(const Transform& pTrans)
+    {
+      Quaternion resQ = quaternionFromTransform(pTrans);
+      Position3D resP = position3DFromTransform(pTrans);
+      return Displacement(resP, resQ);
+    }
+
   } // namespace Math
 } // namespace AL

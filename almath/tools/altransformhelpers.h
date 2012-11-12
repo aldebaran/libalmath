@@ -18,6 +18,7 @@
 #include <almath/types/alaxismask.h>
 #include <almath/types/alpose2d.h>
 #include <almath/types/alquaternion.h>
+#include <almath/types/aldisplacement.h>
 
 namespace AL {
   namespace Math {
@@ -837,6 +838,22 @@ namespace AL {
 
     Quaternion quaternionFromTransform(
       const Transform& pT);
+
+    /**
+    * Function transformFromDisplacement:
+    * computing the transform equivalent to the displacement
+    * @param pDisp: a displacement
+    * @return computed Transform
+    **/
+    Transform transformFromDisplacement(const Displacement& pDisp);
+
+    /**
+    * Function displacementFromTransform:
+    * computing the displacement equivalent to the transform
+    * @param pTrans: a transform
+    * @return computed Displacement
+    **/
+    Displacement displacementFromTransform(const Transform& pTrans);
 
   } // namespace Math
 } // namespace AL
