@@ -42,6 +42,89 @@ TEST(ALRotationTest, isNear)
   EXPECT_FALSE(pRotIn.isNear(pRotOut));
 }
 
+TEST(RotationTest, isRotation)
+{
+  float pEps = 0.001f;
+  AL::Math::Rotation rot;
+
+  // std::cout << "test isRotation 0" << std::endl;
+  rot = AL::Math::Rotation();
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation 1" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation 2" << std::endl;
+  rot = AL::Math::Rotation::fromRotX(0.6f);
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation 3" << std::endl;
+  rot = AL::Math::Rotation::fromRotX(-0.6f);
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation 4" << std::endl;
+  rot = AL::Math::Rotation::fromRotY(0.6f);
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation 5" << std::endl;
+  rot = AL::Math::Rotation::fromRotY(-0.6f);
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation 6" << std::endl;
+  rot = AL::Math::Rotation::fromRotZ(0.6f);
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation 7" << std::endl;
+  rot = AL::Math::Rotation::fromRotZ(-0.6f);
+  EXPECT_TRUE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r1_c1" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r1_c1 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r1_c2" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r1_c2 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r1_c3" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r1_c3 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r2_c1" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r2_c1 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r2_c2" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r2_c2 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r2_c3" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r2_c3 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r3_c1" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r3_c1 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r3_c2" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r3_c2 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+
+  // std::cout << "test isRotation r3_c3" << std::endl;
+  rot = AL::Math::Rotation::from3DRotation(0.1f, 0.2f, 0.3f);
+  rot.r3_c3 += 0.1f;
+  EXPECT_FALSE(rot.isRotation(pEps));
+}
+
 TEST(ALRotationTest, transpose)
 {
   AL::Math::Rotation pRotIn  = AL::Math::Rotation::fromRotX(0.3f);
@@ -137,5 +220,70 @@ TEST(ALRotationTest, determinant1)
 
   pRot = AL::Math::rotationFromRotZ(40.0f*AL::Math::TO_RAD);
   EXPECT_NEAR(AL::Math::determinant(pRot), 1.0f, 0.0001f);
+}
+
+TEST(RotationTest, normalizeRotation)
+{
+  AL::Math::Rotation rot1;
+  AL::Math::Rotation rot2;
+  AL::Math::Rotation rot3;
+
+  // case null data
+  rot1 = AL::Math::Rotation();
+  rot1.r1_c1 = 0.0f;
+  rot1.r2_c2 = 0.0f;
+  rot1.r3_c3 = 0.0f;
+  EXPECT_FALSE(rot1.isRotation());
+  AL::Math::normalizeRotation(rot1);
+  EXPECT_TRUE(rot1.isRotation());
+  EXPECT_TRUE(rot1.isNear(AL::Math::Rotation()));
+
+  // case not normalized
+  rot1.r1_c1 = 0.5f;
+  rot1.r2_c2 = 0.5f;
+  rot1.r3_c3 = 0.5f;
+  EXPECT_FALSE(rot1.isRotation());
+  AL::Math::normalizeRotation(rot1);
+  EXPECT_TRUE(rot1.isRotation());
+  EXPECT_TRUE(rot1.isNear(AL::Math::Rotation()));
+
+  for (unsigned int i=-360; i<360; ++i)
+  {
+    float angleX = static_cast<float>(i)*AL::Math::TO_RAD;
+    for (unsigned int j=-360; j<360; ++j)
+    {
+      float angleY = static_cast<float>(j)*AL::Math::TO_RAD;
+      for (unsigned int k=-360; k<360; ++k)
+      {
+        float angleZ = static_cast<float>(k)*AL::Math::TO_RAD;
+        rot1 = AL::Math::Rotation::fromRotX(angleX)*\
+            AL::Math::Rotation::fromRotY(angleY)*\
+            AL::Math::Rotation::fromRotZ(angleZ);
+
+        rot2 = rot1;
+        rot3 = rot1;
+
+        rot1.r1_c1 += 0.01f;
+        rot1.r1_c2 += 0.01f;
+        rot1.r1_c3 += 0.01f;
+
+        rot1.r2_c1 += 0.01f;
+        rot1.r2_c2 += 0.01f;
+        rot1.r2_c3 += 0.01f;
+
+        rot1.r3_c1 += 0.01f;
+        rot1.r3_c2 += 0.01f;
+        rot1.r3_c3 += 0.01f;
+        EXPECT_FALSE(rot1.isRotation());
+        AL::Math::normalizeRotation(rot1);
+        EXPECT_TRUE(rot1.isRotation());
+
+        EXPECT_TRUE(rot2.isRotation());
+        AL::Math::normalizeRotation(rot2);
+        EXPECT_TRUE(rot2.isRotation());
+        EXPECT_TRUE(rot2.isNear(rot3));
+      }
+    }
+  }
 }
 

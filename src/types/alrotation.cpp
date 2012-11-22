@@ -148,6 +148,63 @@ namespace AL {
     }
 
 
+    bool Rotation::isRotation(
+      const float& pEpsilon) const
+    {
+      // This checks that the input is a pure rotation matrix 'm'.
+      // The condition for this is:
+      // R' * R = I
+      // and
+      // det(R) = 1
+
+      // det is defined here:
+      // http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
+
+      if (fabsf(r1_c2*r1_c1 + r2_c2*r2_c1 + r3_c2*r3_c1) > pEpsilon)
+      {
+        return false;
+      }
+
+      if (fabsf(r1_c3*r1_c1 + r2_c3*r2_c1 + r3_c3*r3_c1) > pEpsilon)
+      {
+        return false;
+      }
+
+      if (fabsf(r1_c3*r1_c2 + r2_c3*r2_c2 + r3_c3*r3_c2) > pEpsilon)
+      {
+        return false;
+      }
+
+      if (fabsf(r1_c1*r1_c1 + r1_c2*r1_c2 + r1_c3*r1_c3 - 1.0f) > pEpsilon)
+      {
+        return false;
+      }
+
+      if (fabsf(r2_c1*r2_c1 + r2_c2*r2_c2 + r2_c3*r2_c3 - 1.0f) > pEpsilon)
+      {
+        return false;
+      }
+
+      if (fabsf(r3_c1*r3_c1 + r3_c2*r3_c2 + r3_c3*r3_c3 - 1.0f) > pEpsilon)
+      {
+        return false;
+      }
+
+      float det = Math::determinant(*this);
+
+      if (fabsf(det-1.0f) > pEpsilon)
+      {
+        return false;
+      }
+      return true;
+    }
+
+
+    void Rotation::normalizeRotation(void)
+    {
+      Math::normalizeRotation(*this);
+    }
+
     Rotation Rotation::transpose() const
     {
       return Math::transpose(*this);
@@ -386,6 +443,73 @@ namespace AL {
       T *= rotationFromRotY(pWY);
       T *= rotationFromRotX(pWX);
       return T;
+    }
+
+    void normalizeRotation(Rotation& pR)
+    {
+      const float lEpsilon = 0.0001f;
+
+      // z.normalize();
+      float lNorm = sqrtf(powf(pR.r1_c3, 2)+powf(pR.r2_c3, 2)+powf(pR.r3_c3, 2));
+      if (lNorm < lEpsilon)
+      {
+        std::cerr << "ALMath: WARNING: "
+                  << "normalizeRotation with null column. "
+                  << "Rotation part set to identity." << std::endl;
+
+        pR.r1_c1 = 1.0f;
+        pR.r1_c2 = 0.0f;
+        pR.r1_c3 = 0.0f;
+
+        pR.r2_c1 = 0.0f;
+        pR.r2_c2 = 1.0f;
+        pR.r2_c3 = 0.0f;
+
+        pR.r3_c1 = 0.0f;
+        pR.r3_c2 = 0.0f;
+        pR.r3_c3 = 1.0f;
+        return;
+      }
+
+      pR.r1_c3 /= lNorm;
+      pR.r2_c3 /= lNorm;
+      pR.r3_c3 /= lNorm;
+
+      // x = cross(y, z);
+      const float x1 = pR.r2_c2*pR.r3_c3 - pR.r3_c2*pR.r2_c3;
+      const float x2 = pR.r3_c2*pR.r1_c3 - pR.r1_c2*pR.r3_c3;
+      const float x3 = pR.r1_c2*pR.r2_c3 - pR.r2_c2*pR.r1_c3;
+
+      // x.normalize();
+      lNorm = sqrtf(powf(x1, 2)+powf(x2, 2)+powf(x3, 2));
+      if (lNorm < lEpsilon)
+      {
+        std::cerr << "ALMath: WARNING: "
+                  << "normalizeRotation with null column. "
+                  << "Rotation part set to identity." << std::endl;
+
+        pR.r1_c1 = 1.0f;
+        pR.r1_c2 = 0.0f;
+        pR.r1_c3 = 0.0f;
+
+        pR.r2_c1 = 0.0f;
+        pR.r2_c2 = 1.0f;
+        pR.r2_c3 = 0.0f;
+
+        pR.r3_c1 = 0.0f;
+        pR.r3_c2 = 0.0f;
+        pR.r3_c3 = 1.0f;
+        return;
+      }
+
+      pR.r1_c1 = x1/lNorm;
+      pR.r2_c1 = x2/lNorm;
+      pR.r3_c1 = x3/lNorm;
+
+      // y = cross(z, x);
+      pR.r1_c2 = pR.r2_c3*pR.r3_c1 - pR.r3_c3*pR.r2_c1;
+      pR.r2_c2 = pR.r3_c3*pR.r1_c1 - pR.r1_c3*pR.r3_c1;
+      pR.r3_c2 = pR.r1_c3*pR.r2_c1 - pR.r2_c3*pR.r1_c1;
     }
 
   }

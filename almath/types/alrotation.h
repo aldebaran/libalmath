@@ -164,6 +164,26 @@ namespace AL {
         const float&    pEpsilon=0.0001f) const;
 
       /// <summary>
+      /// Normalize data, if needed, to have Rotation properties.
+      ///
+      /// </summary>
+      void normalizeRotation(void);
+
+      /// <summary>
+      /// Check if the rotation is correct.
+      /// The condition checks are:
+      /// \f$R^t * R = I\f$
+      /// and
+      /// determinant(R) = 1.0
+      ///
+      /// </summary>
+      /// <param name="pEpsilon"> an optionnal epsilon distance. Default: 0.0001 </param>
+      /// <returns>
+      /// true if the Rotation is correct
+      /// </returns>
+      bool isRotation(const float& pEpsilon=0.0001f) const;
+
+      /// <summary>
       /// Compute the rotation transpose (inverse) of the actual Rotation:
       /// </summary>
       /// <returns>
@@ -311,6 +331,13 @@ namespace AL {
     /// \ingroup Types
     float determinant(const Rotation& pRot);
 
+    /// <summary>
+    /// Normalize data, if needed, to have Rotation properties.
+    ///
+    /// </summary>
+    /// <param name="pRot"> the given Rotation </param>
+    /// \ingroup Types
+    void normalizeRotation(Rotation& pRot);
 
     /// <summary>
     /// Creates a 3*3 Rotation Matrix from a normalized quaternion ( |a + bi + cj + dk| = 1).

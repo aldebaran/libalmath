@@ -150,6 +150,10 @@ namespace AL {
       bool isTransform(
           const float& pEpsilon=0.0001f) const;
 
+      /// <summary>
+      /// Normalize data, if needed, to have transform properties.
+      ///
+      /// </summary>
       void normalizeTransform(void);
 
       /// <summary>
@@ -377,6 +381,12 @@ namespace AL {
     /// \ingroup Types
     float norm(const Transform& pT);
 
+    /// <summary>
+    /// Normalize data, if needed, to have transform properties.
+    ///
+    /// </summary>
+    /// <param name="pT"> the given Transform </param>
+    /// \ingroup Types
     void normalizeTransform(Transform& pT);
 
     /// <summary>

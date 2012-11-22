@@ -241,7 +241,7 @@ namespace AL {
         return false;
       }
       return true;
-    } // end isTransform
+    }
 
 
     void Transform::normalizeTransform(void)
