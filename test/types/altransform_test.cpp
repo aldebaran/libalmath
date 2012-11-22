@@ -38,7 +38,17 @@ TEST(TransformTest, constructor)
 
   EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotX(10.0f*AL::Math::TO_RAD)));
 
+  for (int i=-1; i<2; ++i)
+  {
+    for (unsigned int j=0; j<12; ++j)
+    {
+      pFloats[j] = static_cast<float>(i);
+    }
+    pT = AL::Math::Transform(pFloats);
+    EXPECT_TRUE(pT.isTransform());
+  }
 }
+
 
 TEST(TransformTest, variousOperator)
 {
@@ -593,4 +603,70 @@ TEST(TransformTest, strangeConstruction)
 
  EXPECT_TRUE(pH.isNear(AL::Math::Transform()));
 }
+
+TEST(TransformTest, normalizeTransform)
+{
+  AL::Math::Transform tf1;
+  AL::Math::Transform tf2;
+  AL::Math::Transform tf3;
+
+  // case null data
+  tf1 = AL::Math::Transform();
+  tf1.r1_c1 = 0.0f;
+  tf1.r2_c2 = 0.0f;
+  tf1.r3_c3 = 0.0f;
+  EXPECT_FALSE(tf1.isTransform());
+  AL::Math::normalizeTransform(tf1);
+  EXPECT_TRUE(tf1.isTransform());
+  EXPECT_TRUE(tf1.isNear(AL::Math::Transform()));
+
+  // case not normalized
+  tf1.r1_c1 = 0.5f;
+  tf1.r2_c2 = 0.5f;
+  tf1.r3_c3 = 0.5f;
+  EXPECT_FALSE(tf1.isTransform());
+  AL::Math::normalizeTransform(tf1);
+  EXPECT_TRUE(tf1.isTransform());
+  EXPECT_TRUE(tf1.isNear(AL::Math::Transform()));
+
+  for (unsigned int i=-360; i<360; ++i)
+  {
+    float angleX = static_cast<float>(i)*AL::Math::TO_RAD;
+    for (unsigned int j=-360; j<360; ++j)
+    {
+      float angleY = static_cast<float>(j)*AL::Math::TO_RAD;
+      for (unsigned int k=-360; k<360; ++k)
+      {
+        float angleZ = static_cast<float>(k)*AL::Math::TO_RAD;
+        tf1 = AL::Math::Transform::fromRotX(angleX)*\
+            AL::Math::Transform::fromRotY(angleY)*\
+            AL::Math::Transform::fromRotZ(angleZ);
+
+        tf2 = tf1;
+        tf3 = tf1;
+
+        tf1.r1_c1 += 0.01f;
+        tf1.r1_c2 += 0.01f;
+        tf1.r1_c3 += 0.01f;
+
+        tf1.r2_c1 += 0.01f;
+        tf1.r2_c2 += 0.01f;
+        tf1.r2_c3 += 0.01f;
+
+        tf1.r3_c1 += 0.01f;
+        tf1.r3_c2 += 0.01f;
+        tf1.r3_c3 += 0.01f;
+        EXPECT_FALSE(tf1.isTransform());
+        AL::Math::normalizeTransform(tf1);
+        EXPECT_TRUE(tf1.isTransform());
+
+        EXPECT_TRUE(tf2.isTransform());
+        AL::Math::normalizeTransform(tf2);
+        EXPECT_TRUE(tf2.isTransform());
+        EXPECT_TRUE(tf2.isNear(tf3));
+      }
+    }
+  }
+}
+
 

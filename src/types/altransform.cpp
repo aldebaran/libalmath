@@ -36,6 +36,21 @@ namespace AL {
         r3_c2 = pFloats[9];
         r3_c3 = pFloats[10];
         r3_c4 = pFloats[11];
+
+        // todo: check it is a real transform
+        if (!isTransform())
+        {
+          normalizeTransform();
+
+          // strange case with nan data
+          if (!isTransform())
+          {
+            std::cerr << "ALMath: WARNING: "
+                      << "Transform constructor with wrong vector value. "
+                      << "Rotation part is normalized." << std::endl;
+          }
+        }
+
       }
       else
       {
@@ -229,6 +244,12 @@ namespace AL {
     } // end isTransform
 
 
+    void Transform::normalizeTransform(void)
+    {
+      Math::normalizeTransform(*this);
+    }
+
+
     float Transform::norm() const
     {
       return Math::norm(*this);
@@ -359,6 +380,73 @@ namespace AL {
       pTOut.r3_c4 = (pT.r3_c1 * r1) + (pT.r3_c2 * r2) + (pT.r3_c3 * pTOut.r3_c4) + pT.r3_c4;
     }
 
+
+    void normalizeTransform(Transform& pT)
+    {
+      const float lEpsilon = 0.0001f;
+
+      // z.normalize();
+      float lNorm = sqrtf(powf(pT.r1_c3, 2)+powf(pT.r2_c3, 2)+powf(pT.r3_c3, 2));
+      if (lNorm < lEpsilon)
+      {
+        std::cerr << "ALMath: WARNING: "
+                  << "normalizeTransform with null column. "
+                  << "Rotation part set to identity." << std::endl;
+
+        pT.r1_c1 = 1.0f;
+        pT.r1_c2 = 0.0f;
+        pT.r1_c3 = 0.0f;
+
+        pT.r2_c1 = 0.0f;
+        pT.r2_c2 = 1.0f;
+        pT.r2_c3 = 0.0f;
+
+        pT.r3_c1 = 0.0f;
+        pT.r3_c2 = 0.0f;
+        pT.r3_c3 = 1.0f;
+        return;
+      }
+
+      pT.r1_c3 /= lNorm;
+      pT.r2_c3 /= lNorm;
+      pT.r3_c3 /= lNorm;
+
+      // x = cross(y, z);
+      const float x1 = pT.r2_c2*pT.r3_c3 - pT.r3_c2*pT.r2_c3;
+      const float x2 = pT.r3_c2*pT.r1_c3 - pT.r1_c2*pT.r3_c3;
+      const float x3 = pT.r1_c2*pT.r2_c3 - pT.r2_c2*pT.r1_c3;
+
+      // x.normalize();
+      lNorm = sqrtf(powf(x1, 2)+powf(x2, 2)+powf(x3, 2));
+      if (lNorm < lEpsilon)
+      {
+        std::cerr << "ALMath: WARNING: "
+                  << "normalizeTransform with null column. "
+                  << "Rotation part set to identity." << std::endl;
+
+        pT.r1_c1 = 1.0f;
+        pT.r1_c2 = 0.0f;
+        pT.r1_c3 = 0.0f;
+
+        pT.r2_c1 = 0.0f;
+        pT.r2_c2 = 1.0f;
+        pT.r2_c3 = 0.0f;
+
+        pT.r3_c1 = 0.0f;
+        pT.r3_c2 = 0.0f;
+        pT.r3_c3 = 1.0f;
+        return;
+      }
+
+      pT.r1_c1 = x1/lNorm;
+      pT.r2_c1 = x2/lNorm;
+      pT.r3_c1 = x3/lNorm;
+
+      // y = cross(z, x);
+      pT.r1_c2 = pT.r2_c3*pT.r3_c1 - pT.r3_c3*pT.r2_c1;
+      pT.r2_c2 = pT.r3_c3*pT.r1_c1 - pT.r1_c3*pT.r3_c1;
+      pT.r3_c2 = pT.r1_c3*pT.r2_c1 - pT.r2_c3*pT.r1_c1;
+    }
 
     float norm(const Transform& pT)
     {

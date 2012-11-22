@@ -150,6 +150,8 @@ namespace AL {
       bool isTransform(
           const float& pEpsilon=0.0001f) const;
 
+      void normalizeTransform(void);
+
       /// <summary>
       /// Compute the norm translation part of the actual Transform:
       ///
@@ -375,6 +377,7 @@ namespace AL {
     /// \ingroup Types
     float norm(const Transform& pT);
 
+    void normalizeTransform(Transform& pT);
 
     /// <summary>
     /// Copy the Transform in a vector of float:
