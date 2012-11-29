@@ -133,7 +133,7 @@ TEST(ALPose2DTest, pose2DInverse)
 TEST(ALPose2DTest, pose2dInvertInPlace)
 {
   // We use pose2dInverse, previously tested
-  AL::Math::Pose2D pIn = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pIn = AL::Math::Pose2D(0.2f, -2.1f, 35.0f*AL::Math::TO_RAD);
   AL::Math::Pose2D pCopy = pIn;
   AL::Math::Pose2D pInverse = AL::Math::pose2DInverse(pIn);
 
@@ -147,14 +147,14 @@ TEST(ALPose2DTest, pose2dDiff)
 {
   // We use pose2dInverse, previously tested
   //inverse(pPos1)*pPos2
-  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0f*AL::Math::TO_RAD);
   AL::Math::Pose2D pPos2   = pPos1;
   AL::Math::Pose2D pResult = AL::Math::pose2dDiff(pPos2, pPos1);
 
   EXPECT_TRUE(pResult.isNear(AL::Math::Pose2D(), 0.0001f));
 
-  pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
-  pPos2   = AL::Math::Pose2D(-1.2f, 0.1f, -10.0*AL::Math::TO_RAD);
+  pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0f*AL::Math::TO_RAD);
+  pPos2   = AL::Math::Pose2D(-1.2f, 0.1f, -10.0f*AL::Math::TO_RAD);
   pResult = AL::Math::pose2dDiff(pPos1, pPos2);
 
   AL::Math::Pose2D pExpected = AL::Math::pose2DInverse(pPos1)*pPos2;
@@ -166,14 +166,14 @@ TEST(ALPose2DTest, diff)
 {
   // We use pose2dInverse, previously tested
   //inverse(pPos1)*pPos2
-  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0f*AL::Math::TO_RAD);
   AL::Math::Pose2D pPos2   = pPos1;
   AL::Math::Pose2D pResult = pPos1.diff(pPos2);
 
   EXPECT_TRUE(pResult.isNear(AL::Math::Pose2D(), 0.0001f));
 
-  pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
-  pPos2   = AL::Math::Pose2D(-1.2f, 0.1f, -10.0*AL::Math::TO_RAD);
+  pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0f*AL::Math::TO_RAD);
+  pPos2   = AL::Math::Pose2D(-1.2f, 0.1f, -10.0f*AL::Math::TO_RAD);
   pResult = pPos1.diff(pPos2);
 
   AL::Math::Pose2D pExpected = AL::Math::pose2DInverse(pPos1)*pPos2;
@@ -184,12 +184,12 @@ TEST(ALPose2DTest, pinv)
 {
   // We use pose2dInverse, previously tested
   //inverse(pPos1)*pPos2
-  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  AL::Math::Pose2D pPos1   = AL::Math::Pose2D(0.2f, -2.1f, 35.0f*AL::Math::TO_RAD);
   AL::Math::Pose2D pPos2   = AL::Math::pinv(pPos1);
   AL::Math::Pose2D pResult = pPos2*pPos1;
   EXPECT_TRUE(pResult.isNear(AL::Math::Pose2D(), 0.0001f));
 
-  pPos1     = AL::Math::Pose2D(0.2f, -2.1f, 35.0*AL::Math::TO_RAD);
+  pPos1     = AL::Math::Pose2D(0.2f, -2.1f, 35.0f*AL::Math::TO_RAD);
   pResult   = AL::Math::pinv(pPos1);
   AL::Math::Pose2D pExpected = AL::Math::pose2DInverse(pPos1);
 
