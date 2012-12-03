@@ -66,7 +66,7 @@ namespace AL
       float Tx, Ty;
       float Det;
 
-      for(unsigned int i=0; i<length;i++)
+      for(unsigned int i=0; i<length; ++i)
       {
         iPlusOne = i+1;
         if(iPlusOne == length)
@@ -95,14 +95,14 @@ namespace AL
     {
       bool test = false;
       // test if all points of box A is outside of box B
-      for(unsigned i=0; i<pBoxA.size();i++)
+      for(unsigned i=0; i<pBoxA.size(); ++i)
       {
         test = xPointsInsideBox(pBoxB, pBoxA[i]);
         if (test)
           return test;
       }
       // test if all points of box B is outside of box A
-      for(unsigned i=0; i<pBoxB.size();i++)
+      for(unsigned i=0; i<pBoxB.size(); ++i)
       {
         test = xPointsInsideBox(pBoxA, pBoxB[i]);
         if (test)
@@ -117,7 +117,7 @@ namespace AL
       const AL::Math::Pose2D&               pMove)
     {
       std::vector<AL::Math::Pose2D> returnNewBox;
-      for(unsigned int i=0; i < pInitBox.size();i++)
+      for(unsigned int i=0; i < pInitBox.size(); ++i)
       {
         returnNewBox.push_back(pMove * pInitBox[i]);
       }
@@ -139,7 +139,7 @@ namespace AL
 
       std::vector<AL::Math::Pose2D> tmpMovingBox;
 
-      for(unsigned int i=0; i<nbIteration; i++)
+      for(unsigned int i=0; i<nbIteration; ++i)
       {
         middle = (min + max)/2.0f;
         pMove.theta = middle;

@@ -220,7 +220,7 @@ TEST(ALQuaternionTest, creation)
   // fromAngleAndAxisRotation
   // function quaternionFromAngleAndAxisRotation
   // angleAndAxisRotationFromQuaternion
-  for (unsigned int i=0; i<nbX; i++)
+  for (unsigned int i=0; i<nbX; ++i)
   {
     float angle = static_cast<float>(i+1)/(static_cast<float>(nbX+1))*AL::Math::_2_PI_ - AL::Math::PI;
 

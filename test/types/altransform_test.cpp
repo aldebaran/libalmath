@@ -376,7 +376,7 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
   pAngleList[9]  = +210.00f*AL::Math::TO_RAD;
   pAngleList[10] = -210.00f*AL::Math::TO_RAD;
 
-  for (unsigned int i=0; i<pAngleList.size(); i++)
+  for (unsigned int i=0; i<pAngleList.size(); ++i)
   {
     pHIn  = AL::Math::transformFromRotX(pAngleList[i]);
     pHOut = AL::Math::transformFromPosition6D(AL::Math::position6DFromTransform(pHIn));
@@ -431,7 +431,7 @@ TEST(ALTransformHelpersTest, fromRotXYZ2)
 
   pList[4] = pAngleList;
 
-  for (unsigned int i=0; i<pList.size(); i++)
+  for (unsigned int i=0; i<pList.size(); ++i)
   {
     pHIn  = AL::Math::transformFromRotX(pList[i][0])*
         AL::Math::transformFromRotY(pList[i][1])*

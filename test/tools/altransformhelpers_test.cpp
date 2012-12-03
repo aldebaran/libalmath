@@ -79,7 +79,7 @@ TEST(ALTransformHelpersTest, normalizeTransform)
   std::vector<AL::Math::Transform> pHList;
   pHList.resize(9);
 
-  for (unsigned int i=0; i<9; i++)
+  for (unsigned int i=0; i<9; ++i)
   {
     pHList.at(i) = AL::Math::Transform::from3DRotation(0.2f, 0.3f, 0.4f);
   }
@@ -100,7 +100,7 @@ TEST(ALTransformHelpersTest, normalizeTransform)
   AL::Math::Position6D pTmp;
   AL::Math::Transform pHFinal;
 
-  for (unsigned int i=0; i<pHList.size(); i++)
+  for (unsigned int i=0; i<pHList.size(); ++i)
   {
     pHInit = pHList.at(i);
 
@@ -1101,7 +1101,7 @@ TEST(ALControlExplosionTest, test0)
   // Main purpose: for an updated fHTrunkWorldDes, compute a control in order to
   // fHTrunkWorld = fHTrunkWorldDes
 
-  for (unsigned int i=0; i<200; i++)
+  for (unsigned int i=0; i<200; ++i)
   {
     // Update fHTrunkWorldDes
     fHTrunkWorldDes = AL::Math::transformFromRotZ(2.0f*i*AL::Math::TO_RAD)*
@@ -1111,7 +1111,7 @@ TEST(ALControlExplosionTest, test0)
     fHTrunkWorldDes.r2_c4 = 0.1f-i*0.05f;
     fHTrunkWorldDes.r3_c4 = 0.2f+i*0.2f;
 
-    for (unsigned j=0; j<1; j++)
+    for (unsigned j=0; j<1; ++j)
     {
       AL::Math::position6DFromTransformDiffInPlace(
             fHTrunkWorld,
@@ -1133,7 +1133,7 @@ TEST(ALControlExplosionTest, test0)
 
   // On ne met plus a jour fHTrunkWorldDes
   // fHTrunkWorld doit converger vers fHTrunkWorldDes
-  for (unsigned j=0; j<100; j++)
+  for (unsigned j=0; j<100; ++j)
   {
     AL::Math::position6DFromTransformDiffInPlace(
           fHTrunkWorld,
@@ -1356,7 +1356,7 @@ TEST(ALTransformHelpersTest, quaternionFromTransform)
   EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, -sqrtf(0.5f)), 0.0001f));
 
   // close to identity
-  for (unsigned int i=0; i<150; i++)
+  for (unsigned int i=0; i<150; ++i)
   {
     float angle = 0.00001f/(static_cast<float>(i+1));
 
@@ -1373,15 +1373,15 @@ TEST(ALTransformHelpersTest, quaternionVsTransform)
   AL::Math::Transform  pTIn;
   AL::Math::Transform  pTOut;
 
-  unsigned int nbX = 100;
-  unsigned int nbY = 100;
-  unsigned int nbZ = 100;
+  const unsigned int nbX = 100;
+  const unsigned int nbY = 100;
+  const unsigned int nbZ = 100;
 
-  for (unsigned int i=0; i<nbX; i++)
+  for (unsigned int i=0; i<nbX; ++i)
   {
-    for (unsigned int j=0; j<nbY; j++)
+    for (unsigned int j=0; j<nbY; ++j)
     {
-      for (unsigned int k=0; k<nbZ; k++)
+      for (unsigned int k=0; k<nbZ; ++k)
       {
         float angleX = static_cast<float>(i)/(static_cast<float>(nbX))*AL::Math::_2_PI_;
         float angleY = static_cast<float>(j)/(static_cast<float>(nbY))*AL::Math::_2_PI_;

@@ -95,7 +95,7 @@ namespace AL {
       float shortestTangent = FLT_MAX;
       float tangentLength;
 
-      for (unsigned int i=0; i<4; i++)
+      for (unsigned int i=0; i<4; ++i)
       {
         tangentLength = (
             (pTangents.at(i).at(0).x - pTangents.at(i).at(1).x) *
@@ -304,7 +304,7 @@ namespace AL {
       tmpDubins.resize(2);
       std::vector<std::vector<dubinsTangent> > tangents;
       tangents.resize(4);
-      for (unsigned int i=0; i<4; i++)
+      for (unsigned int i=0; i<4; ++i)
       {
         tangents.at(i) = tmpDubins;
       }
