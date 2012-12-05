@@ -1505,3 +1505,11 @@ TEST(ALMathTransformHelpers, transformFromDisplacement)
   ASSERT_TRUE(resTrans2.isNear(expTrans2));
   ASSERT_TRUE(resTrans3.isNear(expTrans3));
 }
+
+TEST(ALMathTransformHelpers, operatorMultiplyPosition2D)
+{
+  AL::Math::Transform tf(1.0f, 2.0f, 3.0f);
+  AL::Math::Position2D pos2D(1.0f, 2.0f);
+  AL::Math::Position3D result = tf*pos2D;
+  EXPECT_TRUE(result.isNear(AL::Math::Position3D(2.0f, 4.0f, 3.0f)));
+}

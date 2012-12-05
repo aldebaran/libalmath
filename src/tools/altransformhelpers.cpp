@@ -659,6 +659,19 @@ namespace AL {
       return R;
     }
 
+
+    Position3D operator*(
+        const Transform& pT,
+        const Position2D&  pPos)
+    {
+      Position3D result;
+      result.x = (pT.r1_c1 * pPos.x) + (pT.r1_c2 * pPos.y) + pT.r1_c4;
+      result.y = (pT.r2_c1 * pPos.x) + (pT.r2_c2 * pPos.y) + pT.r2_c4;
+      result.z = (pT.r3_c1 * pPos.x) + (pT.r3_c2 * pPos.y) + pT.r3_c4;
+      return result;
+    }
+
+
     Position3D operator*(
         const Transform& pT,
         const Position3D&  pPos)

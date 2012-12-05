@@ -9,6 +9,7 @@
 #ifndef _LIBALMATH_ALMATH_TOOLS_ALTRANSFORMHELPERS_H_
 #define _LIBALMATH_ALMATH_TOOLS_ALTRANSFORMHELPERS_H_
 
+#include <almath/types/alposition2d.h>
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
 #include <almath/types/alrotation.h>
@@ -779,6 +780,10 @@ namespace AL {
     Transform transformFromRotVec(
       const int&   pAxis,
       const float& pTheta);
+
+    Position3D operator*(
+      const Transform&  pT,
+      const Position2D& pPos);
 
     Position3D operator*(
       const Transform&  pT,
