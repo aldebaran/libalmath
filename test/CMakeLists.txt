@@ -9,6 +9,7 @@ set(almath_tests_srcs
     tools/almath_test.cpp
     tools/altransformhelpers_test.cpp
 
+    types/alaxismask_test.cpp
     types/alpose2d_test.cpp
     types/alposition2d_test.cpp
     types/alposition3d_test.cpp

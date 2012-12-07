@@ -45,6 +45,12 @@ namespace AL {
     static const int AXIS_MASK_VEL  =  7;
     static const int AXIS_MASK_ROT  = 56;
     static const int AXIS_MASK_NONE =  0;
+
+    /// <summary> Validates an AxisMask. </summary>
+    /// <param name="pAxisMask"> An Axis Mask. </param>
+    /// <returns> true if it succeeds, false if it fails. </returns>
+    bool isAxisMask(const int pAxisMask);
+
   }
 }
 #endif  // _LIBALMATH_ALMATH_TYPES_ALAXISMASK_H_
