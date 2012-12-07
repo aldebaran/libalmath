@@ -230,13 +230,8 @@ namespace AL {
       const Pose2D& pIn,
       Pose2D&       pOut)
     {
-      pOut.theta = -pIn.theta;
-
-      float cos = cosf(pOut.theta);
-      float sin = sinf(pOut.theta);
-
-      pOut.x = -( pIn.x*cos - pIn.y*sin);
-      pOut.y = -( pIn.y*cos + pIn.x*sin);
+      pOut = pIn;
+      pose2dInvertInPlace(pOut);
     }
 
     void pose2dInvertInPlace(Pose2D& pPos)
