@@ -74,7 +74,7 @@ namespace AL {
     /// Compute the logarithme of a transform.
     /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right] \f$
     /**
-      * Function Velocity Exponential : compute homogenous matrix
+      * Function Velocity Exponential: compute homogenous matrix
       * displacement from a dt * 6D velocity vector.
       */
     /// </summary>
@@ -791,8 +791,8 @@ namespace AL {
 
     /**
     * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param Transform : useful only for Rotation part
-    * @param Position3D : axis of rotation
+    * @param Transform: useful only for Rotation part
+    * @param Position3D: axis of rotation
     * @return Transform
     **/
     Transform axisRotationProjection(
@@ -800,10 +800,10 @@ namespace AL {
       const Transform&  pT);
 
     /**
-    * Function AxisRotationProjection :
+    * Function AxisRotationProjection:
     * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param Transform : useful only for Rotation part
-    * @param Position3D : axis of rotation
+    * @param Transform: useful only for Rotation part
+    * @param Position3D: axis of rotation
     * @return Transform
     **/
     Rotation axisRotationProjection(
@@ -812,9 +812,9 @@ namespace AL {
 
 
     /**
-    * Function axisRotationProjectionInPlace :
+    * Function axisRotationProjectionInPlace:
     * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param Position3D : axis of rotation
+    * @param Position3D: axis of rotation
     * @param pH: a transform
     **/
     void axisRotationProjectionInPlace(
@@ -822,19 +822,24 @@ namespace AL {
       Transform&        pT);
 
     /**
-    * Function axisRotationProjectionInPlace :
+    * Function axisRotationProjectionInPlace:
     * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param pRot : a rotation
-    * @param Position3D : axis of rotation
+    * @param pRot: a rotation
+    * @param Position3D: axis of rotation
     **/
     void axisRotationProjectionInPlace(
       const Position3D& pPos,
       Rotation&         pRot);
 
-
+    /**
+    * Function orthogonalSpace:
+    * create an orthonormal direct base from a vector (Position3D)
+    * @param pPos: a vector of direction
+    * @param pTf: the result transform
+    **/
     void orthogonalSpace(
       const Position3D& pPos,
-      Transform&        pTOut);
+      Transform&        pTf);
 
     Transform orthogonalSpace(const Position3D& pPos);
 

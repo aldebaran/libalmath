@@ -1012,71 +1012,70 @@ namespace AL {
 
     void orthogonalSpace(
         const Position3D& pAxis,
-        Transform&        HOut)
+        Transform&        pTf)
     {
-      //Transform HOut;
-      Position3D pAxisTmp = Position3D();
-      Position3D pAxis3 = pAxis/norm(pAxis);
-      Position3D pAxis1 = Position3D();
-      Position3D pAxis2 = Position3D();
+      AL::Math::Position3D axis;
+      AL::Math::Position3D axis1;
+      AL::Math::Position3D axis2;
+      AL::Math::Position3D axis3 = pAxis/norm(pAxis);
 
-      float coef = 0.0001f;
-      if (fabsf(pAxis3.x)> coef)
+      const float coef = 0.0001f;
+      if (fabsf(axis3.x)> coef)
       {
-        pAxisTmp = Position3D(-pAxis3.y, pAxis3.x, 0.0f);
+        axis = AL::Math::Position3D(-axis3.y, axis3.x, 0.0f);
       }
-      else if (fabsf(pAxis3.y)> coef)
+      else if (fabsf(axis3.y)> coef)
       {
-        pAxisTmp = Position3D(0.0f, -pAxis3.z, pAxis3.y);
+        axis = AL::Math::Position3D(0.0f, -axis3.z, axis3.y);
       }
       else
       {
-        pAxisTmp = Position3D(pAxis3.z, 0.0f, 0.0f);
+        axis = AL::Math::Position3D(axis3.z, 0.0f, 0.0f);
       }
 
-      pAxis1 = AL::Math::normalize(pAxisTmp);
+      axis1 = AL::Math::normalize(axis);
 
-      pAxisTmp = crossProduct(pAxis3, pAxis1);
-      pAxis2 = AL::Math::normalize(pAxisTmp);
+      axis = AL::Math::crossProduct(axis3, axis1);
+      axis2 = AL::Math::normalize(axis);
 
-      HOut.r1_c1 = pAxis1.x;
-      HOut.r2_c1 = pAxis1.y;
-      HOut.r3_c1 = pAxis1.z;
+      pTf.r1_c1 = axis1.x;
+      pTf.r2_c1 = axis1.y;
+      pTf.r3_c1 = axis1.z;
 
-      HOut.r1_c2 = pAxis2.x;
-      HOut.r2_c2 = pAxis2.y;
-      HOut.r3_c2 = pAxis2.z;
+      pTf.r1_c2 = axis2.x;
+      pTf.r2_c2 = axis2.y;
+      pTf.r3_c2 = axis2.z;
 
-      HOut.r1_c3 = pAxis3.x;
-      HOut.r2_c3 = pAxis3.y;
-      HOut.r3_c3 = pAxis3.z;
+      pTf.r1_c3 = axis3.x;
+      pTf.r2_c3 = axis3.y;
+      pTf.r3_c3 = axis3.z;
     }
 
     Transform orthogonalSpace(const Position3D& pAxis)
     {
-      Transform HOut;
-      orthogonalSpace(pAxis, HOut);
-      return HOut;
+      Transform tfOut;
+      orthogonalSpace(pAxis, tfOut);
+      return tfOut;
     }
 
     Transform transformFromQuaternion(
         const Quaternion& pQua)
     {
-      Transform TOut;
+      Transform tfOut;
 
-      TOut.r1_c1 = 1.0f - 2.0f*(powf(pQua.y, 2) + powf(pQua.z, 2));
-      TOut.r1_c2 = 2.0f*(pQua.x*pQua.y - pQua.z*pQua.w);
-      TOut.r1_c3 = 2.0f*(pQua.x*pQua.z + pQua.y*pQua.w);
+      tfOut.r1_c1 = 1.0f - 2.0f*(powf(pQua.y, 2) + powf(pQua.z, 2));
+      tfOut.r1_c2 = 2.0f*(pQua.x*pQua.y - pQua.z*pQua.w);
+      tfOut.r1_c3 = 2.0f*(pQua.x*pQua.z + pQua.y*pQua.w);
 
-      TOut.r2_c1 = 2.0f*(pQua.x*pQua.y + pQua.z*pQua.w);
-      TOut.r2_c2 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.z, 2));
-      TOut.r2_c3 = 2.0f*(pQua.y*pQua.z - pQua.x*pQua.w);
+      tfOut.r2_c1 = 2.0f*(pQua.x*pQua.y + pQua.z*pQua.w);
+      tfOut.r2_c2 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.z, 2));
+      tfOut.r2_c3 = 2.0f*(pQua.y*pQua.z - pQua.x*pQua.w);
 
-      TOut.r3_c1 = 2.0f*(pQua.x*pQua.z - pQua.y*pQua.w);
-      TOut.r3_c2 = 2.0f*(pQua.y*pQua.z + pQua.x*pQua.w);
-      TOut.r3_c3 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.y, 2));
+      tfOut.r3_c1 = 2.0f*(pQua.x*pQua.z - pQua.y*pQua.w);
+      tfOut.r3_c2 = 2.0f*(pQua.y*pQua.z + pQua.x*pQua.w);
+      tfOut.r3_c3 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.y, 2));
 
-      return TOut;
+      return tfOut;
     }
 
 
@@ -1158,6 +1157,7 @@ namespace AL {
       }
       return quaOut;
     } // end quaternionFromTransform
+
 
     Transform transformFromDisplacement(const Displacement& pDisp)
     {
