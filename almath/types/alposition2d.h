@@ -100,6 +100,15 @@ namespace AL {
       Position2D(const std::vector<float>& pFloats);
 
       /// <summary>
+      /// Build a Position2D from polar coordinates.
+      /// </summary>
+      ///
+      /// <param name="pRadius"> polar radius </param>
+      /// <param name="pAngle"> polar angle  in radians </param>
+      static Position2D fromPolarCoordinates(const float pRadius,
+                                             const float pAngle);
+
+      /// <summary>
       /// Overloading of operator + for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
@@ -260,6 +269,14 @@ namespace AL {
       /// Return the Position2D as a vector of float [x, y].
       /// </summary>
       std::vector<float> toVector() const;
+
+
+      /// <summary>
+      /// Return the angular direction of a Position2D.
+      ///
+      /// \f$pRes = atan2(y, x)\f$
+      /// </summary>
+      float getAngle() const;
     };
 
     // TODO : Need this ?

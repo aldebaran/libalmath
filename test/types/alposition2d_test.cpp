@@ -4,6 +4,7 @@
  * found in the COPYING file.
  */
 #include <almath/types/alposition2d.h>
+#include <almath/tools/altrigonometry.h>
 
 #include <gtest/gtest.h>
 #include <stdexcept>
@@ -148,5 +149,44 @@ TEST(ALPosition2DTest, Divers)
   //std::cout << "-------------- division 1 --------------" << std::endl;
   pPos2D1 = AL::Math::Position2D(2.0f, 2.0f);
   ASSERT_THROW((pPos2D1/0.0f), std::runtime_error);
+}
+
+TEST(ALPosition2DTest, fromPolar)
+{
+  const float eps = 1e-4f;
+  const AL::Math::Position2D& pPos1 =
+      AL::Math::Position2D::fromPolarCoordinates(0.2f, 0.3f);
+  EXPECT_TRUE(pPos1.isNear(AL::Math::Position2D(0.191f, 0.0591f), eps));
+
+  const AL::Math::Position2D& pPos2 =
+      AL::Math::Position2D::fromPolarCoordinates(0.0f, 0.3f);
+  EXPECT_TRUE(pPos2.isNear(AL::Math::Position2D(0.0f, 0.00f), eps));
+
+  const AL::Math::Position2D& pPos3 =
+      AL::Math::Position2D::fromPolarCoordinates(0.5f, 0.0f);
+  EXPECT_TRUE(pPos3.isNear(AL::Math::Position2D(0.5f, 0.00f), eps));
+}
+
+TEST(ALPosition2DTest, angle)
+{
+  const float eps = 1e-4f;
+  AL::Math::Position2D pPos1(1.0f, 0.0f);
+  EXPECT_NEAR(pPos1.getAngle(), 0.0f, eps);
+
+  AL::Math::Position2D pPos2(0.0f, -1.0f);
+  EXPECT_NEAR(pPos2.getAngle(), -AL::Math::PI_2, eps);
+
+  AL::Math::Position2D pPos3(-1.0f, -1.0f);
+  EXPECT_NEAR(pPos3.getAngle(), - 3 * AL::Math::PI_4, eps);
+
+  AL::Math::Position2D pPos4(-1.0f, -1.0f);
+  EXPECT_NEAR(pPos4.getAngle(), - 3 * AL::Math::PI_4, eps);
+
+  AL::Math::Position2D pPos5(0.0f, 2.0f);
+  EXPECT_NEAR(pPos5.getAngle(), AL::Math::PI_2, eps);
+
+  AL::Math::Position2D pPos6(-1.0f, 0.0f);
+  EXPECT_NEAR(pPos6.getAngle(), AL::Math::PI, eps);
+
 }
 

@@ -243,6 +243,8 @@ namespace AL
       AL::Math::pose2DFromPosition2DInPlace(pPosition2d, pAngle, pPose2d);
       return pPose2d;
     }
+
+
     Position2D operator*(
       const Pose2D&     pVal,
       const Position2D& pPos)

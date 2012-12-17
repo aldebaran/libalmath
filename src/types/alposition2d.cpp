@@ -189,6 +189,10 @@ namespace AL {
       return returnVector;
     }
 
+    float Position2D::getAngle() const
+    {
+      return atan2f(y, x);
+    }
 
     float distanceSquared(
       const Position2D& pPos1,
@@ -245,6 +249,11 @@ namespace AL {
       float&            result)
     {
       result = (pPos1.x*pPos2.y - pPos1.y*pPos2.x);
+    }
+
+    Position2D Position2D::fromPolarCoordinates(const float pRadius, const float pAngle)
+    {
+      return Position2D(pRadius * cosf(pAngle), pRadius * sinf(pAngle));
     }
 
   } // end namespace math
