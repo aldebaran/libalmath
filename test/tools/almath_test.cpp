@@ -150,6 +150,36 @@ TEST(ALMathTest, position3DFromPosition6D)
   EXPECT_TRUE(pPose3dResult.isNear(pPos3dExpected, 0.0001f));
 }
 
+TEST(ALMathTest, position2DFromPose2D)
+{
+  const AL::Math::Pose2D pPose2d(0.1f, 0.2f, 0.3f);
+  const AL::Math::Position2D pPos2dExpected(0.1f, 0.2f);
+
+  const AL::Math::Position2D& pPose2dResult =
+      AL::Math::position2DFromPose2D(pPose2d);
+
+  EXPECT_TRUE(pPose2dResult.isNear(pPos2dExpected, 0.0001f));
+}
+
+TEST(ALMathTest, pose2DFromPosition2D)
+{
+  const AL::Math::Position2D pPosition2d(0.1f, 0.2f);
+  const AL::Math::Pose2D pPos2dExpected(0.1f, 0.2f, 0.0f);
+
+  const AL::Math::Pose2D& pPose2dResult =
+      AL::Math::pose2DFromPosition2D(pPosition2d);
+
+  EXPECT_TRUE(pPose2dResult.isNear(pPos2dExpected, 0.0001f));
+
+  const AL::Math::Position2D pPosition2d2(0.1f, 0.2f);
+  const AL::Math::Pose2D pPos2dExpected2(0.1f, 0.2f, 0.5f);
+
+  const AL::Math::Pose2D& pPose2dResult2 =
+      AL::Math::pose2DFromPosition2D(pPosition2d2, 0.5f);
+
+  EXPECT_TRUE(pPose2dResult2.isNear(pPos2dExpected2, 0.0001f));
+}
+
 
 TEST(ALMathTest, Position6DFromVelocity6D)
 {

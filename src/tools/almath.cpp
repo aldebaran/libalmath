@@ -174,6 +174,23 @@ namespace AL
     }
 
 
+    void position2DFromPose2DInPlace(
+        const Pose2D& pPose2d,
+        Position2D&   pPosition2d)
+    {
+      pPosition2d.x = pPose2d.x;
+      pPosition2d.y = pPose2d.y;
+    }
+
+
+    Position2D position2DFromPose2D(const Pose2D& pPose2d)
+    {
+      Position2D position2d;
+      position2DFromPose2DInPlace(pPose2d, position2d);
+      return position2d;
+    }
+
+
     void position6DFromPose2DInPlace(
         const Pose2D& pPose2d,
         Position6D&   pPose6d)
@@ -207,6 +224,25 @@ namespace AL
       return pPose2d;
     }
 
+
+    void pose2DFromPosition2DInPlace(
+        const Position2D& pPosition2d,
+        const float       pAngle,
+        Pose2D&           pPose2d)
+    {
+      pPose2d.x     = pPosition2d.x;
+      pPose2d.y     = pPosition2d.y;
+      pPose2d.theta = pAngle;
+    }
+
+
+    Pose2D pose2DFromPosition2D(const Position2D& pPosition2d,
+                                const float       pAngle)
+    {
+      Pose2D pPose2d;
+      AL::Math::pose2DFromPosition2DInPlace(pPosition2d, pAngle, pPose2d);
+      return pPose2d;
+    }
     Position2D operator*(
       const Pose2D&     pVal,
       const Position2D& pPos)

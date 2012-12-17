@@ -120,6 +120,34 @@ namespace AL {
     Position6D position6DFromVelocity6D(const Velocity6D& pVel);
 
     /// <summary>
+    /// Compute a Position2D from a Pose2D.
+    /// The theta member of the Pose2D is not taken into account.
+    /// </summary>
+    /// <param name = "pPose2D"> the Pose2D to extract </param>
+    /// <param name = "pPosition2D"> the result Position2D </param>
+    /// \ingroup Tools
+    void position2DFromPose2DInPlace(
+        const Pose2D& pPose2d,
+        Position2D&   pPosition2d);
+
+    /// <summary>
+    /// Create a Position2D from a Pose2D
+    ///
+    /** \f$\begin{array}{ccc}
+      * result.x & = & pPose2d.x \\
+      * result.y & = & pPose2d.y \\
+      * \end{array} \f$
+      */
+    ///
+    /// </summary>
+    /// <param name="pPose2d"> the given Pose2D </param>
+    /// <returns>
+    /// the Position2D result.
+    /// </returns>
+    /// \ingroup Tools
+    Position2D position2DFromPose2D(const Pose2D& pPose2d);
+
+    /// <summary>
     /// Create a Position3D from a Position6D
     ///
     /** \f$\begin{array}{ccc}
@@ -278,6 +306,29 @@ namespace AL {
     /// \ingroup Tools
     Pose2D pose2DFromPosition6D(const Position6D& pPose6d);
 
+    /// <summary>
+    /// Compute a Pose2D from a Position2D.
+    /// pPose2d.x = pPosition2D.x
+    /// pPose2d.y = pPosition2D.y
+    /// pPose2d.theta = pAngle
+    /// </summary>
+    /// <param name = "pPosition2d"> the Position2D you want to extract </param>
+    /// <param name = "pAngle"> the angle in radians to set pPose2d to </param>
+    /// <param name = "pPose2d"> the result Pose2D </param>
+    /// \ingroup Tools
+    void pose2DFromPosition2DInPlace(
+        const Position2D& pPosition2d,
+        const float pAngle, Pose2D &pPose2d);
+
+    /// <summary>
+    /// Create a Pose2D from a Position2D.
+    /// </summary>
+    /// <param name = "pPosition2dd"> the position2d you want to extract </param>
+    /// <param name = "pAngle"> the angle in radians to set the new Pose2D to </param>
+    /// <returns> the Pose2D extracted from the Position2D </returns>
+    /// \ingroup Tools
+    Pose2D pose2DFromPosition2D(const Position2D& pPosition2d,
+                                const float       pAngle=0.0f);
 
     /// <summary>
     /// Overloading of operator * for Pose2D to Position2D, give a Position2D:
