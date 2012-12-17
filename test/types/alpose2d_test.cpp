@@ -195,3 +195,39 @@ TEST(ALPose2DTest, pinv)
 
   EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
 }
+
+TEST(ALPose2DTest, fromPolar)
+{
+  const float eps = 1e-4f;
+  AL::Math::Pose2D pPos1 = AL::Math::Pose2D::fromPolarCoordinates(0.2f, 0.3f);
+  EXPECT_TRUE(pPos1.isNear(AL::Math::Pose2D(0.191f, 0.0591f, 0.3f), eps));
+
+  AL::Math::Pose2D pPos2 = AL::Math::Pose2D::fromPolarCoordinates(0.0f, 0.3f);
+  EXPECT_TRUE(pPos2.isNear(AL::Math::Pose2D(0.0f, 0.00f, 0.3f), eps));
+
+  AL::Math::Pose2D pPos3 = AL::Math::Pose2D::fromPolarCoordinates(0.5f, 0.0f);
+  EXPECT_TRUE(pPos3.isNear(AL::Math::Pose2D(0.5f, 0.00f, 0.0f), eps));
+}
+
+TEST(ALPose2DTest, norm)
+{
+  const float eps = 1e-4f;
+  AL::Math::Pose2D pPos1(1.0f, 0.0f, 2.0f);
+  EXPECT_NEAR(pPos1.norm(), 1.0f, eps);
+
+  AL::Math::Pose2D pPos2(-1.0f, 0.0f, 2.0f);
+  EXPECT_NEAR(pPos2.norm(), 1.0f, eps);
+
+  AL::Math::Pose2D pPos3(0.0f, 1.5f, 2.0f);
+  EXPECT_NEAR(pPos3.norm(), 1.5f, eps);
+
+  AL::Math::Pose2D pPos4(1.5f, -1.0f, 2.0f);
+  EXPECT_NEAR(pPos4.norm(), 1.8028f, eps);
+
+  AL::Math::Pose2D pPos5(1.9f, -2.1f, 2.0f);
+  AL::Math::Pose2D pPos6(-1.9f, -2.1f, 2.0f);
+  AL::Math::Pose2D pPos7(-1.9f, 2.1f, 2.0f);
+  EXPECT_NEAR(pPos5.norm(), pPos6.norm(), eps);
+  EXPECT_NEAR(pPos7.norm(), pPos6.norm(), eps);
+  EXPECT_NEAR(pPos5.norm(), pPos5.norm(), eps);
+}

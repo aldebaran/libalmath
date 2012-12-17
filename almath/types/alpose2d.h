@@ -114,6 +114,15 @@ namespace AL {
       Pose2D(const std::vector<float>& pFloats);
 
       /// <summary>
+      /// Create a Pose2D from polar coordinates.
+      /// </summary>
+      /// <param name = "pRadius"> the polar radius </param>
+      /// <param name = "pAngle"> the polar angle in radians </param>
+      /// <returns> the Pose2D extracted from the polar coordinates </returns>
+      /// \ingroup Tools
+      static Pose2D fromPolarCoordinates(const float pRadius, const float pAngle);
+
+      /// <summary>
       /// Overloading of operator + for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
@@ -254,6 +263,13 @@ namespace AL {
       /// </summary>
       std::vector<float> toVector() const;
 
+      /// <summary>
+      /// Compute the norm of the current Pose2D.
+      ///
+      /// result: $$/sqrt(pose.x^{2} + pose.y^{2})$$
+      ///
+      /// </summary>
+      float norm() const;
     }; // end struct
 
 
@@ -337,6 +353,7 @@ namespace AL {
     void pose2DInverse(
       const Pose2D& pPos,
       Pose2D&       pRes);
+
 
   } // end namespace math
 } // end namespace AL

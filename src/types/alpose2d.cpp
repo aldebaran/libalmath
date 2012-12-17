@@ -197,6 +197,11 @@ namespace AL {
       return returnVector;
     }
 
+    float Pose2D::norm() const
+    {
+      return sqrtf(x * x + y * y);
+    }
+
     float distanceSquared(
       const Pose2D& pPos1,
       const Pose2D& pPos2)
@@ -269,6 +274,11 @@ namespace AL {
       Pose2D result = pPos;
       pose2dInvertInPlace(result);
       return result;
+    }
+
+    Pose2D Pose2D::fromPolarCoordinates(const float pRadius, const float pAngle)
+    {
+      return AL::Math::Pose2D(pRadius * cosf(pAngle), pRadius * sinf(pAngle), pAngle);
     }
 
 
