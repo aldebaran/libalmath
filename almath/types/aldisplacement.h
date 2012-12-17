@@ -34,8 +34,12 @@ namespace AL {
       /// Create a Displacement with the given Position3D and Quaternion
       /// </summary>
       /// <param name="pos3d"> the pose of the created Displacement </param>
-      /// <param name="quat"> the rotation of the created Displacement </param>
-      Displacement(const Position3D& pos3d, const Quaternion& quat);
+      /// <param name="quat">
+      /// the rotation of the created Displacement - default: identity
+      /// </param>
+      Displacement(
+        const Position3D& pos3d,
+        const Quaternion& quat = Quaternion());
 
       /// <summary>
       /// Defining composition of Displacement with * sign
