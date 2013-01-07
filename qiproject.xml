@@ -1,4 +1,4 @@
 <project name="libalmath">
-  <depends buildtime="true" runtime="true" names="gtest" />
+  <depends buildtime="true" names="gtest" />
   <doxydoc name="libalmath" src="." dest="ref/libalmath" />
 </project>
