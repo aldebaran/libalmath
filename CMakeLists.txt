@@ -66,10 +66,11 @@ qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
 qi_add_optional_package(PYTHON)
 if(WITH_PYTHON)
   include(qibuild/swig/python)
-  qi_swig_wrap_python(almath almath.i DEPENDS ALMATH)
+  qi_swig_wrap_python(almathswig almath.i DEPENDS ALMATH)
   # we install the swig interface file since it is needed to wrap extensions
   # of almath, such as almathinternal.
   qi_install_header(almath.i KEEP_RELATIVE_PATHS)
+  qi_install_python(almath.py)
 endif()
 
 add_subdirectory(test)

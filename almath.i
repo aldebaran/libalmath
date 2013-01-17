@@ -29,7 +29,7 @@
         SWIG_POINTER_OWN | %newpointer_flags);
   }
 %enddef
-%module almath
+%module almathswig
 
 %feature("autodoc", "1");
 
