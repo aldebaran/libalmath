@@ -10,6 +10,12 @@ namespace AL {
   namespace Math {
 
 
+    TransformAndVelocity6D::TransformAndVelocity6D(): T(), V() {}
+
+    TransformAndVelocity6D::TransformAndVelocity6D(
+        const AL::Math::Transform& pT,
+        const AL::Math::Velocity6D& pV): T(pT), V(pV){}
+
     bool TransformAndVelocity6D::isNear(
         const TransformAndVelocity6D& pDat,
         const float&                  pEpsilon) const

@@ -20,24 +20,30 @@ namespace AL {
     /// </summary>
     struct TransformAndVelocity6D
     {
-      /// <summary> </summary>
-      AL::Math::Transform  T;
-      /// <summary> </summary>
-      AL::Math::Velocity6D V;
+        /// <summary> </summary>
+        AL::Math::Transform  T;
+        /// <summary> </summary>
+        AL::Math::Velocity6D V;
 
-      /// <summary>
-      /// Check if the actual TransformAndVelocity6D is Near the one
-      /// given in argument.
-      ///
-      /// </summary>
-      /// <param name="pTV2"> the second TransformAndVelocity6D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance - default: 0.0001 </param>
-      /// <returns>
-      /// true if the distance between the two TransformAndVelocity6D is less than pEpsilon
-      /// </returns>
-      bool isNear(
-        const TransformAndVelocity6D& pTV2,
-        const float&                  pEpsilon=0.0001f) const;
+        TransformAndVelocity6D();
+
+        TransformAndVelocity6D(
+            const AL::Math::Transform& pT,
+            const AL::Math::Velocity6D& pV);
+
+        /// <summary>
+        /// Check if the actual TransformAndVelocity6D is Near the one
+        /// given in argument.
+        ///
+        /// </summary>
+        /// <param name="pTV2"> the second TransformAndVelocity6D </param>
+        /// <param name="pEpsilon"> an optionnal epsilon distance - default: 0.0001 </param>
+        /// <returns>
+        /// true if the distance between the two TransformAndVelocity6D is less than pEpsilon
+        /// </returns>
+        bool isNear(
+            const TransformAndVelocity6D& pTV2,
+            const float&                  pEpsilon=0.0001f) const;
 
     };
 
