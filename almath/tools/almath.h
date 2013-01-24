@@ -123,8 +123,8 @@ namespace AL {
     /// Compute a Position2D from a Pose2D.
     /// The theta member of the Pose2D is not taken into account.
     /// </summary>
-    /// <param name = "pPose2D"> the Pose2D to extract </param>
-    /// <param name = "pPosition2D"> the result Position2D </param>
+    /// <param name = "pPose2d"> the Pose2D to extract </param>
+    /// <param name = "pPosition2d"> the result Position2D </param>
     /// \ingroup Tools
     void position2DFromPose2DInPlace(
         const Pose2D& pPose2d,
@@ -158,7 +158,7 @@ namespace AL {
       */
     ///
     /// </summary>
-    /// <param name="pPose3d"> the given Position3D </param>
+    /// <param name="pPose6d"> the given Position6D </param>
     /// <returns>
     /// the Position3D result.
     /// </returns>
@@ -273,8 +273,8 @@ namespace AL {
     /// <summary>
     /// Compute a Position6D from a Pose2D.
     /// </summary>
-    /// <param name = "pPose"> the Pose2D to extract </param>
-    /// <param name = "pPos"> the result Position6D </param>
+    /// <param name = "pPose2d"> the Pose2D to extract </param>
+    /// <param name = "pPose6d"> the result Position6D </param>
     /// \ingroup Tools
     void position6DFromPose2DInPlace(
         const Pose2D& pPose2d,
@@ -283,7 +283,7 @@ namespace AL {
     /// <summary>
     /// Create a Position6D from a Pose2D.
     /// </summary>
-    /// <param name = "pPose"> the pose2D you want to extract </param>
+    /// <param name = "pPose2d"> the pose2D you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
     Position6D position6DFromPose2D(const Pose2D& pPose2d);
@@ -323,7 +323,7 @@ namespace AL {
     /// <summary>
     /// Create a Pose2D from a Position2D.
     /// </summary>
-    /// <param name = "pPosition2dd"> the position2d you want to extract </param>
+    /// <param name = "pPosition2d"> the position2d you want to extract </param>
     /// <param name = "pAngle"> the angle in radians to set the new Pose2D to </param>
     /// <returns> the Pose2D extracted from the Position2D </returns>
     /// \ingroup Tools

@@ -106,7 +106,7 @@ namespace AL {
       /// Overloading of operator *= for Quaternion.
       /// </summary>
       /// <param name="pQua2"> the second Quaternion </param>
-      Quaternion& operator*= (const Quaternion& pQu2);
+      Quaternion& operator*= (const Quaternion& pQua2);
 
       /// <summary>
       /// Overloading of operator * for Quaternion.

@@ -211,7 +211,7 @@ std::string toSpaceSeparated(const Position6D& pPos);
 ///
 /// </summary>
 /// <param name="pStream"> the given ostream </param>
-/// <param name="pPos"> the given Quaternion </param>
+/// <param name="pQua"> the given Quaternion </param>
 /// <returns>
 /// the Quaternion print
 /// </returns>

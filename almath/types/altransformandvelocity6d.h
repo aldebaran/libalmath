@@ -27,6 +27,9 @@ namespace AL {
 
         TransformAndVelocity6D();
 
+        /*! @brief Build a transform and velocity object.
+         * @param[in] pT the given Transform.
+         * @param[in] pV the given Velocity6D.*/
         TransformAndVelocity6D(
             const AL::Math::Transform& pT,
             const AL::Math::Velocity6D& pV);
