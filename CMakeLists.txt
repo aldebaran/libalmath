@@ -34,6 +34,8 @@ set( ALMATH_SRCS
     src/types/aldisplacement.cpp
 )
 
+# list of the public headers which are wrapped
+# check it against swig -MM almath.i
 set(ALMATH_H_WRAPPED
     almath/types/alaxismask.h
     almath/types/alpose2d.h
@@ -61,8 +63,15 @@ set(ALMATH_H
 )
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
 
-qi_stage_lib(almath ALMATH)
-
+# we publish SWIG_MODULE_almathswig_DEPS together with the lib.
+# It is useful when extending almathswig.
+set(SWIG_MODULE_almathswig_DEPS "${CMAKE_CURRENT_SOURCE_DIR}/almath.i")
+foreach(dep IN LISTS ALMATH_H_WRAPPED)
+  list(APPEND SWIG_MODULE_almathswig_DEPS "${CMAKE_CURRENT_SOURCE_DIR}/${dep}")
+endforeach()
+qi_stage_lib(almath ALMATH
+  CUSTOM_CODE
+  "set(SWIG_MODULE_almathswig_DEPS \"${SWIG_MODULE_almathswig_DEPS}\" CACHE INTERNAL \"\" FORCE)")
 qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
 
 qi_add_optional_package(PYTHON)
