@@ -11,11 +11,7 @@ namespace AL {
 
     bool isAxisMask(const int pAxisMask)
     {
-      if (pAxisMask < 64 && pAxisMask >= 1)
-      {
-        return true;
-      }
-      return false;
+      return (pAxisMask < 64 && pAxisMask >= 1);
     } // end isAxisMask
 
   }

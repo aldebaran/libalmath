@@ -214,12 +214,12 @@ namespace AL
       {
         // we have to clip pMove
         // compute angle
-        float theta = atan2(pMove.y, pMove.x);
+        const float theta = atan2(pMove.y, pMove.x);
 
         // then compute polar equation
-        float cosTheta = cosf(theta);
-        float sinTheta = sinf(theta);
-        float t = (a*b)/( sqrtf(b2*cosTheta*cosTheta + a2*sinTheta*sinTheta) );
+        const float cosTheta = cosf(theta);
+        const float sinTheta = sinf(theta);
+        const float t = (a*b)/( sqrtf(b2*cosTheta*cosTheta + a2*sinTheta*sinTheta) );
 
         // finally compute new pMove
         pMove.x = t*cosTheta;

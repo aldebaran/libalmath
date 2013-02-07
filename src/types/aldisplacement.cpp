@@ -27,13 +27,8 @@ namespace AL {
       const Displacement& pDisp,
       const float         pEpsilon) const
     {
-      if (
-        P.isNear(pDisp.P, pEpsilon) &&
-        Q.isNear(pDisp.Q, pEpsilon))
-      {
-        return true;
-      }
-      return false;
+      return (P.isNear(pDisp.P, pEpsilon) &&
+              Q.isNear(pDisp.Q, pEpsilon));
     }
 
     Displacement Displacement::operator*(const Displacement& pDisp)
