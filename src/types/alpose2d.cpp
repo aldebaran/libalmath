@@ -202,6 +202,22 @@ namespace AL {
       return sqrtf(x * x + y * y);
     }
 
+    Pose2D Pose2D::normalize() const
+    {
+      const float tmpNorm = this->norm();
+      if (fabsf(tmpNorm) < 1e-4f)
+      {
+        throw std::runtime_error(
+          "ALPose2D: normalize Division by zeros.");
+      }
+      return Pose2D(x / tmpNorm, y / tmpNorm, theta);
+    }
+
+    float Pose2D::getAngle() const
+    {
+      return atan2f(y, x);
+    }
+
     float distanceSquared(
       const Pose2D& pPos1,
       const Pose2D& pPos2)

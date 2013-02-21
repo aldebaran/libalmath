@@ -270,6 +270,24 @@ namespace AL {
       ///
       /// </summary>
       float norm() const;
+
+      /// <summary>
+      /// Normalize the current Pose2D position.
+      ///
+      /// \f$pRes = \frac{pPos}{norm(pPos)}\f$
+      /// </summary>
+      /// <returns>
+      /// the Pose2D normalized
+      /// </returns>
+      Pose2D normalize() const;
+
+      /// <summary>
+      /// Returns the angle of the current Pose2D.
+      ///
+      /// result: $$/atan2(pose.y, pose.x)$$
+      ///
+      /// </summary>
+      float getAngle() const;
     }; // end struct
 
 

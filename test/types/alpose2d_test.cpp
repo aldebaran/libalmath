@@ -3,9 +3,12 @@
  * Use of this source code is governed by a BSD-style license that can be
  * found in the COPYING file.
  */
+#include <gtest/gtest.h>
+#include <stdexcept>
+
 #include <almath/types/alpose2d.h>
 #include <almath/tools/altrigonometry.h>
-#include <gtest/gtest.h>
+
 
 TEST(ALPose2DTest, basicOperator)
 {
@@ -230,4 +233,64 @@ TEST(ALPose2DTest, norm)
   EXPECT_NEAR(pPos5.norm(), pPos6.norm(), eps);
   EXPECT_NEAR(pPos7.norm(), pPos6.norm(), eps);
   EXPECT_NEAR(pPos5.norm(), pPos5.norm(), eps);
+}
+
+TEST(ALPose2DTest, normalize)
+{
+  const float eps = 1e-4f;
+  AL::Math::Pose2D pPos0(0.0f, 0.0f, 0.0f);
+  EXPECT_THROW(pPos0.normalize(), std::runtime_error);
+  AL::Math::Pose2D pPos01(0.001f, 0.0f, 0.0f);
+  EXPECT_NO_THROW(pPos01.normalize());
+
+  AL::Math::Pose2D pPos1(1.0f, 0.0f, 2.0f);
+  AL::Math::Pose2D n1 = pPos1.normalize();
+  EXPECT_NEAR(n1.norm(), 1.0f, eps);
+  EXPECT_NEAR(pPos1.getAngle(), n1.getAngle(), eps);
+  EXPECT_NEAR(pPos1.theta, n1.theta, eps);
+
+  AL::Math::Pose2D pPos2(-1.0f, 0.0f, 2.0f);
+  AL::Math::Pose2D n2 = pPos2.normalize();
+  EXPECT_NEAR(n2.norm(), 1.0f, eps);
+  EXPECT_NEAR(pPos2.getAngle(), n2.getAngle(), eps);
+  EXPECT_NEAR(pPos2.theta, n2.theta, eps);
+
+  AL::Math::Pose2D pPos3(0.0f, 1.5f, 2.0f);
+  AL::Math::Pose2D n3 = pPos3.normalize();
+  EXPECT_NEAR(n3.norm(), 1.0f, eps);
+  EXPECT_NEAR(pPos3.getAngle(), n3.getAngle(), eps);
+  EXPECT_NEAR(pPos3.theta, n3.theta, eps);
+
+  AL::Math::Pose2D pPos4(1.5f, -1.0f, 2.0f);
+  AL::Math::Pose2D n4 = pPos4.normalize();
+  EXPECT_NEAR(n4.norm(), 1.0f, eps);
+  EXPECT_NEAR(pPos4.getAngle(), n4.getAngle(), eps);
+  EXPECT_NEAR(pPos4.theta, n4.theta, eps);
+
+  AL::Math::Pose2D pPos5(1.9f, -2.1f, 2.0f);
+  AL::Math::Pose2D n5 = pPos5.normalize();
+  EXPECT_NEAR(n5.norm(), 1.0f, eps);
+  EXPECT_NEAR(pPos5.getAngle(), n5.getAngle(), eps);
+  EXPECT_NEAR(pPos5.theta, n5.theta, eps);
+
+}
+
+TEST(ALPose2DTest, getAngle)
+{
+  const float eps = 1e-4f;
+  AL::Math::Pose2D pos1(1.5f, 0.0f, 0.0f);
+  EXPECT_NEAR(pos1.getAngle(), 0.0f, eps);
+
+  AL::Math::Pose2D pos2(1.5f, 0.0f, 2.0f);
+  EXPECT_NEAR(pos2.getAngle(), 0.0f, eps);
+
+  AL::Math::Pose2D pos3(1.0f, -1.0f, 2.0f);
+  EXPECT_NEAR(pos3.getAngle(), -AL::Math::PI_4, eps);
+
+  AL::Math::Pose2D pos4(0.0f, 1.0f, 1.0f);
+  EXPECT_NEAR(pos4.getAngle(), AL::Math::PI_2, eps);
+
+  AL::Math::Pose2D pos5(-2.0f, 1.0f, 2.0f);
+  EXPECT_NEAR(pos5.getAngle(), 2.67792f, eps);
+
 }
