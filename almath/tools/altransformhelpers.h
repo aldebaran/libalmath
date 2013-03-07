@@ -645,6 +645,15 @@ namespace AL {
     /// Computes a 6 differential motion require to move
     /// from a 4*4 Homogenous transform matrix Current to
     /// a 4*4 Homogenous transform matrix target.
+    ///
+    /// For instance, one would do
+    ///
+    ///     Position6D P_a;
+    ///     position6DFromTransformDiffInPlace(H_ab, H_ac, P)
+    ///
+    /// Now P contains (an approximation of) the dispacement from the frame b
+    /// to the frame c, expressed at the origin of frame b, and in the basis
+    /// of frame a
     /// </summary>
     /// <param name = "pCurrent"> the Position6D you want to extract </param>
     /// <param name = "pTarget"> the Position6D you want to extract </param>
