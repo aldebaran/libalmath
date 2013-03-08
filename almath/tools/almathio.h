@@ -174,6 +174,17 @@ std::ostream& operator<< (std::ostream& pStream, const Velocity6D& pVel);
 std::string toSpaceSeparated(const Position3D& pPos);
 
 /// <summary>
+/// Create a string of Rotation3D.
+///
+/// </summary>
+/// <param name="pPos"> the given Rotation3D </param>
+/// <returns>
+/// the Rotation3D string
+/// </returns>
+/// \ingroup Types
+std::string toSpaceSeparated(const Rotation3D& pPos);
+
+/// <summary>
 /// Create a string of Velocity6D.
 ///
 /// </summary>

@@ -273,6 +273,16 @@ namespace AL {
       return os.str();
     }
 
+    std::string toSpaceSeparated(const Rotation3D& p)
+    {
+      std::stringstream os;
+      os.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
+      os << p.wx << " ";
+      os << p.wy << " ";
+      os << p.wz << " ";
+      return os.str();
+    }
+
     std::string toSpaceSeparated(const Position6D& p)
     {
       std::stringstream os;
