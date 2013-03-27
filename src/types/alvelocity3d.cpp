@@ -108,9 +108,9 @@ namespace AL {
         const Velocity3D& pVel2,
         const float&      pEpsilon) const
     {
-      return (fabsf(xd - pVel2.xd) <= pEpsilon &&
-              fabsf(yd - pVel2.yd) <= pEpsilon &&
-              fabsf(zd - pVel2.zd) <= pEpsilon);
+      return (std::abs(xd - pVel2.xd) <= pEpsilon &&
+              std::abs(yd - pVel2.yd) <= pEpsilon &&
+              std::abs(zd - pVel2.zd) <= pEpsilon);
     }
 
 
@@ -200,7 +200,10 @@ namespace AL {
 
     float norm (const Velocity3D& pVel)
     {
-      return sqrtf( (pVel.xd*pVel.xd) + (pVel.yd*pVel.yd) + (pVel.zd*pVel.zd) );
+      return std::sqrt(
+            pVel.xd*pVel.xd +
+            pVel.yd*pVel.yd +
+            pVel.zd*pVel.zd);
     }
 
 

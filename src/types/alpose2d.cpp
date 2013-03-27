@@ -84,8 +84,8 @@ namespace AL {
     Pose2D Pose2D::operator* (const Pose2D& pPos2) const
     {
       Pose2D pOut;
-      pOut.x = x + cosf(theta) * pPos2.x - sinf(theta) * pPos2.y;
-      pOut.y = y + sinf(theta) * pPos2.x + cosf(theta) * pPos2.y;
+      pOut.x = x + std::cos(theta) * pPos2.x - std::sin(theta) * pPos2.y;
+      pOut.y = y + std::sin(theta) * pPos2.x + std::cos(theta) * pPos2.y;
       pOut.theta = theta + pPos2.theta;
 
       return pOut;
@@ -98,8 +98,8 @@ namespace AL {
         return *this *= Pose2D(pPos2);
       }
 
-      x += cosf(theta) * pPos2.x - sinf(theta) * pPos2.y;
-      y += sinf(theta) * pPos2.x + cosf(theta) * pPos2.y;
+      x += std::cos(theta) * pPos2.x - std::sin(theta) * pPos2.y;
+      y += std::sin(theta) * pPos2.x + std::cos(theta) * pPos2.y;
       theta += pPos2.theta;
 
       return *this;
@@ -199,13 +199,13 @@ namespace AL {
 
     float Pose2D::norm() const
     {
-      return sqrtf(x * x + y * y);
+      return std::sqrt(x * x + y * y);
     }
 
     Pose2D Pose2D::normalize() const
     {
       const float tmpNorm = this->norm();
-      if (fabsf(tmpNorm) < 1e-4f)
+      if (std::abs(tmpNorm) < 1e-4f)
       {
         throw std::runtime_error(
           "ALPose2D: normalize Division by zeros.");
@@ -215,7 +215,7 @@ namespace AL {
 
     float Pose2D::getAngle() const
     {
-      return atan2f(y, x);
+      return std::atan2(y, x);
     }
 
     float distanceSquared(
@@ -229,7 +229,7 @@ namespace AL {
       const Pose2D& pPos1,
       const Pose2D& pPos2)
     {
-      return sqrtf(distanceSquared(pPos1, pPos2));
+      return std::sqrt(distanceSquared(pPos1, pPos2));
     }
 
 
@@ -237,9 +237,9 @@ namespace AL {
         const Pose2D& pPos2,
         const float&  pEpsilon) const
     {
-      return (fabsf(x - pPos2.x) <= pEpsilon &&
-              fabsf(y - pPos2.y) <= pEpsilon &&
-              fabsf(theta - pPos2.theta) <= pEpsilon);
+      return (std::abs(x - pPos2.x) <= pEpsilon &&
+              std::abs(y - pPos2.y) <= pEpsilon &&
+              std::abs(theta - pPos2.theta) <= pEpsilon);
     }
 
     Pose2D Pose2D::inverse() const
@@ -259,9 +259,9 @@ namespace AL {
     {
       pPos.theta = -pPos.theta;
 
-      float cos = cosf(pPos.theta);
-      float sin = sinf(pPos.theta);
-      float x   = pPos.x;
+      const float cos = std::cos(pPos.theta);
+      const float sin = std::sin(pPos.theta);
+      const float x   = pPos.x;
 
       pPos.x = -(x*cos - pPos.y*sin);
       pPos.y = -(pPos.y*cos + x*sin);
@@ -292,9 +292,13 @@ namespace AL {
       return result;
     }
 
-    Pose2D Pose2D::fromPolarCoordinates(const float pRadius, const float pAngle)
+    Pose2D Pose2D::fromPolarCoordinates(
+        const float pRadius,
+        const float pAngle)
     {
-      return AL::Math::Pose2D(pRadius * cosf(pAngle), pRadius * sinf(pAngle), pAngle);
+      return AL::Math::Pose2D(pRadius * std::cos(pAngle),
+                              pRadius * std::sin(pAngle),
+                              pAngle);
     }
 
 

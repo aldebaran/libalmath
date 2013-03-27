@@ -101,18 +101,14 @@ namespace AL {
         const Position3D& pPos2,
         const float&      pEpsilon) const
     {
-      return (fabsf(x - pPos2.x) <= pEpsilon &&
-              fabsf(y - pPos2.y) <= pEpsilon &&
-              fabsf(z - pPos2.z) <= pEpsilon);
+      return (std::abs(x - pPos2.x) <= pEpsilon &&
+              std::abs(y - pPos2.y) <= pEpsilon &&
+              std::abs(z - pPos2.z) <= pEpsilon);
     }
 
     Position3D Position3D::operator* (float pVal) const
     {
-      Position3D res;
-      res.x = x * pVal;
-      res.y = y * pVal;
-      res.z = z * pVal;
-      return res;
+      return Position3D(x*pVal, y*pVal, z*pVal);
     }
 
     Position3D Position3D::operator/ (float pVal) const
@@ -212,12 +208,12 @@ namespace AL {
       const Position3D& pPos1,
       const Position3D& pPos2)
     {
-      return sqrtf(distanceSquared(pPos1, pPos2));
+      return std::sqrt(distanceSquared(pPos1, pPos2));
     }
 
     float norm(const Position3D& p)
     {
-      return sqrtf( (p.x*p.x) + (p.y*p.y) + (p.z*p.z) );
+      return std::sqrt( (p.x*p.x) + (p.y*p.y) + (p.z*p.z) );
     }
 
     Position3D normalize(const Position3D& pPos)

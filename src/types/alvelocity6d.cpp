@@ -187,12 +187,12 @@ namespace AL {
         const Velocity6D& pVel2,
         const float&      pEpsilon) const
     {
-      return (fabsf(xd  - pVel2.xd)  <= pEpsilon &&
-              fabsf(yd  - pVel2.yd)  <= pEpsilon &&
-              fabsf(zd  - pVel2.zd)  <= pEpsilon &&
-              fabsf(wxd - pVel2.wxd) <= pEpsilon &&
-              fabsf(wyd - pVel2.wyd) <= pEpsilon &&
-              fabsf(wzd - pVel2.wzd) <= pEpsilon);
+      return (std::abs(xd  - pVel2.xd)  <= pEpsilon &&
+              std::abs(yd  - pVel2.yd)  <= pEpsilon &&
+              std::abs(zd  - pVel2.zd)  <= pEpsilon &&
+              std::abs(wxd - pVel2.wxd) <= pEpsilon &&
+              std::abs(wyd - pVel2.wyd) <= pEpsilon &&
+              std::abs(wzd - pVel2.wzd) <= pEpsilon);
     }
 
     float Velocity6D::norm() const
@@ -232,7 +232,7 @@ namespace AL {
     float norm(const Velocity6D& pVel)
     {
       // norm of a 6 component vector
-      return sqrtf(pVel.xd*pVel.xd +
+      return std::sqrt(pVel.xd*pVel.xd +
                    pVel.yd*pVel.yd +
                    pVel.zd*pVel.zd +
                    pVel.wxd*pVel.wxd +

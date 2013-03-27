@@ -94,8 +94,8 @@ namespace AL {
         const Position2D& pPos2,
         const float&      pEpsilon) const
     {
-      return (fabsf(x - pPos2.x) <= pEpsilon &&
-              fabsf(y - pPos2.y) <= pEpsilon);
+      return (std::abs(x - pPos2.x) <= pEpsilon &&
+              std::abs(y - pPos2.y) <= pEpsilon);
     }
 
 
@@ -191,7 +191,7 @@ namespace AL {
 
     float Position2D::getAngle() const
     {
-      return atan2f(y, x);
+      return std::atan2(y, x);
     }
 
     float distanceSquared(
@@ -205,12 +205,12 @@ namespace AL {
       const Position2D& pPos1,
       const Position2D& pPos2)
     {
-      return sqrtf(distanceSquared(pPos1, pPos2));
+      return std::sqrt(distanceSquared(pPos1, pPos2));
     }
 
     float norm(const Position2D& p)
     {
-      return sqrtf( (p.x*p.x) + (p.y*p.y) );
+      return std::sqrt( (p.x*p.x) + (p.y*p.y) );
     }
 
     Position2D normalize(const Position2D& p)
@@ -251,9 +251,12 @@ namespace AL {
       result = (pPos1.x*pPos2.y - pPos1.y*pPos2.x);
     }
 
-    Position2D Position2D::fromPolarCoordinates(const float pRadius, const float pAngle)
+    Position2D Position2D::fromPolarCoordinates(
+        const float pRadius,
+        const float pAngle)
     {
-      return Position2D(pRadius * cosf(pAngle), pRadius * sinf(pAngle));
+      return Position2D(pRadius * std::cos(pAngle),
+                        pRadius * std::sin(pAngle));
     }
 
   } // end namespace math

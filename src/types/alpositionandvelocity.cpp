@@ -20,8 +20,8 @@ namespace AL {
       const PositionAndVelocity& pDat,
       const float&               pEpsilon) const
     {
-      return (fabsf(q - pDat.q) <= pEpsilon &&
-              fabsf(dq - pDat.dq) <= pEpsilon);
+      return (std::abs(q - pDat.q) <= pEpsilon &&
+              std::abs(dq - pDat.dq) <= pEpsilon);
     }
 
   }

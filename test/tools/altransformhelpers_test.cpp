@@ -1236,37 +1236,37 @@ TEST(ALTransformHelpersTest, transformFromQuaternion)
 
 //  std::cout << "transformFromQuaternion: 90 deg turn around X axis" << std::endl;
   pT   = AL::Math::Transform();
-  pQua = AL::Math::Quaternion(sqrtf(0.5f), sqrtf(0.5f), 0.0f, 0.0f);
+  pQua = AL::Math::Quaternion(std::sqrt(0.5f), std::sqrt(0.5f), 0.0f, 0.0f);
   pT   = AL::Math::transformFromQuaternion(pQua);
   EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotX(90.0f*AL::Math::TO_RAD), 0.0001f));
 
 //  std::cout << "transformFromQuaternion: 90 deg turn around Y axis" << std::endl;
   pT   = AL::Math::Transform();
-  pQua = AL::Math::Quaternion(sqrtf(0.5f), 0.0f, sqrtf(0.5f), 0.0f);
+  pQua = AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, std::sqrt(0.5f), 0.0f);
   pT   = AL::Math::transformFromQuaternion(pQua);
   EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotY(90.0f*AL::Math::TO_RAD), 0.0001f));
 
 //  std::cout << "transformFromQuaternion: 90 deg turn around Z axis" << std::endl;
   pT   = AL::Math::Transform();
-  pQua = AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, sqrtf(0.5f));
+  pQua = AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, 0.0f, std::sqrt(0.5f));
   pT   = AL::Math::transformFromQuaternion(pQua);
   EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotZ(90.0f*AL::Math::TO_RAD), 0.0001f));
 
 //  std::cout << "transformFromQuaternion: -90 deg turn around X axis" << std::endl;
   pT   = AL::Math::Transform();
-  pQua = AL::Math::Quaternion(sqrtf(0.5f), -sqrtf(0.5f), 0.0f, 0.0f);
+  pQua = AL::Math::Quaternion(std::sqrt(0.5f), -std::sqrt(0.5f), 0.0f, 0.0f);
   pT   = AL::Math::transformFromQuaternion(pQua);
   EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotX(-90.0f*AL::Math::TO_RAD), 0.0001f));
 
 //  std::cout << "transformFromQuaternion: -90 deg turn around Y axis" << std::endl;
   pT   = AL::Math::Transform();
-  pQua = AL::Math::Quaternion(sqrtf(0.5f), 0.0f, -sqrtf(0.5f), 0.0f);
+  pQua = AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, -std::sqrt(0.5f), 0.0f);
   pT   = AL::Math::transformFromQuaternion(pQua);
   EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotY(-90.0f*AL::Math::TO_RAD), 0.0001f));
 
 //  std::cout << "transformFromQuaternion: -90 deg turn around Z axis" << std::endl;
   pT   = AL::Math::Transform();
-  pQua = AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, -sqrtf(0.5f));
+  pQua = AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, 0.0f, -std::sqrt(0.5f));
   pT   = AL::Math::transformFromQuaternion(pQua);
   EXPECT_TRUE(pT.isNear(AL::Math::Transform::fromRotZ(-90.0f*AL::Math::TO_RAD), 0.0001f));
 }
@@ -1275,85 +1275,56 @@ TEST(ALTransformHelpersTest, quaternionFromTransform)
 {
   AL::Math::Quaternion pQua;
   AL::Math::Transform  pT;
-  //std::cout << "quaternionFromTransform: identity quaternion" << std::endl;
+
   pT   = AL::Math::Transform();
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion() << std::endl;
   EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: 180 deg turn around X axis" << std::endl;
   pT   = AL::Math::Transform::fromRotX(180.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(0.0f, -1.0f, 0.0f, 0.0f) << std::endl;
   EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(0.0f, 1.0f, 0.0f, 0.0f), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: 180 deg turn around Y axis" << std::endl;
   pT   = AL::Math::Transform::fromRotY(180.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(0.0f, 0.0f, 1.0f, 0.0f) << std::endl;
   EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(0.0f, 0.0f, 1.0f, 0.0f), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: 180 deg turn around Z axis" << std::endl;
   pT   = AL::Math::Transform::fromRotZ(180.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(0.0f, 0.0f, 0.0f, 1.0f) << std::endl;
   EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(0.0f, 0.0f, 0.0f, 1.0f), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: 90 deg turn around X axis" << std::endl;
   pT   = AL::Math::Transform::fromRotX(90.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(sqrtf(0.5f), sqrtf(0.5f), 0.0f, 0.0f) << std::endl;
-  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), sqrtf(0.5f), 0.0f, 0.0f), 0.0001f));
+  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(std::sqrt(0.5f), std::sqrt(0.5f), 0.0f, 0.0f), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: 90 deg turn around Y axis" << std::endl;
   pT   = AL::Math::Transform::fromRotY(90.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(sqrtf(0.5f), 0.0f, sqrtf(0.5f), 0.0f) << std::endl;
-  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), 0.0f, sqrtf(0.5f), 0.0f), 0.0001f));
+  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, std::sqrt(0.5f), 0.0f), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: 90 deg turn around Z axis" << std::endl;
   pT   = AL::Math::Transform::fromRotZ(90.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, sqrtf(0.5f)) << std::endl;
-  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, sqrtf(0.5f)), 0.0001f));
+  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, 0.0f, std::sqrt(0.5f)), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: -90 deg turn around X axis" << std::endl;
   pT   = AL::Math::Transform::fromRotX(-90.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(sqrtf(0.5f), -sqrtf(0.5f), 0.0f, 0.0f) << std::endl;
-  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), -sqrtf(0.5f), 0.0f, 0.0f), 0.0001f));
+  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(std::sqrt(0.5f), -std::sqrt(0.5f), 0.0f, 0.0f), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: -90 deg turn around Y axis" << std::endl;
   pT   = AL::Math::Transform::fromRotY(-90.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(sqrtf(0.5f), 0.0f, -sqrtf(0.5f), 0.0f) << std::endl;
-  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), 0.0f, -sqrtf(0.5f), 0.0f), 0.0001f));
+  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, -std::sqrt(0.5f), 0.0f), 0.0001f));
 
-  //std::cout << "quaternionFromTransform: -90 deg turn around Z axis" << std::endl;
   pT   = AL::Math::Transform::fromRotZ(-90.0f*AL::Math::TO_RAD);
   pQua = AL::Math::Quaternion();
   pQua = AL::Math::quaternionFromTransform(pT);
-  //std::cout << "Result  : " << pQua << std::endl;
-  //std::cout << "Expected: " << AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, -sqrtf(0.5f)) << std::endl;
-  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(sqrtf(0.5f), 0.0f, 0.0f, -sqrtf(0.5f)), 0.0001f));
+  EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(std::sqrt(0.5f), 0.0f, 0.0f, -std::sqrt(0.5f)), 0.0001f));
 
   // close to identity
   for (unsigned int i=0; i<150; ++i)
@@ -1362,7 +1333,6 @@ TEST(ALTransformHelpersTest, quaternionFromTransform)
 
     pT   = AL::Math::Transform::fromRotX(angle);
     pQua = AL::Math::quaternionFromTransform(pT);
-    //std::cout << "i: " << i << " angle: " << angle << " quaternion: " << pQua << std::endl;
     EXPECT_TRUE(pQua.isNear(AL::Math::Quaternion(), 0.0001f));
   }
 }
@@ -1450,8 +1420,8 @@ TEST(ALMathTransformHelpers, displacementFromTransform)
   AL::Math::Displacement resDisp2 = displacementFromTransform(transform2);
   AL::Math::Displacement resDisp3 = displacementFromTransform(transform3);
 
-  AL::Math::Quaternion expQuat1(sqrtf(0.5f), sqrtf(.5f), 0.f, 0.f);
-  AL::Math::Quaternion expQuat2(sqrtf(0.5f), 0.f, 0.f, -sqrtf(0.5f));
+  AL::Math::Quaternion expQuat1(std::sqrt(0.5f), std::sqrt(.5f), 0.f, 0.f);
+  AL::Math::Quaternion expQuat2(std::sqrt(0.5f), 0.f, 0.f, -std::sqrt(0.5f));
   AL::Math::Quaternion expQuat3(0.f, 0.f, 1.f, 0.f);
 
   AL::Math::Displacement expDisp1(translation1, expQuat1);
@@ -1469,8 +1439,8 @@ TEST(ALMathTransformHelpers, transformFromDisplacement)
   AL::Math::Position3D translation2(-1.f, -2.f, -3.f);
   AL::Math::Position3D translation3(1.1f, 1.2f, 1.3f);
 
-  AL::Math::Quaternion quaternion1(sqrtf(0.5f), sqrtf(.5f), 0.f, 0.f);
-  AL::Math::Quaternion quaternion2(sqrtf(0.5f), 0.f, 0.f, -sqrtf(0.5f));
+  AL::Math::Quaternion quaternion1(std::sqrt(0.5f), std::sqrt(.5f), 0.f, 0.f);
+  AL::Math::Quaternion quaternion2(std::sqrt(0.5f), 0.f, 0.f, -std::sqrt(0.5f));
   AL::Math::Quaternion quaternion3(0.f, 0.f, 1.f, 0.f);
 
   AL::Math::Displacement disp1(translation1, quaternion1);

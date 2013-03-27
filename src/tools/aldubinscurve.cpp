@@ -127,33 +127,29 @@ namespace AL {
             "ALDubinsCurve: computeTangent Input must be size 2.");
       }
 
-      float dist; // distance between two center of circle
-      float rd;
-      float cos_theta;
-      float sin_theta;
-      AL::Math::Position2D slope;
-      dubinsTangent point1;
-      dubinsTangent point2;
+      // distance between two center of circle
+      const float dist =
+          std::sqrt((pCircle1.x - pCircle2.x) * (pCircle1.x - pCircle2.x) +
+                 (pCircle1.y - pCircle2.y) * (pCircle1.y - pCircle2.y) );
 
-      dist = sqrtf( (pCircle1.x - pCircle2.x) * (pCircle1.x - pCircle2.x) +
-                    (pCircle1.y - pCircle2.y) * (pCircle1.y - pCircle2.y) );
-      rd = pCircleRadius / dist;
-      if (pLLorRR)
-      {
-        cos_theta = 0.0f;
-        sin_theta = 1.0f;
-      }
-      else
+      const float rd = pCircleRadius / dist;
+      float cos_theta = 0.0f;
+      float sin_theta = 1.0f;
+      if (!pLLorRR)
       {
         cos_theta = pCircleRadius*2.0f/dist;
-        sin_theta = sqrtf( 1 - cos_theta*cos_theta);
+        sin_theta = std::sqrt(1.0f - cos_theta*cos_theta);
       }
 
+      AL::Math::Position2D slope;
       slope.x = (        cos_theta*(pCircle2.x - pCircle1.x) +
                          pSens*sin_theta*(pCircle2.y - pCircle1.y) );
 
       slope.y = ( -pSens*sin_theta*(pCircle2.x - pCircle1.x) +
                   cos_theta*(pCircle2.y - pCircle1.y) );
+
+      dubinsTangent point1;
+      dubinsTangent point2;
 
       point1.x = pCircle1.x + rd*slope.x;
       point1.y = pCircle1.y + rd*slope.y;
@@ -170,8 +166,8 @@ namespace AL {
       }
 
       // tangent
-      pTangent.at(0) = point1;
-      pTangent.at(1) = point2;
+      pTangent[0] = point1;
+      pTangent[1] = point2;
 
     } // end computeTangent
 
@@ -318,8 +314,8 @@ namespace AL {
       //// First CheckPoint of this Dubins Curve
       tmpSolution.x = bestTangent.at(0).x;
       tmpSolution.y = bestTangent.at(0).y;
-      tmpSolution.theta = atan2(bestTangent.at(1).y - bestTangent.at(0).y,
-                                bestTangent.at(1).x - bestTangent.at(0).x);
+      tmpSolution.theta = std::atan2(bestTangent.at(1).y - bestTangent.at(0).y,
+                                     bestTangent.at(1).x - bestTangent.at(0).x);
       solutions.push_back(tmpSolution);
 
       //// Second CheckPoint of this Dubins Curve

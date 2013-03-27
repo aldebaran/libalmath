@@ -145,12 +145,12 @@ namespace AL {
         const Position6D& pPos2,
         const float&      pEpsilon) const
     {
-      return (fabsf(x - pPos2.x) <= pEpsilon &&
-              fabsf(y - pPos2.y) <= pEpsilon &&
-              fabsf(z - pPos2.z) <= pEpsilon &&
-              fabsf(wx - pPos2.wx) <= pEpsilon &&
-              fabsf(wy - pPos2.wy) <= pEpsilon &&
-              fabsf(wz - pPos2.wz) <= pEpsilon);
+      return (std::abs(x - pPos2.x) <= pEpsilon &&
+              std::abs(y - pPos2.y) <= pEpsilon &&
+              std::abs(z - pPos2.z) <= pEpsilon &&
+              std::abs(wx - pPos2.wx) <= pEpsilon &&
+              std::abs(wy - pPos2.wy) <= pEpsilon &&
+              std::abs(wz - pPos2.wz) <= pEpsilon);
     }
 
     Position6D Position6D::operator* (float pVal) const
@@ -254,12 +254,12 @@ namespace AL {
       const Position6D& pPos1,
       const Position6D& pPos2)
     {
-      return sqrtf(distanceSquared(pPos1, pPos2));
+      return std::sqrt(distanceSquared(pPos1, pPos2));
     }
 
     float norm(const Position6D& pPos)
     {
-      return sqrtf( (pPos.x*pPos.x) + (pPos.y*pPos.y) + (pPos.z*pPos.z) +
+      return std::sqrt( (pPos.x*pPos.x) + (pPos.y*pPos.y) + (pPos.z*pPos.z) +
                    (pPos.wx*pPos.wx) + (pPos.wy*pPos.wy) + (pPos.wz*pPos.wz) );
     }
 

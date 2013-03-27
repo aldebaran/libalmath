@@ -177,18 +177,18 @@ namespace AL {
         const Transform& pT2,
         const float&     pEpsilon)const
     {
-      return (fabsf(r1_c1 - pT2.r1_c1) <= pEpsilon &&
-              fabsf(r1_c2 - pT2.r1_c2) <= pEpsilon &&
-              fabsf(r1_c3 - pT2.r1_c3) <= pEpsilon &&
-              fabsf(r2_c1 - pT2.r2_c1) <= pEpsilon &&
-              fabsf(r2_c2 - pT2.r2_c2) <= pEpsilon &&
-              fabsf(r2_c3 - pT2.r2_c3) <= pEpsilon &&
-              fabsf(r3_c1 - pT2.r3_c1) <= pEpsilon &&
-              fabsf(r3_c2 - pT2.r3_c2) <= pEpsilon &&
-              fabsf(r3_c3 - pT2.r3_c3) <= pEpsilon &&
-              fabsf(r1_c4 - pT2.r1_c4) <= pEpsilon &&
-              fabsf(r2_c4 - pT2.r2_c4) <= pEpsilon &&
-              fabsf(r3_c4 - pT2.r3_c4) <= pEpsilon);
+      return (std::abs(r1_c1 - pT2.r1_c1) <= pEpsilon &&
+              std::abs(r1_c2 - pT2.r1_c2) <= pEpsilon &&
+              std::abs(r1_c3 - pT2.r1_c3) <= pEpsilon &&
+              std::abs(r2_c1 - pT2.r2_c1) <= pEpsilon &&
+              std::abs(r2_c2 - pT2.r2_c2) <= pEpsilon &&
+              std::abs(r2_c3 - pT2.r2_c3) <= pEpsilon &&
+              std::abs(r3_c1 - pT2.r3_c1) <= pEpsilon &&
+              std::abs(r3_c2 - pT2.r3_c2) <= pEpsilon &&
+              std::abs(r3_c3 - pT2.r3_c3) <= pEpsilon &&
+              std::abs(r1_c4 - pT2.r1_c4) <= pEpsilon &&
+              std::abs(r2_c4 - pT2.r2_c4) <= pEpsilon &&
+              std::abs(r3_c4 - pT2.r3_c4) <= pEpsilon);
     }
 
 
@@ -204,39 +204,39 @@ namespace AL {
       // det is defined here:
       // http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
 
-      if (fabsf(r1_c2*r1_c1 + r2_c2*r2_c1 + r3_c2*r3_c1) > pEpsilon)
+      if (std::abs(r1_c2*r1_c1 + r2_c2*r2_c1 + r3_c2*r3_c1) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r1_c3*r1_c1 + r2_c3*r2_c1 + r3_c3*r3_c1) > pEpsilon)
+      if (std::abs(r1_c3*r1_c1 + r2_c3*r2_c1 + r3_c3*r3_c1) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r1_c3*r1_c2 + r2_c3*r2_c2 + r3_c3*r3_c2) > pEpsilon)
+      if (std::abs(r1_c3*r1_c2 + r2_c3*r2_c2 + r3_c3*r3_c2) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r1_c1*r1_c1 + r1_c2*r1_c2 + r1_c3*r1_c3 - 1.0f) > pEpsilon)
+      if (std::abs(r1_c1*r1_c1 + r1_c2*r1_c2 + r1_c3*r1_c3 - 1.0f) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r2_c1*r2_c1 + r2_c2*r2_c2 + r2_c3*r2_c3 - 1.0f) > pEpsilon)
+      if (std::abs(r2_c1*r2_c1 + r2_c2*r2_c2 + r2_c3*r2_c3 - 1.0f) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r3_c1*r3_c1 + r3_c2*r3_c2 + r3_c3*r3_c3 - 1.0f) > pEpsilon)
+      if (std::abs(r3_c1*r3_c1 + r3_c2*r3_c2 + r3_c3*r3_c3 - 1.0f) > pEpsilon)
       {
         return false;
       }
 
-      float det = Math::determinant(*this);
+      const float det = Math::determinant(*this);
 
-      if (fabsf(det-1.0f) > pEpsilon)
+      if (std::abs(det-1.0f) > pEpsilon)
       {
         return false;
       }
@@ -386,7 +386,10 @@ namespace AL {
       const float lEpsilon = 0.0001f;
 
       // z.normalize();
-      float lNorm = sqrtf(powf(pT.r1_c3, 2)+powf(pT.r2_c3, 2)+powf(pT.r3_c3, 2));
+      float lNorm =
+          std::sqrt(std::pow(pT.r1_c3, 2) +
+                    std::pow(pT.r2_c3, 2) +
+                    std::pow(pT.r3_c3, 2));
       if (lNorm < lEpsilon)
       {
         std::cerr << "ALMath: WARNING: "
@@ -417,7 +420,10 @@ namespace AL {
       const float x3 = pT.r1_c2*pT.r2_c3 - pT.r2_c2*pT.r1_c3;
 
       // x.normalize();
-      lNorm = sqrtf(powf(x1, 2)+powf(x2, 2)+powf(x3, 2));
+      lNorm = std::sqrt(std::pow(x1, 2) +
+                        std::pow(x2, 2) +
+                        std::pow(x3, 2));
+
       if (lNorm < lEpsilon)
       {
         std::cerr << "ALMath: WARNING: "
@@ -450,7 +456,10 @@ namespace AL {
 
     float norm(const Transform& pT)
     {
-      return sqrtf( (pT.r1_c4*pT.r1_c4) + (pT.r2_c4*pT.r2_c4) + (pT.r3_c4*pT.r3_c4) );
+      return std::sqrt(
+            pT.r1_c4*pT.r1_c4+
+            pT.r2_c4*pT.r2_c4+
+            pT.r3_c4*pT.r3_c4);
     }
 
 
@@ -557,9 +566,9 @@ namespace AL {
 
     Transform transformFromRotX(const float pRotX)
     {
-      float c = cosf(pRotX);
-      float s = sinf(pRotX);
-      Transform T = Transform();
+      const float c = std::cos(pRotX);
+      const float s = std::sin(pRotX);
+      Transform T;
       T.r2_c2 = c;
       T.r2_c3 = -s;
       T.r3_c2 = s;
@@ -570,9 +579,9 @@ namespace AL {
 
     Transform transformFromRotY(const float pRotY)
     {
-      float c = cosf(pRotY);
-      float s = sinf(pRotY);
-      Transform T = Transform();
+      const float c = std::cos(pRotY);
+      const float s = std::sin(pRotY);
+      Transform T;
       T.r1_c1 = c;
       T.r1_c3 = s;
       T.r3_c1 = -s;
@@ -583,9 +592,9 @@ namespace AL {
 
     Transform transformFromRotZ(const float pRotZ)
     {
-      float c = cosf(pRotZ);
-      float s = sinf(pRotZ);
-      Transform T = Transform();
+      const float c = std::cos(pRotZ);
+      const float s = std::sin(pRotZ);
+      Transform T;
       T.r1_c1 = c;
       T.r1_c2 = -s;
       T.r2_c1 = s;
@@ -599,7 +608,7 @@ namespace AL {
       const float& pWY,
       const float& pWZ)
     {
-      Transform T = Transform();
+      Transform T;
       T  = transformFromRotZ(pWZ);
       T *= transformFromRotY(pWY);
       T *= transformFromRotX(pWX);
@@ -612,7 +621,7 @@ namespace AL {
       const float& pY,
       const float& pZ)
     {
-      Transform T = Transform();
+      Transform T;
       T.r1_c4 = pX;
       T.r2_c4 = pY;
       T.r3_c4 = pZ;
@@ -697,7 +706,7 @@ namespace AL {
       const Transform& pT1,
       const Transform& pT2)
     {
-      return sqrtf(transformDistanceSquared(pT1, pT2));
+      return std::sqrt(transformDistanceSquared(pT1, pT2));
     } // end TransformDistance
 
   } // end namespace Math

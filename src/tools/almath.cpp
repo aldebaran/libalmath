@@ -60,8 +60,8 @@ namespace AL
         const Pose2D& pPosIn,
         Pose2D&       pPosOut)
     {
-      float cs = cosf(pTheta);
-      float sn = sinf(pTheta);
+      const float cs = std::cos(pTheta);
+      const float sn = std::sin(pTheta);
       pPosOut.x = cs*pPosIn.x - sn*pPosIn.y;
       pPosOut.y = sn*pPosIn.x + cs*pPosIn.y;
       pPosOut.theta = pPosIn.theta;
@@ -72,10 +72,10 @@ namespace AL
         const float& pTheta,
         Pose2D&      pPosOut)
     {
-      float cs = cosf(pTheta);
-      float sn = sinf(pTheta);
-      float xOld = pPosOut.x;
-      float yOld = pPosOut.y;
+      const float cs = std::cos(pTheta);
+      const float sn = std::sin(pTheta);
+      const float xOld = pPosOut.x;
+      const float yOld = pPosOut.y;
 
       pPosOut.x = cs*xOld - sn*yOld;
       pPosOut.y = sn*xOld + cs*yOld;
@@ -84,11 +84,7 @@ namespace AL
 
     Position3D position3DFromPosition6D(const Position6D& pPose6d)
     {
-      Position3D pose3d;
-      pose3d.x = pPose6d.x;
-      pose3d.y = pPose6d.y;
-      pose3d.z = pPose6d.z;
-      return pose3d;
+      return Position3D(pPose6d.x, pPose6d.y, pPose6d.z);
     }
 
 
@@ -250,8 +246,8 @@ namespace AL
       const Position2D& pPos)
     {
       return Position2D(
-            pVal.x + cosf(pVal.theta)*pPos.x - sinf(pVal.theta)*pPos.y,
-            pVal.y + sinf(pVal.theta)*pPos.x + cosf(pVal.theta)*pPos.y);
+            pVal.x + std::cos(pVal.theta)*pPos.x - std::sin(pVal.theta)*pPos.y,
+            pVal.y + std::sin(pVal.theta)*pPos.x + std::cos(pVal.theta)*pPos.y);
     }
 
   } // namespace Math

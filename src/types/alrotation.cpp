@@ -136,15 +136,15 @@ namespace AL {
         const Rotation& pRot2,
         const float&    pEpsilon) const
     {
-      return (fabsf(r1_c1 - pRot2.r1_c1) <= pEpsilon &&
-              fabsf(r1_c2 - pRot2.r1_c2) <= pEpsilon &&
-              fabsf(r1_c3 - pRot2.r1_c3) <= pEpsilon &&
-              fabsf(r2_c1 - pRot2.r2_c1) <= pEpsilon &&
-              fabsf(r2_c2 - pRot2.r2_c2) <= pEpsilon &&
-              fabsf(r2_c3 - pRot2.r2_c3) <= pEpsilon &&
-              fabsf(r3_c1 - pRot2.r3_c1) <= pEpsilon &&
-              fabsf(r3_c2 - pRot2.r3_c2) <= pEpsilon &&
-              fabsf(r3_c3 - pRot2.r3_c3) <= pEpsilon);
+      return (std::abs(r1_c1 - pRot2.r1_c1) <= pEpsilon &&
+              std::abs(r1_c2 - pRot2.r1_c2) <= pEpsilon &&
+              std::abs(r1_c3 - pRot2.r1_c3) <= pEpsilon &&
+              std::abs(r2_c1 - pRot2.r2_c1) <= pEpsilon &&
+              std::abs(r2_c2 - pRot2.r2_c2) <= pEpsilon &&
+              std::abs(r2_c3 - pRot2.r2_c3) <= pEpsilon &&
+              std::abs(r3_c1 - pRot2.r3_c1) <= pEpsilon &&
+              std::abs(r3_c2 - pRot2.r3_c2) <= pEpsilon &&
+              std::abs(r3_c3 - pRot2.r3_c3) <= pEpsilon);
     }
 
 
@@ -160,39 +160,39 @@ namespace AL {
       // det is defined here:
       // http://www.euclideanspace.com/maths/algebra/matrix/functions/determinant/threeD/
 
-      if (fabsf(r1_c2*r1_c1 + r2_c2*r2_c1 + r3_c2*r3_c1) > pEpsilon)
+      if (std::abs(r1_c2*r1_c1 + r2_c2*r2_c1 + r3_c2*r3_c1) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r1_c3*r1_c1 + r2_c3*r2_c1 + r3_c3*r3_c1) > pEpsilon)
+      if (std::abs(r1_c3*r1_c1 + r2_c3*r2_c1 + r3_c3*r3_c1) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r1_c3*r1_c2 + r2_c3*r2_c2 + r3_c3*r3_c2) > pEpsilon)
+      if (std::abs(r1_c3*r1_c2 + r2_c3*r2_c2 + r3_c3*r3_c2) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r1_c1*r1_c1 + r1_c2*r1_c2 + r1_c3*r1_c3 - 1.0f) > pEpsilon)
+      if (std::abs(r1_c1*r1_c1 + r1_c2*r1_c2 + r1_c3*r1_c3 - 1.0f) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r2_c1*r2_c1 + r2_c2*r2_c2 + r2_c3*r2_c3 - 1.0f) > pEpsilon)
+      if (std::abs(r2_c1*r2_c1 + r2_c2*r2_c2 + r2_c3*r2_c3 - 1.0f) > pEpsilon)
       {
         return false;
       }
 
-      if (fabsf(r3_c1*r3_c1 + r3_c2*r3_c2 + r3_c3*r3_c3 - 1.0f) > pEpsilon)
+      if (std::abs(r3_c1*r3_c1 + r3_c2*r3_c2 + r3_c3*r3_c3 - 1.0f) > pEpsilon)
       {
         return false;
       }
 
-      float det = Math::determinant(*this);
+      const float det = Math::determinant(*this);
 
-      if (fabsf(det-1.0f) > pEpsilon)
+      if (std::abs(det-1.0f) > pEpsilon)
       {
         return false;
       }
@@ -353,19 +353,19 @@ namespace AL {
       }
 
       Rotation T = Rotation();
-      float t1 =  cosf(pAngle);
-      float t2 =  1.0f - t1;
-      float t3 =  pX*pX;
-      float t6 =  t2*pX;
-      float t7 =  t6*pY;
-      float t8 =  sinf(pAngle);
-      float t9 =  t8*pZ;
-      float t11=  t6*pZ;
-      float t12=  t8*pY;
-      float t15=  pY*pY;
-      float t19=  t2*pY*pZ;
-      float t20=  t8*pX;
-      float t24=  pZ*pZ;
+      const float t1 =  std::cos(pAngle);
+      const float t2 =  1.0f - t1;
+      const float t3 =  pX*pX;
+      const float t6 =  t2*pX;
+      const float t7 =  t6*pY;
+      const float t8 =  std::sin(pAngle);
+      const float t9 =  t8*pZ;
+      const float t11=  t6*pZ;
+      const float t12=  t8*pY;
+      const float t15=  pY*pY;
+      const float t19=  t2*pY*pZ;
+      const float t20=  t8*pX;
+      const float t24=  pZ*pZ;
       T.r1_c1 = t1 + t2 * t3;
       T.r1_c2 = t7 - t9;
       T.r1_c3 = t11+t12;
@@ -396,9 +396,9 @@ namespace AL {
 
     Rotation rotationFromRotX(const float pRotX)
     {
-      float c = cosf(pRotX);
-      float s = sinf(pRotX);
-      Rotation T = Rotation();
+      const float c = std::cos(pRotX);
+      const float s = std::sin(pRotX);
+      Rotation T;
       T.r2_c2 = c;
       T.r2_c3 = -s;
       T.r3_c2 = s;
@@ -409,9 +409,9 @@ namespace AL {
 
     Rotation rotationFromRotY(const float pRotY)
     {
-      float c = cosf(pRotY);
-      float s = sinf(pRotY);
-      Rotation T = Rotation();
+      const float c = std::cos(pRotY);
+      const float s = std::sin(pRotY);
+      Rotation T;
       T.r1_c1 = c;
       T.r1_c3 = s;
       T.r3_c1 = -s;
@@ -422,9 +422,9 @@ namespace AL {
 
     Rotation rotationFromRotZ(const float pRotZ)
     {
-      float c = cosf(pRotZ);
-      float s = sinf(pRotZ);
-      Rotation T = Rotation();
+      const float c = std::cos(pRotZ);
+      const float s = std::sin(pRotZ);
+      Rotation T;
       T.r1_c1 = c;
       T.r1_c2 = -s;
       T.r2_c1 = s;
@@ -438,7 +438,7 @@ namespace AL {
         const float& pWY,
         const float& pWZ)
     {
-      Rotation T = Rotation();
+      Rotation T;
       T  = rotationFromRotZ(pWZ);
       T *= rotationFromRotY(pWY);
       T *= rotationFromRotX(pWX);
@@ -450,7 +450,11 @@ namespace AL {
       const float lEpsilon = 0.0001f;
 
       // z.normalize();
-      float lNorm = sqrtf(powf(pR.r1_c3, 2)+powf(pR.r2_c3, 2)+powf(pR.r3_c3, 2));
+      float lNorm =
+          std::sqrt(std::pow(pR.r1_c3, 2) +
+                    std::pow(pR.r2_c3, 2) +
+                    std::pow(pR.r3_c3, 2));
+
       if (lNorm < lEpsilon)
       {
         std::cerr << "ALMath: WARNING: "
@@ -481,7 +485,10 @@ namespace AL {
       const float x3 = pR.r1_c2*pR.r2_c3 - pR.r2_c2*pR.r1_c3;
 
       // x.normalize();
-      lNorm = sqrtf(powf(x1, 2)+powf(x2, 2)+powf(x3, 2));
+      lNorm = std::sqrt(std::pow(x1, 2) +
+                        std::pow(x2, 2) +
+                        std::pow(x3, 2));
+
       if (lNorm < lEpsilon)
       {
         std::cerr << "ALMath: WARNING: "

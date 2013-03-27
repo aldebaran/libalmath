@@ -81,16 +81,15 @@ namespace AL {
         const float&      pEpsilon) const
     {
       return (// |pQua1 - pQua2| < epsilon
-              (fabsf(w - pQua2.w) < pEpsilon &&
-               fabsf(x - pQua2.x) < pEpsilon &&
-               fabsf(y - pQua2.y) < pEpsilon &&
-               fabsf(z - pQua2.z) < pEpsilon) ||
+              (std::abs(w - pQua2.w) < pEpsilon &&
+               std::abs(x - pQua2.x) < pEpsilon &&
+               std::abs(y - pQua2.y) < pEpsilon &&
+               std::abs(z - pQua2.z) < pEpsilon) ||
               (// |pQua1 + pQua2| < epsilon
-               fabsf(w + pQua2.w) < pEpsilon &&
-               fabsf(x + pQua2.x) < pEpsilon &&
-               fabsf(y + pQua2.y) < pEpsilon &&
-               fabsf(z + pQua2.z) < pEpsilon)
-              );
+               std::abs(w + pQua2.w) < pEpsilon &&
+               std::abs(x + pQua2.x) < pEpsilon &&
+               std::abs(y + pQua2.y) < pEpsilon &&
+               std::abs(z + pQua2.z) < pEpsilon));
     }
 
 
@@ -138,8 +137,8 @@ namespace AL {
     {
       Quaternion qua = Quaternion();
 
-      float sin_a = sinf(0.5f*pAngle);
-      float cos_a = cosf(0.5f*pAngle);
+      const float sin_a = std::sin(0.5f*pAngle);
+      const float cos_a = std::cos(0.5f*pAngle);
 
       qua.w = cos_a;
       qua.x = pAxisX*sin_a;
@@ -189,7 +188,10 @@ namespace AL {
 
     float norm(const Quaternion& p)
     {
-      return sqrtf( (p.w*p.w) + (p.x*p.x) + (p.y*p.y) + (p.z*p.z) );
+      return std::sqrt(std::pow(p.w, 2) +
+                       std::pow(p.x, 2) +
+                       std::pow(p.y, 2) +
+                       std::pow(p.z, 2));
     }
 
     Quaternion normalize(const Quaternion& pQua)
@@ -244,9 +246,9 @@ namespace AL {
       Quaternion copy = pQuaternion;
       copy.normalize();
       pAngle          = 2.0f*acosf(copy.w); // * AL::Math::_2_PI_;
-      float sin_angle = sqrtf(1.0f - powf(copy.w, 2));
+      float sin_angle = std::sqrt(1.0f - std::pow(copy.w, 2));
 
-      if (fabsf(sin_angle) < 0.0005f)
+      if (std::abs(sin_angle) < 0.0005f)
       {
         sin_angle = 1.0f;
       }
@@ -255,7 +257,11 @@ namespace AL {
       pAxisY = copy.y / sin_angle;
       pAxisZ = copy.z / sin_angle;
 
-      float normAxe = sqrtf(powf(pAxisX, 2) + powf(pAxisY, 2) + powf(pAxisZ, 2));
+      const float normAxe =
+          std::sqrt(std::pow(pAxisX, 2) +
+                    std::pow(pAxisY, 2) +
+                    std::pow(pAxisZ, 2));
+
       if (normAxe < 0.0001f)
       {
         pAxisX = 1.0f;

@@ -139,9 +139,9 @@ namespace AL {
         const Rotation3D& pRot2,
         const float&      pEpsilon) const
     {
-      return (fabsf(wx - pRot2.wx) <= pEpsilon &&
-              fabsf(wy - pRot2.wy) <= pEpsilon &&
-              fabsf(wz - pRot2.wz) <= pEpsilon);
+      return (std::abs(wx - pRot2.wx) <= pEpsilon &&
+              std::abs(wy - pRot2.wy) <= pEpsilon &&
+              std::abs(wz - pRot2.wz) <= pEpsilon);
     }
 
 
@@ -165,7 +165,8 @@ namespace AL {
 
     float norm(const Rotation3D& pRot)
     {
-      return sqrtf( (pRot.wx*pRot.wx) + (pRot.wy*pRot.wy) + (pRot.wz*pRot.wz) );
+      return std::sqrt(
+            (pRot.wx*pRot.wx) + (pRot.wy*pRot.wy) + (pRot.wz*pRot.wz));
     }
 
   } // end namespace Math

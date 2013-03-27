@@ -197,12 +197,12 @@ namespace AL
       Pose2D&         pMove)
     {
       // described ellipse parameters
-      float a = fabsf(pMaxFootX);
-      float b = fabsf(pMaxFootY);
-      float a2 = a*a;
-      float b2 = b*b;
+      const float a = std::abs(pMaxFootX);
+      const float b = std::abs(pMaxFootY);
+      const float a2 = std::pow(a, 2);
+      const float b2 = std::pow(b, 2);
 
-      float norm = pMove.x*pMove.x/a2 + pMove.y*pMove.y/b2;
+      const float norm = pMove.x*pMove.x/a2 + pMove.y*pMove.y/b2;
 
       // first compute is point is outside ellipse or not
       if (norm < 1.00001f)
@@ -214,12 +214,12 @@ namespace AL
       {
         // we have to clip pMove
         // compute angle
-        const float theta = atan2(pMove.y, pMove.x);
+        const float theta = std::atan2(pMove.y, pMove.x);
 
         // then compute polar equation
-        const float cosTheta = cosf(theta);
-        const float sinTheta = sinf(theta);
-        const float t = (a*b)/( sqrtf(b2*cosTheta*cosTheta + a2*sinTheta*sinTheta) );
+        const float cosTheta = std::cos(theta);
+        const float sinTheta = std::sin(theta);
+        const float t = (a*b)/(std::sqrt(b2*cosTheta*cosTheta + a2*sinTheta*sinTheta) );
 
         // finally compute new pMove
         pMove.x = t*cosTheta;

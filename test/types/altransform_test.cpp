@@ -27,12 +27,12 @@ TEST(TransformTest, constructor)
   pFloats.at(2)  = 0.0f;
   pFloats.at(3)  = 0.0f;
   pFloats.at(4)  = 0.0f;
-  pFloats.at(5)  = cosf(10.0f*AL::Math::TO_RAD);
-  pFloats.at(6)  = -sinf(10.0f*AL::Math::TO_RAD);
+  pFloats.at(5)  = std::cos(10.0f*AL::Math::TO_RAD);
+  pFloats.at(6)  = -std::sin(10.0f*AL::Math::TO_RAD);
   pFloats.at(7)  = 0.0f;
   pFloats.at(8)  = 0.0f;
-  pFloats.at(9)  = sinf(10.0f*AL::Math::TO_RAD);
-  pFloats.at(10) = cosf(10.0f*AL::Math::TO_RAD);
+  pFloats.at(9)  = std::sin(10.0f*AL::Math::TO_RAD);
+  pFloats.at(10) = std::cos(10.0f*AL::Math::TO_RAD);
   pFloats.at(11) = 0.0f;
   pT = AL::Math::Transform(pFloats);
 
@@ -262,7 +262,7 @@ TEST(TransformTest, norm)
   pH.r1_c4 = -1.0f;
   pH.r2_c4 = -1.0f;
   pH.r3_c4 = -1.0f;
-  EXPECT_NEAR(pH.norm(), sqrtf(3.0f), 0.0001f);
+  EXPECT_NEAR(pH.norm(), std::sqrt(3.0f), 0.0001f);
 }
 
 
@@ -552,7 +552,7 @@ TEST(TransformTest, distance)
 {
   AL::Math::Transform pHIn1 = AL::Math::Transform::fromPosition(1.0f, 1.0f, 1.0f);
   AL::Math::Transform pHIn2 = AL::Math::Transform::fromPosition(0.0f, 0.0f, 0.0f);
-  EXPECT_NEAR(pHIn1.distance(pHIn2), sqrtf(3.0f), 0.0001f);
+  EXPECT_NEAR(pHIn1.distance(pHIn2), std::sqrt(3.0f), 0.0001f);
 }
 
 TEST(TransformTest, Determinant)

@@ -197,7 +197,7 @@ TEST(ALQuaternionTest, creation)
   // function norm
   pQua1 = AL::Math::Quaternion(1.0f, 2.0f, 3.0f, 4.0f);
   float normQua = pQua1.norm();
-  EXPECT_NEAR(normQua, sqrtf(30), 0.0001f);
+  EXPECT_NEAR(normQua, std::sqrt(30.0f), 0.0001f);
 
   // normalize
   // function normalize
@@ -254,17 +254,14 @@ TEST(ALQuaternionTest, creation)
     EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
     bool isSuccess = false;
-    if (((fabsf(angle-pAngleResult) < epsilon) &&
-          (fabsf(pAxeXResult-1.0f) < epsilon) &&
-          (fabsf(pAxeYResult-0.0f) < epsilon) &&
-          (fabsf(pAxeZResult-0.0f) < epsilon)
-          ) ||
-        ((fabsf(angle+pAngleResult) < epsilon) &&
-          (fabsf(pAxeXResult+1.0f) < epsilon) &&
-          (fabsf(pAxeYResult+0.0f) < epsilon) &&
-          (fabsf(pAxeZResult+0.0f) < epsilon)
-          )
-        )
+    if (((std::abs(angle-pAngleResult) < epsilon) &&
+          (std::abs(pAxeXResult-1.0f) < epsilon) &&
+          (std::abs(pAxeYResult-0.0f) < epsilon) &&
+          (std::abs(pAxeZResult-0.0f) < epsilon)) ||
+        ((std::abs(angle+pAngleResult) < epsilon) &&
+          (std::abs(pAxeXResult+1.0f) < epsilon) &&
+          (std::abs(pAxeYResult+0.0f) < epsilon) &&
+          (std::abs(pAxeZResult+0.0f) < epsilon)))
     {
       isSuccess = true;
     }
@@ -284,15 +281,14 @@ TEST(ALQuaternionTest, creation)
     EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
     EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
-    if (((fabsf(angle-pAngleResult) < epsilon) &&
-         (fabsf(pAxeXResult-0.0f) < epsilon) &&
-         (fabsf(pAxeYResult-1.0f) < epsilon) &&
-         (fabsf(pAxeZResult-0.0f) < epsilon)
-         ) ||
-        ((fabsf(angle+pAngleResult) < epsilon) &&
-         (fabsf(pAxeXResult+0.0f) < epsilon) &&
-         (fabsf(pAxeYResult+1.0f) < epsilon) &&
-         (fabsf(pAxeZResult+0.0f) < epsilon)
+    if (((std::abs(angle-pAngleResult) < epsilon) &&
+         (std::abs(pAxeXResult-0.0f) < epsilon) &&
+         (std::abs(pAxeYResult-1.0f) < epsilon) &&
+         (std::abs(pAxeZResult-0.0f) < epsilon)) ||
+        ((std::abs(angle+pAngleResult) < epsilon) &&
+         (std::abs(pAxeXResult+0.0f) < epsilon) &&
+         (std::abs(pAxeYResult+1.0f) < epsilon) &&
+         (std::abs(pAxeZResult+0.0f) < epsilon)
          )
         )
     {
@@ -304,7 +300,7 @@ TEST(ALQuaternionTest, creation)
     }
 
     // Identity special case
-    if (fabsf(angle) < epsilon)
+    if (std::abs(angle) < epsilon)
     {
       isSuccess = true;
     }
@@ -321,17 +317,14 @@ TEST(ALQuaternionTest, creation)
     EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
     EXPECT_NEAR(result.at(3), pAxeZResult, epsilon);
 
-    if (((fabsf(angle-pAngleResult) < epsilon) &&
-          (fabsf(pAxeXResult-0.0f) < epsilon) &&
-          (fabsf(pAxeYResult-0.0f) < epsilon) &&
-          (fabsf(pAxeZResult-1.0f) < epsilon)
-          ) ||
-        ((fabsf(angle+pAngleResult) < epsilon) &&
-          (fabsf(pAxeXResult+0.0f) < epsilon) &&
-          (fabsf(pAxeYResult+0.0f) < epsilon) &&
-          (fabsf(pAxeZResult+1.0f) < epsilon)
-          )
-        )
+    if (((std::abs(angle-pAngleResult) < epsilon) &&
+          (std::abs(pAxeXResult-0.0f) < epsilon) &&
+          (std::abs(pAxeYResult-0.0f) < epsilon) &&
+          (std::abs(pAxeZResult-1.0f) < epsilon)) ||
+        ((std::abs(angle+pAngleResult) < epsilon) &&
+          (std::abs(pAxeXResult+0.0f) < epsilon) &&
+          (std::abs(pAxeYResult+0.0f) < epsilon) &&
+          (std::abs(pAxeZResult+1.0f) < epsilon)))
     {
       isSuccess = true;
     }
@@ -340,7 +333,7 @@ TEST(ALQuaternionTest, creation)
       isSuccess = false;
     }
     // Identity special case
-    if (fabsf(angle) < epsilon)
+    if (std::abs(angle) < epsilon)
     {
       isSuccess = true;
     }

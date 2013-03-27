@@ -71,15 +71,15 @@ namespace AL {
         const Transform& pH,
         Velocity6D&      pVOut)
     {
-      float epsilon = 0.001f; // new
+      const float epsilon = 0.001f; // new
 
       // square root of sum of squares of the elements
-      float si = 0.5f*sqrtf( (pH.r3_c2 - pH.r2_c3)*(pH.r3_c2 - pH.r2_c3) +
+      const float si = 0.5f*std::sqrt((pH.r3_c2 - pH.r2_c3)*(pH.r3_c2 - pH.r2_c3) +
                              (pH.r1_c3 - pH.r3_c1)*(pH.r1_c3 - pH.r3_c1) +
                              (pH.r2_c1 - pH.r1_c2)*(pH.r2_c1 - pH.r1_c2) );
-      float co = 0.5f*( pH.r1_c1 + pH.r2_c2 + pH.r3_c3 - 1.0f);
+      const float co = 0.5f*(pH.r1_c1 + pH.r2_c2 + pH.r3_c3 - 1.0f);
 
-      float angle = atan2f(si, co);// arctan(sin/cos)
+      const float angle = std::atan2(si, co);// arctan(sin/cos)
 
       float coeff  = 0.0f;
       float lambda = 0.0f;
@@ -145,7 +145,7 @@ namespace AL {
         pVOut.wzd = coeff * (pH.r2_c1 - pH.r1_c2);
       }
 
-      float coeff_2 = powf(coeff, 2);
+      const float coeff_2 = std::pow(coeff, 2);
 
       if (angle < epsilon) // 0.001f epsilon
       {
@@ -201,15 +201,15 @@ namespace AL {
     {
       float t;
       // square root of sum of squares of the elements (w.norm_Frobenius())
-      t = sqrtf(pM.wxd*pM.wxd + pM.wyd*pM.wyd + pM.wzd*pM.wzd);
+      t = std::sqrt(pM.wxd*pM.wxd + pM.wyd*pM.wyd + pM.wzd*pM.wzd);
 
-      float CC, SC, dSC;
+      float CC = 0.0f, SC = 0.0f, dSC = 0.0f;
 
       if (t >= 0.001f) // seuil
       {
-        CC  = (1-cosf(t)) / (t*t); // motionCos cardinal cosinus
-        SC  = sinf(t) / t;       // motionSin cardinal sinus
-        dSC = (t-sinf(t)) / powf(t, 3); // motionSin cardinal sinus derivative powf
+        CC  = (1-std::cos(t)) / (t*t); // motionCos cardinal cosinus
+        SC  = std::sin(t) / t;       // motionSin cardinal sinus
+        dSC = (t-std::sin(t)) / std::pow(t, 3); // motionSin cardinal sinus derivative std::pow
       }
       else
       {
@@ -219,15 +219,15 @@ namespace AL {
       }
 
       // Maxima
-      tM.r1_c1 = 1 - CC*(pM.wzd*pM.wzd + pM.wyd*pM.wyd);
+      tM.r1_c1 = 1.0f - CC*(pM.wzd*pM.wzd + pM.wyd*pM.wyd);
       tM.r1_c2 =   - SC*pM.wzd  + CC*pM.wxd*pM.wyd;
       tM.r1_c3 =     SC*pM.wyd  + CC*pM.wxd*pM.wzd;
       tM.r2_c1 =     SC*pM.wzd  + CC*pM.wxd*pM.wyd;
-      tM.r2_c2 = 1 - CC*(pM.wxd*pM.wxd + pM.wzd*pM.wzd);
+      tM.r2_c2 = 1.0f - CC*(pM.wxd*pM.wxd + pM.wzd*pM.wzd);
       tM.r2_c3 =   - SC*pM.wxd  + CC*pM.wyd*pM.wzd;
       tM.r3_c1 =   - SC*pM.wyd  + CC*pM.wxd*pM.wzd;
       tM.r3_c2 =     SC*pM.wxd  + CC*pM.wyd*pM.wzd;
-      tM.r3_c3 = 1 - CC*(pM.wxd*pM.wxd + pM.wyd*pM.wyd);
+      tM.r3_c3 = 1.0f - CC*(pM.wxd*pM.wxd + pM.wyd*pM.wyd);
 
       tM.r1_c4 = (SC + dSC*pM.wxd*pM.wxd)*pM.xd +
                  (-CC*pM.wzd + dSC*pM.wxd*pM.wyd)*pM.yd +
@@ -514,11 +514,11 @@ namespace AL {
       pPos.x = pT.r1_c4;
       pPos.y = pT.r2_c4;
       pPos.z = pT.r3_c4;
-      pPos.wz = atan2(pT.r2_c1, pT.r1_c1);
-      float sy = sinf(pPos.wz);
-      float cy = cosf(pPos.wz);
-      pPos.wy = atan2(-pT.r3_c1, cy*pT.r1_c1+sy*pT.r2_c1);
-      pPos.wx = atan2(sy*pT.r1_c3-cy*pT.r2_c3, cy*pT.r2_c2-sy*pT.r1_c2);
+      pPos.wz = std::atan2(pT.r2_c1, pT.r1_c1);
+      const float sy = std::sin(pPos.wz);
+      const float cy = std::cos(pPos.wz);
+      pPos.wy = std::atan2(-pT.r3_c1, cy*pT.r1_c1+sy*pT.r2_c1);
+      pPos.wx = std::atan2(sy*pT.r1_c3-cy*pT.r2_c3, cy*pT.r2_c2-sy*pT.r1_c2);
     }
 
 
@@ -553,7 +553,7 @@ namespace AL {
     {
       pPos.x = pT.r1_c4;
       pPos.y = pT.r2_c4;
-      pPos.theta = atan2(pT.r2_c1, pT.r1_c1);
+      pPos.theta = std::atan2(pT.r2_c1, pT.r1_c1);
     }
 
 
@@ -639,11 +639,11 @@ namespace AL {
     Rotation3D rotation3DFromTransform(const Transform& pT)
     {
       Rotation3D R;
-      R.wz = atan2(pT.r2_c1,pT.r1_c1);
-      float sy = sinf(R.wz);
-      float cy = cosf(R.wz);
-      R.wy = atan2(-pT.r3_c1, cy*pT.r1_c1+sy*pT.r2_c1);
-      R.wx = atan2(sy*pT.r1_c3-cy*pT.r2_c3, cy*pT.r2_c2-sy*pT.r1_c2);
+      R.wz = std::atan2(pT.r2_c1,pT.r1_c1);
+      const float sy = std::sin(R.wz);
+      const float cy = std::cos(R.wz);
+      R.wy = std::atan2(-pT.r3_c1, cy*pT.r1_c1+sy*pT.r2_c1);
+      R.wx = std::atan2(sy*pT.r1_c3-cy*pT.r2_c3, cy*pT.r2_c2-sy*pT.r1_c2);
       return R;
     }
 
@@ -651,11 +651,11 @@ namespace AL {
     Rotation3D rotation3DFromRotation(const Rotation& pR)
     {
       Rotation3D R;
-      R.wz = atan2(pR.r2_c1,pR.r1_c1);
-      float sy = sinf(R.wz);
-      float cy = cosf(R.wz);
-      R.wy = atan2(-pR.r3_c1, cy*pR.r1_c1+sy*pR.r2_c1);
-      R.wx = atan2(sy*pR.r1_c3-cy*pR.r2_c3, cy*pR.r2_c2-sy*pR.r1_c2);
+      R.wz = std::atan2(pR.r2_c1,pR.r1_c1);
+      const float sy = std::sin(R.wz);
+      const float cy = std::cos(R.wz);
+      R.wy = std::atan2(-pR.r3_c1, cy*pR.r1_c1+sy*pR.r2_c1);
+      R.wx = std::atan2(sy*pR.r1_c3-cy*pR.r2_c3, cy*pR.r2_c2-sy*pR.r1_c2);
       return R;
     }
 
@@ -731,26 +731,26 @@ namespace AL {
       float y = inw * pAxis.y;
       float z = inw * pAxis.z;
 
-      float x_2 = powf(x, 2);
-      float y_2 = powf(y, 2);
-      float z_2 = powf(z, 2);
+      const float x_2 = std::pow(x, 2);
+      const float y_2 = std::pow(y, 2);
+      const float z_2 = std::pow(z, 2);
 
-      float a =
+      const float a =
           x*(pRot.r2_c3 - z*(x*pRot.r2_c1 + y*pRot.r2_c2 + z*pRot.r2_c3)) +
           y*(pRot.r3_c1 - x*(x*pRot.r3_c1 + y*pRot.r3_c2 + z*pRot.r3_c2)) +
           z*(pRot.r1_c2 - y*(x*pRot.r1_c1 + y*pRot.r1_c2 + z*pRot.r1_c3));
 
-      float b =
+      const float b =
           x*(-pRot.r3_c1*z + pRot.r3_c3*x) +
           y*( pRot.r1_c1*y - pRot.r1_c2*x) +
           z*( pRot.r2_c2*z - pRot.r2_c3*y);
 
-      float c =
+      const float c =
           x*(z*x*pRot.r2_c1 + z*y*pRot.r2_c2 + z*z*pRot.r2_c3) +
           y*(x*x*pRot.r3_c1 + x*y*pRot.r3_c2 + x*z*pRot.r3_c3) +
           z*(y*x*pRot.r1_c1 + y*y*pRot.r1_c2 + y*z*pRot.r1_c3);
 
-      float d2 = a*a + b*b - c*c;
+      const float d2 = a*a + b*b - c*c;
 
       if (d2<0)
       {
@@ -759,16 +759,16 @@ namespace AL {
         return;
       }
 
-      float alpha  = atan2f( b , a );
-      float beta   = acosf( c / sqrtf( a*a + b*b ) );
+      const float alpha  = std::atan2(b, a);
+      const float beta   = std::acos( c / std::sqrt( a*a + b*b ) );
 
-      float cos_1 = 1.0f - cosf( alpha + beta );
-      float cos_2 = 1.0f - cosf( alpha - beta );
+      const float cos_1 = 1.0f - std::cos( alpha + beta );
+      const float cos_2 = 1.0f - std::cos( alpha - beta );
 
-      float sin_1 = sinf( alpha + beta );
-      float sin_2 = sinf( alpha - beta );
+      const float sin_1 = std::sin( alpha + beta );
+      const float sin_2 = std::sin( alpha - beta );
 
-      float trace_1 = pRot.r1_c1*( cos_1*( - z_2 - y_2 ) + 1.0f ) +
+      const float trace_1 = pRot.r1_c1*( cos_1*( - z_2 - y_2 ) + 1.0f ) +
                       pRot.r2_c2*( cos_1*( - z_2 - x_2 ) + 1.0f ) +
                       pRot.r3_c2*( cos_1*y*z + sin_1*x ) +
                       pRot.r2_c3*( cos_1*y*z - sin_1*x ) +
@@ -778,7 +778,7 @@ namespace AL {
                       pRot.r1_c2*( cos_1*x*y - sin_1*z ) +
                       pRot.r3_c3*( cos_1*( - y_2 - x_2 ) + 1.0f );
 
-      float trace_2 = pRot.r1_c1*( cos_2*( - z_2 - y_2 ) + 1.0f ) +
+      const float trace_2 = pRot.r1_c1*( cos_2*( - z_2 - y_2 ) + 1.0f ) +
                       pRot.r2_c2*( cos_2*( - z_2 - x_2 ) + 1.0f ) +
                       pRot.r3_c2*( cos_2*y*z + sin_2*x ) +
                       pRot.r2_c3*( cos_2*y*z - sin_2*x ) +
@@ -830,30 +830,30 @@ namespace AL {
 
       inw = 1.0f/inw;
 
-      float x = inw * pAxis.x;
-      float y = inw * pAxis.y;
-      float z = inw * pAxis.z;
+      const float x = inw * pAxis.x;
+      const float y = inw * pAxis.y;
+      const float z = inw * pAxis.z;
 
-      float x_2 = powf(x, 2);
-      float y_2 = powf(y, 2);
-      float z_2 = powf(z, 2);
+      const float x_2 = std::pow(x, 2);
+      const float y_2 = std::pow(y, 2);
+      const float z_2 = std::pow(z, 2);
 
-      float a =
+      const float a =
           x*(pH.r2_c3 - z*(x*pH.r2_c1 + y*pH.r2_c2 + z*pH.r2_c3)) +
           y*(pH.r3_c1 - x*(x*pH.r3_c1 + y*pH.r3_c2 + z*pH.r3_c2)) +
           z*(pH.r1_c2 - y*(x*pH.r1_c1 + y*pH.r1_c2 + z*pH.r1_c3));
 
-      float b =
+      const float b =
           x*(-pH.r3_c1*z + pH.r3_c3*x) +
           y*( pH.r1_c1*y - pH.r1_c2*x) +
           z*( pH.r2_c2*z - pH.r2_c3*y);
 
-      float c =
+      const float c =
           x*(z*x*pH.r2_c1 + z*y*pH.r2_c2 + z*z*pH.r2_c3) +
           y*(x*x*pH.r3_c1 + x*y*pH.r3_c2 + x*z*pH.r3_c3) +
           z*(y*x*pH.r1_c1 + y*y*pH.r1_c2 + y*z*pH.r1_c3);
 
-      float d2 = a*a + b*b - c*c;
+      const float d2 = a*a + b*b - c*c;
 
       if (d2<0)
       {
@@ -862,16 +862,16 @@ namespace AL {
         return;
       }
 
-      float alpha  = atan2f(b, a);
-      float beta   = acosf(c / sqrtf( a*a + b*b ));
+      const float alpha  = std::atan2(b, a);
+      const float beta   = std::acos(c / std::sqrt( a*a + b*b ));
 
-      float cos_1 = 1.0f - cosf( alpha + beta );
-      float cos_2 = 1.0f - cosf( alpha - beta );
+      const float cos_1 = 1.0f - std::cos( alpha + beta );
+      const float cos_2 = 1.0f - std::cos( alpha - beta );
 
-      float sin_1 = sinf( alpha + beta );
-      float sin_2 = sinf( alpha - beta );
+      const float sin_1 = std::sin(alpha + beta);
+      const float sin_2 = std::sin(alpha - beta);
 
-      float trace_1 = pH.r1_c1*( cos_1*( - z_2 - y_2 ) + 1.0f ) +
+      const float trace_1 = pH.r1_c1*( cos_1*( - z_2 - y_2 ) + 1.0f ) +
                       pH.r2_c2*( cos_1*( - z_2 - x_2 ) + 1.0f ) +
                       pH.r3_c2*( cos_1*y*z + sin_1*x ) +
                       pH.r2_c3*( cos_1*y*z - sin_1*x ) +
@@ -881,7 +881,7 @@ namespace AL {
                       pH.r1_c2*( cos_1*x*y - sin_1*z ) +
                       pH.r3_c3*( cos_1*( - y_2 - x_2 ) + 1.0f );
 
-      float trace_2 = pH.r1_c1*( cos_2*( - z_2 - y_2 ) + 1.0f ) +
+      const float trace_2 = pH.r1_c1*( cos_2*( - z_2 - y_2 ) + 1.0f ) +
                       pH.r2_c2*( cos_2*( - z_2 - x_2 ) + 1.0f ) +
                       pH.r3_c2*( cos_2*y*z + sin_2*x ) +
                       pH.r2_c3*( cos_2*y*z - sin_2*x ) +
@@ -929,8 +929,8 @@ namespace AL {
       // Usefull initialization
       pT = AL::Math::Transform();
 
-      float c = cosf(pTheta);
-      float s = sinf(pTheta);
+      const float c = std::cos(pTheta);
+      const float s = std::sin(pTheta);
 
       pT.r1_c4 = pM.x;
       pT.r2_c4 = pM.y;
@@ -1020,11 +1020,11 @@ namespace AL {
       AL::Math::Position3D axis3 = pAxis/norm(pAxis);
 
       const float coef = 0.0001f;
-      if (fabsf(axis3.x)> coef)
+      if (std::abs(axis3.x)> coef)
       {
         axis = AL::Math::Position3D(-axis3.y, axis3.x, 0.0f);
       }
-      else if (fabsf(axis3.y)> coef)
+      else if (std::abs(axis3.y)> coef)
       {
         axis = AL::Math::Position3D(0.0f, -axis3.z, axis3.y);
       }
@@ -1063,17 +1063,17 @@ namespace AL {
     {
       Transform tfOut;
 
-      tfOut.r1_c1 = 1.0f - 2.0f*(powf(pQua.y, 2) + powf(pQua.z, 2));
+      tfOut.r1_c1 = 1.0f - 2.0f*(std::pow(pQua.y, 2) + std::pow(pQua.z, 2));
       tfOut.r1_c2 = 2.0f*(pQua.x*pQua.y - pQua.z*pQua.w);
       tfOut.r1_c3 = 2.0f*(pQua.x*pQua.z + pQua.y*pQua.w);
 
       tfOut.r2_c1 = 2.0f*(pQua.x*pQua.y + pQua.z*pQua.w);
-      tfOut.r2_c2 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.z, 2));
+      tfOut.r2_c2 = 1.0f - 2.0f*(std::pow(pQua.x, 2) + std::pow(pQua.z, 2));
       tfOut.r2_c3 = 2.0f*(pQua.y*pQua.z - pQua.x*pQua.w);
 
       tfOut.r3_c1 = 2.0f*(pQua.x*pQua.z - pQua.y*pQua.w);
       tfOut.r3_c2 = 2.0f*(pQua.y*pQua.z + pQua.x*pQua.w);
-      tfOut.r3_c3 = 1.0f - 2.0f*(powf(pQua.x, 2) + powf(pQua.y, 2));
+      tfOut.r3_c3 = 1.0f - 2.0f*(std::pow(pQua.x, 2) + std::pow(pQua.y, 2));
 
       return tfOut;
     }
@@ -1090,8 +1090,6 @@ namespace AL {
       //   homogeneous transform T.
       //
       //   See also: Q2TR
-
-      Quaternion quaOut;
 
       float kx = pT.r3_c2 - pT.r2_c3; // Oz - Ay
       float ky = pT.r1_c3 - pT.r3_c1; // Ax - Nz
@@ -1137,11 +1135,11 @@ namespace AL {
         kz = kz - kz1;
       }
 
-      float nm = sqrtf(powf(kx,2) + powf(ky,2) + powf(kz,2));
+      const float nm = std::sqrt(std::pow(kx, 2) + std::pow(ky, 2) + std::pow(kz, 2));
 
       if (nm == 0.0f)
       {
-        quaOut = Quaternion();
+        return Quaternion();
       }
       else
       {
@@ -1151,11 +1149,10 @@ namespace AL {
           trace = 0.0f;
         }
 
-        float qs = 0.5f*sqrtf(trace);
-        float s = sqrtf(1.0f - powf(qs,2)) / nm;
-        quaOut = Quaternion(qs, s*kx, s*ky, s*kz);
+        const float qs = 0.5f*std::sqrt(trace);
+        const float s = std::sqrt(1.0f - std::pow(qs, 2)) / nm;
+        return Quaternion(qs, s*kx, s*ky, s*kz);
       }
-      return quaOut;
     } // end quaternionFromTransform
 
 
