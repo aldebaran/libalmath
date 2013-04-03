@@ -245,7 +245,7 @@ namespace AL {
     {
       Quaternion copy = pQuaternion;
       copy.normalize();
-      pAngle          = 2.0f*acosf(copy.w); // * AL::Math::_2_PI_;
+      pAngle          = 2.0f*std::acos(copy.w); // * AL::Math::_2_PI_;
       float sin_angle = std::sqrt(1.0f - std::pow(copy.w, 2));
 
       if (std::abs(sin_angle) < 0.0005f)
