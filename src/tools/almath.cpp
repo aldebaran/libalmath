@@ -90,25 +90,23 @@ namespace AL
 
     Position6D position6DFromVelocity6D(const Velocity6D& pVel)
     {
-      Position6D pos;
-      pos.x  = pVel.xd;
-      pos.y  = pVel.yd;
-      pos.z  = pVel.zd;
-      pos.wx = pVel.wxd;
-      pos.wy = pVel.wyd;
-      pos.wz = pVel.wzd;
-      return pos;
+      return Position6D(
+            pVel.xd,
+            pVel.yd,
+            pVel.zd,
+            pVel.wxd,
+            pVel.wyd,
+            pVel.wzd);
     }
 
     Position3D operator*(
       const Rotation&   pRot,
       const Position3D& pPos)
     {
-      Position3D result;
-      result.x = (pRot.r1_c1 * pPos.x) + (pRot.r1_c2 * pPos.y) + (pRot.r1_c3 * pPos.z);
-      result.y = (pRot.r2_c1 * pPos.x) + (pRot.r2_c2 * pPos.y) + (pRot.r2_c3 * pPos.z);
-      result.z = (pRot.r3_c1 * pPos.x) + (pRot.r3_c2 * pPos.y) + (pRot.r3_c3 * pPos.z);
-      return result;
+      return Position3D(
+            pRot.r1_c1*pPos.x + pRot.r1_c2*pPos.y + pRot.r1_c3*pPos.z,
+            pRot.r2_c1*pPos.x + pRot.r2_c2*pPos.y + pRot.r2_c3*pPos.z,
+            pRot.r3_c1*pPos.x + pRot.r3_c2*pPos.y + pRot.r3_c3*pPos.z);
     }
 
     Position3D operator*(
@@ -137,25 +135,23 @@ namespace AL
       const float       pVal,
       const Position6D& pPos)
     {
-      Velocity6D pVel;
-      pVel.xd  = pVal * pPos.x;
-      pVel.yd  = pVal * pPos.y;
-      pVel.zd  = pVal * pPos.z;
-      pVel.wxd = pVal * pPos.wx;
-      pVel.wyd = pVal * pPos.wy;
-      pVel.wzd = pVal * pPos.wz;
-      return pVel;
+      return Velocity6D(
+            pVal * pPos.x,
+            pVal * pPos.y,
+            pVal * pPos.z,
+            pVal * pPos.wx,
+            pVal * pPos.wy,
+            pVal * pPos.wz);
     }
 
     Velocity3D operator*(
       const float       pVal,
       const Position3D& pPos)
     {
-      Velocity3D pVel;
-      pVel.xd  = pVal * pPos.x;
-      pVel.yd  = pVal * pPos.y;
-      pVel.zd  = pVal * pPos.z;
-      return pVel;
+      return Velocity3D(
+            pVal * pPos.x,
+            pVal * pPos.y,
+            pVal * pPos.z);
     }
 
     AL::Math::Rotation rotationFromAngleDirection(
@@ -181,9 +177,7 @@ namespace AL
 
     Position2D position2DFromPose2D(const Pose2D& pPose2d)
     {
-      Position2D position2d;
-      position2DFromPose2DInPlace(pPose2d, position2d);
-      return position2d;
+      return Position2D(pPose2d.x, pPose2d.y);
     }
 
 
@@ -191,17 +185,48 @@ namespace AL
         const Pose2D& pPose2d,
         Position6D&   pPose6d)
     {
-      pPose6d = Position6D(pPose2d.x, pPose2d.y, 0.0f, 0.0f, 0.0f, pPose2d.theta);
+      pPose6d.x  = pPose2d.x;
+      pPose6d.y  = pPose2d.y;
+      pPose6d.z  = 0.0f;
+      pPose6d.wx = 0.0f;
+      pPose6d.wy = 0.0f;
+      pPose6d.wz = pPose2d.theta;
     }
 
 
     Position6D position6DFromPose2D(const Pose2D& pPose2d)
     {
-      Position6D pose6d = Position6D();
-      position6DFromPose2DInPlace(pPose2d, pose6d);
-      return pose6d;
+      return Position6D(
+            pPose2d.x,
+            pPose2d.y,
+            0.0f,
+            0.0f,
+            0.0f,
+            pPose2d.theta);
     }
 
+
+    void position6DFromPosition3DInPlace(
+        const Position3D& pPosition3D,
+        Position6D&       pPosition6D)
+    {
+      pPosition6D.x  = pPosition3D.x;
+      pPosition6D.y  = pPosition3D.y;
+      pPosition6D.z  = pPosition3D.z;
+      pPosition6D.wx = 0.0f;
+      pPosition6D.wy = 0.0f;
+      pPosition6D.wz = 0.0f;
+    }
+
+    Position6D position6DFromPosition3D(const Position3D& pPosition3D)
+    {
+      return Position6D(pPosition3D.x,
+                        pPosition3D.y,
+                        pPosition3D.z,
+                        0.0f,
+                        0.0f,
+                        0.0f);
+    }
 
     void pose2DFromPosition6DInPlace(
         const Position6D& pPose6d,
@@ -215,9 +240,7 @@ namespace AL
 
     Pose2D pose2DFromPosition6D(const Position6D& pPose6d)
     {
-      Pose2D pPose2d;
-      AL::Math::pose2DFromPosition6DInPlace(pPose6d, pPose2d);
-      return pPose2d;
+      return Pose2D(pPose6d.x, pPose6d.y, pPose6d.wz);
     }
 
 
@@ -235,9 +258,7 @@ namespace AL
     Pose2D pose2DFromPosition2D(const Position2D& pPosition2d,
                                 const float       pAngle)
     {
-      Pose2D pPose2d;
-      AL::Math::pose2DFromPosition2DInPlace(pPosition2d, pAngle, pPose2d);
-      return pPose2d;
+      return Pose2D(pPosition2d.x, pPosition2d.y, pAngle);
     }
 
 

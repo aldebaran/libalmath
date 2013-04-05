@@ -161,6 +161,17 @@ TEST(ALMathTest, position2DFromPose2D)
   EXPECT_TRUE(pPose2dResult.isNear(pPos2dExpected, 0.0001f));
 }
 
+TEST(ALMathTest, pose2DFromPosition2DInPlace)
+{
+  const AL::Math::Position2D pPosition2d(0.1f, 0.2f);
+  const AL::Math::Pose2D pPos2dExpected(0.1f, 0.2f, 0.5f);
+
+  AL::Math::Pose2D pPose2dResult = AL::Math::Pose2D(10.0f, 20.0f, 30.0f);
+  AL::Math::pose2DFromPosition2DInPlace(pPosition2d, 0.5f, pPose2dResult);
+
+  EXPECT_TRUE(pPose2dResult.isNear(pPos2dExpected, 0.0001f));
+}
+
 TEST(ALMathTest, pose2DFromPosition2D)
 {
   const AL::Math::Position2D pPosition2d(0.1f, 0.2f);
@@ -183,12 +194,24 @@ TEST(ALMathTest, pose2DFromPosition2D)
 
 TEST(ALMathTest, Position6DFromVelocity6D)
 {
-  AL::Math::Velocity6D pVIn    = AL::Math::Velocity6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
-  AL::Math::Position6D pPosIn  = AL::Math::position6DFromVelocity6D(pVIn);
+  const AL::Math::Velocity6D pVIn =
+      AL::Math::Velocity6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
+  const AL::Math::Position6D pPosIn =
+      AL::Math::position6DFromVelocity6D(pVIn);
 
-  AL::Math::Position6D pPosOut = AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
+  const AL::Math::Position6D pPosOut =
+      AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
 
   EXPECT_TRUE(pPosIn.isNear(pPosOut, 0.0001f));
+}
+
+TEST(ALMathTest, position2DFromPose2DInPlace)
+{
+  const AL::Math::Pose2D pose2D = AL::Math::Pose2D(1.0f, 2.0f, 3.0f);
+  AL::Math::Position2D position2D = AL::Math::Position2D(10.0f, 20.0f);
+
+  AL::Math::position2DFromPose2DInPlace(pose2D, position2D);
+  EXPECT_TRUE(position2D.isNear(AL::Math::Position2D(1.0f, 2.0f), 0.0001f));
 }
 
 
@@ -334,10 +357,12 @@ TEST(ALMathTest, quaternionOperator)
 
 TEST(ALMathTest, position6DFromPose2DInPlace)
 {
-  AL::Math::Pose2D pPose2d = AL::Math::Pose2D(0.1f, 0.2f, 0.3f);
-  AL::Math::Position6D pPose6dExpected = AL::Math::Position6D(0.1f, 0.2f, 0.0f, 0.0f, 0.0f, 0.3f);
+  const AL::Math::Pose2D pPose2d = AL::Math::Pose2D(0.1f, 0.2f, 0.3f);
+  const AL::Math::Position6D pPose6dExpected =
+      AL::Math::Position6D(0.1f, 0.2f, 0.0f, 0.0f, 0.0f, 0.3f);
 
-  AL::Math::Position6D pPose6dComputed;
+  AL::Math::Position6D pPose6dComputed =
+      AL::Math::Position6D(10.0f, 10.0f, 10.0f, 10.0f, 10.0f, 10.0f);
   AL::Math::position6DFromPose2DInPlace(
         pPose2d,
         pPose6dComputed);
@@ -375,6 +400,33 @@ TEST(ALMathTest, pose2DFromPosition6D)
 
   EXPECT_TRUE(pPose2dComputed.isNear(pPose2dExpected, 0.0001f));
 }
+
+TEST(ALMathTest, position6DFromPosition3DInPlace)
+{
+  const AL::Math::Position3D position3D =
+      AL::Math::Position3D(0.1f, 0.2f, 0.3f);
+
+  AL::Math::Position6D position6D =
+      AL::Math::Position6D(10.1f, 10.2f, 10.0f, 10.0f, 10.0f, 10.3f);
+
+  AL::Math::position6DFromPosition3DInPlace(position3D, position6D);
+
+  EXPECT_TRUE(position6D.isNear(
+                AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.0f, 0.0f, 0.0f), 0.0001f));
+}
+
+TEST(ALMathTest, position6DFromPosition3D)
+{
+  const AL::Math::Position3D position3D =
+      AL::Math::Position3D(0.1f, 0.2f, 0.3f);
+
+  const AL::Math::Position6D position6D =
+      AL::Math::position6DFromPosition3D(position3D);
+
+  EXPECT_TRUE(position6D.isNear(
+                AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.0f, 0.0f, 0.0f), 0.0001f));
+}
+
 
 TEST(ALMathTest, multiplicationPose2DPosition2D)
 {

@@ -289,6 +289,24 @@ namespace AL {
     Position6D position6DFromPose2D(const Pose2D& pPose2d);
 
     /// <summary>
+    /// Compute a Position6D from a Position3D.
+    /// </summary>
+    /// <param name = "pPosition3D"> the Position3D to extract </param>
+    /// <param name = "pPosition6D"> the result Position6D </param>
+    /// \ingroup Tools
+    void position6DFromPosition3DInPlace(
+        const Position3D& pPosition3D,
+        Position6D&   pPosition6D);
+
+    /// <summary>
+    /// Create a Position6D from a Position3D.
+    /// </summary>
+    /// <param name = "pPosition3d"> the position3D you want to extract </param>
+    /// <returns> the result Position6D </returns>
+    /// \ingroup Tools
+    Position6D position6DFromPosition3D(const Position3D& pPosition3D);
+
+    /// <summary>
     /// Compute a Pose2D from a Position6D.
     /// </summary>
     /// <param name = "pPose6d"> the Position6D you want to extract </param>
