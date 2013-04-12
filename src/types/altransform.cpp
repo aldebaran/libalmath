@@ -608,8 +608,7 @@ namespace AL {
       const float& pWY,
       const float& pWZ)
     {
-      Transform T;
-      T  = transformFromRotZ(pWZ);
+      Transform T = transformFromRotZ(pWZ);
       T *= transformFromRotY(pWY);
       T *= transformFromRotX(pWX);
       return T;

@@ -604,6 +604,19 @@ TEST(TransformTest, strangeConstruction)
  EXPECT_TRUE(pH.isNear(AL::Math::Transform()));
 }
 
+TEST(TransformTest, transformFromPosition)
+{
+  const float lEpsilon = 0.00001f;
+  const AL::Math::Transform tf0 = AL::Math::transformFromPosition(0.1f, 0.2f, 0.3f);
+  const AL::Math::Transform tf1 = AL::Math::Transform::fromPosition(0.1f, 0.2f, 0.3f);
+
+  EXPECT_TRUE(tf0.isNear(tf1, lEpsilon));
+  EXPECT_NEAR(tf0.r1_c4, 0.1f, lEpsilon);
+  EXPECT_NEAR(tf0.r2_c4, 0.2f, lEpsilon);
+  EXPECT_NEAR(tf0.r3_c4, 0.3f, lEpsilon);
+}
+
+
 TEST(TransformTest, normalizeTransform)
 {
   AL::Math::Transform tf1;
