@@ -123,12 +123,12 @@ namespace AL {
     /// Compute a Position2D from a Pose2D.
     /// The theta member of the Pose2D is not taken into account.
     /// </summary>
-    /// <param name = "pPose2d"> the Pose2D to extract </param>
-    /// <param name = "pPosition2d"> the result Position2D </param>
+    /// <param name = "pPose2D"> the Pose2D to extract </param>
+    /// <param name = "pPosition2D"> the result Position2D </param>
     /// \ingroup Tools
     void position2DFromPose2DInPlace(
-        const Pose2D& pPose2d,
-        Position2D&   pPosition2d);
+        const Pose2D& pPose2D,
+        Position2D&   pPosition2D);
 
     /// <summary>
     /// Create a Position2D from a Pose2D
@@ -140,12 +140,12 @@ namespace AL {
       */
     ///
     /// </summary>
-    /// <param name="pPose2d"> the given Pose2D </param>
+    /// <param name="pPose2D"> the given Pose2D </param>
     /// <returns>
     /// the Position2D result.
     /// </returns>
     /// \ingroup Tools
-    Position2D position2DFromPose2D(const Pose2D& pPose2d);
+    Position2D position2DFromPose2D(const Pose2D& pPose2D);
 
     /// <summary>
     /// Create a Position3D from a Position6D
@@ -158,12 +158,12 @@ namespace AL {
       */
     ///
     /// </summary>
-    /// <param name="pPose6d"> the given Position6D </param>
+    /// <param name="pPosition6D"> the given Position6D </param>
     /// <returns>
     /// the Position3D result.
     /// </returns>
     /// \ingroup Tools
-    Position3D position3DFromPosition6D(const Position6D& pPose6d);
+    Position3D position3DFromPosition6D(const Position6D& pPosition6D);
 
     /// <summary>
     /// Overloading of operator * between Rotation and Position3D:
@@ -273,20 +273,20 @@ namespace AL {
     /// <summary>
     /// Compute a Position6D from a Pose2D.
     /// </summary>
-    /// <param name = "pPose2d"> the Pose2D to extract </param>
-    /// <param name = "pPose6d"> the result Position6D </param>
+    /// <param name = "pPose2D"> the Pose2D to extract </param>
+    /// <param name = "pPosition6D"> the result Position6D </param>
     /// \ingroup Tools
     void position6DFromPose2DInPlace(
-        const Pose2D& pPose2d,
-        Position6D&   pPose6d);
+        const Pose2D& pPose2D,
+        Position6D&   pPosition6D);
 
     /// <summary>
     /// Create a Position6D from a Pose2D.
     /// </summary>
-    /// <param name = "pPose2d"> the pose2D you want to extract </param>
+    /// <param name = "pPose2D"> the pose2D you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
-    Position6D position6DFromPose2D(const Pose2D& pPose2d);
+    Position6D position6DFromPose2D(const Pose2D& pPose2D);
 
     /// <summary>
     /// Compute a Position6D from a Position3D.
@@ -296,12 +296,12 @@ namespace AL {
     /// \ingroup Tools
     void position6DFromPosition3DInPlace(
         const Position3D& pPosition3D,
-        Position6D&   pPosition6D);
+        Position6D&       pPosition6D);
 
     /// <summary>
     /// Create a Position6D from a Position3D.
     /// </summary>
-    /// <param name = "pPosition3d"> the position3D you want to extract </param>
+    /// <param name = "pPosition3D"> the position3D you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
     Position6D position6DFromPosition3D(const Position3D& pPosition3D);
@@ -309,43 +309,44 @@ namespace AL {
     /// <summary>
     /// Compute a Pose2D from a Position6D.
     /// </summary>
-    /// <param name = "pPose6d"> the Position6D you want to extract </param>
-    /// <param name = "pPose2d"> the result Pose2D </param>
+    /// <param name = "pPosition6D"> the Position6D you want to extract </param>
+    /// <param name = "pPose2D"> the result Pose2D </param>
     /// \ingroup Tools
     void pose2DFromPosition6DInPlace(
-        const Position6D& pPose6d,
-        Pose2D&           pPose2d);
+        const Position6D& pPosition6D,
+        Pose2D&           pPose2D);
 
     /// <summary>
     /// Create a Pose2D from a Position6D.
     /// </summary>
-    /// <param name = "pPose6d"> the position6d you want to extract </param>
+    /// <param name = "pPosition6D"> the position6d you want to extract </param>
     /// <returns> the Pose2D extracted from the Position6D </returns>
     /// \ingroup Tools
-    Pose2D pose2DFromPosition6D(const Position6D& pPose6d);
+    Pose2D pose2DFromPosition6D(const Position6D& pPosition6D);
 
     /// <summary>
     /// Compute a Pose2D from a Position2D.
-    /// pPose2d.x = pPosition2D.x
-    /// pPose2d.y = pPosition2D.y
-    /// pPose2d.theta = pAngle
+    /// pPose2D.x = pPosition2D.x
+    /// pPose2D.y = pPosition2D.y
+    /// pPose2D.theta = pAngle
     /// </summary>
-    /// <param name = "pPosition2d"> the Position2D you want to extract </param>
+    /// <param name = "pPosition2D"> the Position2D you want to extract </param>
     /// <param name = "pAngle"> the angle in radians to set pPose2d to </param>
-    /// <param name = "pPose2d"> the result Pose2D </param>
+    /// <param name = "pPose2D"> the result Pose2D </param>
     /// \ingroup Tools
     void pose2DFromPosition2DInPlace(
-        const Position2D& pPosition2d,
-        const float pAngle, Pose2D &pPose2d);
+        const Position2D& pPosition2D,
+        const float pAngle,
+        Pose2D& pPose2D);
 
     /// <summary>
     /// Create a Pose2D from a Position2D.
     /// </summary>
-    /// <param name = "pPosition2d"> the position2d you want to extract </param>
+    /// <param name = "pPosition2D"> the Position2D you want to extract </param>
     /// <param name = "pAngle"> the angle in radians to set the new Pose2D to </param>
     /// <returns> the Pose2D extracted from the Position2D </returns>
     /// \ingroup Tools
-    Pose2D pose2DFromPosition2D(const Position2D& pPosition2d,
+    Pose2D pose2DFromPosition2D(const Position2D& pPosition2D,
                                 const float       pAngle=0.0f);
 
     /// <summary>

@@ -82,9 +82,9 @@ namespace AL
     }
 
 
-    Position3D position3DFromPosition6D(const Position6D& pPose6d)
+    Position3D position3DFromPosition6D(const Position6D& pPosition6D)
     {
-      return Position3D(pPose6d.x, pPose6d.y, pPose6d.z);
+      return Position3D(pPosition6D.x, pPosition6D.y, pPosition6D.z);
     }
 
 
@@ -167,42 +167,42 @@ namespace AL
 
 
     void position2DFromPose2DInPlace(
-        const Pose2D& pPose2d,
-        Position2D&   pPosition2d)
+        const Pose2D& pPose2D,
+        Position2D&   pPosition2D)
     {
-      pPosition2d.x = pPose2d.x;
-      pPosition2d.y = pPose2d.y;
+      pPosition2D.x = pPose2D.x;
+      pPosition2D.y = pPose2D.y;
     }
 
 
-    Position2D position2DFromPose2D(const Pose2D& pPose2d)
+    Position2D position2DFromPose2D(const Pose2D& pPose2D)
     {
-      return Position2D(pPose2d.x, pPose2d.y);
+      return Position2D(pPose2D.x, pPose2D.y);
     }
 
 
     void position6DFromPose2DInPlace(
-        const Pose2D& pPose2d,
-        Position6D&   pPose6d)
+        const Pose2D& pPose2D,
+        Position6D&   pPosition6D)
     {
-      pPose6d.x  = pPose2d.x;
-      pPose6d.y  = pPose2d.y;
-      pPose6d.z  = 0.0f;
-      pPose6d.wx = 0.0f;
-      pPose6d.wy = 0.0f;
-      pPose6d.wz = pPose2d.theta;
+      pPosition6D.x  = pPose2D.x;
+      pPosition6D.y  = pPose2D.y;
+      pPosition6D.z  = 0.0f;
+      pPosition6D.wx = 0.0f;
+      pPosition6D.wy = 0.0f;
+      pPosition6D.wz = pPose2D.theta;
     }
 
 
-    Position6D position6DFromPose2D(const Pose2D& pPose2d)
+    Position6D position6DFromPose2D(const Pose2D& pPose2D)
     {
       return Position6D(
-            pPose2d.x,
-            pPose2d.y,
+            pPose2D.x,
+            pPose2D.y,
             0.0f,
             0.0f,
             0.0f,
-            pPose2d.theta);
+            pPose2D.theta);
     }
 
 
@@ -229,36 +229,36 @@ namespace AL
     }
 
     void pose2DFromPosition6DInPlace(
-        const Position6D& pPose6d,
-        Pose2D&           pPose2d)
+        const Position6D& pPosition6D,
+        Pose2D&           pPose2D)
     {
-      pPose2d.x     = pPose6d.x;
-      pPose2d.y     = pPose6d.y;
-      pPose2d.theta = pPose6d.wz;
+      pPose2D.x     = pPosition6D.x;
+      pPose2D.y     = pPosition6D.y;
+      pPose2D.theta = pPosition6D.wz;
     }
 
 
-    Pose2D pose2DFromPosition6D(const Position6D& pPose6d)
+    Pose2D pose2DFromPosition6D(const Position6D& pPosition6D)
     {
-      return Pose2D(pPose6d.x, pPose6d.y, pPose6d.wz);
+      return Pose2D(pPosition6D.x, pPosition6D.y, pPosition6D.wz);
     }
 
 
     void pose2DFromPosition2DInPlace(
-        const Position2D& pPosition2d,
+        const Position2D& pPosition2D,
         const float       pAngle,
-        Pose2D&           pPose2d)
+        Pose2D&           pPose2D)
     {
-      pPose2d.x     = pPosition2d.x;
-      pPose2d.y     = pPosition2d.y;
-      pPose2d.theta = pAngle;
+      pPose2D.x     = pPosition2D.x;
+      pPose2D.y     = pPosition2D.y;
+      pPose2D.theta = pAngle;
     }
 
 
-    Pose2D pose2DFromPosition2D(const Position2D& pPosition2d,
+    Pose2D pose2DFromPosition2D(const Position2D& pPosition2D,
                                 const float       pAngle)
     {
-      return Pose2D(pPosition2d.x, pPosition2d.y, pAngle);
+      return Pose2D(pPosition2D.x, pPosition2D.y, pAngle);
     }
 
 
