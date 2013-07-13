@@ -16,3 +16,13 @@ TEST(ALPositionAndVelocityTest, isNear)
   EXPECT_FALSE(pTmp.isNear(AL::Math::PositionAndVelocity(-1.0f, -0.4f), 0.001f));
 }
 
+TEST(ALPositionAndVelocityTest, toVector)
+{
+  const float eps = 1e-4f;
+  const AL::Math::PositionAndVelocity pos(1.0f, 2.0f);
+  const std::vector<float> vec = pos.toVector();
+
+  EXPECT_TRUE(vec.size()==2);
+  EXPECT_NEAR(pos.q, vec.at(0), eps);
+  EXPECT_NEAR(pos.dq, vec.at(1), eps);
+}

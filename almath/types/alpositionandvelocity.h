@@ -9,6 +9,8 @@
 #ifndef _LIBALMATH_ALMATH_TYPES_ALPOSITIONANDVELOCITY_H_
 #define _LIBALMATH_ALMATH_TYPES_ALPOSITIONANDVELOCITY_H_
 
+#include <vector>
+
 namespace AL {
   namespace Math {
 
@@ -58,6 +60,12 @@ namespace AL {
       bool isNear(
         const PositionAndVelocity& pDat2,
         const float&               pEpsilon=0.0001f) const;
+
+
+      /// <summary>
+      /// Return the PositionAndVelocity as a vector of float [q, dq].
+      /// </summary>
+      std::vector<float> toVector() const;
     };
 
   }

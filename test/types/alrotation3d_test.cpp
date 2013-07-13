@@ -14,3 +14,14 @@ TEST(ALRotation3DTest, norm)
   EXPECT_NEAR(AL::Math::norm(pRot), 0.0f, kEpsilon);
 }
 
+TEST(ALRotation3DTest, toVector)
+{
+  const float eps = 1e-4f;
+  const AL::Math::Rotation3D pos(1.0f, 2.0f, 3.0f);
+  const std::vector<float> vec = pos.toVector();
+
+  EXPECT_TRUE(vec.size()==3);
+  EXPECT_NEAR(pos.wx, vec.at(0), eps);
+  EXPECT_NEAR(pos.wy, vec.at(1), eps);
+  EXPECT_NEAR(pos.wz, vec.at(2), eps);
+}

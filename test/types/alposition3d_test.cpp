@@ -154,3 +154,14 @@ TEST(ALPosition3DTest, Divers)
   ASSERT_THROW((pPos3D1/0.0f), std::runtime_error);
 }
 
+TEST(ALPosition3DTest, toVector)
+{
+  const float eps = 1e-4f;
+  const AL::Math::Position3D pos(1.0f, 2.0f, 3.0f);
+  const std::vector<float> vec = pos.toVector();
+
+  EXPECT_TRUE(vec.size()==3);
+  EXPECT_NEAR(pos.x, vec.at(0), eps);
+  EXPECT_NEAR(pos.y, vec.at(1), eps);
+  EXPECT_NEAR(pos.z, vec.at(2), eps);
+}

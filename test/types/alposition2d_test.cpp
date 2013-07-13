@@ -190,3 +190,14 @@ TEST(ALPosition2DTest, angle)
 
 }
 
+
+TEST(ALPosition2DTest, toVector)
+{
+  const float eps = 1e-4f;
+  const AL::Math::Position2D pos(1.0f, 2.0f);
+  const std::vector<float> vec = pos.toVector();
+
+  EXPECT_TRUE(vec.size()==2);
+  EXPECT_NEAR(pos.x, vec.at(0), eps);
+  EXPECT_NEAR(pos.y, vec.at(1), eps);
+}

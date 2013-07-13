@@ -134,3 +134,18 @@ TEST(ALPosition6DTest, Divers)
   ASSERT_THROW((pPos6D1/0.0f), std::runtime_error);
 }
 
+TEST(ALPosition6DTest, toVector)
+{
+  const float eps = 1e-4f;
+  const AL::Math::Position6D pos(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+  const std::vector<float> vec = pos.toVector();
+
+  EXPECT_TRUE(vec.size()==6);
+  EXPECT_NEAR(pos.x, vec.at(0), eps);
+  EXPECT_NEAR(pos.y, vec.at(1), eps);
+  EXPECT_NEAR(pos.z, vec.at(2), eps);
+  EXPECT_NEAR(pos.wx, vec.at(3), eps);
+  EXPECT_NEAR(pos.wy, vec.at(4), eps);
+  EXPECT_NEAR(pos.wz, vec.at(5), eps);
+}
+

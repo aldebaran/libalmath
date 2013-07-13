@@ -292,5 +292,17 @@ TEST(ALPose2DTest, getAngle)
 
   AL::Math::Pose2D pos5(-2.0f, 1.0f, 2.0f);
   EXPECT_NEAR(pos5.getAngle(), 2.67792f, eps);
-
 }
+
+TEST(ALPose2DTest, toVector)
+{
+  const float eps = 1e-4f;
+  const AL::Math::Pose2D pos(1.0f, 2.0f, 3.0f);
+  const std::vector<float> vec = pos.toVector();
+
+  EXPECT_TRUE(vec.size()==3);
+  EXPECT_NEAR(pos.x, vec.at(0), eps);
+  EXPECT_NEAR(pos.y, vec.at(1), eps);
+  EXPECT_NEAR(pos.theta, vec.at(2), eps);
+}
+

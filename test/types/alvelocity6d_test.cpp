@@ -92,3 +92,17 @@ TEST(ALVelocity6DTest, Divers)
   ASSERT_THROW((pVel6D1/0.0f), std::runtime_error);
 }
 
+TEST(ALVelocity6DTest, toVector)
+{
+  const float eps = 1e-4f;
+  const AL::Math::Velocity6D vel(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+  const std::vector<float> vec = vel.toVector();
+
+  EXPECT_TRUE(vec.size()==6);
+  EXPECT_NEAR(vel.xd, vec.at(0), eps);
+  EXPECT_NEAR(vel.yd, vec.at(1), eps);
+  EXPECT_NEAR(vel.zd, vec.at(2), eps);
+  EXPECT_NEAR(vel.wxd, vec.at(3), eps);
+  EXPECT_NEAR(vel.wyd, vec.at(4), eps);
+  EXPECT_NEAR(vel.wzd, vec.at(5), eps);
+}
