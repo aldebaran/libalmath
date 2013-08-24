@@ -365,10 +365,7 @@ namespace AL {
     /// </summary>
     /// <param name="pPos1"> the first Position3D </param>
     /// <param name="pPos2"> the second Position3D </param>
-    /// <param name="pRes">
-    /// <returns>
-    /// the Position3D cross product between the two Position3D </param>
-    /// </returns>
+    /// <param name="pRes"> the Position3D cross product between the two Position3D </param>
     void crossProduct(
       const Position3D& pPos1,
       const Position3D& pPos2,

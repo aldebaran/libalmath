@@ -790,21 +790,22 @@ namespace AL {
       const Position3D& pPos);
 
     /**
+    * Function axisRotationProjection:
     * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param Transform: useful only for Rotation part
-    * @param Position3D: axis of rotation
+    * @param pAxis: axis of rotation
+    * @param pT: a transform
     * @return Transform
     **/
     Transform axisRotationProjection(
-      const Position3D& pPos,
+      const Position3D& pAxis,
       const Transform&  pT);
 
     /**
-    * Function AxisRotationProjection:
+    * Function axisRotationProjection:
     * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param Transform: useful only for Rotation part
-    * @param Position3D: axis of rotation
-    * @return Transform
+    * @param pAxis: axis of rotation
+    * @param pRot: a rotation
+    * @return Rotation
     **/
     Rotation axisRotationProjection(
       const Position3D& pAxis,
@@ -814,21 +815,21 @@ namespace AL {
     /**
     * Function axisRotationProjectionInPlace:
     * finding the closest rotation Rw of R around an axis (Position3D)
-    * @param Position3D: axis of rotation
-    * @param pH: a transform
+    * @param pAxis: axis of rotation
+    * @param pT: a transform
     **/
     void axisRotationProjectionInPlace(
-      const Position3D& pPos,
+      const Position3D& pAxis,
       Transform&        pT);
 
     /**
     * Function axisRotationProjectionInPlace:
     * finding the closest rotation Rw of R around an axis (Position3D)
+    * @param pAxis: axis of rotation
     * @param pRot: a rotation
-    * @param Position3D: axis of rotation
     **/
     void axisRotationProjectionInPlace(
-      const Position3D& pPos,
+      const Position3D& pAxis,
       Rotation&         pRot);
 
     /**

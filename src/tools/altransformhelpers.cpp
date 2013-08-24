@@ -685,7 +685,7 @@ namespace AL {
 
 
     Transform axisRotationProjection(
-        const Position3D& pPos,
+        const Position3D& pAxis,
         const Transform&  pT)
     {
       AL::Math::Transform pTSol;
@@ -693,7 +693,7 @@ namespace AL {
       // Save position part of Transform in the solution
       AL::Math::Rotation pRotationSolution;
       rotationFromTransformInPlace(pT, pRotationSolution);
-      axisRotationProjectionInPlace(pPos, pRotationSolution);
+      axisRotationProjectionInPlace(pAxis, pRotationSolution);
 
       transformFromRotationInPlace(pRotationSolution, pTSol);
       pTSol.r1_c4 = pT.r1_c4;
@@ -701,7 +701,7 @@ namespace AL {
       pTSol.r3_c4 = pT.r3_c4;
 
       return pTSol;
-    } // end axisRotationProjection
+    }
 
 
     Rotation axisRotationProjection(
