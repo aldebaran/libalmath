@@ -151,6 +151,18 @@ std::ostream& operator<< (std::ostream& pStream, const TransformAndVelocity6D& p
 std::ostream& operator<< (std::ostream& pStream, const Velocity3D& pVel);
 
 /// <summary>
+/// Overloading of operator << for Quaternion.
+///
+/// </summary>
+/// <param name="pStream"> the given ostream </param>
+/// <param name="pQua"> the given Quaternion </param>
+/// <returns>
+/// the Quaternion print
+/// </returns>
+/// \ingroup Types
+std::ostream& operator<< (std::ostream& pStream, const Quaternion& pQua);
+
+/// <summary>
 /// Overloading of operator << for Velocity6D.
 ///
 /// </summary>
@@ -218,16 +230,15 @@ std::string toSpaceSeparated(const Transform& pT);
 std::string toSpaceSeparated(const Position6D& pPos);
 
 /// <summary>
-/// Overloading of operator << for Quaternion.
+/// Create a string of Quaternion.
 ///
 /// </summary>
-/// <param name="pStream"> the given ostream </param>
-/// <param name="pQua"> the given Quaternion </param>
+/// <param name="pQuat> the given Quaternion </param>
 /// <returns>
-/// the Quaternion print
+/// the Quaternion string
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Quaternion& pQua);
+std::string toSpaceSeparated(const Quaternion& pQuat);
 
 }
 }
