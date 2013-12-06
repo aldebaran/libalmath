@@ -93,6 +93,69 @@ TEST(ALMathTest, clipData)
   EXPECT_NEAR(pData, pMin, 0.0001f);
 }
 
+TEST(ALMathTest, clipDataVector)
+{
+  const float lEpsilon = 0.0001f;
+  std::vector<float> data(5, -1.0f);
+  bool isClipped = AL::Math::clipData(0.0f, 1.0f, data);
+  EXPECT_TRUE(isClipped);
+  for (unsigned int i=0; i<data.size(); ++i)
+  {
+    EXPECT_NEAR(data[i], 0.0f, lEpsilon);
+  }
+
+  data.clear();
+  data.push_back(-1.0f);
+  data.push_back(1.0f);
+  data.push_back(2.0f);
+  data.push_back(-0.5f);
+  data.push_back(3.0f);
+  std::vector<float> expectedData;
+  expectedData.push_back(0.0f);
+  expectedData.push_back(1.0f);
+  expectedData.push_back(1.0f);
+  expectedData.push_back(0.0f);
+  expectedData.push_back(1.0f);
+
+  isClipped = AL::Math::clipData(0.0f, 1.0f, data);
+  EXPECT_TRUE(data.size()==expectedData.size());
+  EXPECT_TRUE(isClipped);
+  for (unsigned int i=0; i<data.size(); ++i)
+  {
+    EXPECT_NEAR(data[i], expectedData[i], lEpsilon);
+  }
+
+  data.clear();
+  data.push_back(0.0f);
+  data.push_back(0.1f);
+  data.push_back(0.2f);
+  data.push_back(0.3f);
+  data.push_back(0.4f);
+  expectedData = data;
+  isClipped = AL::Math::clipData(0.0f, 1.0f, data);
+  EXPECT_TRUE(data.size()==expectedData.size());
+  EXPECT_FALSE(isClipped);
+  for (unsigned int i=0; i<data.size(); ++i)
+  {
+    EXPECT_NEAR(data[i], expectedData[i], lEpsilon);
+  }
+}
+
+TEST(ALMathTest, clipDataVectorVector)
+{
+  const float lEpsilon = 0.0001f;
+  std::vector<float> data(5, -1.0f);
+  std::vector<std::vector<float> > dataList(5, data);
+  bool isClipped = AL::Math::clipData(0.0f, 1.0f, dataList);
+  EXPECT_TRUE(isClipped);
+  for (unsigned int i=0; i<dataList.size(); ++i)
+  {
+    for (unsigned int j=0; j<dataList[i].size(); ++j)
+    {
+      EXPECT_NEAR(dataList[i][j], 0.0f, lEpsilon);
+    }
+  }
+}
 
 TEST(ALMathTest, changeReferencePose2D)
 {

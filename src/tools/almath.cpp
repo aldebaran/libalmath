@@ -54,6 +54,38 @@ namespace AL
       return false;
     }
 
+    bool clipData(
+      const float& pMin,
+      const float& pMax,
+      std::vector<float>& pData)
+    {
+      bool isClipped = false;
+      for (unsigned int i=0; i<pData.size(); ++i)
+      {
+        if (clipData(pMin, pMax, pData[i]))
+        {
+          isClipped = true;
+        }
+      }
+      return isClipped;
+    }
+
+    bool clipData(
+      const float& pMin,
+      const float& pMax,
+      std::vector<std::vector<float> >& pData)
+    {
+      bool isClipped = false;
+      for (unsigned int i=0; i<pData.size(); ++i)
+      {
+        if (clipData(pMin, pMax, pData[i]))
+        {
+          isClipped = true;
+        }
+      }
+      return isClipped;
+    }
+
 
     void changeReferencePose2D(
         const float&  pTheta,

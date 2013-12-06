@@ -58,6 +58,16 @@ namespace AL {
     const float& pMax,
     float&       pData);
 
+  bool clipData(
+    const float& pMin,
+    const float& pMax,
+    std::vector<float>& pData);
+
+  bool clipData(
+    const float& pMin,
+    const float& pMax,
+    std::vector<std::vector<float> >& pData);
+
   /// <summary>
   /** \f$ \left[\begin{array}{c}
     * pPosOut.x \\
