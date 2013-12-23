@@ -164,15 +164,19 @@ namespace AL {
     }
 
 
-    std::vector<float> Quaternion::toVector() const
+    void Quaternion::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(4);
+      pReturnVector[0] = w;
+      pReturnVector[1] = x;
+      pReturnVector[2] = y;
+      pReturnVector[3] = z;
+    }
+
+    std::vector<float> Quaternion::toVector(void) const
     {
       std::vector<float> returnVector(4, 0.0f);
-
-      returnVector[0] = w;
-      returnVector[1] = x;
-      returnVector[2] = y;
-      returnVector[3] = z;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

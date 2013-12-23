@@ -299,15 +299,15 @@ TEST(ALRotationTest, toVector)
   const std::vector<float> vec = rot.toVector();
 
   EXPECT_TRUE(vec.size()==9);
-  EXPECT_NEAR(rot.r1_c1, vec.at(0), eps);
-  EXPECT_NEAR(rot.r1_c2, vec.at(1), eps);
-  EXPECT_NEAR(rot.r1_c3, vec.at(2), eps);
+  EXPECT_NEAR(rot.r1_c1, vec[0], eps);
+  EXPECT_NEAR(rot.r1_c2, vec[1], eps);
+  EXPECT_NEAR(rot.r1_c3, vec[2], eps);
 
-  EXPECT_NEAR(rot.r2_c1, vec.at(3), eps);
-  EXPECT_NEAR(rot.r2_c2, vec.at(4), eps);
-  EXPECT_NEAR(rot.r2_c3, vec.at(5), eps);
+  EXPECT_NEAR(rot.r2_c1, vec[3], eps);
+  EXPECT_NEAR(rot.r2_c2, vec[4], eps);
+  EXPECT_NEAR(rot.r2_c3, vec[5], eps);
 
-  EXPECT_NEAR(rot.r3_c1, vec.at(6), eps);
-  EXPECT_NEAR(rot.r3_c2, vec.at(7), eps);
-  EXPECT_NEAR(rot.r3_c3, vec.at(8), eps);
+  EXPECT_NEAR(rot.r3_c1, vec[6], eps);
+  EXPECT_NEAR(rot.r3_c2, vec[7], eps);
+  EXPECT_NEAR(rot.r3_c3, vec[8], eps);
 }

@@ -151,14 +151,18 @@ namespace AL {
     }
 
 
-    std::vector<float> Rotation3D::toVector() const
+    void Rotation3D::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(3);
+      pReturnVector[0] = wx;
+      pReturnVector[1] = wy;
+      pReturnVector[2] = wz;
+    }
+
+    std::vector<float> Rotation3D::toVector(void) const
     {
       std::vector<float> returnVector(3, 0.0f);
-
-      returnVector[0] = wx;
-      returnVector[1] = wy;
-      returnVector[2] = wz;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

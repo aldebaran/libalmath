@@ -257,23 +257,26 @@ namespace AL {
       return Math::rotationFrom3DRotation(pWX, pWY, pWZ);
     }
 
+    void Rotation::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(9);
+      pReturnVector[0] = r1_c1;
+      pReturnVector[1] = r1_c2;
+      pReturnVector[2] = r1_c3;
 
-    std::vector<float> Rotation::toVector() const
+      pReturnVector[3] = r2_c1;
+      pReturnVector[4] = r2_c2;
+      pReturnVector[5] = r2_c3;
+
+      pReturnVector[6] = r3_c1;
+      pReturnVector[7] = r3_c2;
+      pReturnVector[8] = r3_c3;
+    }
+
+    std::vector<float> Rotation::toVector(void) const
     {
       std::vector<float> returnVector(9, 0.0f);
-
-      returnVector[0] = r1_c1;
-      returnVector[1] = r1_c2;
-      returnVector[2] = r1_c3;
-
-      returnVector[3] = r2_c1;
-      returnVector[4] = r2_c2;
-      returnVector[5] = r2_c3;
-
-      returnVector[6] = r3_c1;
-      returnVector[7] = r3_c2;
-      returnVector[8] = r3_c3;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

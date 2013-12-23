@@ -18,9 +18,8 @@ namespace AL {
 
     Transform::Transform(const std::vector<float>& pFloats)
     {
-      if (
-        (pFloats.size() == 12) ||
-        (pFloats.size() == 16))
+      if (pFloats.size() == 12 ||
+          pFloats.size() == 16)
       {
         r1_c1 = pFloats[0];
         r1_c2 = pFloats[1];
@@ -325,30 +324,36 @@ namespace AL {
       return Math::transformDistance(*this, pT2);
     }
 
-    std::vector<float> Transform::toVector() const
+    void Transform::toVector(std::vector<float>& pReturnVector) const
     {
-      std::vector<float> returnVector(16, 0.0f);
+      pReturnVector.resize(16);
 
-      returnVector[0]  = r1_c1;
-      returnVector[1]  = r1_c2;
-      returnVector[2]  = r1_c3;
-      returnVector[3]  = r1_c4;
+      pReturnVector[0]  = r1_c1;
+      pReturnVector[1]  = r1_c2;
+      pReturnVector[2]  = r1_c3;
+      pReturnVector[3]  = r1_c4;
 
-      returnVector[4]  = r2_c1;
-      returnVector[5]  = r2_c2;
-      returnVector[6]  = r2_c3;
-      returnVector[7]  = r2_c4;
+      pReturnVector[4]  = r2_c1;
+      pReturnVector[5]  = r2_c2;
+      pReturnVector[6]  = r2_c3;
+      pReturnVector[7]  = r2_c4;
 
-      returnVector[8]  = r3_c1;
-      returnVector[9]  = r3_c2;
-      returnVector[10] = r3_c3;
-      returnVector[11] = r3_c4;
+      pReturnVector[8]  = r3_c1;
+      pReturnVector[9]  = r3_c2;
+      pReturnVector[10] = r3_c3;
+      pReturnVector[11] = r3_c4;
 
-      returnVector[12] = 0.0f;
-      returnVector[13] = 0.0f;
-      returnVector[14] = 0.0f;
-      returnVector[15] = 1.0f;
-      return returnVector;
+      pReturnVector[12] = 0.0f;
+      pReturnVector[13] = 0.0f;
+      pReturnVector[14] = 0.0f;
+      pReturnVector[15] = 1.0f;
+    }
+
+    std::vector<float> Transform::toVector(void) const
+    {
+      std::vector<float> lReturnVector(16, 0.0f);
+      this->toVector(lReturnVector);
+      return lReturnVector;
     }
 
     void transformPreMultiply(
@@ -467,6 +472,10 @@ namespace AL {
       const Transform&    pT,
       std::vector<float>& pTOut)
     {
+      std::cerr << "ALMath: WARNING: "
+                << "transformToFloatVector is deprecated. "
+                << "Use toVector function." << std::endl;
+
       pTOut.resize(12);
       pTOut[0]  = pT.r1_c1;
       pTOut[1]  = pT.r1_c2;
@@ -484,23 +493,11 @@ namespace AL {
 
 
     std::vector<float> transformToFloatVector(
-      const Transform&  pT)
+      const Transform& pT)
     {
-      std::vector<float> pTOut;
-      pTOut.resize(12);
-      pTOut[0]  = pT.r1_c1;
-      pTOut[1]  = pT.r1_c2;
-      pTOut[2]  = pT.r1_c3;
-      pTOut[3]  = pT.r1_c4;
-      pTOut[4]  = pT.r2_c1;
-      pTOut[5]  = pT.r2_c2;
-      pTOut[6]  = pT.r2_c3;
-      pTOut[7]  = pT.r2_c4;
-      pTOut[8]  = pT.r3_c1;
-      pTOut[9]  = pT.r3_c2;
-      pTOut[10] = pT.r3_c3;
-      pTOut[11] = pT.r3_c4;
-      return pTOut;
+      std::vector<float> lTOut;
+      transformToFloatVector(pT, lTOut);
+      return lTOut;
     }
 
     float determinant(const Transform& pT)
@@ -646,8 +643,7 @@ namespace AL {
 
     void transformInvertInPlace(Transform& pT)
     {
-      float tmp0;
-      tmp0 = pT.r1_c2;
+      float tmp0 = pT.r1_c2;
       pT.r1_c2 = pT.r2_c1;
       pT.r2_c1 = tmp0;
 
@@ -689,10 +685,8 @@ namespace AL {
       const Transform& pT1,
       const Transform& pT2)
     {
-      float tmp = 0.0f;
-      float tot = 0.0f;
-      tmp = pT1.r1_c4 - pT2.r1_c4;
-      tot += tmp * tmp;
+      float tmp = pT1.r1_c4 - pT2.r1_c4;
+      float tot = tmp * tmp;
       tmp = pT1.r2_c4 - pT2.r2_c4;
       tot += tmp * tmp;
       tmp = pT1.r3_c4 - pT2.r3_c4;
@@ -706,7 +700,7 @@ namespace AL {
       const Transform& pT2)
     {
       return std::sqrt(transformDistanceSquared(pT1, pT2));
-    } // end TransformDistance
+    }
 
   } // end namespace Math
 } // end namespace AL

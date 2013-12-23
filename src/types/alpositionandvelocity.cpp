@@ -24,13 +24,17 @@ namespace AL {
               std::abs(dq - pDat.dq) <= pEpsilon);
     }
 
-    std::vector<float> PositionAndVelocity::toVector() const
+    void PositionAndVelocity::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(2);
+      pReturnVector[0] = q;
+      pReturnVector[1] = dq;
+    }
+
+    std::vector<float> PositionAndVelocity::toVector(void) const
     {
       std::vector<float> returnVector(2, 0.0f);
-
-      returnVector[0] = q;
-      returnVector[1] = dq;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

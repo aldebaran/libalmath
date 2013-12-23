@@ -19,10 +19,10 @@ namespace AL {
     Pose2D::Pose2D(
       float pX,
       float pY,
-      float pTheta):
-      x(pX),
-      y(pY),
-      theta(pTheta) {}
+      float pTheta)
+      :x(pX)
+      ,y(pY)
+      ,theta(pTheta) {}
 
     Pose2D::Pose2D (const std::vector<float>& pFloats)
     {
@@ -186,14 +186,18 @@ namespace AL {
       return Math::pose2dDiff(*this, pPos2);
     }
 
-    std::vector<float> Pose2D::toVector() const
+    void Pose2D::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(3);
+      pReturnVector[0] = x;
+      pReturnVector[1] = y;
+      pReturnVector[2] = theta;
+    }
+
+    std::vector<float> Pose2D::toVector(void) const
     {
       std::vector<float> returnVector(3, 0.0f);
-
-      returnVector[0] = x;
-      returnVector[1] = y;
-      returnVector[2] = theta;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

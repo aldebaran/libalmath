@@ -354,8 +354,8 @@ namespace AL {
         * \end{array}\f$
         */
       /// </summary>
-      std::vector<float> toVector() const;
-
+      void toVector(std::vector<float>& pReturnVector) const;
+      std::vector<float> toVector(void) const;
     }; // end struct
 
     /// <summary>
@@ -390,6 +390,7 @@ namespace AL {
     void normalizeTransform(Transform& pT);
 
     /// <summary>
+    /// DEPRECATED: Use toVector function.
     /// Copy the Transform in a vector of float:
     ///
     /** \f$ \begin{array}{cccc}
@@ -409,6 +410,7 @@ namespace AL {
       std::vector<float>& pTOut);
 
     /// <summary>
+    /// DEPRECATED: Use toVector function.
     /// Return the Transform in a vector of float:
     ///
     /**

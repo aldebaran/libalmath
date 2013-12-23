@@ -197,7 +197,8 @@ namespace AL {
       /// <summary>
       /// Return the Rotation3D as a vector of float [wx, wy, wz].
       /// </summary>
-      std::vector<float> toVector() const;
+      void toVector(std::vector<float>& pReturnVector) const;
+      std::vector<float> toVector(void) const;
     };
 
     /// <summary>

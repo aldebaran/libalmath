@@ -696,18 +696,52 @@ TEST(ALTransformTest, toVector)
 
   EXPECT_TRUE(vec.size()==16);
 
-  EXPECT_NEAR(tf.r1_c1, vec.at(0), eps);
-  EXPECT_NEAR(tf.r1_c2, vec.at(1), eps);
-  EXPECT_NEAR(tf.r1_c3, vec.at(2), eps);
-  EXPECT_NEAR(tf.r1_c4, vec.at(3), eps);
+  EXPECT_NEAR(tf.r1_c1, vec[0], eps);
+  EXPECT_NEAR(tf.r1_c2, vec[1], eps);
+  EXPECT_NEAR(tf.r1_c3, vec[2], eps);
+  EXPECT_NEAR(tf.r1_c4, vec[3], eps);
 
-  EXPECT_NEAR(tf.r2_c1, vec.at(4), eps);
-  EXPECT_NEAR(tf.r2_c2, vec.at(5), eps);
-  EXPECT_NEAR(tf.r2_c3, vec.at(6), eps);
-  EXPECT_NEAR(tf.r2_c4, vec.at(7), eps);
+  EXPECT_NEAR(tf.r2_c1, vec[4], eps);
+  EXPECT_NEAR(tf.r2_c2, vec[5], eps);
+  EXPECT_NEAR(tf.r2_c3, vec[6], eps);
+  EXPECT_NEAR(tf.r2_c4, vec[7], eps);
 
-  EXPECT_NEAR(tf.r3_c1, vec.at(8), eps);
-  EXPECT_NEAR(tf.r3_c2, vec.at(9), eps);
-  EXPECT_NEAR(tf.r3_c3, vec.at(10), eps);
-  EXPECT_NEAR(tf.r3_c4, vec.at(11), eps);
+  EXPECT_NEAR(tf.r3_c1, vec[8], eps);
+  EXPECT_NEAR(tf.r3_c2, vec[9], eps);
+  EXPECT_NEAR(tf.r3_c3, vec[10], eps);
+  EXPECT_NEAR(tf.r3_c4, vec[11], eps);
+
+  EXPECT_NEAR(0.0f, vec[12], eps);
+  EXPECT_NEAR(0.0f, vec[13], eps);
+  EXPECT_NEAR(0.0f, vec[14], eps);
+  EXPECT_NEAR(1.0f, vec[15], eps);
+}
+
+TEST(ALTransformTest, transformToFloatVector)
+{
+  const float eps = 1e-4f;
+  std::vector<float> input(12, 0.0f);
+  input.at(0)  = 1.0f;
+  input.at(5)  = 1.0f;
+  input.at(10) = 1.0f;
+
+  const AL::Math::Transform tf(input);
+  const std::vector<float> vec = AL::Math::transformToFloatVector(tf);
+
+  EXPECT_TRUE(vec.size()==12);
+
+  EXPECT_NEAR(tf.r1_c1, vec[0], eps);
+  EXPECT_NEAR(tf.r1_c2, vec[1], eps);
+  EXPECT_NEAR(tf.r1_c3, vec[2], eps);
+  EXPECT_NEAR(tf.r1_c4, vec[3], eps);
+
+  EXPECT_NEAR(tf.r2_c1, vec[4], eps);
+  EXPECT_NEAR(tf.r2_c2, vec[5], eps);
+  EXPECT_NEAR(tf.r2_c3, vec[6], eps);
+  EXPECT_NEAR(tf.r2_c4, vec[7], eps);
+
+  EXPECT_NEAR(tf.r3_c1, vec[8], eps);
+  EXPECT_NEAR(tf.r3_c2, vec[9], eps);
+  EXPECT_NEAR(tf.r3_c3, vec[10], eps);
+  EXPECT_NEAR(tf.r3_c4, vec[11], eps);
 }

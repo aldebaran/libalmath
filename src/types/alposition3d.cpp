@@ -182,14 +182,18 @@ namespace AL {
       return Math::crossProduct(*this, pPos2);
     }
 
-    std::vector<float> Position3D::toVector() const
+    void Position3D::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(3);
+      pReturnVector[0] = x;
+      pReturnVector[1] = y;
+      pReturnVector[2] = z;
+    }
+
+    std::vector<float> Position3D::toVector(void) const
     {
       std::vector<float> returnVector(3, 0.0f);
-
-      returnVector[0] = x;
-      returnVector[1] = y;
-      returnVector[2] = z;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

@@ -220,7 +220,8 @@ namespace AL {
       /// <summary>
       /// Return the Velocity3D as a vector of float [xd, yd, zd].
       /// </summary>
-      std::vector<float> toVector() const;
+      void toVector(std::vector<float>& pReturnValue) const;
+      std::vector<float> toVector(void) const;
     };
 
     Velocity3D operator* (

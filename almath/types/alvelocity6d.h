@@ -245,7 +245,8 @@ struct Velocity6D {
   /// <summary>
   /// Return the Velocity6D as a vector of float [xd, yd, zd, wxd, wyd, wzd].
   /// </summary>
-  std::vector<float> toVector() const;
+  void toVector(std::vector<float>& pReturnVector) const;
+  std::vector<float> toVector(void) const;
 }; // end struct
 
 /// <summary>
