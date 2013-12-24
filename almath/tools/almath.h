@@ -15,6 +15,7 @@
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
 #include <almath/types/alrotation.h>
+#include <almath/types/alrotation3d.h>
 #include <almath/types/alquaternion.h>
 #include <almath/types/alpose2d.h>
 
@@ -378,6 +379,20 @@ namespace AL {
     Position2D operator*(
       const Pose2D& pVal,
       const Position2D& pPos);
+
+    /// <summary>
+    /// Create a Quaternion from a Rotation3D when composed
+    /// in the following order: Rz(wz) * Ry(wy) * Rx(wx)
+    /// </summary>
+    /// <param name = "pRot3D"> the rotation3d you want to extract </param>
+    /// <returns> the Quaternion extracted from the Rotation3D </returns>
+    /// \ingroup Tools
+    void quaternionFromRotation3D(
+        const Rotation3D& pRot3D,
+        Quaternion& pQuaternion);
+
+    Quaternion quaternionFromRotation3D(
+        const Rotation3D& pRot3D);
 
 
   } // namespace Math

@@ -209,7 +209,7 @@ namespace AL {
     /// <param name = "pPosIn"> a Position3D containing the position
     /// to change
     /// </param>
-    /// <param name = "pPosOut">  a Position3D containing the changed position
+    /// <param name = "pPosOut"> a Position3D containing the changed position
     /// </param>
     /// \ingroup Tools
     void changeReferencePosition3D(

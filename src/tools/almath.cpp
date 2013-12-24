@@ -303,6 +303,31 @@ namespace AL
             pVal.y + std::sin(pVal.theta)*pPos.x + std::cos(pVal.theta)*pPos.y);
     }
 
+    void quaternionFromRotation3D(
+        const Rotation3D& pRot3D,
+        Quaternion& pQuaternion)
+    {
+      const float cx = std::cos(0.5f*pRot3D.wx);
+      const float cy = std::cos(0.5f*pRot3D.wy);
+      const float cz = std::cos(0.5f*pRot3D.wz);
+      const float sx = std::sin(0.5f*pRot3D.wx);
+      const float sy = std::sin(0.5f*pRot3D.wy);
+      const float sz = std::sin(0.5f*pRot3D.wz);
+
+      pQuaternion.w = cz * cy * cx + sz * sy * sx;
+      pQuaternion.x = cz * cy * sx - sz * sy * cx;
+      pQuaternion.y = cz * sy * cx + cy * sz * sx;
+      pQuaternion.z = cy * sz * cx - cz * sy * sx;
+    }
+
+    Quaternion quaternionFromRotation3D(
+        const Rotation3D& pRot3D)
+    {
+      Quaternion lQuat;
+      quaternionFromRotation3D(pRot3D, lQuat);
+      return lQuat;
+    }
+
   } // namespace Math
 } // namespace AL
 

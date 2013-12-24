@@ -517,3 +517,31 @@ TEST(ALMathTest, multiplicationPose2DPosition2D)
   EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
 }
 
+TEST(ALMathTest, quaternionFromRotation3D)
+{
+  for (unsigned int i=0; i<360; ++i)
+  {
+    const float angleX = static_cast<float>(i)*AL::Math::TO_RAD;
+    const AL::Math::Quaternion quatX =
+        AL::Math::quaternionFromAngleAndAxisRotation(angleX, 1.0f, 0.0f, 0.0f);
+    for (unsigned int j=0; j<360; ++j)
+    {
+      const float angleY = static_cast<float>(j)*AL::Math::TO_RAD;
+      const AL::Math::Quaternion quatY =
+          AL::Math::quaternionFromAngleAndAxisRotation(angleY, 0.0f, 1.0f, 0.0f);
+      for (unsigned int k=0; k<360; ++k)
+      {
+        const float angleZ = static_cast<float>(k)*AL::Math::TO_RAD;
+        const AL::Math::Quaternion quatZ =
+            AL::Math::quaternionFromAngleAndAxisRotation(angleZ, 0.0f, 0.0f, 1.0f);
+
+        const AL::Math::Quaternion quatExpected = quatZ*quatY*quatX;
+        const AL::Math::Rotation3D rot3DZYX(angleX, angleY, angleZ);
+        const AL::Math::Quaternion quatResult =
+            AL::Math::quaternionFromRotation3D(rot3DZYX);
+        EXPECT_TRUE(quatResult.isNear(quatExpected, 0.001f));
+      }
+    }
+  }
+}
+
