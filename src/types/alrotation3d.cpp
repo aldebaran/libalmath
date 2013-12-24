@@ -12,41 +12,44 @@
 namespace AL {
   namespace Math {
 
-  Rotation3D::Rotation3D(): wx(0.0f),
-    wy(0.0f),
-    wz(0.0f) {}
+    Rotation3D::Rotation3D()
+      :wx(0.0f)
+      ,wy(0.0f)
+      ,wz(0.0f) {}
 
-  Rotation3D::Rotation3D(float pInit): wx(pInit),
-    wy(pInit),
-    wz(pInit) {}
+    Rotation3D::Rotation3D(float pInit)
+      :wx(pInit)
+      ,wy(pInit)
+      ,wz(pInit) {}
 
-  Rotation3D::Rotation3D(
-    float pWx,
-    float pWy,
-    float pWz): wx(pWx),
-    wy(pWy),
-    wz(pWz) {}
+    Rotation3D::Rotation3D(
+        float pWx,
+        float pWy,
+        float pWz)
+      :wx(pWx)
+      ,wy(pWy)
+      ,wz(pWz) {}
 
-  Rotation3D::Rotation3D(const std::vector<float>& pFloats)
-  {
-    if (pFloats.size() == 3)
+    Rotation3D::Rotation3D(const std::vector<float>& pFloats)
     {
-      wx = pFloats[0];
-      wy = pFloats[1];
-      wz = pFloats[2];
-    }
-    else
-    {
-      std::cerr << "ALMath: WARNING: "
-                << "Rotation3D constructor call with a wrong size of vector. "
-                << "Size expected: 3. Size given: " << pFloats.size() << ". "
-                << "Rotation3D is set to default value." << std::endl;
+      if (pFloats.size() == 3)
+      {
+        wx = pFloats[0];
+        wy = pFloats[1];
+        wz = pFloats[2];
+      }
+      else
+      {
+        std::cerr << "ALMath: WARNING: "
+                  << "Rotation3D constructor call with a wrong size of vector. "
+                  << "Size expected: 3. Size given: " << pFloats.size() << ". "
+                  << "Rotation3D is set to default value." << std::endl;
 
-      wx = 0.0f;
-      wy = 0.0f;
-      wz = 0.0f;
+        wx = 0.0f;
+        wy = 0.0f;
+        wz = 0.0f;
+      }
     }
-  }
 
     Rotation3D Rotation3D::operator+ (const Rotation3D& pRot2) const
     {
@@ -110,7 +113,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALRotation3D: operator/ Division by zeros.");
+              "ALRotation3D: operator/ Division by zeros.");
       }
       return (*this) * (1.0f/pVal);
     }
@@ -128,7 +131,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALRotation3D: operator/= Division by zeros.");
+              "ALRotation3D: operator/= Division by zeros.");
       }
       (*this) *= (1.0f/pVal);
       return *this;

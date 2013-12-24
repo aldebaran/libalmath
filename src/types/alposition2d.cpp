@@ -12,11 +12,11 @@
 namespace AL {
   namespace Math {
 
-    Position2D::Position2D() : x(0.0f), y(0.0f) {}
+    Position2D::Position2D(): x(0.0f), y(0.0f) {}
 
-    Position2D::Position2D(float pInit) : x(pInit), y(pInit) {}
+    Position2D::Position2D(float pInit): x(pInit), y(pInit) {}
 
-    Position2D::Position2D(float pX, float pY) : x(pX), y(pY) {}
+    Position2D::Position2D(float pX, float pY): x(pX), y(pY) {}
 
     Position2D::Position2D (const std::vector<float>& pFloats)
     {

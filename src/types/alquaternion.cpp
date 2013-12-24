@@ -19,8 +19,11 @@ namespace AL {
       float pW,
       float pX,
       float pY,
-      float pZ):
-      w(pW), x(pX), y(pY), z(pZ) {}
+      float pZ)
+      :w(pW)
+      ,x(pX)
+      ,y(pY)
+      ,z(pZ){}
 
     Quaternion::Quaternion(const std::vector<float>& pFloats)
     {

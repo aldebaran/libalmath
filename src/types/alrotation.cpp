@@ -319,24 +319,24 @@ namespace AL {
         const float pD)
     {
       Rotation T = Rotation();
-      float t2 =  pA*pB;
-      float t3 =  pA*pC;
-      float t4 =  pA*pD;
-      float t5 = -pB*pB;
-      float t6 =  pB*pC;
-      float t7 =  pB*pD;
-      float t8 = -pC*pC;
-      float t9 =  pC*pD;
-      float t10= -pD*pD;
-      T.r1_c1 = 2*(t8 + t10) + 1.0f;
-      T.r1_c2 = 2*(t6 - t4 );
-      T.r1_c3 = 2*(t7 + t3 );
-      T.r2_c1 = 2*(t6 + t4 );
-      T.r2_c2 = 2*(t5 + t10) + 1.0f;
-      T.r2_c3 = 2*(t9 - t2 );
-      T.r3_c1 = 2*(t7 - t3 );
-      T.r3_c2 = 2*(t9 + t2 );
-      T.r3_c3 = 2*(t5 + t8 ) + 1.0f;
+      const float t2 =  pA*pB;
+      const float t3 =  pA*pC;
+      const float t4 =  pA*pD;
+      const float t5 = -pB*pB;
+      const float t6 =  pB*pC;
+      const float t7 =  pB*pD;
+      const float t8 = -pC*pC;
+      const float t9 =  pC*pD;
+      const float t10= -pD*pD;
+      T.r1_c1 = 2.0f*(t8 + t10) + 1.0f;
+      T.r1_c2 = 2.0f*(t6 - t4);
+      T.r1_c3 = 2.0f*(t7 + t3);
+      T.r2_c1 = 2.0f*(t6 + t4);
+      T.r2_c2 = 2.0f*(t5 + t10) + 1.0f;
+      T.r2_c3 = 2.0f*(t9 - t2);
+      T.r3_c1 = 2.0f*(t7 - t3);
+      T.r3_c2 = 2.0f*(t9 + t2);
+      T.r3_c3 = 2.0f*(t5 + t8) + 1.0f;
       return T;
     }
 

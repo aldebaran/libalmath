@@ -394,6 +394,32 @@ namespace AL {
     Quaternion quaternionFromRotation3D(
         const Rotation3D& pRot3D);
 
+    /// <summary>
+    /// Create a Rotation Matrix from a Quaternion
+    /// </summary>
+    /// <param name = "pQua"> the quaternion you want to extract </param>
+    /// <returns> the Rotation matrix extracted from the Quaternion </returns>
+    /// \ingroup Tools
+    void rotationFromQuaternion(
+        const Quaternion& pQua,
+        Rotation& pRot);
+
+    Rotation rotationFromQuaternion(
+        const Quaternion& pQua);
+
+    /// <summary>
+    /// Create a Rotation3D from a Quaternion when composed
+    /// in the following order: Rz(wz) * Ry(wy) * Rx(wx)
+    /// </summary>
+    /// <param name = "pQuaternion"> the quaternion you want to extract </param>
+    /// <returns> the Rotation3D extracted from the Quaternion </returns>
+    /// \ingroup Tools
+    void rotation3DFromQuaternion(
+        const Quaternion& pQuaterion,
+        Rotation3D& pRot3D);
+
+    Rotation3D rotation3DFromQuaternion(
+        const Quaternion& pQuaternion);
 
   } // namespace Math
 } // namespace AL

@@ -25,5 +25,5 @@ set(almath_tests_srcs
     types/aldisplacement_test.cpp
 )
 
-qi_create_gtest(almath_tests ${almath_tests_srcs} DEPENDS GTEST ALMATH)
+qi_create_gtest(almath_tests ${almath_tests_srcs} DEPENDS GTEST ALMATH TIMEOUT 120)
 

@@ -16,7 +16,7 @@ namespace AL
 
     void modulo2PIInPlace(float& pAngle)
     {
-      pAngle = fmod(pAngle, AL::Math::_2_PI_);
+      pAngle = std::fmod(pAngle, AL::Math::_2_PI_);
 
       if (pAngle>AL::Math::PI)
       {
@@ -326,6 +326,55 @@ namespace AL
       Quaternion lQuat;
       quaternionFromRotation3D(pRot3D, lQuat);
       return lQuat;
+    }
+
+    void rotationFromQuaternion(
+        const Quaternion& pQua,
+        Rotation& pRot)
+    {
+      pRot.r1_c1 = 1.0f - 2.0f*(std::pow(pQua.y, 2) + std::pow(pQua.z, 2));
+      pRot.r1_c2 = 2.0f*(pQua.x*pQua.y - pQua.z*pQua.w);
+      pRot.r1_c3 = 2.0f*(pQua.x*pQua.z + pQua.y*pQua.w);
+
+      pRot.r2_c1 = 2.0f*(pQua.x*pQua.y + pQua.z*pQua.w);
+      pRot.r2_c2 = 1.0f - 2.0f*(std::pow(pQua.x, 2) + std::pow(pQua.z, 2));
+      pRot.r2_c3 = 2.0f*(pQua.y*pQua.z - pQua.x*pQua.w);
+
+      pRot.r3_c1 = 2.0f*(pQua.x*pQua.z - pQua.y*pQua.w);
+      pRot.r3_c2 = 2.0f*(pQua.y*pQua.z + pQua.x*pQua.w);
+      pRot.r3_c3 = 1.0f - 2.0f*(std::pow(pQua.x, 2) + std::pow(pQua.y, 2));
+    }
+
+    Rotation rotationFromQuaternion(
+        const Quaternion& pQua)
+    {
+      Rotation lRot;
+      rotationFromQuaternion(pQua, lRot);
+      return lRot;
+    }
+
+
+    void rotation3DFromQuaternion(
+        const AL::Math::Quaternion& pQuaternion,
+        AL::Math::Rotation3D& pRot3D)
+    {
+      //rotationFromQuaternion
+      AL::Math::Rotation lRot;
+      rotationFromQuaternion(pQuaternion, lRot);
+
+      pRot3D.wz = std::atan2(lRot.r2_c1, lRot.r1_c1);
+      const float sy = std::sin(pRot3D.wz);
+      const float cy = std::cos(pRot3D.wz);
+      pRot3D.wy = std::atan2(-lRot.r3_c1, cy*lRot.r1_c1+sy*lRot.r2_c1);
+      pRot3D.wx = std::atan2(sy*lRot.r1_c3-cy*lRot.r2_c3, cy*lRot.r2_c2-sy*lRot.r1_c2);
+    }
+
+    Rotation3D rotation3DFromQuaternion(
+        const Quaternion& pQuaternion)
+    {
+      Rotation3D lRotation3D;
+      rotation3DFromQuaternion(pQuaternion, lRotation3D);
+      return lRotation3D;
     }
 
   } // namespace Math
