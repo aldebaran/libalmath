@@ -626,3 +626,21 @@ TEST(ALMathTest, rotation3DFromQuaternion2)
     }
   }
 }
+
+TEST(ALMathTest, quaternionPosition3DFromPosition6D)
+{
+  // function quaternionFromRotation3D must be check before
+  const float lEpsilon = 0.001f;
+  const AL::Math::Position6D pos6D =
+      AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
+  AL::Math::Quaternion qua;
+  AL::Math::Position3D pos3D;
+
+  AL::Math::quaternionPosition3DFromPosition6D(pos6D, qua, pos3D);
+
+  const AL::Math::Quaternion quaExpected =
+      AL::Math::quaternionFromRotation3D(AL::Math::Rotation3D(0.4f, 0.5f, 0.6f));
+  EXPECT_TRUE(qua.isNear(quaExpected, lEpsilon));
+  EXPECT_TRUE(pos3D.isNear(AL::Math::Position3D(0.1f, 0.2f, 0.3f), lEpsilon));
+
+}

@@ -377,6 +377,21 @@ namespace AL
       return lRotation3D;
     }
 
+    void quaternionPosition3DFromPosition6D(
+        const Position6D& pPos6D,
+        Quaternion& pQua,
+        Position3D& pPos3D)
+    {
+      quaternionFromRotation3D(
+            AL::Math::Rotation3D(pPos6D.wx, pPos6D.wy, pPos6D.wz),
+            pQua);
+
+      pPos3D.x = pPos6D.x;
+      pPos3D.y = pPos6D.y;
+      pPos3D.z = pPos6D.z;
+    }
+
+
   } // namespace Math
 } // namespace AL
 

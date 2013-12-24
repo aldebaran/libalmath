@@ -421,6 +421,18 @@ namespace AL {
     Rotation3D rotation3DFromQuaternion(
         const Quaternion& pQuaternion);
 
+    /// <summary>
+    /// Convert a Position6D to Quaternion and Position3D
+    /// </summary>
+    /// <param name = "pPos6D"> the input Position6D you want to extract </param>
+    /// <param name = "pQua"> the Quaternion extracted from Position6D </param>
+    /// <param name = "pPos3D"> the Position3D extracted from Position6D </param>
+    /// \ingroup Tools
+    void quaternionPosition3DFromPosition6D(
+        const Position6D& pPos6D,
+        Quaternion& pQua,
+        Position3D& pPos3D);
+
   } // namespace Math
 } // namespace AL
 #endif  // _LIBALMATH_ALMATH_TOOLS_ALMATH_H_
