@@ -21,7 +21,7 @@ TEST(ALRotation3DTest, toVector)
   const std::vector<float> vec = pos.toVector();
 
   EXPECT_TRUE(vec.size()==3);
-  EXPECT_NEAR(pos.wx, vec.at(0), eps);
-  EXPECT_NEAR(pos.wy, vec.at(1), eps);
-  EXPECT_NEAR(pos.wz, vec.at(2), eps);
+  EXPECT_NEAR(pos.wx, vec[0], eps);
+  EXPECT_NEAR(pos.wy, vec[1], eps);
+  EXPECT_NEAR(pos.wz, vec[2], eps);
 }

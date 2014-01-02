@@ -141,11 +141,11 @@ TEST(ALPosition6DTest, toVector)
   const std::vector<float> vec = pos.toVector();
 
   EXPECT_TRUE(vec.size()==6);
-  EXPECT_NEAR(pos.x, vec.at(0), eps);
-  EXPECT_NEAR(pos.y, vec.at(1), eps);
-  EXPECT_NEAR(pos.z, vec.at(2), eps);
-  EXPECT_NEAR(pos.wx, vec.at(3), eps);
-  EXPECT_NEAR(pos.wy, vec.at(4), eps);
-  EXPECT_NEAR(pos.wz, vec.at(5), eps);
+  EXPECT_NEAR(pos.x, vec[0], eps);
+  EXPECT_NEAR(pos.y, vec[1], eps);
+  EXPECT_NEAR(pos.z, vec[2], eps);
+  EXPECT_NEAR(pos.wx, vec[3], eps);
+  EXPECT_NEAR(pos.wy, vec[4], eps);
+  EXPECT_NEAR(pos.wz, vec[5], eps);
 }
 

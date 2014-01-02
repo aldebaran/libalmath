@@ -227,17 +227,21 @@ namespace AL {
       return Math::norm(*this);
     }
 
-    std::vector<float> Position6D::toVector() const
+    void Position6D::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(6);
+      pReturnVector[0] = x;
+      pReturnVector[1] = y;
+      pReturnVector[2] = z;
+      pReturnVector[3] = wx;
+      pReturnVector[4] = wy;
+      pReturnVector[5] = wz;
+    }
+
+    std::vector<float> Position6D::toVector(void) const
     {
       std::vector<float> returnVector(6, 0.0f);
-
-      returnVector[0] = x;
-      returnVector[1] = y;
-      returnVector[2] = z;
-      returnVector[3] = wx;
-      returnVector[4] = wy;
-      returnVector[5] = wz;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

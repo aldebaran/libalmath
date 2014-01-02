@@ -1483,3 +1483,30 @@ TEST(ALMathTransformHelpers, operatorMultiplyPosition2D)
   AL::Math::Position3D result = tf*pos2D;
   EXPECT_TRUE(result.isNear(AL::Math::Position3D(2.0f, 4.0f, 3.0f)));
 }
+
+TEST(ALMathTransformHelpers, position6DFromTransformInPlace)
+{
+  for (unsigned int i=0; i<360; ++i)
+  {
+    const float angleX = static_cast<float>(i)*AL::Math::TO_RAD;
+    const AL::Math::Transform tfX = AL::Math::Transform::fromRotX(angleX);
+    for (unsigned int j=0; j<360; ++j)
+    {
+      const float angleY = static_cast<float>(j)*AL::Math::TO_RAD;
+      const AL::Math::Transform tfY = AL::Math::Transform::fromRotY(angleY);
+      for (unsigned int k=0; k<360; ++k)
+      {
+        const float angleZ = static_cast<float>(k)*AL::Math::TO_RAD;
+        const AL::Math::Transform tfZ = AL::Math::Transform::fromRotZ(angleZ);
+
+        const AL::Math::Transform tfExpected = tfZ*tfY*tfX;
+        AL::Math::Position6D pos6D;
+        AL::Math::position6DFromTransformInPlace(tfExpected, pos6D);
+
+        const AL::Math::Transform tfResult =
+            AL::Math::transformFromPosition6D(pos6D);
+        EXPECT_TRUE(tfResult.isNear(tfExpected, 0.001f));
+      }
+    }
+  }
+}

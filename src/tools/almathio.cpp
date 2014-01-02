@@ -196,6 +196,21 @@ namespace AL {
       return pStream;
     }
 
+    std::ostream& operator<< (std::ostream& pStream, const Quaternion& p)
+    {
+      pStream.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
+      pStream << "{w: ";
+      pStream << p.w;
+      pStream << ", x:";
+      pStream << p.x;
+      pStream << ", y:";
+      pStream << p.y;
+      pStream << ", z:";
+      pStream << p.z;
+      pStream << "}";
+      return pStream;
+    }
+
     std::ostream& operator<< (std::ostream& pStream, const Velocity3D& p)
     {
       pStream.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
@@ -228,87 +243,46 @@ namespace AL {
       return pStream;
     }
 
-
-
     std::string toSpaceSeparated(const Velocity6D& p)
     {
       std::stringstream os;
-      os.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
-      os << p.xd << " ";
-      os << p.yd << " ";
-      os << p.zd << " ";
-      os << p.wxd << " ";
-      os << p.wyd << " ";
-      os << p.wzd << " ";
+      os << p;
       return os.str();
     }
 
     std::string toSpaceSeparated(const Transform& pT)
     {
       std::stringstream os;
-      os.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
-      os << pT.r1_c1 << " ";
-      os << pT.r1_c2 << " ";
-      os << pT.r1_c3 << " ";
-      os << pT.r1_c4 << " ";
-      os << pT.r2_c1 << " ";
-      os << pT.r2_c2 << " ";
-      os << pT.r2_c3 << " ";
-      os << pT.r2_c4 << " ";
-      os << pT.r3_c1 << " ";
-      os << pT.r3_c2 << " ";
-      os << pT.r3_c3 << " ";
-      os << pT.r3_c4 << " ";
-      os << "0.0 0.0 0.0 1.0 ";
+      os << pT;
       return os.str();
     }
 
     std::string toSpaceSeparated(const Position3D& p)
     {
       std::stringstream os;
-      os.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
-      os << p.x << " ";
-      os << p.y << " ";
-      os << p.z << " ";
+      os << p;
       return os.str();
     }
 
     std::string toSpaceSeparated(const Rotation3D& p)
     {
       std::stringstream os;
-      os.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
-      os << p.wx << " ";
-      os << p.wy << " ";
-      os << p.wz << " ";
+      os << p;
       return os.str();
     }
 
     std::string toSpaceSeparated(const Position6D& p)
     {
       std::stringstream os;
-      os.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
-      os << p.x << " ";
-      os << p.y << " ";
-      os << p.z << " ";
-      os << p.wx << " ";
-      os << p.wy << " ";
-      os << p.wz << " ";
+      os << p;
       return os.str();
     }
 
-    std::ostream& operator<< (std::ostream& pStream, const Quaternion& p)
+    std::string toSpaceSeparated(const Quaternion &pQuat)
     {
-      pStream.setf(std::ios::showpoint | std::ios::left | std::ios::showpos);
-      pStream << "{w: ";
-      pStream << p.w;
-      pStream << ", x:";
-      pStream << p.x;
-      pStream << ", y:";
-      pStream << p.y;
-      pStream << ", z:";
-      pStream << p.z;
-      pStream << "}";
-      return pStream;
+      std::stringstream os;
+      os << pQuat;
+      return os.str();
     }
 
   }

@@ -15,6 +15,7 @@
 #include <almath/types/alposition3d.h>
 #include <almath/types/alposition6d.h>
 #include <almath/types/alrotation.h>
+#include <almath/types/alrotation3d.h>
 #include <almath/types/alquaternion.h>
 #include <almath/types/alpose2d.h>
 
@@ -57,6 +58,16 @@ namespace AL {
     const float& pMin,
     const float& pMax,
     float&       pData);
+
+  bool clipData(
+    const float& pMin,
+    const float& pMax,
+    std::vector<float>& pData);
+
+  bool clipData(
+    const float& pMin,
+    const float& pMax,
+    std::vector<std::vector<float> >& pData);
 
   /// <summary>
   /** \f$ \left[\begin{array}{c}
@@ -369,6 +380,58 @@ namespace AL {
       const Pose2D& pVal,
       const Position2D& pPos);
 
+    /// <summary>
+    /// Create a Quaternion from a Rotation3D when composed
+    /// in the following order: Rz(wz) * Ry(wy) * Rx(wx)
+    /// </summary>
+    /// <param name = "pRot3D"> the rotation3d you want to extract </param>
+    /// <returns> the Quaternion extracted from the Rotation3D </returns>
+    /// \ingroup Tools
+    void quaternionFromRotation3D(
+        const Rotation3D& pRot3D,
+        Quaternion& pQuaternion);
+
+    Quaternion quaternionFromRotation3D(
+        const Rotation3D& pRot3D);
+
+    /// <summary>
+    /// Create a Rotation Matrix from a Quaternion
+    /// </summary>
+    /// <param name = "pQua"> the quaternion you want to extract </param>
+    /// <returns> the Rotation matrix extracted from the Quaternion </returns>
+    /// \ingroup Tools
+    void rotationFromQuaternion(
+        const Quaternion& pQua,
+        Rotation& pRot);
+
+    Rotation rotationFromQuaternion(
+        const Quaternion& pQua);
+
+    /// <summary>
+    /// Create a Rotation3D from a Quaternion when composed
+    /// in the following order: Rz(wz) * Ry(wy) * Rx(wx)
+    /// </summary>
+    /// <param name = "pQuaternion"> the quaternion you want to extract </param>
+    /// <returns> the Rotation3D extracted from the Quaternion </returns>
+    /// \ingroup Tools
+    void rotation3DFromQuaternion(
+        const Quaternion& pQuaterion,
+        Rotation3D& pRot3D);
+
+    Rotation3D rotation3DFromQuaternion(
+        const Quaternion& pQuaternion);
+
+    /// <summary>
+    /// Convert a Position6D to Quaternion and Position3D
+    /// </summary>
+    /// <param name = "pPos6D"> the input Position6D you want to extract </param>
+    /// <param name = "pQua"> the Quaternion extracted from Position6D </param>
+    /// <param name = "pPos3D"> the Position3D extracted from Position6D </param>
+    /// \ingroup Tools
+    void quaternionPosition3DFromPosition6D(
+        const Position6D& pPos6D,
+        Quaternion& pQua,
+        Position3D& pPos3D);
 
   } // namespace Math
 } // namespace AL

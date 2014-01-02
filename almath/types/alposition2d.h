@@ -268,7 +268,8 @@ namespace AL {
       /// <summary>
       /// Return the Position2D as a vector of float [x, y].
       /// </summary>
-      std::vector<float> toVector() const;
+      void toVector(std::vector<float>& pReturnVector) const;
+      std::vector<float> toVector(void) const;
 
 
       /// <summary>

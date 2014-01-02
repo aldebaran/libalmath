@@ -12,11 +12,11 @@
 namespace AL {
   namespace Math {
 
-    Position2D::Position2D() : x(0.0f), y(0.0f) {}
+    Position2D::Position2D(): x(0.0f), y(0.0f) {}
 
-    Position2D::Position2D(float pInit) : x(pInit), y(pInit) {}
+    Position2D::Position2D(float pInit): x(pInit), y(pInit) {}
 
-    Position2D::Position2D(float pX, float pY) : x(pX), y(pY) {}
+    Position2D::Position2D(float pX, float pY): x(pX), y(pY) {}
 
     Position2D::Position2D (const std::vector<float>& pFloats)
     {
@@ -179,13 +179,17 @@ namespace AL {
               y == pPos2.y);
     }
 
-    std::vector<float> Position2D::toVector() const
+    void Position2D::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(2);
+      pReturnVector[0] = x;
+      pReturnVector[1] = y;
+    }
+
+    std::vector<float> Position2D::toVector(void) const
     {
       std::vector<float> returnVector(2, 0.0f);
-
-      returnVector[0] = x;
-      returnVector[1] = y;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

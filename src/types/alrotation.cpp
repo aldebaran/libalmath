@@ -257,23 +257,26 @@ namespace AL {
       return Math::rotationFrom3DRotation(pWX, pWY, pWZ);
     }
 
+    void Rotation::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(9);
+      pReturnVector[0] = r1_c1;
+      pReturnVector[1] = r1_c2;
+      pReturnVector[2] = r1_c3;
 
-    std::vector<float> Rotation::toVector() const
+      pReturnVector[3] = r2_c1;
+      pReturnVector[4] = r2_c2;
+      pReturnVector[5] = r2_c3;
+
+      pReturnVector[6] = r3_c1;
+      pReturnVector[7] = r3_c2;
+      pReturnVector[8] = r3_c3;
+    }
+
+    std::vector<float> Rotation::toVector(void) const
     {
       std::vector<float> returnVector(9, 0.0f);
-
-      returnVector[0] = r1_c1;
-      returnVector[1] = r1_c2;
-      returnVector[2] = r1_c3;
-
-      returnVector[3] = r2_c1;
-      returnVector[4] = r2_c2;
-      returnVector[5] = r2_c3;
-
-      returnVector[6] = r3_c1;
-      returnVector[7] = r3_c2;
-      returnVector[8] = r3_c3;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 
@@ -316,24 +319,24 @@ namespace AL {
         const float pD)
     {
       Rotation T = Rotation();
-      float t2 =  pA*pB;
-      float t3 =  pA*pC;
-      float t4 =  pA*pD;
-      float t5 = -pB*pB;
-      float t6 =  pB*pC;
-      float t7 =  pB*pD;
-      float t8 = -pC*pC;
-      float t9 =  pC*pD;
-      float t10= -pD*pD;
-      T.r1_c1 = 2*(t8 + t10) + 1.0f;
-      T.r1_c2 = 2*(t6 - t4 );
-      T.r1_c3 = 2*(t7 + t3 );
-      T.r2_c1 = 2*(t6 + t4 );
-      T.r2_c2 = 2*(t5 + t10) + 1.0f;
-      T.r2_c3 = 2*(t9 - t2 );
-      T.r3_c1 = 2*(t7 - t3 );
-      T.r3_c2 = 2*(t9 + t2 );
-      T.r3_c3 = 2*(t5 + t8 ) + 1.0f;
+      const float t2 =  pA*pB;
+      const float t3 =  pA*pC;
+      const float t4 =  pA*pD;
+      const float t5 = -pB*pB;
+      const float t6 =  pB*pC;
+      const float t7 =  pB*pD;
+      const float t8 = -pC*pC;
+      const float t9 =  pC*pD;
+      const float t10= -pD*pD;
+      T.r1_c1 = 2.0f*(t8 + t10) + 1.0f;
+      T.r1_c2 = 2.0f*(t6 - t4);
+      T.r1_c3 = 2.0f*(t7 + t3);
+      T.r2_c1 = 2.0f*(t6 + t4);
+      T.r2_c2 = 2.0f*(t5 + t10) + 1.0f;
+      T.r2_c3 = 2.0f*(t9 - t2);
+      T.r3_c1 = 2.0f*(t7 - t3);
+      T.r3_c2 = 2.0f*(t9 + t2);
+      T.r3_c3 = 2.0f*(t5 + t8) + 1.0f;
       return T;
     }
 

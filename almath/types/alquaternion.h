@@ -199,7 +199,8 @@ namespace AL {
       /// <summary>
       /// Return the Quaternion as a vector of float [w, x, y, z].
       /// </summary>
-      std::vector<float> toVector() const;
+      void toVector(std::vector<float>& pReturnVector) const;
+      std::vector<float> toVector(void) const;
     };
 
     /// <summary>

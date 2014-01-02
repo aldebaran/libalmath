@@ -297,7 +297,8 @@ namespace AL {
         * \end{array}\f$
         */
       /// </summary>
-      std::vector<float> toVector() const;
+      void toVector(std::vector<float>& pReturnValue) const;
+      std::vector<float> toVector(void) const;
 
     }; // end struct
 

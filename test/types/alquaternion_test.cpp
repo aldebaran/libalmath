@@ -208,10 +208,10 @@ TEST(ALQuaternionTest, creation)
   pQua1 = AL::Math::Quaternion(1.0f, 2.0f, 3.0f, 4.0f);
   std::vector<float> pQua1Vect = pQua1.toVector();
 
-  EXPECT_NEAR(pQua1Vect.at(0), 1.0f, 0.0001f);
-  EXPECT_NEAR(pQua1Vect.at(1), 2.0f, 0.0001f);
-  EXPECT_NEAR(pQua1Vect.at(2), 3.0f, 0.0001f);
-  EXPECT_NEAR(pQua1Vect.at(3), 4.0f, 0.0001f);
+  EXPECT_NEAR(pQua1Vect[0], 1.0f, 0.0001f);
+  EXPECT_NEAR(pQua1Vect[1], 2.0f, 0.0001f);
+  EXPECT_NEAR(pQua1Vect[2], 3.0f, 0.0001f);
+  EXPECT_NEAR(pQua1Vect[3], 4.0f, 0.0001f);
 
   unsigned int nbX = 101;
   unsigned int nbY = 101;

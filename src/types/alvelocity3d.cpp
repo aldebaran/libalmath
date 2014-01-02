@@ -186,14 +186,18 @@ namespace AL {
       return Math::normalize(*this);
     }
 
-    std::vector<float> Velocity3D::toVector() const
+    void Velocity3D::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(3);
+      pReturnVector[0] = xd;
+      pReturnVector[1] = yd;
+      pReturnVector[2] = zd;
+    }
+
+    std::vector<float> Velocity3D::toVector(void) const
     {
       std::vector<float> returnVector(3, 0.0f);
-
-      returnVector[0] = xd;
-      returnVector[1] = yd;
-      returnVector[2] = zd;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

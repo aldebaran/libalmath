@@ -65,7 +65,8 @@ namespace AL {
       /// <summary>
       /// Return the PositionAndVelocity as a vector of float [q, dq].
       /// </summary>
-      std::vector<float> toVector() const;
+      void toVector(std::vector<float>& pReturnVector) const;
+      std::vector<float> toVector(void) const;
     };
 
   }

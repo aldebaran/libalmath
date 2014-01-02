@@ -205,18 +205,23 @@ namespace AL {
       return Math::normalize(*this);
     }
 
-    std::vector<float> Velocity6D::toVector() const
+    void Velocity6D::toVector(std::vector<float>& pReturnVector) const
+    {
+      pReturnVector.resize(6);
+
+      pReturnVector[0] = xd;
+      pReturnVector[1] = yd;
+      pReturnVector[2] = zd;
+
+      pReturnVector[3] = wxd;
+      pReturnVector[4] = wyd;
+      pReturnVector[5] = wzd;
+    }
+
+    std::vector<float> Velocity6D::toVector(void) const
     {
       std::vector<float> returnVector(6, 0.0f);
-
-      returnVector[0] = xd;
-      returnVector[1] = yd;
-      returnVector[2] = zd;
-
-      returnVector[3] = wxd;
-      returnVector[4] = wyd;
-      returnVector[5] = wzd;
-
+      this->toVector(returnVector);
       return returnVector;
     }
 

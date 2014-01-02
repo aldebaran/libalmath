@@ -3,7 +3,7 @@
 \brief \b ALMath is an optimized mathematic toolbox for robotics.
 This library give access to main types and tools of kinematics and dynamics.
 A large part of the functions is optimised in speed so that they can be ran in an embeded environment.
-All the arguments and return values are given in SI units : meters, radians,... 
+All the arguments and return values are given in SI units : meters, radians,...
 
 This manual is divided in the following sections:
 - \subpage overview
@@ -25,9 +25,9 @@ This manual is divided in the following sections:
 /** \page overview Overview
 
 
-It aims to control a position and/or rotation of a part of the robot in natural 3D space. 
-There are different mathematical ways to represent the position and 
-the orientation of a rigid body in space. 
+It aims to control a position and/or rotation of a part of the robot in natural 3D space.
+There are different mathematical ways to represent the position and
+the orientation of a rigid body in space.
 ALMath offers two ways to represent a solid in 3D:
 
 - Transform: it is one of the best way to describe a solid in space. It is composed of a rotation matrix and a translation.
@@ -39,40 +39,40 @@ At the end of this section, we describe how to compute the transform from a posi
 In our case, a rotation matrix is a 3*3 matrix. In linear algebra, a rotation matrix is a matrix that applies a rotation in Euclidean space.
 
 \f$ R = \left[\begin{array}{ccc}
-r_1c_1 & r_1c_2 & r_1c_3 \\ 
-r_2c_1 & r_2c_2 & r_2c_3 \\ 
-r_3c_1 & r_3c_2 & r_3c_3 \\ 
+r_1c_1 & r_1c_2 & r_1c_3 \\
+r_2c_1 & r_2c_2 & r_2c_3 \\
+r_3c_1 & r_3c_2 & r_3c_3 \\
  \end{array}\right]\f$ with \f$ \left\{\begin{array}{c}
-R^t = R^{-1} \\ 
+R^t = R^{-1} \\
 det(R) = 1
  \end{array}\right.\f$
 
 The following three basic rotation matrices rotate vectors around x, y or z axis, in three dimensions.
 
 \f$ R_x(\theta) = \left[\begin{array}{ccc}
-1 & 0 & 0 \\ 
-0 & cos(\theta) & -sin(\theta) \\ 
-0 & sin(\theta) & cos(\theta) \\ 
+1 & 0 & 0 \\
+0 & cos(\theta) & -sin(\theta) \\
+0 & sin(\theta) & cos(\theta) \\
  \end{array}\right]\f$
 
 \f$ R_y(\theta) = \left[\begin{array}{ccc}
-cos(\theta) & 0 & sin(\theta) \\ 
-0 & 1 & 0 \\ 
--sin(\theta) & 0 & cos(\theta) \\ 
+cos(\theta) & 0 & sin(\theta) \\
+0 & 1 & 0 \\
+-sin(\theta) & 0 & cos(\theta) \\
  \end{array}\right]\f$
 
 \f$ R_z(\theta) = \left[\begin{array}{ccc}
-cos(\theta) & -sin(\theta) & 0 \\ 
-sin(\theta) & cos(\theta) & 0 \\ 
+cos(\theta) & -sin(\theta) & 0 \\
+sin(\theta) & cos(\theta) & 0 \\
 0 & 0 & 1
 \end{array}\right]\f$
 
 \b Transform: Homogeneous representation
 
-The homogenous representation is a 4*4 matrix which is composed of rotation and translation part. It represent a solid in 3D. 
+The homogenous representation is a 4*4 matrix which is composed of rotation and translation part. It represent a solid in 3D.
 
 \f$ H = \left[\begin{array}{cc}
-R & r \\ 
+R & r \\
 0_{1,3} & 1
 \end{array}\right]\f$
 
@@ -85,12 +85,12 @@ with:
 
 
 \f$ H_{ab} = \left[\begin{array}{cc}
-R_{ab} & r_{ab} \\ 
+R_{ab} & r_{ab} \\
 0_{1,3} & 1
 \end{array}\right]\f$
 
 \f$ H_{ba} = H_{ab}^{-1} = \left[\begin{array}{cc}
-R_{ab}^t & -R_{ab}^t r_{ab} \\ 
+R_{ab}^t & -R_{ab}^t r_{ab} \\
 0_{1,3} & 1
 \end{array}\right]\f$
 
@@ -100,11 +100,10 @@ A Position6D is a vector of 6 dimensions composed of 3 translations (in meters) 
 The angle convention of Position6D is \f$Rot_z(w_z) . Rot_y(w_y) . Rot_x(w_x)\f$.
 
 \f$ Position6D = \left[\begin{array}{c}
-x \\ 
-y \\ 
-z \\ 
-z \\ 
-w_x \\ 
+x \\
+y \\
+z \\
+w_x \\
 w_y \\
 w_z
 \end{array}\right]\f$
@@ -118,13 +117,13 @@ with:
 The following equation shows how to compute a transform from a position6D.
 
 \f$ Position6D = \left[\begin{array}{c}
-x \\ 
-y \\ 
-z \\ 
-w_x \\ 
+x \\
+y \\
+z \\
+w_x \\
 w_y \\
 w_z
-\end{array}\right]\f$ => 
+\end{array}\right]\f$ =>
 \f$ H = \left[\begin{array}{cc}
 R & r \\
 0_{1,3} & 1
@@ -133,16 +132,16 @@ R = R_z(w_z) R_y(w_y) R_x(w_x) \\
 r = \left[\begin{array}{ccc}x & y & z \end{array}\right]^t
 \end{array}\right.\f$
 
-Basic Example: represente a solid which position is x=1.0, y=-0.5, z=0.4 ad his orientation is 10 degree around x axis. 10 degree is equal to 0.1745 radian. In this basic case, it is very simple to use Position6D. 
+Basic Example: represente a solid which position is x=1.0, y=-0.5, z=0.4 ad his orientation is 10 degree around x axis. 10 degree is equal to 0.1745 radian. In this basic case, it is very simple to use Position6D.
 
 \f$ Position6D = \left[\begin{array}{c}
-+1.0 \\ 
--0.5 \\ 
--0.4 \\ 
-0.1745 \\ 
-0.0 \\ 
++1.0 \\
+-0.5 \\
+-0.4 \\
+0.1745 \\
+0.0 \\
 0.0
-\end{array}\right]\f$ <=> 
+\end{array}\right]\f$ <=>
 \f$ Transform = \left[\begin{array}{cccc}
 1 & 0 & 0 & +1.0 \\
 0 & 0.9848 & -0.1736 & -0.5 \\

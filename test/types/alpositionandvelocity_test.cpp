@@ -23,6 +23,6 @@ TEST(ALPositionAndVelocityTest, toVector)
   const std::vector<float> vec = pos.toVector();
 
   EXPECT_TRUE(vec.size()==2);
-  EXPECT_NEAR(pos.q, vec.at(0), eps);
-  EXPECT_NEAR(pos.dq, vec.at(1), eps);
+  EXPECT_NEAR(pos.q, vec[0], eps);
+  EXPECT_NEAR(pos.dq, vec[1], eps);
 }
