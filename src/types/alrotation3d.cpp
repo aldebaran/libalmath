@@ -32,7 +32,7 @@ namespace AL {
 
     Rotation3D::Rotation3D(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 3)
+      if (pFloats.size() == 3u)
       {
         wx = pFloats[0];
         wy = pFloats[1];

@@ -27,7 +27,7 @@ namespace AL {
 
     Quaternion::Quaternion(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 4)
+      if (pFloats.size() == 4u)
       {
         w = pFloats[0];
         x = pFloats[1];

@@ -41,7 +41,7 @@ namespace AL {
 
     Position6D::Position6D(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 6)
+      if (pFloats.size() == 6u)
       {
         x = pFloats[0];
         y = pFloats[1];

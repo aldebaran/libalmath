@@ -298,7 +298,7 @@ TEST(ALRotationTest, toVector)
   const AL::Math::Rotation rot(input);
   const std::vector<float> vec = rot.toVector();
 
-  EXPECT_TRUE(vec.size()==9);
+  EXPECT_TRUE(vec.size()==9u);
   EXPECT_NEAR(rot.r1_c1, vec[0], eps);
   EXPECT_NEAR(rot.r1_c2, vec[1], eps);
   EXPECT_NEAR(rot.r1_c3, vec[2], eps);

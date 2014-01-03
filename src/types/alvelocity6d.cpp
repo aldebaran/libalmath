@@ -44,7 +44,7 @@ namespace AL {
 
   Velocity6D::Velocity6D(const std::vector<float>& pFloats)
   {
-    if (pFloats.size() == 6)
+    if (pFloats.size() == 6u)
     {
       xd  = pFloats[0];
       yd  = pFloats[1];

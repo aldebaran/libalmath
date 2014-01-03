@@ -160,7 +160,7 @@ TEST(ALPosition3DTest, toVector)
   const AL::Math::Position3D pos(1.0f, 2.0f, 3.0f);
   const std::vector<float> vec = pos.toVector();
 
-  EXPECT_TRUE(vec.size()==3);
+  EXPECT_TRUE(vec.size()==3u);
   EXPECT_NEAR(pos.x, vec[0], eps);
   EXPECT_NEAR(pos.y, vec[1], eps);
   EXPECT_NEAR(pos.z, vec[2], eps);

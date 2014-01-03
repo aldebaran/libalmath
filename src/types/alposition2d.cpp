@@ -20,7 +20,7 @@ namespace AL {
 
     Position2D::Position2D (const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 2)
+      if (pFloats.size() == 2u)
       {
         x = pFloats[0];
         y = pFloats[1];

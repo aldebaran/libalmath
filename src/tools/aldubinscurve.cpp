@@ -80,12 +80,12 @@ namespace AL {
         std::vector<dubinsTangent>&                     pBestTangent)
     {
 
-      if (pTangents.size() != 4)
+      if (pTangents.size() != 4u)
       {
         throw std::invalid_argument("ALDubinsCurve: computeBestTangent Input Tangent must be size 4.");
       }
 
-      if (pBestTangent.size() != 2)
+      if (pBestTangent.size() != 2u)
       {
         throw std::invalid_argument(
             "ALDubinsCurve: computeBestTangent "
@@ -121,7 +121,7 @@ namespace AL {
         std::vector<dubinsTangent>& pTangent)
     {
 
-      if (pTangent.size() != 2)
+      if (pTangent.size() != 2u)
       {
         throw std::invalid_argument(
             "ALDubinsCurve: computeTangent Input must be size 2.");
@@ -178,7 +178,7 @@ namespace AL {
         std::vector< std::vector<dubinsTangent> >& pTangents)
     {
 
-      if (pTangents.size() != 4)
+      if (pTangents.size() != 4u)
       {
         throw std::invalid_argument(
             "ALDubinsCurve: getTangents Input must be size 4.");
@@ -245,7 +245,7 @@ namespace AL {
         std::vector<AL::Math::Position2D>& pCircles)
     {
 
-      if (pCircles.size() != 4)
+      if (pCircles.size() != 4u)
       {
         throw std::invalid_argument(
             "ALDubinsCurve: getCircles Input must be size 4.");

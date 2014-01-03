@@ -18,8 +18,8 @@ namespace AL {
 
     Transform::Transform(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 12 ||
-          pFloats.size() == 16)
+      if (pFloats.size() == 12u ||
+          pFloats.size() == 16u)
       {
         r1_c1 = pFloats[0];
         r1_c2 = pFloats[1];
@@ -512,8 +512,8 @@ namespace AL {
 
     float determinant(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() != 12 &&
-          pFloats.size() != 16)
+      if (pFloats.size() != 12u &&
+          pFloats.size() != 16u)
       {
         std::cout << "ALMath: WARNING: "
                   << "determinant call with a wrong size of vector. "

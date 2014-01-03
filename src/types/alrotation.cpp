@@ -20,7 +20,7 @@ namespace AL {
 
     Rotation::Rotation (const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 9)
+      if (pFloats.size() == 9u)
       {
         r1_c1 = pFloats[0];
         r1_c2 = pFloats[1];
@@ -32,7 +32,7 @@ namespace AL {
         r3_c2 = pFloats[7];
         r3_c3 = pFloats[8];
       }
-      else if ((pFloats.size() == 12) || (pFloats.size() == 16))
+      else if ((pFloats.size() == 12u) || (pFloats.size() == 16u))
       {
         // if we give a transform, it take rotation part
         r1_c1 = pFloats[0];

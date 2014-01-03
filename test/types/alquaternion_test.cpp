@@ -247,7 +247,7 @@ TEST(ALQuaternionTest, creation)
     AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
 
     std::vector<float> result = AL::Math::angleAndAxisRotationFromQuaternion(pQua1);
-    EXPECT_TRUE(result.size()==4);
+    EXPECT_TRUE(result.size()==4u);
     EXPECT_NEAR(result.at(0), pAngleResult, epsilon);
     EXPECT_NEAR(result.at(1), pAxeXResult, epsilon);
     EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
@@ -275,7 +275,7 @@ TEST(ALQuaternionTest, creation)
     AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
 
     result = AL::Math::angleAndAxisRotationFromQuaternion(pQua1);
-    EXPECT_TRUE(result.size()==4);
+    EXPECT_TRUE(result.size()==4u);
     EXPECT_NEAR(result.at(0), pAngleResult, epsilon);
     EXPECT_NEAR(result.at(1), pAxeXResult, epsilon);
     EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);
@@ -311,7 +311,7 @@ TEST(ALQuaternionTest, creation)
     AL::Math::angleAndAxisRotationFromQuaternion(pQua1, pAngleResult, pAxeXResult, pAxeYResult, pAxeZResult);
 
     result = AL::Math::angleAndAxisRotationFromQuaternion(pQua1);
-    EXPECT_TRUE(result.size()==4);
+    EXPECT_TRUE(result.size()==4u);
     EXPECT_NEAR(result.at(0), pAngleResult, epsilon);
     EXPECT_NEAR(result.at(1), pAxeXResult, epsilon);
     EXPECT_NEAR(result.at(2), pAxeYResult, epsilon);

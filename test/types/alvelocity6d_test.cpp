@@ -98,7 +98,7 @@ TEST(ALVelocity6DTest, toVector)
   const AL::Math::Velocity6D vel(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
   const std::vector<float> vec = vel.toVector();
 
-  EXPECT_TRUE(vec.size()==6);
+  EXPECT_TRUE(vec.size()==6u);
   EXPECT_NEAR(vel.xd, vec.at(0), eps);
   EXPECT_NEAR(vel.yd, vec.at(1), eps);
   EXPECT_NEAR(vel.zd, vec.at(2), eps);

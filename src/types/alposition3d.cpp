@@ -24,7 +24,7 @@ namespace AL {
 
     Position3D::Position3D(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 3)
+      if (pFloats.size() == 3u)
       {
         x = pFloats[0];
         y = pFloats[1];

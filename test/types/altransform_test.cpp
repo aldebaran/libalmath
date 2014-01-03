@@ -694,7 +694,7 @@ TEST(ALTransformTest, toVector)
   const AL::Math::Transform tf(input);
   const std::vector<float> vec = tf.toVector();
 
-  EXPECT_TRUE(vec.size()==16);
+  EXPECT_TRUE(vec.size()==16u);
 
   EXPECT_NEAR(tf.r1_c1, vec[0], eps);
   EXPECT_NEAR(tf.r1_c2, vec[1], eps);
@@ -728,7 +728,7 @@ TEST(ALTransformTest, transformToFloatVector)
   const AL::Math::Transform tf(input);
   const std::vector<float> vec = AL::Math::transformToFloatVector(tf);
 
-  EXPECT_TRUE(vec.size()==12);
+  EXPECT_TRUE(vec.size()==12u);
 
   EXPECT_NEAR(tf.r1_c1, vec[0], eps);
   EXPECT_NEAR(tf.r1_c2, vec[1], eps);
