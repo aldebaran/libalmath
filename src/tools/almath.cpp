@@ -7,6 +7,7 @@
 #include <almath/tools/almath.h>
 #include <almath/tools/altrigonometry.h>
 
+#include <stdexcept>
 #include <cmath>
 
 namespace AL
@@ -84,6 +85,37 @@ namespace AL
         }
       }
       return isClipped;
+    }
+
+    bool applyThreshold(
+        float  pThreshold,
+        float  pDesValue,
+        float& pResult)
+    {
+      if (pThreshold < 0.0f)
+      {
+        throw std::runtime_error(
+              "ALMath: applyThreshold "
+              "Must be stricly positive.");
+      }
+
+      // pResult should be the last result
+      if (std::abs(pDesValue - pResult) < pThreshold)
+      {
+        // do not set the new des value
+        return false;
+      }
+
+      // Guarantee the continuity of the function input -> output
+      if (pDesValue > pResult)
+      {
+        pResult = pDesValue - pThreshold;
+      }
+      else
+      {
+        pResult = pDesValue + pThreshold;
+      }
+      return true;
     }
 
 
@@ -390,7 +422,6 @@ namespace AL
       pPos3D.y = pPos6D.y;
       pPos3D.z = pPos6D.z;
     }
-
 
   } // namespace Math
 } // namespace AL

@@ -70,6 +70,22 @@ namespace AL {
     std::vector<std::vector<float> >& pData);
 
   /// <summary>
+  /// Update result with a threshold.
+  ///
+  /// </summary>
+  /// <param name="pThreshold"> the threshold, must be stricly positive </param>
+  /// <param name="pDesValue"> the desired value </param>
+  /// <param name="pResult"> input: the previous result, output: the new result </param>
+  /// <returns>
+  /// Return true if pResult changed.
+  /// </returns>
+  /// \ingroup Tools
+  bool applyThreshold(
+      float pThreshold,
+      float pDesValue,
+      float& pResult);
+
+  /// <summary>
   /** \f$ \left[\begin{array}{c}
     * pPosOut.x \\
     * pPosOut.y \\
