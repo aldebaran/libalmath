@@ -158,114 +158,6 @@ TEST(ALMathTest, clipDataVectorVector)
   }
 }
 
-TEST(ALMathTest, applyThreshold)
-{
-  float epsilon = 0.001f;
-  float threshold = 5.0f;
-
-  bool isChanged  = false;
-  float desAngle  = 0.0f;
-  float result    = 0.0f;
-
-  // threshold negatif
-  ASSERT_THROW(
-        isChanged = AL::Math::applyThreshold(
-        -0.5f,
-        desAngle,
-        result),
-      std::runtime_error);
-
-  isChanged = false;
-  desAngle  = 3.0f;
-  result    = desAngle;
-
-  isChanged = AL::Math::applyThreshold(
-        threshold,
-        desAngle,
-        result);
-
-  EXPECT_FALSE(isChanged);
-  EXPECT_NEAR(result, desAngle, epsilon);
-
-  isChanged = false;
-  desAngle  = 5.0f;
-  result    = 1.0f;
-
-  isChanged = AL::Math::applyThreshold(
-        threshold,
-        desAngle,
-        result);
-
-  EXPECT_FALSE(isChanged);
-  EXPECT_NEAR(result, 1.0f, epsilon);
-
-  isChanged = false;
-  desAngle  = -5.0f;
-  result    = -1.0f;
-
-  isChanged = AL::Math::applyThreshold(
-        threshold,
-        desAngle,
-        result);
-
-  EXPECT_FALSE(isChanged);
-  EXPECT_NEAR(result, -1.0f, epsilon);
-
-  isChanged = false;
-  desAngle  = 20.0f;
-  result    = 5.0f;
-
-  isChanged = AL::Math::applyThreshold(
-        threshold,
-        desAngle,
-        result);
-
-  EXPECT_TRUE(isChanged);
-  EXPECT_NEAR(result, desAngle-threshold, epsilon);
-
-  isChanged = false;
-  desAngle  = -20.0f;
-  result    = -5.0f;
-
-  isChanged = AL::Math::applyThreshold(
-        threshold,
-        desAngle,
-        result);
-
-  EXPECT_TRUE(isChanged);
-  EXPECT_NEAR(result, desAngle+threshold, epsilon);
-
-  // test from old computeThreshold
-  epsilon = 0.0001f;
-  threshold = 2.f;
-  isChanged = false;
-  desAngle = 10.0f;
-  result = 9.0f; // initialize to previous result
-
-  isChanged = AL::Math::applyThreshold(threshold, desAngle, result);
-  EXPECT_FALSE(isChanged);
-  EXPECT_NEAR(result, 9.f, epsilon);
-
-  isChanged = false;
-  desAngle = 12.0f;
-  // do not change result (was previous result)
-  isChanged = AL::Math::applyThreshold(threshold, desAngle, result);
-  EXPECT_TRUE(isChanged);
-  EXPECT_NEAR(result, 10.f, epsilon);
-
-  isChanged = false;
-  desAngle = 5.0f;
-  // do not change result (was previous result)
-  isChanged = AL::Math::applyThreshold(threshold, desAngle, result);
-  EXPECT_TRUE(isChanged);
-  EXPECT_NEAR(result, 7.f, epsilon);
-
-  threshold = -2.f;
-  ASSERT_THROW(
-        isChanged = AL::Math::applyThreshold(
-        threshold, desAngle, result), std::runtime_error);
-}
-
 TEST(ALMathTest, changeReferencePose2D)
 {
   float pTheta = 90.0f*AL::Math::TO_RAD;
@@ -626,6 +518,34 @@ TEST(ALMathTest, multiplicationPose2DPosition2D)
   EXPECT_TRUE(pResult.isNear(pExpected, 0.0001f));
 }
 
+TEST(ALMathTest, quaternionFromRotation3D)
+{
+  for (unsigned int i=0; i<360; ++i)
+  {
+    const float angleX = static_cast<float>(i)*AL::Math::TO_RAD;
+    const AL::Math::Quaternion quatX =
+        AL::Math::quaternionFromAngleAndAxisRotation(angleX, 1.0f, 0.0f, 0.0f);
+    for (unsigned int j=0; j<360; ++j)
+    {
+      const float angleY = static_cast<float>(j)*AL::Math::TO_RAD;
+      const AL::Math::Quaternion quatY =
+          AL::Math::quaternionFromAngleAndAxisRotation(angleY, 0.0f, 1.0f, 0.0f);
+      for (unsigned int k=0; k<360; ++k)
+      {
+        const float angleZ = static_cast<float>(k)*AL::Math::TO_RAD;
+        const AL::Math::Quaternion quatZ =
+            AL::Math::quaternionFromAngleAndAxisRotation(angleZ, 0.0f, 0.0f, 1.0f);
+
+        const AL::Math::Quaternion quatExpected = quatZ*quatY*quatX;
+        const AL::Math::Rotation3D rot3DZYX(angleX, angleY, angleZ);
+        const AL::Math::Quaternion quatResult =
+            AL::Math::quaternionFromRotation3D(rot3DZYX);
+        EXPECT_TRUE(quatResult.isNear(quatExpected, 0.001f));
+      }
+    }
+  }
+}
+
 TEST(ALMathTest, rotation3DFromQuaternion1)
 {
   const float lAngleX = 0.5f;
@@ -675,51 +595,6 @@ TEST(ALMathTest, rotation3DFromQuaternion1)
   EXPECT_TRUE(rot3D.wz == rot3D.wz);
 }
 
-TEST(ALMathTest, quaternionPosition3DFromPosition6D)
-{
-  // function quaternionFromRotation3D must be check before
-  const float lEpsilon = 0.001f;
-  const AL::Math::Position6D pos6D =
-      AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
-  AL::Math::Quaternion qua;
-  AL::Math::Position3D pos3D;
-
-  AL::Math::quaternionPosition3DFromPosition6D(pos6D, qua, pos3D);
-
-  const AL::Math::Quaternion quaExpected =
-      AL::Math::quaternionFromRotation3D(AL::Math::Rotation3D(0.4f, 0.5f, 0.6f));
-  EXPECT_TRUE(qua.isNear(quaExpected, lEpsilon));
-  EXPECT_TRUE(pos3D.isNear(AL::Math::Position3D(0.1f, 0.2f, 0.3f), lEpsilon));
-}
-
-TEST(ALMathTest, quaternionFromRotation3D)
-{
-  for (unsigned int i=0; i<360; ++i)
-  {
-    const float angleX = static_cast<float>(i)*AL::Math::TO_RAD;
-    const AL::Math::Quaternion quatX =
-        AL::Math::quaternionFromAngleAndAxisRotation(angleX, 1.0f, 0.0f, 0.0f);
-    for (unsigned int j=0; j<360; ++j)
-    {
-      const float angleY = static_cast<float>(j)*AL::Math::TO_RAD;
-      const AL::Math::Quaternion quatY =
-          AL::Math::quaternionFromAngleAndAxisRotation(angleY, 0.0f, 1.0f, 0.0f);
-      for (unsigned int k=0; k<360; ++k)
-      {
-        const float angleZ = static_cast<float>(k)*AL::Math::TO_RAD;
-        const AL::Math::Quaternion quatZ =
-            AL::Math::quaternionFromAngleAndAxisRotation(angleZ, 0.0f, 0.0f, 1.0f);
-
-        const AL::Math::Quaternion quatExpected = quatZ*quatY*quatX;
-        const AL::Math::Rotation3D rot3DZYX(angleX, angleY, angleZ);
-        const AL::Math::Quaternion quatResult =
-            AL::Math::quaternionFromRotation3D(rot3DZYX);
-        EXPECT_TRUE(quatResult.isNear(quatExpected, 0.001f));
-      }
-    }
-  }
-}
-
 TEST(ALMathTest, rotation3DFromQuaternion2)
 {
   // function quaternionFromRotation3D must be check before
@@ -750,4 +625,22 @@ TEST(ALMathTest, rotation3DFromQuaternion2)
       }
     }
   }
+}
+
+TEST(ALMathTest, quaternionPosition3DFromPosition6D)
+{
+  // function quaternionFromRotation3D must be check before
+  const float lEpsilon = 0.001f;
+  const AL::Math::Position6D pos6D =
+      AL::Math::Position6D(0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f);
+  AL::Math::Quaternion qua;
+  AL::Math::Position3D pos3D;
+
+  AL::Math::quaternionPosition3DFromPosition6D(pos6D, qua, pos3D);
+
+  const AL::Math::Quaternion quaExpected =
+      AL::Math::quaternionFromRotation3D(AL::Math::Rotation3D(0.4f, 0.5f, 0.6f));
+  EXPECT_TRUE(qua.isNear(quaExpected, lEpsilon));
+  EXPECT_TRUE(pos3D.isNear(AL::Math::Position3D(0.1f, 0.2f, 0.3f), lEpsilon));
+
 }
