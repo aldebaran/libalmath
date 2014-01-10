@@ -43,43 +43,6 @@ namespace AL {
       }
     }
 
-    Position3D Position3D::operator+ (const Position3D& pPos2) const
-    {
-      Position3D res;
-      res.x = x + pPos2.x;
-      res.y = y + pPos2.y;
-      res.z = z + pPos2.z;
-      return res;
-    }
-
-    Position3D Position3D::operator- (const Position3D& pPos2) const
-    {
-      Position3D res;
-      res.x = x - pPos2.x;
-      res.y = y - pPos2.y;
-      res.z = z - pPos2.z;
-      return res;
-    }
-
-    Position3D Position3D::operator+ () const
-    {
-      Position3D res;
-      res.x = x;
-      res.y = y;
-      res.z = z;
-      return res;
-    }
-
-    Position3D Position3D::operator- () const
-    {
-      Position3D res;
-      res.x = -x;
-      res.y = -y;
-      res.z = -z;
-      return res;
-    }
-
-
     Position3D& Position3D::operator+= (const Position3D& pPos2)
     {
       x += pPos2.x;
@@ -229,10 +192,7 @@ namespace AL {
         throw std::runtime_error(
           "ALPosition3D: normalize Division by zeros.");
       }
-
-      Position3D ret = pPos;
-      ret /= tmpNorm;
-      return ret;
+      return pPos/tmpNorm;
     }
 
     float dotProduct(
