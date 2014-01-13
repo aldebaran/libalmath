@@ -37,38 +37,6 @@ namespace AL {
       }
     }
 
-    Position2D Position2D::operator+ (const Position2D& pPos2) const
-    {
-      Position2D res;
-      res.x = x + pPos2.x;
-      res.y = y + pPos2.y;
-      return res;
-    }
-
-    Position2D Position2D::operator- (const Position2D& pPos2) const
-    {
-      Position2D res;
-      res.x = x - pPos2.x;
-      res.y = y - pPos2.y;
-      return res;
-    }
-
-    Position2D Position2D::operator+ () const
-    {
-      Position2D res;
-      res.x = x;
-      res.y = y;
-      return res;
-    }
-
-    Position2D Position2D::operator- () const
-    {
-      Position2D res;
-      res.x = -x;
-      res.y = -y;
-      return res;
-    }
-
     Position2D& Position2D::operator+= (const Position2D& pPos2)
     {
       x += pPos2.x;
@@ -98,15 +66,6 @@ namespace AL {
               std::abs(y - pPos2.y) <= pEpsilon);
     }
 
-
-    Position2D Position2D::operator* (float pVal) const
-    {
-      Position2D res;
-      res.x = x * pVal;
-      res.y = y * pVal;
-      return res;
-    }
-
     Position2D operator* (
       const float       pVal,
       const Position2D& pPos1)
@@ -119,7 +78,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition2D: operator/ Division by zeros.");
+          "ALPosition2D: operator/ Division by zero.");
       }
       return *this * (1.0f/pVal);
     }
@@ -223,12 +182,9 @@ namespace AL {
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition2D: normalize Division by zeros.");
+          "ALPosition2D: normalize Division by zero.");
       }
-
-      Position2D ret = p;
-      ret /= tmpNorm;
-      return ret;
+      return p/tmpNorm;
     }
 
     float dotProduct(

@@ -133,9 +133,9 @@ namespace AL {
       /// <summary>
       /// Overloading of operator + for Position3D.
       /// </summary>
-      inline Position3D operator+ () const
+      inline Position3D operator+ (void) const
       {
-        return Position3D(x, y, z);
+        return *this;
       }
 
       /// <summary>

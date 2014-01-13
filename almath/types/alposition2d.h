@@ -112,23 +112,35 @@ namespace AL {
       /// Overloading of operator + for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
-      Position2D operator+ (const Position2D& pPos2) const;
+      inline Position2D operator+ (const Position2D& pPos2) const
+      {
+        return Position2D(x + pPos2.x, y + pPos2.y);
+      }
 
       /// <summary>
       /// Overloading of operator - for Position2D.
       /// </summary>
       /// <param name="pPos2"> the second Position2D </param>
-      Position2D operator- (const Position2D& pPos2) const;
+      inline Position2D operator- (const Position2D& pPos2) const
+      {
+        return Position2D(x - pPos2.x, y - pPos2.y);
+      }
 
       /// <summary>
       /// Overloading of operator + for Position2D.
       /// </summary>
-      Position2D operator+ () const;
+      inline Position2D operator+ (void) const
+      {
+        return *this;
+      }
 
       /// <summary>
       /// Overloading of operator - for Position2D.
       /// </summary>
-      Position2D operator- () const;
+      inline Position2D operator- () const
+      {
+        return Position2D(-x, -y);
+      }
 
       /// <summary>
       /// Overloading of operator += for Position2D.
@@ -164,7 +176,10 @@ namespace AL {
       /// Overloading of operator * for Position2D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
-      Position2D operator* (float pVal) const;
+      inline Position2D operator* (float pVal) const
+      {
+        return Position2D(x*pVal, y*pVal);
+      }
 
       /// <summary>
       /// Overloading of operator / for Position2D.

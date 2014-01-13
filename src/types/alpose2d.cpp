@@ -5,7 +5,6 @@
  */
 
 #include <almath/types/alpose2d.h>
-#include <cmath>
 #include <stdexcept>
 #include <iostream>
 
@@ -45,61 +44,15 @@ namespace AL {
       }
     }
 
-    Pose2D Pose2D::operator+ (const Pose2D& pPos2) const
-    {
-      Pose2D res;
-      res.x = x + pPos2.x;
-      res.y = y + pPos2.y;
-      res.theta = theta + pPos2.theta;
-      return res;
-    }
-
-    Pose2D Pose2D::operator- (const Pose2D& pPos2) const
-    {
-      Pose2D res;
-      res.x = x - pPos2.x;
-      res.y = y - pPos2.y;
-      res.theta = theta - pPos2.theta;
-      return res;
-    }
-
-    Pose2D Pose2D::operator+ () const
-    {
-      Pose2D res;
-      res.x = x;
-      res.y = y;
-      res.theta = theta;
-      return res;
-    }
-
-    Pose2D Pose2D::operator- () const
-    {
-      Pose2D res;
-      res.x = -x;
-      res.y = -y;
-      res.theta = -theta;
-      return res;
-    }
-
-    Pose2D Pose2D::operator* (const Pose2D& pPos2) const
-    {
-      Pose2D pOut;
-      pOut.x = x + std::cos(theta) * pPos2.x - std::sin(theta) * pPos2.y;
-      pOut.y = y + std::sin(theta) * pPos2.x + std::cos(theta) * pPos2.y;
-      pOut.theta = theta + pPos2.theta;
-
-      return pOut;
-    }
-
     Pose2D& Pose2D::operator*= (const Pose2D& pPos2)
     {
-      if (this == &pPos2)
-      {
-        return *this *= Pose2D(pPos2);
-      }
+      const float x0 = pPos2.x;
+      const float y0 = pPos2.y;
+      const float cs = std::cos(theta);
+      const float sn = std::sin(theta);
 
-      x += std::cos(theta) * pPos2.x - std::sin(theta) * pPos2.y;
-      y += std::sin(theta) * pPos2.x + std::cos(theta) * pPos2.y;
+      x += cs*x0 - sn*y0;
+      y += sn*x0 + cs*y0;
       theta += pPos2.theta;
 
       return *this;
@@ -143,21 +96,12 @@ namespace AL {
       return Math::distance(*this, pPos2);
     }
 
-    Pose2D Pose2D::operator* (float pVal) const
-    {
-      Pose2D res;
-      res.x     = x * pVal;
-      res.y     = y * pVal;
-      res.theta = theta * pVal;
-      return res;
-    }
-
     Pose2D Pose2D::operator/ (float pVal) const
     {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPose2D: operator/ Division by zeros.");
+          "ALPose2D: operator/ Division by zero.");
       }
       return *this * (1.0f/pVal);
     }
@@ -175,7 +119,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPose2D: operator/= Division by zeros.");
+          "ALPose2D: operator/= Division by zero.");
       }
       *this *= (1.0f/pVal);
       return *this;
@@ -201,25 +145,15 @@ namespace AL {
       return returnVector;
     }
 
-    float Pose2D::norm() const
-    {
-      return std::sqrt(x * x + y * y);
-    }
-
     Pose2D Pose2D::normalize() const
     {
       const float tmpNorm = this->norm();
       if (std::abs(tmpNorm) < 1e-4f)
       {
         throw std::runtime_error(
-          "ALPose2D: normalize Division by zeros.");
+          "ALPose2D: normalize Division by zero.");
       }
       return Pose2D(x / tmpNorm, y / tmpNorm, theta);
-    }
-
-    float Pose2D::getAngle() const
-    {
-      return std::atan2(y, x);
     }
 
     float distanceSquared(
@@ -276,7 +210,6 @@ namespace AL {
       const Pose2D& pPos2)
     {
       Pose2D result = pPos1;
-
       pose2dInvertInPlace(result);
       result *= pPos2;
       return result;
@@ -304,7 +237,5 @@ namespace AL {
                               pRadius * std::sin(pAngle),
                               pAngle);
     }
-
-
   } // end namespace math
 } // end namespace AL

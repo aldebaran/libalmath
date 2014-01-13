@@ -12,19 +12,21 @@
 namespace AL {
   namespace Math {
 
-    Position6D::Position6D() : x(0.0f),
-      y(0.0f),
-      z(0.0f),
-      wx(0.0f),
-      wy(0.0f),
-      wz(0.0f) {}
+    Position6D::Position6D()
+      :x(0.0f)
+      ,y(0.0f)
+      ,z(0.0f)
+      ,wx(0.0f)
+      ,wy(0.0f)
+      ,wz(0.0f) {}
 
-    Position6D::Position6D(float pInit) : x(pInit),
-      y(pInit),
-      z(pInit),
-      wx(pInit),
-      wy(pInit),
-      wz(pInit) {}
+    Position6D::Position6D(float pInit)
+      :x(pInit)
+      ,y(pInit)
+      ,z(pInit)
+      ,wx(pInit)
+      ,wy(pInit)
+      ,wz(pInit) {}
 
     Position6D::Position6D(
       float pX,
@@ -32,12 +34,13 @@ namespace AL {
       float pZ,
       float pWx,
       float pWy,
-      float pWz) : x(pX),
-      y(pY),
-      z(pZ),
-      wx(pWx),
-      wy(pWy),
-      wz(pWz) {}
+      float pWz)
+      :x(pX)
+      ,y(pY)
+      ,z(pZ)
+      ,wx(pWx)
+      ,wy(pWy)
+      ,wz(pWz) {}
 
     Position6D::Position6D(const std::vector<float>& pFloats)
     {
@@ -67,55 +70,6 @@ namespace AL {
         wz = 0.0f;
       }
     }
-
-    Position6D Position6D::operator+ (const Position6D& pPos2) const
-    {
-      Position6D res;
-      res.x  = x + pPos2.x;
-      res.y  = y + pPos2.y;
-      res.z  = z + pPos2.z;
-      res.wx = wx + pPos2.wx;
-      res.wy = wy + pPos2.wy;
-      res.wz = wz + pPos2.wz;
-      return res;
-    }
-
-    Position6D Position6D::operator- (const Position6D& pPos2) const
-    {
-      Position6D res;
-      res.x  = x - pPos2.x;
-      res.y  = y - pPos2.y;
-      res.z  = z - pPos2.z;
-      res.wx = wx - pPos2.wx;
-      res.wy = wy - pPos2.wy;
-      res.wz = wz - pPos2.wz;
-      return res;
-    }
-
-    Position6D Position6D::operator+ () const
-    {
-      Position6D res;
-      res.x  = x;
-      res.y  = y;
-      res.z  = z;
-      res.wx = wx;
-      res.wy = wy;
-      res.wz = wz;
-      return res;
-    }
-
-    Position6D Position6D::operator- () const
-    {
-      Position6D res;
-      res.x  = -x;
-      res.y  = -y;
-      res.z  = -z;
-      res.wx = -wx;
-      res.wy = -wy;
-      res.wz = -wz;
-      return res;
-    }
-
 
     Position6D& Position6D::operator+= (const Position6D& pPos2)
     {
@@ -153,24 +107,12 @@ namespace AL {
               std::abs(wz - pPos2.wz) <= pEpsilon);
     }
 
-    Position6D Position6D::operator* (float pVal) const
-    {
-      Position6D res;
-      res.x  = x * pVal;
-      res.y  = y * pVal;
-      res.z  = z * pVal;
-      res.wx = wx * pVal;
-      res.wy = wy * pVal;
-      res.wz = wz * pVal;
-      return res;
-    }
-
     Position6D Position6D::operator/ (float pVal) const
     {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition6D: operator/ Division by zeros.");
+          "ALPosition6D: operator/ Division by zero.");
       }
       return *this * (1.0f/pVal);
     }
@@ -206,7 +148,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition6D: operator/= Division by zeros.");
+          "ALPosition6D: operator/= Division by zero.");
       }
       *this *= (1.0f/pVal);
       return *this;
@@ -270,17 +212,12 @@ namespace AL {
     Position6D normalize(const Position6D& pPos)
     {
       const float tmpNorm = norm(pPos);
-
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition6D: normalize Division by zeros.");
+          "ALPosition6D: normalize Division by zero.");
       }
-
-      Position6D ret = pPos;
-
-      ret /= tmpNorm;
-      return ret;
+      return pPos/tmpNorm;
     }
 
   } // end namespace math

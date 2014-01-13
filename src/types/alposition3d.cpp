@@ -79,7 +79,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition3D: operator/ Division by zeros.");
+          "ALPosition3D: operator/ Division by zero.");
       }
       return *this * (1.0f/pVal);
     }
@@ -97,7 +97,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition3D: operator/= Division by zeros.");
+          "ALPosition3D: operator/= Division by zero.");
       }
       *this *= (1.0f/pVal);
       return *this;
@@ -190,7 +190,7 @@ namespace AL {
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition3D: normalize Division by zeros.");
+          "ALPosition3D: normalize Division by zero.");
       }
       return pPos/tmpNorm;
     }

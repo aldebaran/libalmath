@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALPOSE2D_H_
 
 #include <vector>
+#include <cmath>
 
 namespace AL {
   namespace Math {
@@ -126,23 +127,35 @@ namespace AL {
       /// Overloading of operator + for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
-      Pose2D operator+ (const Pose2D& pPos2) const;
+      inline Pose2D operator+ (const Pose2D& pPos2) const
+      {
+        return Pose2D(x + pPos2.x, y + pPos2.y, theta + pPos2.theta);
+      }
 
       /// <summary>
       /// Overloading of operator - for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
-      Pose2D operator- (const Pose2D& pPos2) const;
+      inline Pose2D operator- (const Pose2D& pPos2) const
+      {
+        return Pose2D(x - pPos2.x, y - pPos2.y, theta - pPos2.theta);
+      }
 
       /// <summary>
       /// Overloading of operator + for Pose2D.
       /// </summary>
-      Pose2D operator+ () const;
+      inline Pose2D operator+ (void) const
+      {
+        return *this;
+      }
 
       /// <summary>
       /// Overloading of operator - for Pose2D.
       /// </summary>
-      Pose2D operator- () const;
+      inline Pose2D operator- () const
+      {
+        return Pose2D(-x, -y, -theta);
+      }
 
       /// <summary>
       /// Overloading of operator += for Pose2D.
@@ -166,7 +179,13 @@ namespace AL {
       /// Overloading of operator * for Pose2D.
       /// </summary>
       /// <param name="pPos2"> the second Pose2D </param>
-      Pose2D operator* (const Pose2D& pPos2) const;
+      inline Pose2D operator* (const Pose2D& pPos2) const
+      {
+        return Pose2D(
+              x + std::cos(theta) * pPos2.x - std::sin(theta) * pPos2.y,
+              y + std::sin(theta) * pPos2.x + std::cos(theta) * pPos2.y,
+              theta + pPos2.theta);
+      }
 
       /// <summary>
       /// Overloading of operator == for Pose2D.
@@ -184,7 +203,10 @@ namespace AL {
       /// Overloading of operator * for Pose2D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
-      Pose2D operator* (float pVal) const;
+      inline Pose2D operator* (float pVal) const
+      {
+        return Pose2D(x*pVal, y*pVal, theta*pVal);
+      }
 
       /// <summary>
       /// Overloading of operator / for Pose2D.
@@ -270,7 +292,10 @@ namespace AL {
       /// result: $$/sqrt(pose.x^{2} + pose.y^{2})$$
       ///
       /// </summary>
-      float norm() const;
+      inline float norm() const
+      {
+        return std::sqrt(x * x + y * y);
+      }
 
       /// <summary>
       /// Normalize the current Pose2D position.
@@ -288,7 +313,10 @@ namespace AL {
       /// result: $$/atan2(pose.y, pose.x)$$
       ///
       /// </summary>
-      float getAngle() const;
+      inline float getAngle(void) const
+      {
+        return std::atan2(y, x);
+      }
     }; // end struct
 
 

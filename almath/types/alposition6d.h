@@ -152,23 +152,47 @@ namespace AL {
       /// Overloading of operator + for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
-      Position6D operator+ (const Position6D& pPos2) const;
+      inline Position6D operator+ (const Position6D& pPos2) const
+      {
+        return Position6D(
+              x + pPos2.x,
+              y + pPos2.y,
+              z + pPos2.z,
+              wx + pPos2.wx,
+              wy + pPos2.wy,
+              wz + pPos2.wz);
+      }
 
       /// <summary>
       /// Overloading of operator - for Position6D.
       /// </summary>
       /// <param name="pPos2"> the second Position6D </param>
-      Position6D operator- (const Position6D& pPos2) const;
+      inline Position6D operator- (const Position6D& pPos2) const
+      {
+        return Position6D(
+              x - pPos2.x,
+              y - pPos2.y,
+              z - pPos2.z,
+              wx - pPos2.wx,
+              wy - pPos2.wy,
+              wz - pPos2.wz);
+      }
 
       /// <summary>
       /// Overloading of operator + for Position6D.
       /// </summary>
-      Position6D operator+ () const;
+      inline Position6D operator+ (void) const
+      {
+        return *this;
+      }
 
       /// <summary>
       /// Overloading of operator - for Position6D.
       /// </summary>
-      Position6D operator- () const;
+      inline Position6D operator- () const
+      {
+        return Position6D(-x, -y, -z, -wx, -wy, -wz);
+      }
 
       /// <summary>
       /// Overloading of operator += for Position6D.
@@ -198,7 +222,16 @@ namespace AL {
       /// Overloading of operator * for Position6D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
-      Position6D operator* (float pVal) const;
+      inline Position6D operator* (float pVal) const
+      {
+        return Position6D(
+              x * pVal,
+              y * pVal,
+              z * pVal,
+              wx * pVal,
+              wy * pVal,
+              wz * pVal);
+      }
 
       /// <summary>
       /// Overloading of operator / for Position6D.
