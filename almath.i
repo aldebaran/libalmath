@@ -35,6 +35,8 @@
 
 %{
 #include <sstream>
+#include "almath/dsp/digitalfilter.h"
+#include "almath/dsp/pidcontroller.h"
 
 #include "almath/types/alaxismask.h"
 
@@ -151,6 +153,9 @@ namespace std {
     }
   }
 }
+
+%include "almath/dsp/digitalfilter.h"
+%include "almath/dsp/pidcontroller.h"
 
 %include "almath/types/alaxismask.h"
 
