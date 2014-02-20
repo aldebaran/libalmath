@@ -722,7 +722,7 @@ namespace AL {
       if (inw == 0.0f)
       {
         throw std::runtime_error(
-            "ALMath: axisRotationProjectionInPlace Division by zeros.");
+            "ALMath: axisRotationProjectionInPlace Division by zero.");
       }
 
       inw = 1.0f/inw;
@@ -825,7 +825,7 @@ namespace AL {
       if (inw == 0.0f)
       {
         throw std::runtime_error(
-            "ALMath: axisRotationProjectionInPlace Division by zeros.");
+            "ALMath: axisRotationProjectionInPlace Division by zero.");
       }
 
       inw = 1.0f/inw;

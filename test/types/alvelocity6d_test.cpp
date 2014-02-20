@@ -4,7 +4,7 @@
  * found in the COPYING file.
  */
 #include <almath/types/alvelocity6d.h>
-
+#include <almath/tools/almath.h>
 #include <gtest/gtest.h>
 #include <stdexcept>
 
@@ -90,6 +90,18 @@ TEST(ALVelocity6DTest, Divers)
   //std::cout << "-------------- division 1 --------------" << std::endl;
   pVel6D1 = AL::Math::Velocity6D(2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f);
   ASSERT_THROW((pVel6D1/0.0f), std::runtime_error);
+
+  AL::Math::Velocity6D VIn(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+  AL::Math::Velocity6D VOut = +VIn;
+  EXPECT_TRUE(VOut.isNear(VIn));
+  VOut = -VIn;
+  const float lEpsilon = 0.001f;
+  EXPECT_NEAR(VOut.xd, -VIn.xd, lEpsilon);
+  EXPECT_NEAR(VOut.yd, -VIn.yd, lEpsilon);
+  EXPECT_NEAR(VOut.zd, -VIn.zd, lEpsilon);
+  EXPECT_NEAR(VOut.wxd, -VIn.wxd, lEpsilon);
+  EXPECT_NEAR(VOut.wyd, -VIn.wyd, lEpsilon);
+  EXPECT_NEAR(VOut.wzd, -VIn.wzd, lEpsilon);
 }
 
 TEST(ALVelocity6DTest, toVector)
@@ -98,7 +110,7 @@ TEST(ALVelocity6DTest, toVector)
   const AL::Math::Velocity6D vel(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
   const std::vector<float> vec = vel.toVector();
 
-  EXPECT_TRUE(vec.size()==6);
+  EXPECT_TRUE(vec.size()==6u);
   EXPECT_NEAR(vel.xd, vec.at(0), eps);
   EXPECT_NEAR(vel.yd, vec.at(1), eps);
   EXPECT_NEAR(vel.zd, vec.at(2), eps);

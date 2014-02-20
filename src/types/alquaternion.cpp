@@ -27,7 +27,7 @@ namespace AL {
 
     Quaternion::Quaternion(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 4)
+      if (pFloats.size() == 4u)
       {
         w = pFloats[0];
         x = pFloats[1];
@@ -68,17 +68,6 @@ namespace AL {
       return *this;
     }
 
-    Quaternion Quaternion::operator* (const Quaternion& pQua2) const
-    {
-      Quaternion qua;
-      qua.w = w*pQua2.w - x*pQua2.x - y*pQua2.y - z*pQua2.z;
-      qua.x = w*pQua2.x + pQua2.w*x + y*pQua2.z - z*pQua2.y;
-      qua.y = w*pQua2.y + pQua2.w*y + z*pQua2.x - x*pQua2.z;
-      qua.z = w*pQua2.z + pQua2.w*z + x*pQua2.y - y*pQua2.x;
-      return qua;
-    }
-
-
     bool Quaternion::isNear(
         const Quaternion& pQua2,
         const float&      pEpsilon) const
@@ -111,12 +100,21 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALQuaternion: operator/= Division by zeros.");
+          "ALQuaternion: operator/= Division by zero.");
       }
       *this *= (1.0f/pVal);
       return *this;
     }
 
+    Quaternion Quaternion::operator/ (float pVal) const
+    {
+      if (pVal == 0.0f)
+      {
+        throw std::runtime_error(
+          "ALQuaternion: operator/ Division by zero.");
+      }
+      return *this * (1.0f/pVal);
+    }
 
     bool Quaternion::operator== (const Quaternion& pQua2) const
     {
@@ -203,20 +201,14 @@ namespace AL {
 
     Quaternion normalize(const Quaternion& pQua)
     {
-      Quaternion ret;
-      ret = pQua;
-      float tmpNorm = norm(pQua);
-
+      const float tmpNorm = norm(pQua);
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
-          "ALQuaternion: normalize Division by zeros.");
+          "ALQuaternion: normalize Division by zero.");
       }
-
-      ret /= tmpNorm;
-      return ret;
+      return pQua/tmpNorm;
     }
-
 
     Quaternion Quaternion::inverse() const
     {

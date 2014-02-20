@@ -116,23 +116,35 @@ namespace AL {
       /// Overloading of operator + for Position3D.
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
-      Position3D operator+ (const Position3D& pPos2) const;
+      inline Position3D operator+ (const Position3D& pPos2) const
+      {
+        return Position3D(x + pPos2.x, y + pPos2.y, z + pPos2.z);
+      }
 
       /// <summary>
       /// Overloading of operator - for Position3D.
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
-      Position3D operator- (const Position3D& pPos2) const;
+      inline Position3D operator- (const Position3D& pPos2) const
+      {
+        return Position3D(x - pPos2.x, y - pPos2.y, z - pPos2.z);
+      }
 
       /// <summary>
       /// Overloading of operator + for Position3D.
       /// </summary>
-      Position3D operator+ () const;
+      inline Position3D operator+ (void) const
+      {
+        return *this;
+      }
 
       /// <summary>
       /// Overloading of operator - for Position3D.
       /// </summary>
-      Position3D operator- () const;
+      inline Position3D operator- () const
+      {
+        return Position3D(-x, -y, -z);
+      }
 
       /// <summary>
       /// Overloading of operator += for Position3D.

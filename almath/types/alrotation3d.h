@@ -114,13 +114,25 @@ namespace AL {
       /// Overloading of operator + for Rotation3D.
       /// </summary>
       /// <param name="pRot2"> the second Rotation3D </param>
-      Rotation3D operator+ (const Rotation3D& pRot2) const;
+      inline Rotation3D operator+ (const Rotation3D& pRot2) const
+      {
+        return Rotation3D(
+              wx + pRot2.wx,
+              wy + pRot2.wy,
+              wz + pRot2.wz);
+      }
 
       /// <summary>
       /// Overloading of operator - for Rotation3D.
       /// </summary>
       /// <param name="pRot2"> the second Rotation3D </param>
-      Rotation3D operator- (const Rotation3D& pRot2) const;
+      inline Rotation3D operator- (const Rotation3D& pRot2) const
+      {
+        return Rotation3D(
+              wx - pRot2.wx,
+              wy - pRot2.wy,
+              wz - pRot2.wz);
+      }
 
       /// <summary>
       /// Overloading of operator += for Rotation3D.
@@ -150,7 +162,10 @@ namespace AL {
       /// Overloading of operator * for Rotation3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
-      Rotation3D operator* (const float pVal) const;
+      inline Rotation3D operator* (const float pVal) const
+      {
+        return Rotation3D(wx*pVal, wy*pVal, wz*pVal);
+      }
 
       /// <summary>
       /// Overloading of operator / for Rotation3D.

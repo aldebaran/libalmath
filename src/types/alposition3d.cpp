@@ -24,7 +24,7 @@ namespace AL {
 
     Position3D::Position3D(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 3)
+      if (pFloats.size() == 3u)
       {
         x = pFloats[0];
         y = pFloats[1];
@@ -42,43 +42,6 @@ namespace AL {
         z = 0.0f;
       }
     }
-
-    Position3D Position3D::operator+ (const Position3D& pPos2) const
-    {
-      Position3D res;
-      res.x = x + pPos2.x;
-      res.y = y + pPos2.y;
-      res.z = z + pPos2.z;
-      return res;
-    }
-
-    Position3D Position3D::operator- (const Position3D& pPos2) const
-    {
-      Position3D res;
-      res.x = x - pPos2.x;
-      res.y = y - pPos2.y;
-      res.z = z - pPos2.z;
-      return res;
-    }
-
-    Position3D Position3D::operator+ () const
-    {
-      Position3D res;
-      res.x = x;
-      res.y = y;
-      res.z = z;
-      return res;
-    }
-
-    Position3D Position3D::operator- () const
-    {
-      Position3D res;
-      res.x = -x;
-      res.y = -y;
-      res.z = -z;
-      return res;
-    }
-
 
     Position3D& Position3D::operator+= (const Position3D& pPos2)
     {
@@ -116,7 +79,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition3D: operator/ Division by zeros.");
+          "ALPosition3D: operator/ Division by zero.");
       }
       return *this * (1.0f/pVal);
     }
@@ -134,7 +97,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition3D: operator/= Division by zeros.");
+          "ALPosition3D: operator/= Division by zero.");
       }
       *this *= (1.0f/pVal);
       return *this;
@@ -227,12 +190,9 @@ namespace AL {
       if (tmpNorm == 0.0f)
       {
         throw std::runtime_error(
-          "ALPosition3D: normalize Division by zeros.");
+          "ALPosition3D: normalize Division by zero.");
       }
-
-      Position3D ret = pPos;
-      ret /= tmpNorm;
-      return ret;
+      return pPos/tmpNorm;
     }
 
     float dotProduct(

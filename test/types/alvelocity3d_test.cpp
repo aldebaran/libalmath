@@ -160,7 +160,7 @@ TEST(ALVelocity3DTest, toVector)
   const AL::Math::Velocity3D vel(1.0f, 2.0f, 3.0f);
   const std::vector<float> vec = vel.toVector();
 
-  EXPECT_TRUE(vec.size()==3);
+  EXPECT_TRUE(vec.size()==3u);
   EXPECT_NEAR(vel.xd, vec[0], eps);
   EXPECT_NEAR(vel.yd, vec[1], eps);
   EXPECT_NEAR(vel.zd, vec[2], eps);

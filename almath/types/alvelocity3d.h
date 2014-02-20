@@ -116,23 +116,38 @@ namespace AL {
       /// Overloading of operator + for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
-      Velocity3D operator+ (const Velocity3D& pVel2) const;
+      inline Velocity3D operator+ (const Velocity3D& pVel2) const
+      {
+        return Velocity3D(xd + pVel2.xd, yd + pVel2.yd, zd + pVel2.zd);
+      }
 
       /// <summary>
       /// Overloading of operator - for Velocity3D.
       /// </summary>
       /// <param name="pVel2"> the second Velocity3D </param>
-      Velocity3D operator- (const Velocity3D& pVel2) const;
+      inline Velocity3D operator- (const Velocity3D& pVel2) const
+      {
+        return Velocity3D(
+              xd - pVel2.xd,
+              yd - pVel2.yd,
+              zd - pVel2.zd);
+      }
 
       /// <summary>
       /// Overloading of operator + for Velocity3D.
       /// </summary>
-      Velocity3D operator+ () const;
+      inline Velocity3D operator+ (void) const
+      {
+        return *this;
+      }
 
       /// <summary>
       /// Overloading of operator - for Velocity3D.
       /// </summary>
-      Velocity3D operator- () const;
+      inline Velocity3D operator- () const
+      {
+        return Velocity3D(-xd, -yd, -zd);
+      }
 
       /// <summary>
       /// Overloading of operator += for Velocity3D.
@@ -162,7 +177,10 @@ namespace AL {
       /// Overloading of operator * for Velocity3D.
       /// </summary>
       /// <param name="pVal"> the float factor </param>
-      Velocity3D operator* (const float pVal) const;
+      inline Velocity3D operator* (const float pVal) const
+      {
+        return Velocity3D(xd*pVal, yd*pVal, zd*pVal);
+      }
 
       /// <summary>
       /// Overloading of operator / for Velocity3D.

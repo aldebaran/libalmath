@@ -300,7 +300,7 @@ TEST(ALPose2DTest, toVector)
   const AL::Math::Pose2D pos(1.0f, 2.0f, 3.0f);
   const std::vector<float> vec = pos.toVector();
 
-  EXPECT_TRUE(vec.size()==3);
+  ASSERT_EQ(3u, vec.size());
   EXPECT_NEAR(pos.x, vec[0], eps);
   EXPECT_NEAR(pos.y, vec[1], eps);
   EXPECT_NEAR(pos.theta, vec[2], eps);

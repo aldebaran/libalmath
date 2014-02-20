@@ -112,7 +112,14 @@ namespace AL {
       /// Overloading of operator * for Quaternion.
       /// </summary>
       /// <param name="pQua2"> the second Quaternion </param>
-      Quaternion operator* (const Quaternion& pQua2) const;
+      inline Quaternion operator* (const Quaternion& pQua2) const
+      {
+        return Quaternion(
+              w*pQua2.w - x*pQua2.x - y*pQua2.y - z*pQua2.z,
+              w*pQua2.x + pQua2.w*x + y*pQua2.z - z*pQua2.y,
+              w*pQua2.y + pQua2.w*y + z*pQua2.x - x*pQua2.z,
+              w*pQua2.z + pQua2.w*z + x*pQua2.y - y*pQua2.x);
+      }
 
       /// <summary>
       /// Overloading of operator == for Quaternion.
@@ -125,6 +132,21 @@ namespace AL {
       /// </summary>
       /// <param name="pQua2"> the second Quaternion </param>
       bool operator!= (const Quaternion& pQua2) const;
+
+      /// <summary>
+      /// Overloading of operator * for Quaternion.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      inline Quaternion operator* (float pVal) const
+      {
+        return Quaternion(w*pVal, x*pVal, y*pVal, z*pVal);
+      }
+
+      /// <summary>
+      /// Overloading of operator / for Quaternion.
+      /// </summary>
+      /// <param name="pVal"> the float factor </param>
+      Quaternion operator/ (float pVal) const;
 
       /// <summary>
       /// Overloading of operator *= for Quaternion.

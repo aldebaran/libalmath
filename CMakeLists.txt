@@ -13,6 +13,8 @@ enable_testing()
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 
 set( ALMATH_SRCS
+    src/dsp/digitalfilter.cpp
+    src/dsp/pidcontroller.cpp
     src/tools/avoidfootcollision.cpp
     src/tools/almath.cpp
     src/tools/almathio.cpp
@@ -37,6 +39,8 @@ set( ALMATH_SRCS
 # list of the public headers which are wrapped
 # check it against swig -MM almath.i
 set(ALMATH_H_WRAPPED
+    almath/dsp/digitalfilter.h
+    almath/dsp/pidcontroller.h
     almath/types/alaxismask.h
     almath/types/alpose2d.h
     almath/types/alposition2d.h

@@ -32,7 +32,7 @@ namespace AL {
 
     Rotation3D::Rotation3D(const std::vector<float>& pFloats)
     {
-      if (pFloats.size() == 3)
+      if (pFloats.size() == 3u)
       {
         wx = pFloats[0];
         wy = pFloats[1];
@@ -49,24 +49,6 @@ namespace AL {
         wy = 0.0f;
         wz = 0.0f;
       }
-    }
-
-    Rotation3D Rotation3D::operator+ (const Rotation3D& pRot2) const
-    {
-      Rotation3D res;
-      res.wx = wx + pRot2.wx;
-      res.wy = wy + pRot2.wy;
-      res.wz = wz + pRot2.wz;
-      return res;
-    }
-
-    Rotation3D Rotation3D::operator- (const Rotation3D& pRot2) const
-    {
-      Rotation3D res;
-      res.wx = wx - pRot2.wx;
-      res.wy = wy - pRot2.wy;
-      res.wz = wz - pRot2.wz;
-      return res;
     }
 
     Rotation3D& Rotation3D::operator+= (const Rotation3D& pRot2)
@@ -99,21 +81,12 @@ namespace AL {
       return !(*this==pRot2);
     }
 
-    Rotation3D Rotation3D::operator* (const float pVal) const
-    {
-      Rotation3D res;
-      res.wx = wx * pVal;
-      res.wy = wy * pVal;
-      res.wz = wz * pVal;
-      return res;
-    }
-
     Rotation3D Rotation3D::operator/ (const float pVal) const
     {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-              "ALRotation3D: operator/ Division by zeros.");
+              "ALRotation3D: operator/ Division by zero.");
       }
       return (*this) * (1.0f/pVal);
     }
@@ -131,7 +104,7 @@ namespace AL {
       if (pVal == 0.0f)
       {
         throw std::runtime_error(
-              "ALRotation3D: operator/= Division by zeros.");
+              "ALRotation3D: operator/= Division by zero.");
       }
       (*this) *= (1.0f/pVal);
       return *this;

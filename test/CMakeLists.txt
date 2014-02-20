@@ -5,6 +5,9 @@
 set(almath_tests_srcs
     collisions/avoidfootcollision_test.cpp
 
+    dsp/digitalfilter_test.cpp
+    dsp/pidcontroller_test.cpp
+
     tools/aldubinscurve_test.cpp
     tools/almath_test.cpp
     tools/altransformhelpers_test.cpp

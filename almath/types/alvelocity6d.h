@@ -154,29 +154,62 @@ struct Velocity6D {
   /// Overloading of operator + for Velocity6D.
   /// </summary>
   /// <param name="pVel2"> the second Velocity6D </param>
-  Velocity6D operator+ (const Velocity6D& pVel2) const;
+  inline Velocity6D operator+ (const Velocity6D& pVel2) const
+  {
+    return Velocity6D(
+          xd  + pVel2.xd,
+          yd  + pVel2.yd,
+          zd  + pVel2.zd,
+          wxd + pVel2.wxd,
+          wyd + pVel2.wyd,
+          wzd + pVel2.wzd);
+  }
 
   /// <summary>
   /// Overloading of operator - for Velocity6D.
   /// </summary>
   /// <param name="pVel2"> the second Velocity6D </param>
-  Velocity6D operator- (const Velocity6D& pVel2) const;
+  inline Velocity6D operator- (const Velocity6D& pVel2) const
+  {
+    return Velocity6D(
+          xd  - pVel2.xd,
+          yd  - pVel2.yd,
+          zd  - pVel2.zd,
+          wxd - pVel2.wxd,
+          wyd - pVel2.wyd,
+          wzd - pVel2.wzd);
+  }
 
   /// <summary>
   /// Overloading of operator + for Velocity6D.
   /// </summary>
-  Velocity6D operator+ () const;
+  inline Velocity6D operator+ (void) const
+  {
+    return *this;
+  }
 
   /// <summary>
   /// Overloading of operator - for Velocity6D.
   /// </summary>
-  Velocity6D operator- () const;
+  inline Velocity6D operator- () const
+  {
+    return Velocity6D(-xd, -yd, -zd, -wxd, -wyd, -wzd);
+  }
 
   /// <summary>
   /// Overloading of operator * for Velocity6D.
   /// </summary>
   /// <param name="pVal"> the float factor. </param>
-  Velocity6D operator* (const float pVal) const;
+  inline Velocity6D operator* (const float pVal) const
+  {
+    return Velocity6D(
+          xd*pVal,
+          yd*pVal,
+          zd*pVal,
+          wxd*pVal,
+          wyd*pVal,
+          wzd*pVal);
+  }
 
   /// <summary>
   /// Overloading of operator / for Velocity6D.
