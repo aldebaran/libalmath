@@ -1,4 +1,6 @@
-<project name="libalmath">
-  <depends buildtime="true" names="gtest" />
-  <doxydoc name="libalmath" dest="ref/libalmath" />
+<project version="3">
+  <qibuild name="libalmath">
+    <depends buildtime="true" names="gtest" />
+  </qibuild>
+  <qidoc name="libalmath" type="doxygen" />
 </project>
