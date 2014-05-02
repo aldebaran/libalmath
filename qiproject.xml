@@ -3,4 +3,5 @@
     <depends buildtime="true" names="gtest" />
   </qibuild>
   <qidoc name="libalmath" type="doxygen" />
+  <qipython name="almath" />
 </project>
