@@ -30,6 +30,8 @@ void DigitalFilter::configureFilter(const unsigned int pOrder,
   fFilterDcGain = pDcGain;
   fFilterWeightsIn = pWeightsIn;
   fFilterWeightsOut = pWeightsOut;
+  fFilterBufferIn.set_capacity(fFilterOrder + 1u);
+  fFilterBufferOut.set_capacity(fFilterOrder);
 }
 
 void DigitalFilter::resetFilter()
@@ -43,7 +45,7 @@ float DigitalFilter::processFilter(const float pInputData)
   float lOutputData = pInputData;
   fFilterBufferIn.push_back(pInputData/fFilterDcGain);
 
-  if (fFilterBufferIn.size()>fFilterOrder)
+  if (fFilterBufferIn.full())
   {
     lOutputData = 0.0f;
 
@@ -55,9 +57,6 @@ float DigitalFilter::processFilter(const float pInputData)
     {
       lOutputData += fFilterBufferOut[i] * fFilterWeightsOut[i];
     }
-
-    fFilterBufferIn.pop_front();
-    fFilterBufferOut.pop_front();
   }
 
   fFilterBufferOut.push_back(lOutputData);

@@ -1,5 +1,6 @@
 <project version="3">
   <qibuild name="libalmath">
+    <depends buildtime="true" runtime="true" names="boost" />
     <depends buildtime="true" names="gtest" />
   </qibuild>
   <qidoc name="libalmath" type="doxygen" />
