@@ -8,6 +8,7 @@
 #include <almath/tools/altrigonometry.h>
 
 #include <cmath>
+#include <boost/math/special_functions/pow.hpp>
 
 namespace AL
 {
@@ -392,6 +393,22 @@ namespace AL
     }
 
 
+    void pointMassRotationalInertia(
+        float pMass,
+        const Position3D& pPos,
+        std::vector<float>& pInertia)
+    {
+      const float x2 = boost::math::pow<2>(pPos.x);
+      const float y2 = boost::math::pow<2>(pPos.y);
+      const float z2 = boost::math::pow<2>(pPos.z);
+      pInertia.resize(9);
+      pInertia[0] = pMass * (y2 + z2);
+      pInertia[4] = pMass * (x2 + z2);
+      pInertia[8] = pMass * (x2 + y2);
+      pInertia[1] = pInertia[3] = - pMass * pPos.x * pPos.y;
+      pInertia[2] = pInertia[6] = - pMass * pPos.x * pPos.z;
+      pInertia[5] = pInertia[7] = - pMass * pPos.y * pPos.z;
+    }
   } // namespace Math
 } // namespace AL
 

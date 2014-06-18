@@ -433,6 +433,45 @@ namespace AL {
         Quaternion& pQua,
         Position3D& pPos3D);
 
+
+    /// <summary>
+    /// Return the rotational inertia, expressed at the origin, of a point mass
+    /// located at pPos. The inertia value is
+    /** \f$
+      * \left[\begin{array}{ccc}
+      *  m (y^2 + z^2) &         -m x y &         -m x z \\
+      *         -m x y &  m (x^2 + z^2) &         -m y z \\
+      *         -m x z &         -m y z &  m (x^2 + y^2) \\
+      * \end{array}\right]
+      * \f$
+      */
+    /// </summary>
+    /// <param name = "pMass"> mass of the point</param>
+    /// <param name = "pPos"> position of the point</param>
+    /// <param name = "pInertia"> a vector of size 9, rotational inertia matrix
+    /// of the point mass, expressed at the origin</param>
+    /// </param>
+    /// Thanks to the Huygens–Steiner theorem, this function can be used to
+    /// change the reference of a rigid-body (non-necessarily punctual)
+    /// rotational inertia matrix:
+    ///
+    /// typedef std::vector<float> Inertia;
+    /// float mass = ...;
+    /// Inertia inertiaAtCom = ...;
+    /// AL::Math::Position3d comPosition = ...;
+    /// Inertia inertiaAtOrigin;
+    /// // first compute the contribution of the translation
+    /// pointMassRotationalInertia(mass, comPosition, inertiaAtOrigin);
+    /// // then add the "proper" body inertia
+    /// std::transform(inertiaAtCom.begin(), inertiaAtCom.end(),
+    ///                inertiaAtOrigin.begin(),
+    ///                inertiaAtOrigin.begin(),
+    ///                std::plus<float>());
+    /// \ingroup Tools
+    void pointMassRotationalInertia(
+      float pMass,
+      const Position3D& pPos,
+      std::vector<float>& pInertia);
   } // namespace Math
 } // namespace AL
 #endif  // _LIBALMATH_ALMATH_TOOLS_ALMATH_H_

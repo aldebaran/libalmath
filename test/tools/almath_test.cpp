@@ -642,5 +642,31 @@ TEST(ALMathTest, quaternionPosition3DFromPosition6D)
       AL::Math::quaternionFromRotation3D(AL::Math::Rotation3D(0.4f, 0.5f, 0.6f));
   EXPECT_TRUE(qua.isNear(quaExpected, lEpsilon));
   EXPECT_TRUE(pos3D.isNear(AL::Math::Position3D(0.1f, 0.2f, 0.3f), lEpsilon));
+}
 
+TEST(ALMathTest, pointMassRotationalInertia)
+{
+  AL::Math::Position3D pos123(1.f, 2.f, 3.f);
+  std::vector<float> inertia;
+
+  pointMassRotationalInertia(0.f, pos123, inertia);
+  ASSERT_EQ(9, inertia.size());
+  ASSERT_EQ(std::vector<float>(9, 0.f), inertia);
+
+  pointMassRotationalInertia(1.f, AL::Math::Position3D(), inertia);
+  ASSERT_EQ(std::vector<float>(9, 0.f), inertia);
+
+  float m10 = 10.f;
+  pointMassRotationalInertia(m10, pos123, inertia);
+  // check symmetry
+  ASSERT_TRUE(inertia[1] == inertia[3]);
+  ASSERT_TRUE(inertia[2] == inertia[6]);
+  ASSERT_TRUE(inertia[5] == inertia[7]);
+  // check values
+  ASSERT_EQ(m10*(4+9), inertia[0]);
+  ASSERT_EQ(m10*(1+9), inertia[4]);
+  ASSERT_EQ(m10*(1+4), inertia[8]);
+  ASSERT_EQ(-m10*1*2, inertia[1]);
+  ASSERT_EQ(-m10*1*3, inertia[2]);
+  ASSERT_EQ(-m10*2*3, inertia[5]);
 }
