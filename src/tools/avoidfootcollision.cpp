@@ -5,53 +5,110 @@
  */
 
 #include <almath/tools/avoidfootcollision.h>
+#include <almath/tools/almath.h>
 #include <cmath>
 
 namespace AL
 {
   namespace Math
   {
+
+    /****************************
+    PRIVATE FUNCTION
+    ****************************/
+    // <summary> Checks if segment A intersects segment B. </summary>
+    // <param name="pxA1">  x component of first point of segment A. </param>
+    // <param name="pyA1">  y component of first point of segment A. </param>
+    // <param name="pxA2">  x component of second point of segment A. </param>
+    // <param name="pyA2">  y component of second point of segment A. </param>
+    // <param name="pxB1">  x component of first point of segment B. </param>
+    // <param name="pyB1">  y component of first point of segment B. </param>
+    // <param name="pxB2">  x component of second point of segment B. </param>
+    // <param name="pyB2">  y component of second point of segment B. </param>
+    // <param name="pxC">  computed x component of intersection. </param>
+    // <param name="pyC">  computed y component of intersection. </param>
+    // <returns> true if the segments intersect in a single point (pC). </returns>
+    bool xIntersectionSegment2D(
+        float pxA1, float pyA1,
+        float pxA2, float pyA2,
+        float pxB1, float pyB1,
+        float pxB2, float pyB2,
+        float &pxC, float &pyC)
+    {
+      // SegmentA --> pA1 + rA * (pA2 - pA1);
+      // SegmentB --> pB1 + rB * (pB2 - pB1);
+      const float gxA = pxA2 - pxA1;
+      const float gyA = pyA2 - pyA1;
+      const float gxB = pxB2 - pxB1;
+      const float gyB = pyB2 - pyB1;
+
+      const float lTol = 1e-5f;
+      const float den  = gxB*gyA - gxA*gyB;
+      if (std::abs(den) < lTol) //Parallel lines or infinitesimal segments
+      {
+        return false;
+      }
+
+      const float rB = (gyA*(pxA1 - pxB1) + gxA*(pyB1 - pyA1))/den;
+      if (rB < 0.0f || rB > 1.0f) //Intersection out of the segment B
+      {
+        return false;
+      }
+      float rA = 0.0f;
+      if (std::abs(gxA) <lTol)
+      {
+        if(std::abs(gyA) <lTol)
+        {
+          return false;
+        }
+        else
+        {
+          rA = (pyB1 - pyA1 + rB*gyB)/gyA;
+        }
+      }
+      else
+      {
+         rA = (pxB1 - pxA1 + rB*gxB)/gxA;
+      }
+      if (rA < 0.0f || rA > 1.0f) //Intersection out of the segment A
+      {
+        return false;
+      }
+      pxC = pxA1 + rA * gxA;
+      pyC = pyA1 + rA * gyA;
+      return true;
+    }
+
+    bool intersectionSegment2D(
+        const Position2D &pA1,
+        const Position2D &pA2,
+        const Position2D &pB1,
+        const Position2D &pB2,
+        Position2D       &pC)
+    {
+      return xIntersectionSegment2D(
+            pA1.x, pA1.y,
+            pA2.x, pA2.y,
+            pB1.x, pB1.y,
+            pB2.x, pB2.y,
+            pC.x, pC.y);
+    }
+
     /****************************
     PRIVATE FUNCTION
     ****************************/
     // <summary> Query if the points B is inside the box A. </summary>
-    // <param name="pBoxA">  vector<Pose2D> of the box A. </param>
-    // <param name="pPointB"> Pose2D of the point B. </param>
+    // <param name="pBoxA">  vector<Position2D> of the box A. </param>
+    // <param name="pPointB"> Position2D of the point B. </param>
     // <returns> true if point B is inside Box A. </returns>
     const bool xPointsInsideBox(
-      const std::vector<AL::Math::Pose2D>&  pBoxA,
-      const AL::Math::Pose2D&               pPointB);
+        const std::vector<Position2D> &pBoxA,
+        const Position2D              &pPointB);
 
-    // <summary> Query if the box A and the box B are in collision. </summary>
-    // <param name="pBoxA"> vector<Pose2D> of the box A. </param>
-    // <param name="pBoxB"> vector<Pose2D> of the box B. </param>
-    // <returns> true if box A and the box B are in collision. </returns>
-    const bool xIsTwoBoxesAreInCollision(
-      const std::vector<AL::Math::Pose2D>&  pBoxA,
-      const std::vector<AL::Math::Pose2D>&  pBoxB);
-
-    // <summary> Compute the box point due to a move. </summary>
-    // <param name="pInitBox">  vector<Pose2D> of the fixed box. </param>
-    // <param name="pMove">      Pose2D the initial move. </param>
-    // <returns> vector<Pose2D> the new box with pose2D transformation. </returns>
-    const std::vector<AL::Math::Pose2D> xComputeBox(
-      const std::vector<AL::Math::Pose2D>&  pInitBox,
-      const AL::Math::Pose2D&               pMove);
-
-    // <summary> Compute the best orientation of the moving box without
-    //  collsion with fixed box. </summary>
-    // <param name="pFixesBox">  vector<Pose2D> of the fixed box. </param>
-    // <param name="pMovingBox"> vector<Pose2D> of the moving box. </param>
-    // <param name="pMove">       Pose2D the initial move. </param>
-    // <returns> Pose2D, the best position. </returns>
-    const void xDichotomie(
-      const std::vector<AL::Math::Pose2D>&  pFixesBox,
-      const std::vector<AL::Math::Pose2D>&  pMovingBox,
-      AL::Math::Pose2D&                     pMove);
 
     const bool xPointsInsideBox(
-      const std::vector<AL::Math::Pose2D>&  pBoxA,
-      const AL::Math::Pose2D&               pPointB)
+      const std::vector<Position2D>&  pBoxA,
+      const Position2D&               pPointB)
     {
       // the main idea is to follow by the right side
       // the box A.
@@ -89,102 +146,130 @@ namespace AL
     } // end xPointsInsideBox()
 
 
-    const bool xIsTwoBoxesAreInCollision(
-      const std::vector<AL::Math::Pose2D>&  pBoxA,
-      const std::vector<AL::Math::Pose2D>&  pBoxB)
+    const bool areTwoBoxesInCollision(
+        const std::vector<Position2D> &pBoxA,
+        const std::vector<Position2D> &pBoxB)
     {
-      bool test = false;
-      // test if all points of box A is outside of box B
-      for(unsigned i=0; i<pBoxA.size(); ++i)
+      Position2D intersection;
+      const std::size_t sizeA = pBoxA.size();
+      const std::size_t sizeB = pBoxB.size();
+
+      //Check intersection between the sides of the boxes
+      for (std::size_t ia = 0u; ia < sizeA; ++ia)
       {
-        test = xPointsInsideBox(pBoxB, pBoxA[i]);
-        if (test)
-          return test;
+        for (std::size_t ib = 0u; ib < sizeB; ++ib)
+        {
+          if (intersectionSegment2D(
+                pBoxA[ia], pBoxA[(ia+1) % sizeA],
+                pBoxB[ib], pBoxB[(ib+1) % sizeB],
+                intersection))
+          {
+            return true;
+          }
+        }
       }
-      // test if all points of box B is outside of box A
-      for(unsigned i=0; i<pBoxB.size(); ++i)
+      //Check if one box is inside the other
+      if (sizeA > 0)
       {
-        test = xPointsInsideBox(pBoxA, pBoxB[i]);
-        if (test)
-          return test;
+        if (xPointsInsideBox(pBoxB, pBoxA[0]))
+        {
+          return true;
+        }
       }
-      return test;
+      if (sizeB > 0)
+      {
+        if (xPointsInsideBox(pBoxA,pBoxB[0]))
+        {
+          return true;
+        }
+      }
+
+      return false;
     } // end xIsTwoBoxesAreInCollision()
 
 
-    const std::vector<AL::Math::Pose2D> xComputeBox(
-      const std::vector<AL::Math::Pose2D>&  pInitBox,
-      const AL::Math::Pose2D&               pMove)
+
+    void computeBox(
+        const std::vector<Position2D> &pInitBox,
+        const Pose2D                  &pMovingPose,
+        std::vector<Position2D>       &pMovedBox)
     {
-      std::vector<AL::Math::Pose2D> returnNewBox;
-      for(unsigned int i=0; i < pInitBox.size(); ++i)
+      pMovedBox.clear();
+      pMovedBox.reserve(pInitBox.size());
+      for(unsigned int i=0u; i < pInitBox.size(); ++i)
       {
-        returnNewBox.push_back(pMove * pInitBox[i]);
+        pMovedBox.push_back(pMovingPose * pInitBox[i]);
       }
-      return returnNewBox;
-    } // end xComputeBox()
+    } // end computeBox()
 
 
-    const void xDichotomie(
-      const std::vector<AL::Math::Pose2D>&  pFixesBox,
-      const std::vector<AL::Math::Pose2D>&  pMovingBox,
-      AL::Math::Pose2D&                     pMove)
+    const void dichotomie(
+        const std::vector<Position2D> &pFixedBox,
+        const std::vector<Position2D> &pMovingBox,
+        Pose2D                        &pMovingPose)
     {
       // the dichotomie number of iteration = precision
-      unsigned int nbIteration = 5;
+      unsigned int nbIteration = 5u;
 
       float min = 0.0f;
-      float max = pMove.theta;
+      float max = pMovingPose.theta;
       float middle = 0.0f;
+      float bestNoCollision = 0.0f;
 
-      std::vector<AL::Math::Pose2D> tmpMovingBox;
+      std::vector<Position2D> tmpMovingBox;
 
       for(unsigned int i=0; i<nbIteration; ++i)
       {
-        middle = (min + max)/2.0f;
-        pMove.theta = middle;
+        middle = (min + max)*0.5f;
+        pMovingPose.theta = middle;
         // compute nex box position
-        tmpMovingBox = xComputeBox(pMovingBox, pMove);
+        computeBox(pMovingBox, pMovingPose, tmpMovingBox);
         // test collision
-        if( xIsTwoBoxesAreInCollision(pFixesBox, tmpMovingBox) )
+        if( areTwoBoxesInCollision(pFixedBox, tmpMovingBox) )
+        {
           max = middle;
+        }
         else
+        {
+          bestNoCollision = middle;
           min = middle;
+        }
       }
-      pMove.theta = (min + max)/2.0f;
+      pMovingPose.theta = bestNoCollision;
     } // end xDichotomie()
 
     /****************************
     PUBLIC FUNCTION
     ****************************/
+
     const bool avoidFootCollision(
-      const std::vector<AL::Math::Pose2D>&  pLFootBoundingBox,
-      const std::vector<AL::Math::Pose2D>&  pRFootBoundingBox,
-      const bool&                           pIsLeftSupport,
-      AL::Math::Pose2D&                     pMove)
+      const std::vector<Position2D>&  pLFootBoundingBox,
+      const std::vector<Position2D>&  pRFootBoundingBox,
+      const bool&                     pIsLeftSupport,
+      Pose2D&                         pMove)
     {
       bool returnCollisionResult = false;
-      std::vector<AL::Math::Pose2D> tmpMovingBox;
+      std::vector<Position2D> tmpMovingBox;
       if (pIsLeftSupport)
       {
         // compute nex box position
-        tmpMovingBox = xComputeBox(pRFootBoundingBox, pMove);
+        computeBox(pRFootBoundingBox, pMove, tmpMovingBox);
         // test collision
-        if (xIsTwoBoxesAreInCollision(pLFootBoundingBox, tmpMovingBox))
+        if (areTwoBoxesInCollision(pLFootBoundingBox, tmpMovingBox))
         {
           returnCollisionResult = true;
-          xDichotomie(pLFootBoundingBox, pRFootBoundingBox, pMove);
+          dichotomie(pLFootBoundingBox, pRFootBoundingBox, pMove);
         }
       }
       else
       {
         // compute nex box position
-        tmpMovingBox = xComputeBox(pLFootBoundingBox, pMove);
+        computeBox(pLFootBoundingBox, pMove, tmpMovingBox);
         // test collision
-        if (xIsTwoBoxesAreInCollision(pRFootBoundingBox, tmpMovingBox))
+        if (areTwoBoxesInCollision(pRFootBoundingBox, tmpMovingBox))
         {
           returnCollisionResult = true;
-          xDichotomie(pRFootBoundingBox, pLFootBoundingBox, pMove);
+          dichotomie(pRFootBoundingBox, pLFootBoundingBox, pMove);
         }
       }
       return returnCollisionResult;
