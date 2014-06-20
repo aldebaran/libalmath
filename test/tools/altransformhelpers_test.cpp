@@ -774,6 +774,65 @@ TEST(ALTransformHelpersTest, pose2DFromTransform)
 {
 }
 
+TEST(ALTransformHelpersTest, position2DFromTransform)
+{
+  AL::Math::Transform tf;
+  tf.r1_c4 = 1.0f;
+  tf.r2_c4 = 2.0f;
+  AL::Math::Position2D p = AL::Math::position2DFromTransform(tf);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 = -1.0f;
+  tf.r2_c4 =  2.0f;
+  p = AL::Math::position2DFromTransform(tf);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 =  1.0f;
+  tf.r2_c4 = -2.0f;
+  p = AL::Math::position2DFromTransform(tf);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 = -1.0f;
+  tf.r2_c4 = -2.0f;
+  p = AL::Math::position2DFromTransform(tf);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 = 0.0f;
+  tf.r2_c4 = 0.0f;
+  p = AL::Math::position2DFromTransform(tf);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D()));
+}
+
+TEST(ALTransformHelpersTest, position2DFromTransformInPlace)
+{
+  AL::Math::Transform tf;
+  tf.r1_c4 = 1.0f;
+  tf.r2_c4 = 2.0f;
+  AL::Math::Position2D p;
+  AL::Math::position2DFromTransformInPlace(tf, p);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 = -1.0f;
+  tf.r2_c4 =  2.0f;
+  AL::Math::position2DFromTransformInPlace(tf, p);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 =  1.0f;
+  tf.r2_c4 = -2.0f;
+  AL::Math::position2DFromTransformInPlace(tf, p);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 = -1.0f;
+  tf.r2_c4 = -2.0f;
+  AL::Math::position2DFromTransformInPlace(tf, p);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D(tf.r1_c4, tf.r2_c4)));
+
+  tf.r1_c4 = 0.0f;
+  tf.r2_c4 = 0.0f;
+  AL::Math::position2DFromTransformInPlace(tf, p);
+  ASSERT_TRUE(p.isNear(AL::Math::Position2D()));
+}
+
 TEST(ALTransformHelpersTest, transformFromRotation3D)
 {
 }

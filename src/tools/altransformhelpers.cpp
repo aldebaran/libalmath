@@ -547,6 +547,21 @@ namespace AL {
     }
 
 
+    void position2DFromTransformInPlace(
+        const Transform& pT,
+        Position2D&      pPos)
+    {
+      pPos.x = pT.r1_c4;
+      pPos.y = pT.r2_c4;
+    }
+
+    Position2D position2DFromTransform(const Transform& pT)
+    {
+      Position2D pPos;
+      AL::Math::position2DFromTransformInPlace(pT, pPos);
+      return pPos;
+    }
+
     void pose2DFromTransformInPlace(
         const Transform& pT,
         Pose2D&          pPos)

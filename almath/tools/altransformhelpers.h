@@ -624,6 +624,24 @@ namespace AL {
     Pose2D pose2DFromTransform(const Transform& pT);
 
     /// <summary>
+    /// Compute a Position2D from a Transform.
+    /// </summary>
+    /// <param name = "pT"> the Transform you want to extract </param>
+    /// <param name = "pPos"> the result Position2D </param>
+    /// \ingroup Tools
+    void position2DFromTransformInPlace(
+        const Transform&     pT,
+        Position2D&          pPos);
+
+    /// <summary>
+    /// Create a Position2D from a Transform.
+    /// </summary>
+    /// <param name = "pT"> the transform you want to extract </param>
+    /// <returns> the Position2D extracted from the Transform </returns>
+    /// \ingroup Tools
+    Position2D position2DFromTransform(const Transform& pT);
+
+    /// <summary>
     /// Create a Transform from the 3 angles stored in a Rotation3D.
     /// The angles are composed in the following order:
     /// Rz(wz) * Ry(wy) * Rx(wx) = R
