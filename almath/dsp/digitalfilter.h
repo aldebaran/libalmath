@@ -10,7 +10,7 @@
 #define _LIB_ALMATH_ALMATH_DSP_DIGITALFILTER_H_
 
 #include <vector>
-#include <boost/circular_buffer.hpp>
+#include <deque>
 
 namespace AL
 {
@@ -53,8 +53,8 @@ public:
   float processFilter(float pInputData);
 
 private:
-  boost::circular_buffer<float> fFilterBufferIn;
-  boost::circular_buffer<float> fFilterBufferOut;
+  std::deque<float> fFilterBufferIn;
+  std::deque<float> fFilterBufferOut;
 
   unsigned int fFilterOrder;
   float fFilterDcGain;
