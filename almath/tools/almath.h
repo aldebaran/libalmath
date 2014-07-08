@@ -266,6 +266,36 @@ namespace AL {
       const float       pVal,
       const Position3D& pPos);
 
+    /// <summary>
+    /// Overloading of operator * between Rotation and Velocity3D:
+    ///
+    /** \f$\left[\begin{array}{c}
+      * result.x \\
+      * result.y \\
+      * result.z
+      * \end{array}\right] =
+      * \left[\begin{array}{ccc}
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3
+      * \end{array}\right] *
+      * \left[\begin{array}{c}
+      * pVel.x \\
+      * pVel.y \\
+      * pVel.z
+      * \end{array}\right] \f$
+      */
+    ///
+    /// </summary>
+    /// <param name="pRot"> the given Rotation </param>
+    /// <param name="pVel"> the given Velocity3D </param>
+    /// <returns>
+    /// the Velocity3D result.
+    /// </returns>
+    /// \ingroup Tools
+    Velocity3D operator*(
+      const Rotation&   pRot,
+      const Velocity3D& pVel);
 
     /// <summary>
     /// Creates a 3*3 Rotation Matrix from a an angle and a normalized Position3D.

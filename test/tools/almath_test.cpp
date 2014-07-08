@@ -310,6 +310,14 @@ TEST(ALMathTest, variousOperator)
   AL::Math::Velocity6D pVel6DIn = pK*pPos6D;
   AL::Math::Velocity6D pVel6DOut = AL::Math::Velocity6D(10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f);
   EXPECT_TRUE(pVel6DIn.isNear(pVel6DOut, 0.0001f));
+
+  //Velocity3D operator* (const Rotation&   pRot, const Velocity3D& pVel);
+  AL::Math::Velocity3D pVIn1 = AL::Math::Velocity3D(0.5f, 0.3f, 0.1f);
+  AL::Math::Rotation   pRot1 = AL::Math::rotationFromRotZ(AL::Math::PI_2);
+  AL::Math::Velocity3D pVIn2 = pRot1*pVIn1;
+  AL::Math::Velocity3D pVOut = AL::Math::Velocity3D(-0.3f, 0.5f, 0.1f);
+  EXPECT_TRUE(pVIn2.isNear(pVOut, 0.0001f));
+
 }
 
 TEST(ALMathTest, isLeft)
