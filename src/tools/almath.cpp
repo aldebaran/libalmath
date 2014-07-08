@@ -187,6 +187,16 @@ namespace AL
             pVal * pPos.z);
     }
 
+    Velocity3D operator*(
+      const Rotation&   pRot,
+      const Velocity3D& pVel)
+    {
+      return Velocity3D(
+            pRot.r1_c1*pVel.xd + pRot.r1_c2*pVel.yd + pRot.r1_c3*pVel.zd,
+            pRot.r2_c1*pVel.xd + pRot.r2_c2*pVel.yd + pRot.r2_c3*pVel.zd,
+            pRot.r3_c1*pVel.xd + pRot.r3_c2*pVel.yd + pRot.r3_c3*pVel.zd);
+    }
+
     AL::Math::Rotation rotationFromAngleDirection(
       const float&                pTheta,
       const AL::Math::Position3D& pPos)
