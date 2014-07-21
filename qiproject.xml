@@ -3,6 +3,6 @@
     <depends buildtime="true" runtime="true" names="boost" />
     <depends buildtime="true" names="gtest" />
   </qibuild>
-  <qidoc name="libalmath" type="doxygen" />
+  <qidoc name="libalmath" type="doxygen" dest="ref/libalmath" />
   <qipython name="almath" />
 </project>
