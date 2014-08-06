@@ -310,6 +310,14 @@ TEST(ALMathTest, variousOperator)
   AL::Math::Velocity6D pVel6DIn = pK*pPos6D;
   AL::Math::Velocity6D pVel6DOut = AL::Math::Velocity6D(10.0f, 20.0f, 30.0f, 40.0f, 50.0f, 60.0f);
   EXPECT_TRUE(pVel6DIn.isNear(pVel6DOut, 0.0001f));
+
+  //Velocity3D operator* (const Rotation&   pRot, const Velocity3D& pVel);
+  AL::Math::Velocity3D pVIn1 = AL::Math::Velocity3D(0.5f, 0.3f, 0.1f);
+  AL::Math::Rotation   pRot1 = AL::Math::rotationFromRotZ(AL::Math::PI_2);
+  AL::Math::Velocity3D pVIn2 = pRot1*pVIn1;
+  AL::Math::Velocity3D pVOut = AL::Math::Velocity3D(-0.3f, 0.5f, 0.1f);
+  EXPECT_TRUE(pVIn2.isNear(pVOut, 0.0001f));
+
 }
 
 TEST(ALMathTest, isLeft)
@@ -642,5 +650,31 @@ TEST(ALMathTest, quaternionPosition3DFromPosition6D)
       AL::Math::quaternionFromRotation3D(AL::Math::Rotation3D(0.4f, 0.5f, 0.6f));
   EXPECT_TRUE(qua.isNear(quaExpected, lEpsilon));
   EXPECT_TRUE(pos3D.isNear(AL::Math::Position3D(0.1f, 0.2f, 0.3f), lEpsilon));
+}
 
+TEST(ALMathTest, pointMassRotationalInertia)
+{
+  AL::Math::Position3D pos123(1.f, 2.f, 3.f);
+  std::vector<float> inertia;
+
+  pointMassRotationalInertia(0.f, pos123, inertia);
+  ASSERT_EQ(9, inertia.size());
+  ASSERT_EQ(std::vector<float>(9, 0.f), inertia);
+
+  pointMassRotationalInertia(1.f, AL::Math::Position3D(), inertia);
+  ASSERT_EQ(std::vector<float>(9, 0.f), inertia);
+
+  float m10 = 10.f;
+  pointMassRotationalInertia(m10, pos123, inertia);
+  // check symmetry
+  ASSERT_TRUE(inertia[1] == inertia[3]);
+  ASSERT_TRUE(inertia[2] == inertia[6]);
+  ASSERT_TRUE(inertia[5] == inertia[7]);
+  // check values
+  ASSERT_EQ(m10*(4+9), inertia[0]);
+  ASSERT_EQ(m10*(1+9), inertia[4]);
+  ASSERT_EQ(m10*(1+4), inertia[8]);
+  ASSERT_EQ(-m10*1*2, inertia[1]);
+  ASSERT_EQ(-m10*1*3, inertia[2]);
+  ASSERT_EQ(-m10*2*3, inertia[5]);
 }

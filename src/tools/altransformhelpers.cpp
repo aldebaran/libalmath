@@ -870,7 +870,7 @@ namespace AL {
 
       const float d2 = a*a + b*b - c*c;
 
-      if (d2<0)
+      if (d2<0.0f)
       {
         throw std::runtime_error(
             "ALMath: axisRotationProjectionInPlace d2 < 0");
@@ -878,33 +878,35 @@ namespace AL {
       }
 
       const float alpha  = std::atan2(b, a);
-      const float beta   = std::acos(c / std::sqrt( a*a + b*b ));
+      const float beta   = std::acos(c / std::sqrt(a*a + b*b));
 
-      const float cos_1 = 1.0f - std::cos( alpha + beta );
-      const float cos_2 = 1.0f - std::cos( alpha - beta );
+      const float cos_1 = 1.0f - std::cos(alpha + beta);
+      const float cos_2 = 1.0f - std::cos(alpha - beta);
 
       const float sin_1 = std::sin(alpha + beta);
       const float sin_2 = std::sin(alpha - beta);
 
-      const float trace_1 = pH.r1_c1*( cos_1*( - z_2 - y_2 ) + 1.0f ) +
-                      pH.r2_c2*( cos_1*( - z_2 - x_2 ) + 1.0f ) +
-                      pH.r3_c2*( cos_1*y*z + sin_1*x ) +
-                      pH.r2_c3*( cos_1*y*z - sin_1*x ) +
-                      pH.r1_c3*( cos_1*x*z + sin_1*y ) +
-                      pH.r3_c1*( cos_1*x*z - sin_1*y ) +
-                      pH.r2_c1*( sin_1*z + cos_1*x*y ) +
-                      pH.r1_c2*( cos_1*x*y - sin_1*z ) +
-                      pH.r3_c3*( cos_1*( - y_2 - x_2 ) + 1.0f );
+      const float trace_1 =
+          pH.r1_c1*(cos_1*( - z_2 - y_2) + 1.0f) +
+          pH.r2_c2*(cos_1*( - z_2 - x_2) + 1.0f) +
+          pH.r3_c2*(cos_1*y*z + sin_1*x) +
+          pH.r2_c3*(cos_1*y*z - sin_1*x) +
+          pH.r1_c3*(cos_1*x*z + sin_1*y) +
+          pH.r3_c1*(cos_1*x*z - sin_1*y) +
+          pH.r2_c1*(sin_1*z + cos_1*x*y) +
+          pH.r1_c2*(cos_1*x*y - sin_1*z) +
+          pH.r3_c3*(cos_1*( - y_2 - x_2) + 1.0f);
 
-      const float trace_2 = pH.r1_c1*( cos_2*( - z_2 - y_2 ) + 1.0f ) +
-                      pH.r2_c2*( cos_2*( - z_2 - x_2 ) + 1.0f ) +
-                      pH.r3_c2*( cos_2*y*z + sin_2*x ) +
-                      pH.r2_c3*( cos_2*y*z - sin_2*x ) +
-                      pH.r1_c3*( cos_2*x*z + sin_2*y ) +
-                      pH.r3_c1*( cos_2*x*z - sin_2*y ) +
-                      pH.r2_c1*( sin_2*z + cos_2*x*y ) +
-                      pH.r1_c2*( cos_2*x*y - sin_2*z ) +
-                      pH.r3_c3*( cos_2*( - y_2 - x_2 ) + 1.0f );
+      const float trace_2 =
+          pH.r1_c1*(cos_2*( - z_2 - y_2) + 1.0f) +
+          pH.r2_c2*(cos_2*( - z_2 - x_2) + 1.0f) +
+          pH.r3_c2*(cos_2*y*z + sin_2*x) +
+          pH.r2_c3*(cos_2*y*z - sin_2*x) +
+          pH.r1_c3*(cos_2*x*z + sin_2*y) +
+          pH.r3_c1*(cos_2*x*z - sin_2*y) +
+          pH.r2_c1*(sin_2*z + cos_2*x*y) +
+          pH.r1_c2*(cos_2*x*y - sin_2*z) +
+          pH.r3_c3*(cos_2*( - y_2 - x_2) + 1.0f);
 
       if (trace_1 < trace_2)
       {

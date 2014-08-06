@@ -266,6 +266,36 @@ namespace AL {
       const float       pVal,
       const Position3D& pPos);
 
+    /// <summary>
+    /// Overloading of operator * between Rotation and Velocity3D:
+    ///
+    /** \f$\left[\begin{array}{c}
+      * result.x \\
+      * result.y \\
+      * result.z
+      * \end{array}\right] =
+      * \left[\begin{array}{ccc}
+      * pRot.r_1c_1 & pRot.r_1c_2 & pRot.r_1c_3 \\
+      * pRot.r_2c_1 & pRot.r_2c_2 & pRot.r_2c_3 \\
+      * pRot.r_3c_1 & pRot.r_3c_2 & pRot.r_3c_3
+      * \end{array}\right] *
+      * \left[\begin{array}{c}
+      * pVel.x \\
+      * pVel.y \\
+      * pVel.z
+      * \end{array}\right] \f$
+      */
+    ///
+    /// </summary>
+    /// <param name="pRot"> the given Rotation </param>
+    /// <param name="pVel"> the given Velocity3D </param>
+    /// <returns>
+    /// the Velocity3D result.
+    /// </returns>
+    /// \ingroup Tools
+    Velocity3D operator*(
+      const Rotation&   pRot,
+      const Velocity3D& pVel);
 
     /// <summary>
     /// Creates a 3*3 Rotation Matrix from a an angle and a normalized Position3D.
@@ -433,6 +463,45 @@ namespace AL {
         Quaternion& pQua,
         Position3D& pPos3D);
 
+
+    /// <summary>
+    /// Return the rotational inertia, expressed at the origin, of a point mass
+    /// located at pPos. The inertia value is
+    /** \f$
+      * \left[\begin{array}{ccc}
+      *  m (y^2 + z^2) &         -m x y &         -m x z \\
+      *         -m x y &  m (x^2 + z^2) &         -m y z \\
+      *         -m x z &         -m y z &  m (x^2 + y^2) \\
+      * \end{array}\right]
+      * \f$
+      */
+    /// </summary>
+    /// <param name = "pMass"> mass of the point</param>
+    /// <param name = "pPos"> position of the point</param>
+    /// <param name = "pInertia"> a vector of size 9, rotational inertia matrix
+    /// of the point mass, expressed at the origin</param>
+    /// </param>
+    /// Thanks to the Huygens–Steiner theorem, this function can be used to
+    /// change the reference of a rigid-body (non-necessarily punctual)
+    /// rotational inertia matrix:
+    ///
+    /// typedef std::vector<float> Inertia;
+    /// float mass = ...;
+    /// Inertia inertiaAtCom = ...;
+    /// AL::Math::Position3d comPosition = ...;
+    /// Inertia inertiaAtOrigin;
+    /// // first compute the contribution of the translation
+    /// pointMassRotationalInertia(mass, comPosition, inertiaAtOrigin);
+    /// // then add the "proper" body inertia
+    /// std::transform(inertiaAtCom.begin(), inertiaAtCom.end(),
+    ///                inertiaAtOrigin.begin(),
+    ///                inertiaAtOrigin.begin(),
+    ///                std::plus<float>());
+    /// \ingroup Tools
+    void pointMassRotationalInertia(
+      float pMass,
+      const Position3D& pPos,
+      std::vector<float>& pInertia);
   } // namespace Math
 } // namespace AL
 #endif  // _LIBALMATH_ALMATH_TOOLS_ALMATH_H_

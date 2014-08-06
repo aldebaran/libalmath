@@ -66,6 +66,7 @@ set(ALMATH_H
     almath/tools/almathio.h
 )
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
+qi_use_lib(almath BOOST)
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.
 # It is useful when extending almathswig.
