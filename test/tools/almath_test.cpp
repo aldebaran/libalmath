@@ -69,6 +69,53 @@ TEST(ALMathTest, moduloPI)
 }
 
 
+TEST(ALMathTest, mean) {
+  EXPECT_THROW(AL::Math::meanAngle(std::vector<float>()),
+               std::runtime_error);
+  EXPECT_THROW(AL::Math::weightedMeanAngle(std::vector<float>(),
+                                           std::vector<float>()),
+               std::runtime_error);
+  std::vector<float> angles;
+  std::vector<float> weights;
+  angles.push_back(AL::Math::PI);
+  EXPECT_NEAR(AL::Math::modulo2PI(AL::Math::meanAngle(angles) - AL::Math::PI),
+              0.f, 1e-3f);
+  EXPECT_THROW(AL::Math::weightedMeanAngle(angles, weights),
+               std::runtime_error);
+  weights.push_back(0.5f);
+  EXPECT_NEAR(AL::Math::modulo2PI(AL::Math::weightedMeanAngle(angles, weights)
+                                  - AL::Math::PI),
+              0.f, 1e-3f);
+  angles.push_back(-AL::Math::PI);
+  weights.push_back(0.5f);
+  EXPECT_NEAR(AL::Math::modulo2PI(AL::Math::meanAngle(angles) - AL::Math::PI),
+              0.f, 1e-3f);
+  EXPECT_NEAR(AL::Math::modulo2PI(AL::Math::weightedMeanAngle(angles, weights)
+                                  - AL::Math::PI),
+              0.f, 1e-3f);
+  angles[0] = AL::Math::PI_2;
+  EXPECT_NEAR(AL::Math::modulo2PI(AL::Math::meanAngle(angles) - 0.75f*AL::Math::PI),
+              0.f, 1e-3f);
+  EXPECT_NEAR(AL::Math::modulo2PI(AL::Math::weightedMeanAngle(angles, weights)
+                                  - 0.75f*AL::Math::PI),
+              0.f, 1e-3f);
+  angles[0] = 0.f;
+  EXPECT_THROW(AL::Math::meanAngle(angles), std::runtime_error);
+  EXPECT_THROW(AL::Math::weightedMeanAngle(angles, weights), std::runtime_error);
+  angles[0] = 0.f;
+  weights[0] = 1.f;
+  angles[1] = 0.5f*AL::Math::PI;
+  weights[1] = 0.5f;
+  EXPECT_NEAR(AL::Math::weightedMeanAngle(angles, weights),
+              std::atan(0.5f), 1e-3f);
+  weights[1] = 0.f;
+  EXPECT_THROW(AL::Math::weightedMeanAngle(angles, weights),
+              std::exception);
+  weights[1] = -1.f;
+  EXPECT_THROW(AL::Math::weightedMeanAngle(angles, weights),
+               std::runtime_error);
+}
+
 TEST(ALMathTest, clipData)
 {
   float pMin  = -0.2f;

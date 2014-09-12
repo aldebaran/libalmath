@@ -36,6 +36,33 @@ namespace AL
       return result;
     }
 
+    float meanAngle(const std::vector<float> &pAngles) {
+      const std::vector<float> weights(pAngles.size(), 1.f);
+      return weightedMeanAngle(pAngles, weights);
+    }
+
+    float weightedMeanAngle(const std::vector<float> &pAngles,
+                            const std::vector<float> &pWeights) {
+      if (pAngles.size() != pWeights.size()) {
+        throw std::runtime_error("Angles and weights must have the same size.");
+      }
+      Math::Position2D sumPosition;
+      std::vector<float>::const_iterator a = pAngles.begin();
+      std::vector<float>::const_iterator w = pWeights.begin();
+      float weightSum = 0.f;
+      for (; a != pAngles.end(); ++a, ++w) {
+        if (*w <= 0.f) {
+          throw std::runtime_error("All weights must be strictly positive.");
+        }
+        weightSum += *w;
+        sumPosition += *w * Math::Position2D(std::cos(*a), std::sin(*a));
+      }
+      if (sumPosition.norm() < 1e-3f) {
+        throw std::runtime_error("No defined mean.");
+      }
+      return Math::modulo2PI(std::atan2(sumPosition.y, sumPosition.x));
+    }
+
     bool clipData(
       const float& pMin,
       const float& pMax,

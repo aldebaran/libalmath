@@ -42,6 +42,37 @@ namespace AL {
   float modulo2PI(float pAngle);
 
   /// <summary>
+  /// Returns the mean of given angles (between ]-PI, PI]). It is defined by the
+  /// direction of the mean of all unitary vectors corresponding to the given
+  /// angles. If that mean vector is a null vector, then the angular mean is not
+  /// defined and the method will throw. For example, meanAngle([0, PI]) throws.
+  /// </summary>
+  /// <param name="pAngles"> the input/output angles </param>
+  /// <returns>
+  /// The computed mean (in ]-PI, PI]).
+  /// </returns>
+  /// \ingroup Tools
+  float meanAngle(const std::vector<float>& pAngles);
+
+  /// <summary>
+  /// Returns the weighted mean of given angles (between ]-PI, PI]). It is
+  /// defined by the direction of the mean of all unitary vectors corresponding
+  /// to the given angles, multiplied by the given weights. If that mean vector
+  /// is a null vector, then the angular mean is not defined and the method will
+  /// throw. For example, meanAngle([0, PI], [1.0, 1.0]) throws.
+  ///
+  /// All weights must be strictly positive, else the method throws.
+  /// </summary>
+  /// <param name="pAngles"> the input/output angles </param>
+  /// <param name="pWeights"> the input/output weights </param>
+  /// <returns>
+  /// The computed mean (in ]-PI, PI]).
+  /// </returns>
+  /// \ingroup Tools
+  float weightedMeanAngle(const std::vector<float>& pAngles,
+                          const std::vector<float>& pWeights);
+
+  /// <summary>
   /// Clip an input data inside min and max limit.
   ///
   /// \f$ pMin \leq pData \leq pMax \f$
