@@ -165,3 +165,38 @@ TEST(ALPosition3DTest, toVector)
   EXPECT_NEAR(pos.y, vec[1], eps);
   EXPECT_NEAR(pos.z, vec[2], eps);
 }
+
+TEST(ALPosition3DTest, isUnitary)
+{
+  AL::Math::Position3D pos = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  EXPECT_TRUE(pos.isUnitVector());
+
+  pos = AL::Math::Position3D(1.0f, -2.0f, 3.0f);
+  EXPECT_FALSE(pos.isUnitVector());
+
+  EXPECT_TRUE(pos.normalize().isUnitVector());
+}
+
+TEST(ALPosition3DTest, isOrthogonal)
+{
+  const AL::Math::Position3D posX = AL::Math::Position3D(1.0f, 0.0f, 0.0f);
+  const AL::Math::Position3D posY = AL::Math::Position3D(0.0f, 2.0f, 0.0f);
+  const AL::Math::Position3D posZ = AL::Math::Position3D(0.0f, 0.0f, 3.0f);
+  const AL::Math::Position3D posXY = AL::Math::Position3D(1.0f, 2.0f, 0.0f);
+  const AL::Math::Position3D posXZ = AL::Math::Position3D(1.0f, 0.0f, 3.0f);
+  const AL::Math::Position3D posYZ = AL::Math::Position3D(0.0f, 2.0f, 3.0f);
+
+  EXPECT_TRUE(posX.isOrthogonal(posY));
+  EXPECT_TRUE(posX.isOrthogonal(posZ));
+  EXPECT_TRUE(posY.isOrthogonal(posZ));
+  EXPECT_TRUE(posX.isOrthogonal(posYZ));
+  EXPECT_TRUE(posY.isOrthogonal(posXZ));
+  EXPECT_TRUE(posZ.isOrthogonal(posXY));
+
+  EXPECT_FALSE(posX.isOrthogonal(posXY));
+  EXPECT_FALSE(posY.isOrthogonal(posXY));
+  EXPECT_FALSE(posX.isOrthogonal(posXZ));
+  EXPECT_FALSE(posZ.isOrthogonal(posXZ));
+  EXPECT_FALSE(posY.isOrthogonal(posYZ));
+  EXPECT_FALSE(posZ.isOrthogonal(posYZ));
+}

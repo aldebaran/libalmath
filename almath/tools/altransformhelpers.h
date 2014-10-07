@@ -570,6 +570,67 @@ namespace AL {
     Rotation3D rotation3DFromRotation(const Rotation& pRotation);
 
     /// <summary>
+    /// return a Rotation Matrix initialized with its direction vectors
+    /// X and Y in world coordinates.
+    /// These vectors represent, respectively, the first and second columns
+    /// of the Rotation matrix.
+    /// The vectors must be unitary and orthogonal.
+    /// </summary>
+    /// <param name="pX"> direction vector for X axis. </param>
+    /// <param name="pY"> direction vector for Y axis. </param>
+    /// <returns>
+    /// the Rotation matrix
+    /// </returns>
+    /// \ingroup Tools
+    Rotation rotationFromAxesXY(const Position3D& pX, const Position3D& pY);
+
+    /// <summary>
+    /// return a Rotation Matrix initialized with its direction vectors
+    /// X and Z in world coordinates.
+    /// These vectors represent, respectively, the first and third columns
+    /// of the Rotation matrix.
+    /// The vectors must be unitary and orthogonal.
+    /// </summary>
+    /// <param name="pX"> direction vector for X axis. </param>
+    /// <param name="pZ"> direction vector for Z axis. </param>
+    /// <returns>
+    /// the Rotation matrix
+    /// </returns>
+    /// \ingroup Tools
+    Rotation rotationFromAxesXZ(const Position3D& pX, const Position3D& pZ);
+
+    /// <summary>
+    /// return a Rotation Matrix initialized with its direction vectors
+    /// X and Y in world coordinates.
+    /// These vectors represent, respectively, the second and third columns
+    /// of the Rotation matrix.
+    /// The vectors must be unitary and orthogonal.
+    /// </summary>
+    /// <param name="pY"> direction vector for Y axis. </param>
+    /// <param name="pZ"> direction vector for Z axis. </param>
+    /// <returns>
+    /// the Rotation matrix
+    /// </returns>
+    /// \ingroup Tools
+    Rotation rotationFromAxesYZ(const Position3D& pY, const Position3D& pZ);
+
+    /// <summary>
+    /// return a Rotation Matrix initialized with its direction vectors
+    /// in world coordinates.
+    /// The vectors represent the columns of the Rotation matrix.
+    /// The vectors must be unitary and orthogonal.
+    /// </summary>
+    /// <param name="pX"> direction vector for X axis. </param>
+    /// <param name="pY"> direction vector for Y axis. </param>
+    /// <param name="pZ"> direction vector for Z axis. </param>
+    /// <returns>
+    /// the Rotation matrix
+    /// </returns>
+    /// \ingroup Tools
+    Rotation rotationFromAxesXYZ(const Position3D& pX, const Position3D& pY, const Position3D& pZ);
+
+
+    /// <summary>
     /// Compute Position6D corresponding to the Transform.
     /// </summary>
     /// <param name = "pT"> the transform you want to extract </param>

@@ -224,7 +224,7 @@ namespace AL {
       ///
       /// </summary>
       /// <param name="pPos2"> the second Position3D </param>
-      /// <param name="pEpsilon"> an optionnal epsilon distance </param>
+      /// <param name="pEpsilon"> an optional epsilon distance </param>
       /// <returns>
       /// true if the distance between the two Position3D is less than pEpsilon
       /// </returns>
@@ -283,6 +283,27 @@ namespace AL {
       /// </summary>
       void toVector(std::vector<float>& pReturnVector) const;
       std::vector<float> toVector(void) const;
+
+      /// <summary>
+      /// Checks if the norm of the Position3D is near to 1.0
+      /// </summary>
+      /// <param name="pEpsilon"> an optional epsilon distance </param>
+      /// <returns>
+      /// true if the norm of the vector is near to 1.0
+      /// </returns>
+      /// \ingroup Types
+      bool isUnitVector(const float& pEpsilon=0.0001f) const;
+
+      /// <summary>
+      /// Checks if this Position3D is orthogonal to Position3D pPos
+      /// </summary>
+      /// <param name="pEpsilon"> an optional epsilon distance </param>
+      /// <returns>
+      /// true if orthogonal
+      /// </returns>
+      /// \ingroup Types
+      bool isOrthogonal(const Position3D& pPos, const float& pEpsilon=0.0001f) const;
+
     };
 
     /// <summary>
@@ -383,6 +404,32 @@ namespace AL {
       const Position3D& pPos1,
       const Position3D& pPos2,
       Position3D&       pRes);
+
+    /// <summary>
+    /// Checks if the norm of a Position3D is near to 1.0
+    /// </summary>
+    /// <param name="pPos"> the Position3D </param>
+    /// <param name="pEpsilon"> an optional epsilon distance </param>
+    /// <returns>
+    /// true if the norm of the vector is near to 1.0
+    /// </returns>
+    /// \ingroup Types
+    bool isUnitVector(const Position3D& pPos,
+                      const float& pEpsilon=0.0001f);
+
+    /// <summary>
+    /// Checks if two Position3D are orthogonal
+    /// </summary>
+    /// <param name="pPos1"> the first Position3D </param>
+    /// <param name="pPos2"> the second Position3D </param>
+    /// <param name="pEpsilon"> an optional epsilon distance </param>
+    /// <returns>
+    /// true if orthogonal
+    /// </returns>
+    /// \ingroup Types
+    bool isOrthogonal(const Position3D& pPos1,
+                      const Position3D& pPos2,
+                      const float& pEpsilon=0.0001f);
 
   } // end namespace math
 } // end namespace al
