@@ -1569,3 +1569,23 @@ TEST(ALMathTransformHelpers, position6DFromTransformInPlace)
     }
   }
 }
+
+// Tests functions:
+// rotationFromAxesXY
+// rotationFromAxesXZ
+// rotationFromAxesYZ
+// rotationFromAxesXYZ
+TEST(ALMathTransformHelpers, rotationFromAxes)
+{
+  const float angle = 0.5f;
+  const float c = std::cos(angle);
+  const float s = std::sin(angle);
+  const AL::Math::Position3D x(   c,    s, 0.0f);
+  const AL::Math::Position3D y(  -s,    c, 0.0f);
+  const AL::Math::Position3D z(0.0f, 0.0f, 1.0f);
+  AL::Math::Rotation rot = AL::Math::rotationFromAxesXYZ(x, y, z);
+  EXPECT_TRUE(rot.isNear(AL::Math::Rotation::fromRotZ(angle)));
+  EXPECT_TRUE(AL::Math::rotationFromAxesXY(x, y).isNear(rot));
+  EXPECT_TRUE(AL::Math::rotationFromAxesXZ(x, z).isNear(rot));
+  EXPECT_TRUE(AL::Math::rotationFromAxesYZ(y, z).isNear(rot));
+}

@@ -10,6 +10,7 @@
 #include <stdexcept>
 #include <almath/tools/altrigonometry.h>
 #include <almath/tools/almathio.h>
+#include <assert.h>
 
 namespace AL {
   namespace Math {
@@ -506,7 +507,6 @@ namespace AL {
     }
 
 
-
     void position6DFromTransformInPlace(
         const Transform& pT,
         Position6D&      pPos)
@@ -674,7 +674,53 @@ namespace AL {
       return R;
     }
 
+    Rotation rotationFromAxesXY(const Position3D& pX, const Position3D& pY)
+    {
+      assert(pX.isUnitVector());
+      assert(pY.isUnitVector());
+      assert(pX.isOrthogonal(pY));
+      Position3D z = pX.crossProduct(pY);
+      return rotationFromAxesXYZ(pX, pY, z);
+    }
 
+    Rotation rotationFromAxesXZ(const Position3D& pX, const Position3D& pZ)
+    {
+      assert(pX.isUnitVector());
+      assert(pZ.isUnitVector());
+      assert(pX.isOrthogonal(pZ));
+      Position3D y = pZ.crossProduct(pX);
+      return rotationFromAxesXYZ(pX, y, pZ);
+    }
+
+    Rotation rotationFromAxesYZ(const Position3D& pY, const Position3D& pZ)
+    {
+      assert(pY.isUnitVector());
+      assert(pZ.isUnitVector());
+      assert(pY.isOrthogonal(pZ));
+      Position3D x = pY.crossProduct(pZ);
+      return rotationFromAxesXYZ(x, pY, pZ);
+    }
+
+    Rotation rotationFromAxesXYZ(const Position3D& pX, const Position3D& pY, const Position3D& pZ)
+    {
+      assert(pX.isUnitVector());
+      assert(pY.isUnitVector());
+      assert(pZ.isUnitVector());
+      assert(pX.isOrthogonal(pY));
+      assert(pX.isOrthogonal(pZ));
+      assert(pY.isOrthogonal(pZ));
+      Rotation pOut = Rotation();
+      pOut.r1_c1 = pX.x;
+      pOut.r2_c1 = pX.y;
+      pOut.r3_c1 = pX.z;
+      pOut.r1_c2 = pY.x;
+      pOut.r2_c2 = pY.y;
+      pOut.r3_c2 = pY.z;
+      pOut.r1_c3 = pZ.x;
+      pOut.r2_c3 = pZ.y;
+      pOut.r3_c3 = pZ.z;
+      return pOut;
+    }
     Position3D operator*(
         const Transform& pT,
         const Position2D&  pPos)

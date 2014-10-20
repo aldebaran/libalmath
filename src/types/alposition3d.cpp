@@ -160,6 +160,15 @@ namespace AL {
       return returnVector;
     }
 
+    bool Position3D::isUnitVector(const float& pEpsilon) const
+    {
+      return Math::isUnitVector(*this, pEpsilon);
+    }
+
+    bool Position3D::isOrthogonal(const Position3D& pPos, const float& pEpsilon) const
+    {
+      return Math::isOrthogonal(*this, pPos, pEpsilon);
+    }
 
     float distanceSquared(
       const Position3D& pPos1,
@@ -219,6 +228,19 @@ namespace AL {
       Position3D res;
       crossProduct(pPos1, pPos2, res);
       return res;
+    }
+
+    bool isUnitVector(const Position3D& pPos,
+                      const float& pEpsilon)
+    {
+      return std::abs(1.0f - pPos.norm()) <= pEpsilon;
+    }
+
+    bool isOrthogonal(const Position3D& pPos1,
+                      const Position3D& pPos2,
+                      const float& pEpsilon)
+    {
+      return std::abs(pPos1.dotProduct(pPos2)) <= pEpsilon;
     }
 
   } // end namespace math
