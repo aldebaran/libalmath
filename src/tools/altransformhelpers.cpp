@@ -674,7 +674,9 @@ namespace AL {
       return R;
     }
 
-    Rotation rotationFromAxesXY(const Position3D& pX, const Position3D& pY)
+    Rotation rotationFromAxesXY(
+        const Position3D& pX,
+        const Position3D& pY)
     {
       assert(pX.isUnitVector());
       assert(pY.isUnitVector());
@@ -683,7 +685,9 @@ namespace AL {
       return rotationFromAxesXYZ(pX, pY, z);
     }
 
-    Rotation rotationFromAxesXZ(const Position3D& pX, const Position3D& pZ)
+    Rotation rotationFromAxesXZ(
+        const Position3D& pX,
+        const Position3D& pZ)
     {
       assert(pX.isUnitVector());
       assert(pZ.isUnitVector());
@@ -692,7 +696,9 @@ namespace AL {
       return rotationFromAxesXYZ(pX, y, pZ);
     }
 
-    Rotation rotationFromAxesYZ(const Position3D& pY, const Position3D& pZ)
+    Rotation rotationFromAxesYZ(
+        const Position3D& pY,
+        const Position3D& pZ)
     {
       assert(pY.isUnitVector());
       assert(pZ.isUnitVector());
@@ -701,7 +707,10 @@ namespace AL {
       return rotationFromAxesXYZ(x, pY, pZ);
     }
 
-    Rotation rotationFromAxesXYZ(const Position3D& pX, const Position3D& pY, const Position3D& pZ)
+    Rotation rotationFromAxesXYZ(
+        const Position3D& pX,
+        const Position3D& pY,
+        const Position3D& pZ)
     {
       assert(pX.isUnitVector());
       assert(pY.isUnitVector());
