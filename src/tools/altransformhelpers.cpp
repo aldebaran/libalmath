@@ -674,41 +674,50 @@ namespace AL {
       return R;
     }
 
-    Rotation rotationFromAxesXY(const Position3D& pX, const Position3D& pY)
+    Rotation rotationFromAxesXY(
+        const Position3D& pX,
+        const Position3D& pY)
     {
       assert(pX.isUnitVector());
       assert(pY.isUnitVector());
-      assert(pX.isOrthogonal(pY));
+      assert(pX.isOrthogonal(pY, 1e-3f));
       Position3D z = pX.crossProduct(pY);
       return rotationFromAxesXYZ(pX, pY, z);
     }
 
-    Rotation rotationFromAxesXZ(const Position3D& pX, const Position3D& pZ)
+    Rotation rotationFromAxesXZ(
+        const Position3D& pX,
+        const Position3D& pZ)
     {
       assert(pX.isUnitVector());
       assert(pZ.isUnitVector());
-      assert(pX.isOrthogonal(pZ));
+      assert(pX.isOrthogonal(pZ, 1e-3f));
       Position3D y = pZ.crossProduct(pX);
       return rotationFromAxesXYZ(pX, y, pZ);
     }
 
-    Rotation rotationFromAxesYZ(const Position3D& pY, const Position3D& pZ)
+    Rotation rotationFromAxesYZ(
+        const Position3D& pY,
+        const Position3D& pZ)
     {
       assert(pY.isUnitVector());
       assert(pZ.isUnitVector());
-      assert(pY.isOrthogonal(pZ));
+      assert(pY.isOrthogonal(pZ, 1e-3f));
       Position3D x = pY.crossProduct(pZ);
       return rotationFromAxesXYZ(x, pY, pZ);
     }
 
-    Rotation rotationFromAxesXYZ(const Position3D& pX, const Position3D& pY, const Position3D& pZ)
+    Rotation rotationFromAxesXYZ(
+        const Position3D& pX,
+        const Position3D& pY,
+        const Position3D& pZ)
     {
       assert(pX.isUnitVector());
       assert(pY.isUnitVector());
       assert(pZ.isUnitVector());
-      assert(pX.isOrthogonal(pY));
-      assert(pX.isOrthogonal(pZ));
-      assert(pY.isOrthogonal(pZ));
+      assert(pX.isOrthogonal(pY, 1e-3f));
+      assert(pX.isOrthogonal(pZ, 1e-3f));
+      assert(pY.isOrthogonal(pZ, 1e-3f));
       Rotation pOut = Rotation();
       pOut.r1_c1 = pX.x;
       pOut.r2_c1 = pX.y;
