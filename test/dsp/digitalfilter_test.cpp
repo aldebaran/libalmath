@@ -31,7 +31,7 @@ TEST(DigitalFilter, testRecurence)
 
   AL::Math::DSP::DigitalFilter filter = AL::Math::DSP::DigitalFilter();
 
-  filter.configureFilter(order, weightX, weightY, dcGain);
+  filter.configureFilter(weightX, weightY, dcGain);
 
   for(unsigned int i=0; i < input.size(); ++i)
   {
@@ -73,7 +73,7 @@ TEST(DigitalFilter, testWeightsY)
 
   AL::Math::DSP::DigitalFilter filter = AL::Math::DSP::DigitalFilter();
 
-  filter.configureFilter(order, weightX, weightY, dcGain);
+  filter.configureFilter(weightX, weightY, dcGain);
 
   std::vector<float> outputVector;
 
