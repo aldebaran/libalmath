@@ -26,18 +26,15 @@ public:
   ~DigitalFilter(void);
 
   /*! \fn AL::Math::DSP::DigitalFilter::configureFilter(
-                                 const int order,
                                  const std::vector<float> & weightsIn,
                                  const std::vector<float> & weightsOut,
                                  const float dcGain)
     \brief Configure the digital filter
-    \param order The order of the filter
     \param weightsIn A vector of float describing weights applied on input vector
     \param weightsOut A vector of float describing weights applied on output vector
     \param dcGain Static gain of the filter
   */
-  void configureFilter(unsigned int pOrder,
-                       const std::vector<float> & pWeightsIn,
+  void configureFilter(const std::vector<float> & pWeightsIn,
                        const std::vector<float> & pWeightsOut,
                        float pDcGain);
 
@@ -56,7 +53,6 @@ private:
   boost::circular_buffer<float> fFilterBufferIn;
   boost::circular_buffer<float> fFilterBufferOut;
 
-  unsigned int fFilterOrder;
   float fFilterDcGain;
 
   std::vector<float> fFilterWeightsIn;
