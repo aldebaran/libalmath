@@ -153,6 +153,12 @@ namespace AL {
       return returnVector;
     }
 
+    void Velocity3D::writeToVector(std::vector<float>::iterator& pIt) const
+    {
+      *pIt++ = xd;
+      *pIt++ = yd;
+      *pIt++ = zd;
+    }
 
     float norm (const Velocity3D& pVel)
     {

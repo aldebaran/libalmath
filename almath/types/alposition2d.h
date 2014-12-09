@@ -286,6 +286,11 @@ namespace AL {
       void toVector(std::vector<float>& pReturnVector) const;
       std::vector<float> toVector(void) const;
 
+      /// <summary>
+      /// Write [x, y] in the vector and update the iterator.
+      /// It is assumed the vector has enough space.
+      /// </summary>
+      void writeToVector(std::vector<float>::iterator& pIt) const;
 
       /// <summary>
       /// Return the angular direction of a Position2D.

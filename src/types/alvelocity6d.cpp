@@ -163,6 +163,15 @@ namespace AL {
       return returnVector;
     }
 
+    void Velocity6D::writeToVector(std::vector<float>::iterator& pIt) const
+    {
+      *pIt++ = xd;
+      *pIt++ = yd;
+      *pIt++ = zd;
+      *pIt++ = wxd;
+      *pIt++ = wyd;
+      *pIt++ = wzd;
+    }
 
     Velocity6D operator* (
         const float       pVal,

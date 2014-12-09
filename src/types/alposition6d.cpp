@@ -187,6 +187,16 @@ namespace AL {
       return returnVector;
     }
 
+    void Position6D::writeToVector(std::vector<float>::iterator& pIt) const
+    {
+      *pIt++ = x;
+      *pIt++ = y;
+      *pIt++ = z;
+      *pIt++ = wx;
+      *pIt++ = wy;
+      *pIt++ = wz;
+    }
+
     float distanceSquared(
         const Position6D& pPos1,
         const Position6D& pPos2)

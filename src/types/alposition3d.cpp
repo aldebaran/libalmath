@@ -160,6 +160,13 @@ namespace AL {
       return returnVector;
     }
 
+    void Position3D::writeToVector(std::vector<float>::iterator& pIt) const
+    {
+      *pIt++ = x;
+      *pIt++ = y;
+      *pIt++ = z;
+    }
+
     bool Position3D::isUnitVector(const float& pEpsilon) const
     {
       return Math::isUnitVector(*this, pEpsilon);
