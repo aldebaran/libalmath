@@ -166,6 +166,23 @@ TEST(ALPosition3DTest, toVector)
   EXPECT_NEAR(pos.z, vec[2], eps);
 }
 
+TEST(ALPosition3DTest, writeToVector)
+{
+  const AL::Math::Position3D pos(1.0f, 2.0f, 3.0f);
+
+  std::vector<float> vec(6, 0.0f);
+  std::vector<float>::iterator it = vec.begin();
+
+  pos.writeToVector(it);
+  pos.writeToVector(it);
+  EXPECT_FLOAT_EQ(pos.x, vec[0]);
+  EXPECT_FLOAT_EQ(pos.y, vec[1]);
+  EXPECT_FLOAT_EQ(pos.z, vec[2]);
+  EXPECT_FLOAT_EQ(pos.x, vec[3]);
+  EXPECT_FLOAT_EQ(pos.y, vec[4]);
+  EXPECT_FLOAT_EQ(pos.z, vec[5]);
+}
+
 TEST(ALPosition3DTest, isUnitary)
 {
   AL::Math::Position3D pos = AL::Math::Position3D(1.0f, 0.0f, 0.0f);

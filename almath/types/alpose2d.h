@@ -287,6 +287,12 @@ namespace AL {
       std::vector<float> toVector(void) const;
 
       /// <summary>
+      /// Write [x, y, theta] in the vector and update the iterator.
+      /// It is assumed the vector has enough space.
+      /// </summary>
+      void writeToVector(std::vector<float>::iterator& pIt) const;
+
+      /// <summary>
       /// Compute the norm of the current Pose2D.
       ///
       /// result: $$/sqrt(pose.x^{2} + pose.y^{2})$$

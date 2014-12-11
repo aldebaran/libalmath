@@ -165,3 +165,21 @@ TEST(ALVelocity3DTest, toVector)
   EXPECT_NEAR(vel.yd, vec[1], eps);
   EXPECT_NEAR(vel.zd, vec[2], eps);
 }
+
+TEST(ALVelocity3DTest, writeToVector)
+{
+  const AL::Math::Velocity3D vel(1.0f, 2.0f, 3.0f);
+
+  std::vector<float> vec(6, 0.0f);
+  std::vector<float>::iterator it = vec.begin();
+
+  vel.writeToVector(it);
+  vel.writeToVector(it);
+
+  EXPECT_FLOAT_EQ(vel.xd, vec[0]);
+  EXPECT_FLOAT_EQ(vel.yd, vec[1]);
+  EXPECT_FLOAT_EQ(vel.zd, vec[2]);
+  EXPECT_FLOAT_EQ(vel.xd, vec[3]);
+  EXPECT_FLOAT_EQ(vel.yd, vec[4]);
+  EXPECT_FLOAT_EQ(vel.zd, vec[5]);
+}
