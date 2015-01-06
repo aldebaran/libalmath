@@ -285,6 +285,12 @@ namespace AL {
       std::vector<float> toVector(void) const;
 
       /// <summary>
+      /// Write [x, y, z] in the vector and update the iterator.
+      /// It is assumed the vector has enough space.
+      /// </summary>
+      void writeToVector(std::vector<float>::iterator& pIt) const;
+
+      /// <summary>
       /// Checks if the norm of the Position3D is near to 1.0
       /// </summary>
       /// <param name="pEpsilon"> an optional epsilon distance </param>

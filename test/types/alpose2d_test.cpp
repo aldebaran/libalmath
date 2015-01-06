@@ -306,3 +306,20 @@ TEST(ALPose2DTest, toVector)
   EXPECT_NEAR(pos.theta, vec[2], eps);
 }
 
+TEST(ALPose2DTest, writeToVector)
+{
+  const AL::Math::Pose2D pos(1.0f, 2.0f, 3.0f);
+
+  std::vector<float> vec(6, 0.0f);
+  std::vector<float>::iterator it = vec.begin();
+
+  pos.writeToVector(it);
+  pos.writeToVector(it);
+
+  EXPECT_FLOAT_EQ(pos.x, vec[0]);
+  EXPECT_FLOAT_EQ(pos.y, vec[1]);
+  EXPECT_FLOAT_EQ(pos.theta, vec[2]);
+  EXPECT_FLOAT_EQ(pos.x, vec[3]);
+  EXPECT_FLOAT_EQ(pos.y, vec[4]);
+  EXPECT_FLOAT_EQ(pos.theta, vec[5]);
+}

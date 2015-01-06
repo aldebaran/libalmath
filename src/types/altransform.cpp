@@ -356,6 +356,29 @@ namespace AL {
       return lReturnVector;
     }
 
+    void Transform::writeToVector(std::vector<float>::iterator& pIt) const
+    {
+      *pIt++ = r1_c1;
+      *pIt++ = r1_c2;
+      *pIt++ = r1_c3;
+      *pIt++ = r1_c4;
+
+      *pIt++ = r2_c1;
+      *pIt++ = r2_c2;
+      *pIt++ = r2_c3;
+      *pIt++ = r2_c4;
+
+      *pIt++ = r3_c1;
+      *pIt++ = r3_c2;
+      *pIt++ = r3_c3;
+      *pIt++ = r3_c4;
+
+      *pIt++ = 0.0f;
+      *pIt++ = 0.0f;
+      *pIt++ = 0.0f;
+      *pIt++ = 1.0f;
+    }
+
     void transformPreMultiply(
       const Transform& pT,
       Transform&       pTOut)

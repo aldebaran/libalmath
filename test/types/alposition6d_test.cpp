@@ -149,3 +149,20 @@ TEST(ALPosition6DTest, toVector)
   EXPECT_NEAR(pos.wz, vec[5], eps);
 }
 
+TEST(ALPosition6DTest, writeToVector)
+{
+  const AL::Math::Position6D pos(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+
+  std::vector<float> vec(12, 0.5f);
+  std::vector<float>::iterator it = vec.begin();
+
+  pos.writeToVector(it);
+
+  EXPECT_FLOAT_EQ(pos.x, vec[0]);
+  EXPECT_FLOAT_EQ(pos.y, vec[1]);
+  EXPECT_FLOAT_EQ(pos.z, vec[2]);
+  EXPECT_FLOAT_EQ(pos.wx, vec[3]);
+  EXPECT_FLOAT_EQ(pos.wy, vec[4]);
+  EXPECT_FLOAT_EQ(pos.wz, vec[5]);
+  EXPECT_EQ(6, it - vec.begin());
+}

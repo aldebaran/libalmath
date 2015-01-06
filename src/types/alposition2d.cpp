@@ -152,6 +152,12 @@ namespace AL {
       return returnVector;
     }
 
+    void Position2D::writeToVector(std::vector<float>::iterator& pIt) const
+    {
+      *pIt++ = x;
+      *pIt++ = y;
+    }
+
     float Position2D::getAngle() const
     {
       return std::atan2(y, x);

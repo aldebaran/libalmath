@@ -145,6 +145,13 @@ namespace AL {
       return returnVector;
     }
 
+    void Pose2D::writeToVector(std::vector<float>::iterator& pIt) const
+    {
+      *pIt++ = x;
+      *pIt++ = y;
+      *pIt++ = theta;
+    }
+
     Pose2D Pose2D::normalize() const
     {
       const float tmpNorm = this->norm();

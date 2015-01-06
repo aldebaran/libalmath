@@ -118,3 +118,22 @@ TEST(ALVelocity6DTest, toVector)
   EXPECT_NEAR(vel.wyd, vec.at(4), eps);
   EXPECT_NEAR(vel.wzd, vec.at(5), eps);
 }
+
+
+TEST(ALVelocity6DTest, writeToVector)
+{
+  const AL::Math::Velocity6D vel(1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f);
+
+  std::vector<float> vec(12, 0.0f);
+  std::vector<float>::iterator it = vec.begin();
+
+  vel.writeToVector(it);
+
+  EXPECT_FLOAT_EQ(vel.xd, vec[0]);
+  EXPECT_FLOAT_EQ(vel.yd, vec[1]);
+  EXPECT_FLOAT_EQ(vel.zd, vec[2]);
+  EXPECT_FLOAT_EQ(vel.wxd, vec[3]);
+  EXPECT_FLOAT_EQ(vel.wyd, vec[4]);
+  EXPECT_FLOAT_EQ(vel.wzd, vec[5]);
+  EXPECT_EQ(6, it - vec.begin());
+}

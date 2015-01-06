@@ -356,6 +356,20 @@ namespace AL {
       /// </summary>
       void toVector(std::vector<float>& pReturnVector) const;
       std::vector<float> toVector(void) const;
+
+      /// <summary>
+      /// Write the Transform in the vector and update the iterator:
+      ///
+      /** \f$ \begin{array}{cccc}
+        * [r_1c_1, & r_1c_2, & r_1c_3, & r_1c_4, \\
+        * r_2c_1, & r_2c_2, & r_2c_3, & r_2c_4, \\
+        * r_3c_1, & r_3c_2, & r_3c_3, & r_3c_4, \\
+        * 0.0, & 0.0, & 0.0, & 1.0]
+        * \end{array}\f$
+        */
+      /// It is assumed the vector has enough space.
+      /// </summary>
+      void writeToVector(std::vector<float>::iterator& pIt) const;
     }; // end struct
 
     /// <summary>
