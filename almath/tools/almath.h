@@ -85,20 +85,59 @@ namespace AL {
   /// Return true if the input pData is clipped.
   /// </returns>
   /// \ingroup Tools
+  template<typename T>
   bool clipData(
-    const float& pMin,
-    const float& pMax,
-    float&       pData);
+    const T& pMin,
+    const T& pMax,
+    T&       pData)
+  {
+    if (pData < pMin)
+    {
+      pData = pMin;
+      return true;
+    }
+    else if (pData > pMax)
+    {
+      pData = pMax;
+      return true;
+    }
 
-  bool clipData(
-    const float& pMin,
-    const float& pMax,
-    std::vector<float>& pData);
+    return false;
+  }
 
+  template<typename T>
   bool clipData(
-    const float& pMin,
-    const float& pMax,
-    std::vector<std::vector<float> >& pData);
+    const T& pMin,
+    const T& pMax,
+    std::vector<T>& pData)
+  {
+    bool isClipped = false;
+    for (unsigned int i=0; i<pData.size(); ++i)
+    {
+      if (clipData(pMin, pMax, pData[i]))
+      {
+        isClipped = true;
+      }
+    }
+    return isClipped;
+  }
+
+  template<typename T>
+  bool clipData(
+    const T& pMin,
+    const T& pMax,
+    std::vector<std::vector<T> >& pData)
+  {
+    bool isClipped = false;
+    for (unsigned int i=0; i<pData.size(); ++i)
+    {
+      if (clipData(pMin, pMax, pData[i]))
+      {
+        isClipped = true;
+      }
+    }
+    return isClipped;
+  }
 
   /// <summary>
   /** \f$ \left[\begin{array}{c}
