@@ -63,6 +63,58 @@ namespace AL
       return Math::modulo2PI(std::atan2(sumPosition.y, sumPosition.x));
     }
 
+    bool clipData(
+      const float& pMin,
+      const float& pMax,
+      float& pData)
+    {
+      if (pData < pMin)
+      {
+        pData = pMin;
+        return true;
+      }
+      else if (pData > pMax)
+      {
+        pData = pMax;
+        return true;
+      }
+
+      return false;
+    }
+
+    bool clipData(
+      const float& pMin,
+      const float& pMax,
+      std::vector<float>& pData)
+    {
+      bool isClipped = false;
+      for (unsigned int i=0; i<pData.size(); ++i)
+      {
+        if (clipData(pMin, pMax, pData[i]))
+        {
+          isClipped = true;
+        }
+      }
+      return isClipped;
+    }
+
+    bool clipData(
+      const float& pMin,
+      const float& pMax,
+      std::vector<std::vector<float> >& pData)
+    {
+      bool isClipped = false;
+      for (unsigned int i=0; i<pData.size(); ++i)
+      {
+        if (clipData(pMin, pMax, pData[i]))
+        {
+          isClipped = true;
+        }
+      }
+      return isClipped;
+    }
+
+
     void changeReferencePose2D(
         const float&  pTheta,
         const Pose2D& pPosIn,
