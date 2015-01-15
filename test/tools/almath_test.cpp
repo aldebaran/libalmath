@@ -139,6 +139,10 @@ TEST(ALMathTest, clipData)
   pData = -0.3f;
   EXPECT_TRUE(AL::Math::clipData(pMin, pMax, pData));
   EXPECT_NEAR(pData, pMin, 0.0001f);
+
+  pData = 2.1f;
+  EXPECT_TRUE(AL::Math::clipData(1, 2, pData));
+  EXPECT_NEAR(pData, static_cast<float>(2), 0.0001f);
 }
 
 TEST(ALMathTest, clipDataVector)
