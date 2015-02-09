@@ -721,13 +721,13 @@ namespace AL {
     Transform transformFromPosition6D(const Position6D& pPosition6D);
 
     /// <summary>
-    /// Computes a 6 differential motion require to move
+    /// Computes a 6 differential motion required to move
     /// from a 4*4 Homogenous transform matrix Current to
     /// a 4*4 Homogenous transform matrix target.
     ///
     /// For instance, one would do
     ///
-    ///     Position6D P_a;
+    ///     Position6D P;
     ///     position6DFromTransformDiffInPlace(H_ab, H_ac, P)
     ///
     /// Now P contains (an approximation of) the dispacement from the frame b
