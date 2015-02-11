@@ -9,6 +9,7 @@
 
 #include <cmath>
 #include <boost/math/special_functions/pow.hpp>
+#include <boost/algorithm/clamp.hpp>
 
 namespace AL
 {
@@ -68,18 +69,9 @@ namespace AL
       const float& pMax,
       float& pData)
     {
-      if (pData < pMin)
-      {
-        pData = pMin;
-        return true;
-      }
-      else if (pData > pMax)
-      {
-        pData = pMax;
-        return true;
-      }
-
-      return false;
+      const float saved = pData;
+      pData = boost::algorithm::clamp(saved, pMin, pMax);
+      return saved != pData;
     }
 
     bool clipData(
