@@ -22,6 +22,8 @@ set( ALMATH_SRCS
     src/scenegraph/mesh.cpp
     src/scenegraph/meshfactory.cpp
     src/scenegraph/scenebuilder.cpp
+    src/scenegraph/urdf.cpp
+    src/scenegraph/urdfrigidbodysystemtraverser.cpp
     src/tools/avoidfootcollision.cpp
     src/tools/almath.cpp
     src/tools/almathio.cpp
@@ -72,11 +74,16 @@ set(ALMATH_H
     ${ALMATH_H_WRAPPED}
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
+    almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
+    almath/scenegraph/rigidbodysystembuilder.h
     almath/scenegraph/scenebuilder.h
+    almath/scenegraph/urdf.h
+    almath/scenegraph/urdfeigen.h
+    almath/scenegraph/urdfrigidbodysystemtraverser.h
     almath/tools/almathio.h
 )
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
