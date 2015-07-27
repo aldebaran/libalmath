@@ -30,3 +30,16 @@ set(almath_tests_srcs
 
 qi_create_gtest(almath_tests ${almath_tests_srcs} DEPENDS GTEST ALMATH TIMEOUT 120)
 
+## geometrics
+qi_create_gtest(test_almath_shapes3d
+  SRC geometrics/test_shapes3d.cpp
+  DEPENDS ALMATH)
+
+qi_create_gtest(test_almath_shapes3d_utils
+  SRC geometrics/test_shapes3d_utils.cpp
+  DEPENDS ALMATH)
+
+## scenegraph
+qi_create_gtest(test_almath_visualization3d
+  SRC scenegraph/test_visualization3d.cpp
+  DEPENDS ALMATH BOOST_FILESYSTEM)

@@ -15,6 +15,13 @@ include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 set( ALMATH_SRCS
     src/dsp/digitalfilter.cpp
     src/dsp/pidcontroller.cpp
+    src/geometrics/shapes3d.cpp
+    src/geometrics/shapes3d_utils.cpp
+    src/scenegraph/colladabuilder.cpp
+    src/scenegraph/colladascenebuilder.cpp
+    src/scenegraph/mesh.cpp
+    src/scenegraph/meshfactory.cpp
+    src/scenegraph/scenebuilder.cpp
     src/tools/avoidfootcollision.cpp
     src/tools/almath.cpp
     src/tools/almathio.cpp
@@ -63,10 +70,17 @@ set(ALMATH_H_WRAPPED
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
+    almath/geometrics/shapes3d.h
+    almath/geometrics/shapes3d_utils.h
+    almath/scenegraph/colladabuilder.h
+    almath/scenegraph/colladascenebuilder.h
+    almath/scenegraph/meshfactory.h
+    almath/scenegraph/mesh.h
+    almath/scenegraph/scenebuilder.h
     almath/tools/almathio.h
 )
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
-qi_use_lib(almath BOOST)
+qi_use_lib(almath BOOST EIGEN3)
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.
 # It is useful when extending almathswig.
