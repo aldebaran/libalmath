@@ -12,7 +12,7 @@ enable_testing()
 # without getting conflicts.
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 
-set( ALMATH_SRCS
+set(ALMATH_SRCS
     src/dsp/digitalfilter.cpp
     src/dsp/pidcontroller.cpp
     src/geometrics/shapes3d.cpp
@@ -81,12 +81,14 @@ set(ALMATH_H
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
     almath/scenegraph/rigidbodysystembuilder.h
+    almath/scenegraph/qirosmsg.h
     almath/scenegraph/scenebuilder.h
     almath/scenegraph/urdf.h
     almath/scenegraph/urdfeigen.h
     almath/scenegraph/urdfrigidbodysystemtraverser.h
     almath/tools/almathio.h
 )
+
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
 qi_use_lib(almath BOOST EIGEN3)
 
