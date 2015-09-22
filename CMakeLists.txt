@@ -102,6 +102,15 @@ if(WITH_PYTHON)
   # of almath, such as almathinternal.
   qi_install_header(almath.i KEEP_RELATIVE_PATHS)
   qi_install_python(almath.py)
+
+  # Hack for the python interpreter to find the python module even at
+  # build time, using qi::path::librariesPath().
+  add_custom_target(copy-python-almath ALL
+    COMMAND ${CMAKE_COMMAND}
+    -E copy
+    "${CMAKE_SOURCE_DIR}/almath.py"
+    "${QI_SDK_DIR}/${QI_SDK_LIB}/almath.py"
+  )
 endif()
 
 add_subdirectory(test)
