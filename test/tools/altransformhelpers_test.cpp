@@ -13,6 +13,8 @@
 #include <stdexcept>
 #include <cmath>
 
+using namespace AL;
+
 TEST(ALTransformHelpersTest, transformFromRotationPosition3D)
 {
   AL::Math::Rotation  pRot = AL::Math::Rotation::fromRotX(0.5f);
@@ -603,6 +605,34 @@ TEST(ALTransformHelpersTest, transformLogarithmInPlace)
 
 } // end TransformLogarithmInPlace
 
+
+
+TEST(ALTransformHelpersTest, velocityExponential) {
+  Math::Transform tr;
+
+  tr = velocityExponential(Math::Velocity6D(1, 2, 3, 0, 0, 0));
+  EXPECT_TRUE(tr.isNear(Math::Transform(1, 2, 3))); // translation
+
+  tr = velocityExponential(Math::Velocity6D(0, 0, 0, 1, 0, 0));
+  EXPECT_TRUE(tr.isNear(Math::Transform::fromRotX(1)));
+
+  tr = velocityExponential(Math::Velocity6D(0, 0, 0, 0, 1, 0));
+  EXPECT_TRUE(tr.isNear(Math::Transform::fromRotY(1)));
+
+  tr = velocityExponential(Math::Velocity6D(0, 0, 0, 0, 0, 1));
+  EXPECT_TRUE(tr.isNear(Math::Transform::fromRotZ(1)));
+
+  tr = velocityExponential(Math::Velocity6D(0, 0, 0, 4, 5, 6));
+  float angle = std::sqrt(4.f * 4.f + 5.f * 5.f + 6.f * 6.f);
+  Math::Rotation R = Math::Rotation::fromAngleDirection(
+      angle, 4/angle, 5/angle, 6/angle);
+  EXPECT_TRUE(tr.isNear(Math::transformFromRotation(R)));
+
+  tr = velocityExponential(Math::Velocity6D(1, 2, 3, 4, 5, 6));
+  EXPECT_TRUE(rotationFromTransform(tr).isNear((R)));
+  EXPECT_TRUE(position3DFromTransform(tr).isNear(
+      Math::Position3D(1.68665, 1.93259, 2.59841)));
+}
 
 TEST(ALTransformHelpersTest, velocityExponentialInPlace)
 {
