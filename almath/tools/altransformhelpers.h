@@ -71,8 +71,6 @@ namespace AL {
 
 
     /// <summary>
-    /// Compute the logarithme of a transform.
-    /// Angle must be between \f$\left[-\pi+0.001, \pi-0.001\right] \f$
     /**
       * Function Velocity Exponential: compute homogenous matrix
       * displacement from a dt * 6D velocity vector.
