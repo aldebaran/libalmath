@@ -40,6 +40,11 @@ qi_create_gtest(test_almath_shapes3d_utils
   DEPENDS ALMATH)
 
 ## scenegraph
+
+qi_create_gtest(test_almath_almatheigen
+  SRC scenegraph/test_almatheigen.cpp
+  DEPENDS ALMATH)
+
 qi_create_gtest(test_almath_rigidbodysystembuilder
   SRC scenegraph/test_rigidbodysystembuilder.cpp
   DEPENDS ALMATH)

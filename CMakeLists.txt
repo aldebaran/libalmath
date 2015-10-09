@@ -65,15 +65,16 @@ set(ALMATH_H_WRAPPED
     almath/types/alvelocity6d.h
     almath/types/altransformandvelocity6d.h
     almath/tools/aldubinscurve.h
+    almath/tools/almath.h
+    almath/tools/altransformhelpers.h
     almath/tools/altrigonometry.h
     almath/tools/avoidfootcollision.h
-    almath/tools/altransformhelpers.h
-    almath/tools/almath.h
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
+    almath/scenegraph/almatheigen.h
     almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
