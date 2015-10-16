@@ -631,7 +631,7 @@ TEST(ALTransformHelpersTest, velocityExponential) {
   tr = velocityExponential(Math::Velocity6D(1, 2, 3, 4, 5, 6));
   EXPECT_TRUE(rotationFromTransform(tr).isNear((R)));
   EXPECT_TRUE(position3DFromTransform(tr).isNear(
-      Math::Position3D(1.68665, 1.93259, 2.59841)));
+      Math::Position3D(1.68665f, 1.93259f, 2.59841f)));
 }
 
 TEST(ALTransformHelpersTest, velocityExponentialInPlace)
