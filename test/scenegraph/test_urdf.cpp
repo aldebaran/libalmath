@@ -804,6 +804,169 @@ TEST(Urdf, dot_printer) {
   }
 }
 
+TEST(Urdf, define_as_root_link_ko_floating) {
+  ptree pt;
+  ptree &robot = addRobot(pt);
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addJoint(robot, "a", "b", "ab", "floating");
+  addJoint(robot, "b", "c", "bc", "revolute");
+  urdf::UrdfTree parser(pt);
+  EXPECT_ANY_THROW(parser.define_as_root_link("c"));
+}
+
+TEST(Urdf, define_as_root_link) {
+  ptree pt;
+  ptree &robot = addRobot(pt);
+  addLink(robot, "a");
+  addLink(robot, "b");  // initial root
+  addLink(robot, "c");
+  addLink(robot, "d");  // new root
+  addLink(robot, "e");
+  addJoint(robot, "b", "a", "ba", "revolute");
+  addJoint(robot, "b", "c", "bc", "revolute");
+  addJoint(robot, "c", "d", "cd", "revolute");
+  addJoint(robot, "d", "e", "de", "revolute");
+
+  urdf::UrdfTree parser(pt);
+
+  parser.define_as_root_link("d");
+
+  EXPECT_EQ("d", parser.root_link());
+
+  // unchanged
+  urdf::Joint ba(parser.joint("ba"));
+  EXPECT_EQ("b", ba.parent_link());
+  EXPECT_EQ("a", ba.child_link());
+
+  // got flipped
+  urdf::Joint bc(parser.joint("bc"));
+  EXPECT_EQ("c", bc.parent_link());
+  EXPECT_EQ("b", bc.child_link());
+
+  // got flipped
+  urdf::Joint cd(parser.joint("cd"));
+  EXPECT_EQ("d", cd.parent_link());
+  EXPECT_EQ("c", cd.child_link());
+
+  // unchanged
+  urdf::Joint de(parser.joint("de"));
+  EXPECT_EQ("d", de.parent_link());
+  EXPECT_EQ("e", de.child_link());
+
+  // to be sure the boost multiindex of joints got
+  // updated, let traverse the kinematic tree
+  {
+    std::ostringstream ss;
+    {
+      urdf::UrdfDotPrinterVisitor visitor(ss);
+      parser.traverse_joints(boost::ref(visitor));
+    }
+
+    // note that the root link is not listed in the output
+    std::string exp =
+        "d -> c [label=cd];\n"
+        "c -> b [label=bc];\n"
+        "b -> a [label=ba];\n"
+        "d -> e [label=de];\n";
+    EXPECT_EQ(exp, ss.str());
+  }
+}
+
+TEST(Urdf, define_as_root_link_axis_unitx) {
+  ptree pt;
+  ptree &robot = addRobot(pt);
+  addLink(robot, "a");
+  addLink(robot, "b");
+  ptree &ab = addJoint(robot, "a", "b", "ab", "revolute");
+
+  urdf::UrdfTree parser(pt);
+  parser.define_as_root_link("b");
+
+  urdf::Array3d flipped_axis{{-1, 0, 0}};
+  EXPECT_EQ(flipped_axis, urdf::Joint(ab).axis());
+}
+
+TEST(Urdf, define_as_root_link_axis_munitx) {
+  ptree pt;
+  ptree &robot = addRobot(pt);
+  addLink(robot, "a");
+  addLink(robot, "b");
+  ptree &ab = addJoint(robot, "a", "b", "ab", "revolute");
+  urdf::Array3d axis{{-1, 0, 0}};
+  ab.put("axis.<xmlattr>.xyz", axis, urdf::Array3dTranslator());
+
+  urdf::UrdfTree parser(pt);
+  parser.define_as_root_link("b");
+
+  urdf::Array3d flipped_axis{{1, 0, 0}};
+  EXPECT_EQ(flipped_axis, urdf::Joint(ab).axis());
+  EXPECT_FALSE(ab.get_child_optional("axis"));
+}
+
+TEST(Urdf, define_as_root_link_transport) {
+  ptree pt;
+  ptree &robot = addRobot(pt);
+  urdf::Array3d zero = {{0, 0, 0}};
+  urdf::Array3d xyz_ia = {{1, 2, 3}};
+  urdf::Array3d xyz_ib = {{4, 5, 6}};
+  urdf::Array3d xyz_j = {{10, 20, 30}};
+  urdf::Pose tr(xyz_ia, zero);
+  urdf::Pose itr = tr.inverse();
+  ptree &a = addLink(robot, "a", 1, 1, 0, 0, 1, 0, 1, xyz_ia, zero);
+  ptree &b = addLink(robot, "b", 1, 1, 0, 0, 1, 0, 1, xyz_ib, zero);
+  ptree &ab = addJoint(robot, "a", "b", "ab", "revolute", xyz_j, zero);
+
+  urdf::UrdfTree parser(pt);
+  parser.define_as_root_link("b");
+
+  // link b's frame is unchanged
+  urdf::Pose tr_ib{xyz_ib, zero};
+  EXPECT_EQ(tr_ib, urdf::Link(b).inertial()->origin());
+
+  // link a's frame has moved
+  urdf::Pose tr_j = urdf::Pose{xyz_j, zero};
+  urdf::Pose tr_ia_new = tr_j.inverse() * urdf::Pose{xyz_ia, zero};
+  urdf::Array3d xyz_ia_new{{-9, -18, -27}};
+  EXPECT_EQ(xyz_ia_new, tr_ia_new.xyz());
+  EXPECT_EQ(zero, tr_ia_new.rpy());
+  EXPECT_EQ(tr_ia_new, urdf::Link(a).inertial()->origin());
+
+  // joint ab
+  urdf::Pose identity{};
+  EXPECT_EQ(identity, urdf::Joint(ab).origin());
+}
+
+TEST(Urdf, transport_root_link_frame) {
+  ptree pt;
+  ptree &robot = addRobot(pt);
+  urdf::Array3d xyz = {{1, 2, 3}};
+  urdf::Array3d rpy = {{0, 0, 0.5}};
+  urdf::Pose tr(xyz, rpy);
+  urdf::Pose itr = tr.inverse();
+
+  urdf::Pose identity;
+
+  ptree &a = addLink(robot, "a", 1, 1, 0, 0, 1, 0, 1, xyz, rpy);
+  addLink(robot, "b");
+  ptree &ab = addJoint(robot, "a", "b", "ab", "revolute");
+  a.put("visual.origin.<xmlattr>.xyz", "1 2 3");
+  a.put("collision.origin.<xmlattr>.xyz", "1 2 3");
+
+  urdf::UrdfTree parser(pt);
+  parser.transport_root_link_frame(tr);
+
+  EXPECT_EQ(identity, urdf::Link(a).inertial()->origin());
+  EXPECT_FALSE(urdf::Link(a).inertial()->pt.get_child_optional("origin"));
+
+  EXPECT_EQ(itr, urdf::Pose(urdf::Joint(ab).origin()));
+
+  urdf::Pose exp = itr * urdf::Pose{xyz, {{0, 0, 0}}};
+  EXPECT_EQ(exp, urdf::Pose::from_ptree(a.get_child("visual.origin")));
+  EXPECT_EQ(exp, urdf::Pose::from_ptree(a.get_child("collision.origin")));
+}
+
 TEST_F(RigidBodySystemBuilderTest, buildFromUrdf_none) {
   ptree pt;
   ptree &robot = addRobot(pt);

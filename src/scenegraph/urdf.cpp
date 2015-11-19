@@ -32,6 +32,13 @@ typename T::const_iterator checked_find(const T &t, const K &k) {
   if (it == t.end()) throw std::out_of_range("checked_find");
   return it;
 }
+
+template <typename T, typename K>
+typename T::iterator checked_find(T &t, const K &k) {
+  typename T::iterator it = t.find(k);
+  if (it == t.end()) throw std::out_of_range("checked_find");
+  return it;
+}
 }
 
 namespace AL {
@@ -209,7 +216,9 @@ boost::optional<Inertial> Link::inertial() const {
 }
 
 namespace detail {
+
 using namespace boost::multi_index;
+
 class UrdfTreeP {
  public:
   struct Name {};
@@ -230,12 +239,20 @@ class UrdfTreeP {
 
   typedef std::map<std::string, ptree *> Links;
 
+  typedef std::function<bool(const ptree *)> donotprune_fct;
+
   ptree &robot;
   Links links;
   Joints joints;
   std::string root_link;
   UrdfTreeP(ptree &pt);  // keeps refs and points to pt elements
   void rm_root_joint();
+  void transport_root_link_frame(
+      const Pose &pose,
+      const donotprune_fct &noprune = [](const ptree *) { return false; });
+  void flip_root_link_joint(const std::string &joint_name,
+                            bool add_prune_exception);
+  void define_as_root_link(const std::string &link_name);
   void walk_joint(UrdfTree::JointConstVisitor &vis,
                   const std::string &link) const;
   void walk_joint(UrdfTree::JointVisitor &vis, const std::string &link);
@@ -247,7 +264,6 @@ UrdfTreeP::UrdfTreeP(ptree &pt) : robot(pt.get_child("robot")) {
   // list all the links
   BOOST_FOREACH (ptree::value_type &child, robot.equal_range("link")) {
     const std::string name = urdf::name(child.second);
-    // std::cout << "link " << name << std::endl;
 
     if (!links.insert(Links::value_type(name, &child.second)).second)
       throw std::runtime_error("cannot add link \"" + name +
@@ -261,7 +277,6 @@ UrdfTreeP::UrdfTreeP(ptree &pt) : robot(pt.get_child("robot")) {
   BOOST_FOREACH (ptree::value_type &child, robot.equal_range("joint")) {
     Joint joint(child.second);
     const std::string name = joint.name();
-    // std::cout << "joint " << name << std::endl;
 
     if (joints.get<Name>().find(name) != joints.get<Name>().end())
       throw std::runtime_error("cannot add joint \"" + name +
@@ -306,6 +321,166 @@ void UrdfTreeP::rm_root_joint() {
   root_link = Joint(*new_root_joint).child_link();
 }
 
+// premultiply the rhs with lhs. So that
+// new_rhs = lhs * old_rhs
+//
+// ilhs shall be the inverse of lhs. Thus, if lhs -== old_rhs, then
+// we know that new_rhs == identity, without suffering from numerical noise
+// coming from inversion and product.
+void premul(const Pose &lhs, const Pose &ilhs, ptree *rhs_parent,
+            bool noprune) {
+  assert(lhs == ilhs.inverse());
+  auto const_rhs_parent = const_cast<const ptree *>(rhs_parent);
+
+  Pose rhs = Pose::from_ptree(const_rhs_parent->get_child_optional("origin"));
+  if (rhs == ilhs) {
+    if (noprune) {
+      // instead of removing the element, empty it.
+      // Wrt to URDF, this has the same meaning (identity transform)
+      // Keeping the element around is more verbose (bad), but enables to
+      // keeps its position in the tree it we want to modify it again
+      // (otherwise we would create a new element which would be the last
+      // among simblings)
+      rhs_parent->put_child("origin", ptree());
+    } else {
+      rhs_parent->erase("origin");
+    }
+  } else {
+    boost::optional<ptree> new_origin = (lhs * rhs).to_ptree();
+    assert(new_origin);
+    rhs_parent->put_child("origin", *new_origin);
+  }
+}
+
+void premul(const Pose &lhs, const Pose &ilhs, ptree::assoc_iterator rhs_parent,
+            bool noprune) {
+  premul(lhs, ilhs, &(rhs_parent->second), noprune);
+}
+
+void UrdfTreeP::transport_root_link_frame(
+    const Pose &pose, const std::function<bool(const ptree *)> &noprune) {
+  Pose ipose = pose.inverse();
+  // relocate the joints origins
+  BOOST_FOREACH (ptree *child_joint_pt,
+                 joints.get<ParentLink>().equal_range(root_link)) {
+    premul(ipose, pose, child_joint_pt, noprune(child_joint_pt));
+  }
+  ptree *root_link_pt = links.at(root_link);
+  for (const std::string &key : {"inertial", "visual", "collision"}) {
+    auto range = root_link_pt->equal_range(key);
+    for (auto it = range.first; it != range.second; ++it) {
+      premul(ipose, pose, it, false);
+    }
+  }
+}
+
+struct flip_joint_links_fctor {
+  void operator()(ptree *joint_pt) {
+    Joint joint(*joint_pt);
+    std::string parent_link = joint.parent_link();
+    std::string child_link = joint.child_link();
+    joint_pt->put<std::string>("parent.<xmlattr>.link", child_link);
+    joint_pt->put<std::string>("child.<xmlattr>.link", parent_link);
+  }
+};
+
+// If the joint type has an axis, flip it
+// (ie. make it go in the opposite direction), so that the joint
+// direction is inversed.
+void flip_joint_axis(ptree &joint_pt) {
+  Joint joint(joint_pt);
+  switch (joint.type()) {
+    case Joint::Type::revolute:
+    case Joint::Type::continuous:
+    case Joint::Type::prismatic:
+    case Joint::Type::planar: {
+      Array3d old_axis = joint.axis();
+      Array3d new_axis{{-old_axis[0], -old_axis[1], -old_axis[2]}};
+      if (new_axis == Array3d{{1, 0, 0}})
+        joint_pt.erase("axis");
+      else
+        joint_pt.put("axis.<xmlattr>.xyz", new_axis, Array3dTranslator());
+      break;
+    }
+    case Joint::Type::fixed:
+    case Joint::Type::floating:
+      break;
+  };
+}
+
+struct joint_has_name_fctor {
+  const std::string &name;
+
+  joint_has_name_fctor(const std::string &name) : name(name) {}
+
+  bool operator()(const ptree *joint_pt) {
+    return name == Joint(*joint_pt).name();
+  }
+};
+
+// flip joint named "joint_name"
+// The joint must be a child of the root link. As a consequence, flipping it
+// will change the kinematic tree root.
+//
+// We will
+// * move the parent link frame
+// * inverse the joint's parent and child links
+// * inverse the joint axis
+//
+// This won't change the physical meaning of the kinematic system being
+// described.
+void UrdfTreeP::flip_root_link_joint(const std::string &joint_name,
+                                     bool add_prune_exception) {
+  auto joint_it = checked_find(joints.get<Name>(), joint_name);
+  ptree *joint_pt = *joint_it;
+  Joint joint(*joint_pt);
+  assert(joint.parent_link() == root_link);
+  // The root link frame can be defined anywhere. But this is not the
+  // case for other links, whose frame is defined by their parent joint,
+  // and must have its origin on the parent joint axis.
+  //
+  // Since the current root link won't be a root link anymore, we need to
+  // move its frame on its future parent joint axis.
+  // So, let move the the root link frame so that is is identical to the
+  // future parent joint when this joint is at the zero pose.
+  // Note: maybe we should instead do a pure translation?
+  boost::optional<const ptree &> opt_origin =
+      const_cast<const ptree *>(joint_pt)->get_child_optional("origin");
+  if (opt_origin) {
+    Pose origin = Pose::from_ptree(opt_origin);
+    if (add_prune_exception) {
+      UrdfTreeP::transport_root_link_frame(origin,
+                                           joint_has_name_fctor(joint_name));
+    } else {
+      UrdfTreeP::transport_root_link_frame(origin);
+    }
+  }
+  // update kinematic tree
+  bool ok = joints.get<Name>().modify(joint_it, flip_joint_links_fctor());
+  assert(ok);
+  root_link = joint.parent_link();
+  flip_joint_axis(*joint_pt);
+}
+
+void UrdfTreeP::define_as_root_link(const std::string &link_name) {
+  std::vector<std::string> joints_path;
+  std::string cur_link_name = link_name;
+  while (cur_link_name != root_link) {
+    Joint joint(**checked_find(joints.get<ChildLink>(), cur_link_name));
+    if ((joint.type() == Joint::floating) || (joint.type() == Joint::planar))
+      throw std::runtime_error(
+          "define_as_root_link: there is a multi-dof"
+          " joint between the old and the new root");
+    joints_path.push_back(joint.name());
+
+    cur_link_name = joint.parent_link();
+  }
+  for (auto it = joints_path.rbegin(); it != joints_path.rend(); ++it) {
+    bool add_prune_exception = it + 1 != joints_path.rend();
+    flip_root_link_joint(*it, add_prune_exception);
+  }
+}
+
 void UrdfTreeP::walk_joint(UrdfTree::JointConstVisitor &vis,
                            const std::string &link) const {
   BOOST_FOREACH (const ptree *joint,
@@ -342,6 +517,14 @@ ptree &UrdfTree::joint(const std::string &name) {
 const std::string &UrdfTree::root_link() const { return _p->root_link; }
 
 void UrdfTree::rm_root_joint() { _p->rm_root_joint(); }
+
+void UrdfTree::transport_root_link_frame(const Pose &pose) {
+  _p->transport_root_link_frame(pose);
+}
+
+void UrdfTree::define_as_root_link(const std::string &name) {
+  _p->define_as_root_link(name);
+}
 
 void UrdfTree::traverse_joints(JointConstVisitor &vis) const {
   _p->walk_joint(vis, _p->root_link);

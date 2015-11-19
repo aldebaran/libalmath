@@ -111,8 +111,8 @@ std::string child_link(const ptree &pt);
 // UrdfTree::link("my_link_name") would use dandling pointers and return
 // invalid references.
 //
-// On the other hand, some UrdfTree functions enable the safe removal of
-// joints and links.
+// On the other hand, some UrdfTree functions enable the safe modification or
+// removal of joints and links.
 class UrdfTree {
  public:
   // read a XML tree given the XML root element.
@@ -132,6 +132,93 @@ class UrdfTree {
   const std::string &root_link() const;
 
   void rm_root_joint();
+
+  // Change the root link frame of reference.
+  //
+  // Each urdf link has an implicitly defined frame of reference with respect
+  // to which the pose of the link children elements (inertia, collisions,
+  // visuals) and joints are defined.
+  //
+  // This function changes the root link frame of reference, while updating
+  // all its children elements and joints accordingly so that the physical
+  // system being described does not change.
+  //
+  // The function takes one argument "pose" which is used to define the
+  // transform from the old frame of reference of the new one according to
+  // the formula:
+  //
+  //   point_in_new_frame = pose * point_in_old_frame
+  //
+  // children elements and joints poses are updated using:
+  //
+  //   child_pose_in_new_frame = pose.inverse() * child_pose_in_old_frame
+  //
+  // Note: changing the frame of reference of a link which is not the root one
+  // would also be possible, but only to some extent since its origin must
+  // lie on the parent joint axis.
+  void transport_root_link_frame(const Pose &pose);
+
+  // Modify the kinematic tree so that the given link is the root without
+  // changing the physical meaning of the described system.
+  //
+  // Flips all the joints on the path between the old and the new root.
+  //
+  // Throws is there is a multi-dof joint on the path, because flipping it
+  // would change the joint-space parametrization.
+
+  // Change the frame of reference of the links involved so that its
+  // origin lies on the parent joint axis.
+  //
+  // Let consider a root link "a" with children links "b" and "c" and
+  // joints "ab" and "bc".
+  //
+  // The linematic tree can be written as:  a --ab--> b
+  //                                          +-ac--> c
+  //
+  // The frame may look like:
+  //                                                / \
+  //                                               /   \
+  //                                      / \     /    /
+  //                                     /   \   /    /
+  //                                  --/ \/ /--/ \/ /--
+  //                         __________/ ab /   \ b /
+  //                        /              /     \ /
+  //                       /     a |_     /
+  //              / \     /    __________/
+  //             /   \   /    /
+  //          --/ \/ /--/ \/ /--
+  //           /  c /   \ ac/
+  //          /    /     \ /
+  //          \   /
+  //           \ /
+  //
+  // After calling define_as_root_link("b")
+  // * the kinematic tree can be written as
+  //   b --ab--> a --ac--> c
+  // * the reference frame of "b" and "c" are unchanged
+  // * the reference frame of "a" moved to joint "ab" frame, so as to lie
+  //   on joint "ab" axis.
+  // * joint "ab" origin pose is now defined with respecte to link "b"
+  //   frame and is thus the identity
+  // * joint "ac" origin pose has been updated to acount fot the
+  //
+  // The frames look like:
+  //                                                / \
+  //                                               /   \
+  //                                      / \     /    /
+  //                                     /   \   /    /
+  //                                  --/ \/ /--/ \/ /--
+  //                         __________/  a /   \ b / == ba
+  //                        /              /     \ /
+  //                       /              /
+  //              / \     /    __________/
+  //             /   \   /    /
+  //          --/ \/ /--/ \/ /--
+  //           /  c /   \ ac/
+  //          /    /     \ /
+  //          \   /
+  //           \ /
+  void define_as_root_link(const std::string &name);
 
   class JointConstVisitor {
    public:
