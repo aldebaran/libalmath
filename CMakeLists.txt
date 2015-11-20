@@ -84,9 +84,9 @@ qi_use_lib(almath BOOST EIGEN3)
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.
 # It is useful when extending almathswig.
-set(SWIG_MODULE_almathswig_DEPS "${CMAKE_CURRENT_SOURCE_DIR}/almath.i")
+set(SWIG_MODULE_almathswig_DEPS "almath.i")
 foreach(dep IN LISTS ALMATH_H_WRAPPED)
-  list(APPEND SWIG_MODULE_almathswig_DEPS "${CMAKE_CURRENT_SOURCE_DIR}/${dep}")
+  list(APPEND SWIG_MODULE_almathswig_DEPS "${dep}")
 endforeach()
 qi_stage_lib(almath ALMATH
   CUSTOM_CODE
