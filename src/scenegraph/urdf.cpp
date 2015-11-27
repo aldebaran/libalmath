@@ -65,7 +65,6 @@ boost::optional<Array3dTranslator::external_type> Array3dTranslator::get_value(
 boost::optional<Array3dTranslator::internal_type> Array3dTranslator::put_value(
     const Array3dTranslator::external_type &v) {
   boost::property_tree::translator_between<internal_type, double>::type tr;
-  std::string s = *(tr.put_value(v[0]));
   std::ostringstream ss;
   ss << *tr.put_value(v[0]) << " " << *tr.put_value(v[1]) << " "
      << *tr.put_value(v[2]);

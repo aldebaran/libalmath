@@ -22,6 +22,32 @@
 #include <boost/multi_index/sequenced_index.hpp>
 #include <set>
 #include <vector>
+
+#include <boost/property_tree/stream_translator.hpp>
+
+namespace boost {
+namespace property_tree {
+
+// hack around ptree bug #10188 [1]: for floating point numbers they don't
+// serialize with enough precision:
+// they use digits10+1 instead of max_digits10
+// [1] https://svn.boost.org/trac/boost/ticket/10188
+template <typename Ch, typename Traits>
+struct customize_stream<Ch, Traits, double, void> {
+  static void insert(std::basic_ostream<Ch, Traits> &s, const double &e) {
+    s.precision(std::numeric_limits<double>::max_digits10);
+    s << e;
+  }
+  static void extract(std::basic_istream<Ch, Traits> &s, double &e) {
+    s >> e;
+    if (!s.eof()) {
+      s >> std::ws;
+    }
+  }
+};
+}
+}
+
 namespace AL {
 
 namespace urdf {

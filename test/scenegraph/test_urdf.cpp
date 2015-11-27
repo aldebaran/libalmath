@@ -149,6 +149,12 @@ TEST(Urdf, PropertyTree) {
   EXPECT_ANY_THROW(ptree("3.3").get_value<int>());
   EXPECT_ANY_THROW(ptree("3 3").get_value<int>());
   EXPECT_EQ(0, ptree("3.3").get_value<int>(0));
+
+  // this specific value requires more that digits10+1 precision
+  double d = -1.8364336390987788;
+  ptree pt;
+  pt.put_value(d);
+  EXPECT_EQ(d, pt.get_value<double>());
 }
 
 TEST(Urdf, Array3d) {
@@ -544,7 +550,8 @@ TEST(Urdf, squashJointMass_massless_parent) {
   EXPECT_EQ("1", a.get<std::string>("inertial.mass.<xmlattr>.value"));
   EXPECT_EQ("1", a.get<std::string>("inertial.inertia.<xmlattr>.ixx"));
   EXPECT_EQ("11 0 0", a.get<std::string>("inertial.origin.<xmlattr>.xyz"));
-  EXPECT_EQ("1.1 -0 0", a.get<std::string>("inertial.origin.<xmlattr>.rpy"));
+  EXPECT_EQ("1.0999999999999999 -0 0",
+            a.get<std::string>("inertial.origin.<xmlattr>.rpy"));
   EXPECT_EQ(0u, b.count("inertial"));
 }
 
