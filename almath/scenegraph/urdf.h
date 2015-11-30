@@ -239,14 +239,16 @@ void squashFixedJointsMass(UrdfTree &parser);
 // Return the names of the joints whose type was changed.
 std::vector<std::string> makeMasslessJointsFixed(UrdfTree &parser);
 
-// a visitor which prints the URDF kinematic tree when visiting its joints.
-class UrdfPrinterVisitor : public UrdfTree::JointConstVisitor {
+// a visitor which prints the URDF kinematic tree as a dot graph
+// when visiting its joints.
+class UrdfDotPrinterVisitor : public UrdfTree::JointConstVisitor {
   const char tab;
   int depth;
+  bool do_indent;
   std::ostream &os;
 
  public:
-  UrdfPrinterVisitor(std::ostream &os);
+  UrdfDotPrinterVisitor(std::ostream &os);
 
  public:
   bool discover(const ptree &joint);

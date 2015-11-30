@@ -310,17 +310,18 @@ void UrdfTree::traverse_joints(JointVisitor &vis) {
   _p->walk_joint(vis, _p->root_link);
 }
 
-UrdfPrinterVisitor::UrdfPrinterVisitor(std::ostream &os)
-    : tab('\t'), depth(1), os(os) {}
-bool UrdfPrinterVisitor::discover(const ptree &joint) {
-  const std::string indent(depth, tab);
-  os << indent << "| " << joint.get<std::string>("<xmlattr>.name") << "\n"
-     << indent << joint.get<std::string>("child.<xmlattr>.link") << "\n";
+UrdfDotPrinterVisitor::UrdfDotPrinterVisitor(std::ostream &os)
+    : tab('\t'), depth(1), do_indent(false), os(os) {}
+
+bool UrdfDotPrinterVisitor::discover(const ptree &joint_pt) {
+  Joint joint(joint_pt);
+  os << (do_indent ? std::string(depth, tab) : "") << joint.parent_link()
+     << " -> " << joint.child_link() << " [label=" << joint.name() << "];\n";
   ++depth;
   return true;
 }
 
-void UrdfPrinterVisitor::finish(const ptree &joint) { --depth; }
+void UrdfDotPrinterVisitor::finish(const ptree &joint) { --depth; }
 
 // internal helper
 void makeJointFixed(ptree &joint_pt) {

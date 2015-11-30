@@ -661,7 +661,7 @@ TEST(Urdf, makeMasslessJointsFixed) {
   EXPECT_EQ(std::vector<std::string>({"de"}), names);
 }
 
-TEST(Urdf, printer) {
+TEST(Urdf, dot_printer) {
   ptree pt;
   ptree &robot = addRobot(pt);
   addLink(robot, "a");
@@ -674,18 +674,24 @@ TEST(Urdf, printer) {
   urdf::UrdfTree parser(pt);
   EXPECT_EQ("a", parser.root_link());
   std::ostringstream ss;
-  urdf::UrdfPrinterVisitor visitor(ss);
-  parser.traverse_joints(boost::ref(visitor));
-
+  {
+    urdf::UrdfDotPrinterVisitor visitor(ss);
+    parser.traverse_joints(boost::ref(visitor));
+  }
   // note that the root link is not listed in the output
   std::string exp =
-      "\t| ab\n"
-      "\tb\n"
-      "\t\t| bc\n"
-      "\t\tc\n"
-      "\t| ad\n"
-      "\td\n";
+      "a -> b [label=ab];\n"
+      "b -> c [label=bc];\n"
+      "a -> d [label=ad];\n";
   EXPECT_EQ(exp, ss.str());
+  if (false) {
+    // create a valid .dot file
+    std::ofstream f("/tmp/urdf_dot_printer.dot");
+    f << "digraph g {\n" << ss.str() << "}";
+    // then display it with
+    // dot -Tpdf -O /tmp/urdf_dot_printer.dot
+    // evince /tmp/urdf_dot_printer.dot.pdf
+  }
 }
 
 TEST_F(RigidBodySystemBuilderTest, buildFromUrdf_none) {
