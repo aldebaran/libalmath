@@ -58,6 +58,14 @@ namespace detail {
 class UrdfTreeP;
 }
 
+typedef std::array<double, 3> Array3d;
+
+inline bool is_zero(const Array3d &a) {
+  return (a[0] == 0) && (a[1] == 0) && (a[2] == 0);
+}
+
+class Pose;
+
 // return the name attribute of a joint or link element
 std::string name(const ptree &pt);
 
@@ -151,8 +159,6 @@ typedef UrdfTree::JointVisitor JointVisitor;
 
 // Convenience wrapper classes around URDF ptree elements
 
-typedef std::array<double, 3> Array3d;
-
 // helper to convert ptree to/from Array3d
 struct Array3dTranslator {
   typedef std::string internal_type;
@@ -162,16 +168,35 @@ struct Array3dTranslator {
   boost::optional<internal_type> put_value(const external_type &v);
 };
 
-// Convenience wrapper around an URDF pose/transform (origin XML element)
+// Models an URDF pose/transform ("origin" XML element)
 class Pose {
  public:
-  boost::optional<const ptree &> pt;
-  Pose();
-  Pose(const ptree &pt);
-  Pose(boost::optional<const ptree &> pt);
-  Array3d xyz() const;
-  Array3d rpy() const;
+  Pose(const Array3d &xyz, const Array3d &rpy) : _xyz(xyz), _rpy(rpy) {}
+  Pose() : Pose({{0, 0, 0}}, {{0, 0, 0}}) {}
+  const Array3d &xyz() const { return _xyz; }
+  const Array3d &rpy() const { return _rpy; }
+  Pose inverse() const;
+  friend Pose operator*(const Pose &lhs, const Pose &rhs);
+
+  static Pose from_ptree(const ptree &pt);
+  static Pose from_ptree(const boost::optional<const ptree &> &pt);
+  boost::optional<ptree> to_ptree() const;
+
+ private:
+  Array3d _xyz;
+  Array3d _rpy;
 };
+
+inline bool operator==(const Pose &lhs, const Pose &rhs) {
+  return (lhs.xyz() == rhs.xyz()) && (lhs.rpy() == rhs.rpy());
+}
+inline bool operator!=(const Pose &lhs, const Pose &rhs) {
+  return !(lhs == rhs);
+}
+
+inline bool is_identity(const Pose &p) {
+  return is_zero(p.xyz()) && is_zero(p.rpy());
+}
 
 // Convenience wrapper around an URDF joint XML element
 class Joint {

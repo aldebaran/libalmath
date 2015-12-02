@@ -81,12 +81,7 @@ INSTANTIATE_TEST_CASE_P(
 TEST(UrdfEigen, pose) {
   typedef double Scalar;
   typedef Eigen::Transform<Scalar, 3, Eigen::AffineCompact, Eigen::DontAlign> T;
-  ptree pt;
-  pt.put("<xmlattr>.xyz", "1 2.2 3.3");
-  std::ostringstream ss;
-  ss << "0 " << boost::lexical_cast<std::string>(-pi / 2) << " 0";
-  pt.put("<xmlattr>.rpy", ss.str());
-  urdf::Pose p(pt);
+  urdf::Pose p{{{1, 2.2, 3.3}}, {{0, -pi / 2, 0}}};
 
   T t = Math::toEigenTransform(p);
   EXPECT_EQ(1, t(0, 3));

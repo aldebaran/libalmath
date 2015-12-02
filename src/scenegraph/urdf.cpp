@@ -83,24 +83,62 @@ std::string child_link(const ptree &pt) {
   return pt.get<std::string>("child.<xmlattr>.link");
 }
 
-Pose::Pose() {}
-Pose::Pose(const ptree &pt) : pt(pt) {}
-Pose::Pose(boost::optional<const ptree &> pt) : pt(pt) {}
-
-Array3d Pose::xyz() const {
-  boost::optional<const ptree &> child;
-  if (pt && (child = pt->get_child_optional("<xmlattr>.xyz")))
-    return child->get_value<Array3d>(Array3dTranslator());
-  const Array3d zeros = {{0, 0, 0}};
-  return zeros;
+Pose Pose::inverse() const {
+  Pose res;
+  if (is_zero(_rpy)) {
+    res._xyz = {{-_xyz[0], -_xyz[1], -_xyz[2]}};
+  } else {
+    Eigen::Matrix3d new_mat =
+        Math::eigenQuaternionFromUrdfRpy(_rpy).inverse().matrix();
+    res._rpy = Math::urdfRpyFromEigenMatrix3(new_mat);
+    if (!is_zero(_xyz)) {
+      Eigen::Map<Eigen::Vector3d>(res._xyz.data()) =
+          -(new_mat * Eigen::Map<const Eigen::Vector3d>(_xyz.data()));
+    }
+  }
+  return res;
 }
 
-Array3d Pose::rpy() const {
-  boost::optional<const ptree &> child;
-  if (pt && (child = pt->get_child_optional("<xmlattr>.rpy")))
+Pose operator*(const Pose &lhs, const Pose &rhs) {
+  Pose res{lhs.xyz(), {{0, 0, 0}}};
+  Eigen::Quaterniond lhs_quat = Math::eigenQuaternionFromUrdfRpy(lhs.rpy());
+  if (is_zero(lhs.rpy())) {
+    res._rpy = rhs.rpy();
+  } else if (is_zero(rhs.rpy())) {
+    res._rpy = lhs.rpy();
+  } else {
+    res._rpy = Math::urdfRpyFromEigenMatrix3(
+        (lhs_quat * Math::eigenQuaternionFromUrdfRpy(rhs.rpy())).matrix());
+  }
+  Eigen::Map<Eigen::Vector3d>(res._xyz.data()) +=
+      lhs_quat * Eigen::Map<const Eigen::Vector3d>(rhs._xyz.data());
+  return res;
+}
+
+// private helper
+static Array3d get_pose_child_array3d(const ptree &pt, const char *name) {
+  if (boost::optional<const ptree &> child = pt.get_child_optional(name))
     return child->get_value<Array3d>(Array3dTranslator());
-  const Array3d zeros = {{0, 0, 0}};
-  return zeros;
+  return Array3d{0, 0, 0};
+}
+
+Pose Pose::from_ptree(const ptree &pt) {
+  return Pose(get_pose_child_array3d(pt, "<xmlattr>.xyz"),
+              get_pose_child_array3d(pt, "<xmlattr>.rpy"));
+}
+
+Pose Pose::from_ptree(const boost::optional<const ptree &> &pt) {
+  return pt ? from_ptree(*pt) : Pose();
+}
+
+boost::optional<ptree> Pose::to_ptree() const {
+  if (is_zero(xyz()) && is_zero(rpy())) return boost::optional<ptree>();
+  ptree res;
+  if (!is_zero(xyz()))
+    res.put<Array3d>("<xmlattr>.xyz", xyz(), Array3dTranslator());
+  if (!is_zero(rpy()))
+    res.put<Array3d>("<xmlattr>.rpy", rpy(), Array3dTranslator());
+  return res;
 }
 
 Joint::Joint(const ptree &pt) : pt(pt) {}
@@ -127,19 +165,22 @@ std::string Joint::child_link() const {
   return pt.get<std::string>("child.<xmlattr>.link");
 }
 
-Pose Joint::origin() const { return Pose(pt.get_child_optional("origin")); }
+Pose Joint::origin() const {
+  return Pose::from_ptree(pt.get_child_optional("origin"));
+}
 
 Array3d Joint::axis() const {
   if (boost::optional<const ptree &> child =
           pt.get_child_optional("axis.<xmlattr>.xyz"))
     return child->get_value<Array3d>(Array3dTranslator());
-  const Array3d x_axis = {{1, 0, 0}};
-  return x_axis;
+  return Array3d{1, 0, 0};
 }
 
 Inertial::Inertial(const ptree &pt) : pt(pt) {}
 
-Pose Inertial::origin() const { return Pose(pt.get_child_optional("origin")); }
+Pose Inertial::origin() const {
+  return Pose::from_ptree(pt.get_child_optional("origin"));
+}
 
 double Inertial::mass() const { return pt.get<double>("mass.<xmlattr>.value"); }
 

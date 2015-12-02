@@ -189,33 +189,143 @@ TEST(Urdf, Array3d) {
 TEST(Urdf, Pose) {
   urdf::Array3d zeros = {{0, 0, 0}};
   urdf::Array3d exp0 = {{1, 2.2, 3.3}};
+  urdf::Array3d mexp0 = {{-1, -2.2, -3.3}};
   urdf::Array3d exp1 = {{11, 12.2, 13.3}};
+  // ctor
+  {
+    urdf::Pose p;
+    EXPECT_EQ(zeros, p.xyz());
+    EXPECT_EQ(zeros, p.rpy());
+    EXPECT_TRUE(is_identity(p));
+  }
+  {
+    urdf::Pose p{{{0, 0, -0}}, {{-0, 0, 0}}};
+    EXPECT_EQ(zeros, p.xyz());
+    EXPECT_EQ(zeros, p.rpy());
+    EXPECT_TRUE(is_identity(p));
+  }
+  {
+    urdf::Pose p{exp0, exp1};
+    EXPECT_EQ(exp0, p.xyz());
+    EXPECT_EQ(exp1, p.rpy());
+    EXPECT_FALSE(is_identity(p));
+  }
+  {
+    urdf::Pose p{zeros, exp1};
+    EXPECT_FALSE(is_identity(p));
+  }
+  {
+    urdf::Pose p{exp0, zeros};
+    EXPECT_FALSE(is_identity(p));
+  }
+  // from_ptree
   {
     ptree pt;
     pt.put("<xmlattr>.xyz", "1 2.2 3.3");
     pt.put("<xmlattr>.rpy", "11 12.2 13.3");
-    urdf::Pose p(pt);
+    urdf::Pose p = urdf::Pose::from_ptree(pt);
     EXPECT_EQ(exp0, p.xyz());
     EXPECT_EQ(exp1, p.rpy());
   }
   {
     ptree pt;
     pt.put("<xmlattr>.xyz", "1 toto 3.3");
-    pt.put("<xmlattr>.rpy", "1 toto 3.3");
-    urdf::Pose p(pt);
-    EXPECT_ANY_THROW(p.xyz());
-    EXPECT_ANY_THROW(p.rpy());
+    EXPECT_ANY_THROW(urdf::Pose::from_ptree(pt));
   }
   {
     ptree pt;
-    urdf::Pose p(pt);
+    pt.put("<xmlattr>.rpy", "1 toto 3.3");
+    EXPECT_ANY_THROW(urdf::Pose::from_ptree(pt));
+  }
+  {
+    ptree pt;
+    pt.put("<xmlattr>.xyz", "0 0 -0");
+    pt.put("<xmlattr>.rpy", "-0 0 0");
+    urdf::Pose p = urdf::Pose::from_ptree(pt);
+    EXPECT_EQ(zeros, p.xyz());
+    EXPECT_EQ(zeros, p.rpy());
+    EXPECT_TRUE(is_identity(p));
+  }
+  {
+    ptree pt;
+    urdf::Pose p = urdf::Pose::from_ptree(pt);
     EXPECT_EQ(zeros, p.xyz());
     EXPECT_EQ(zeros, p.rpy());
   }
+  // inverse
   {
     urdf::Pose p;
-    EXPECT_EQ(zeros, p.xyz());
-    EXPECT_EQ(zeros, p.rpy());
+    EXPECT_TRUE(is_identity(p.inverse()));
+  }
+  {
+    urdf::Pose p(exp0, zeros);
+    urdf::Pose ip = p.inverse();
+
+    EXPECT_EQ(mexp0, ip.xyz());
+    EXPECT_TRUE(AL::urdf::is_zero(ip.rpy()));
+  }
+  {
+    urdf::Pose p(zeros, exp0);
+    urdf::Pose ip = p.inverse();
+
+    EXPECT_EQ(zeros, ip.xyz());
+    EXPECT_FALSE(AL::urdf::is_zero(ip.rpy()));  // TODO { -1.17549, 2.54225, 2.35153 }
+  }
+  // operator*(,)
+  {
+    urdf::Pose p(exp0, exp1);
+    {
+      EXPECT_TRUE(is_identity(urdf::Pose() * urdf::Pose()));
+    }
+    {
+      urdf::Pose rp = p * urdf::Pose();
+      ASSERT_FALSE(is_identity(rp));
+      EXPECT_EQ(p.xyz(), rp.xyz());
+      EXPECT_EQ(p.rpy(), rp.rpy());
+    }
+    {
+      urdf::Pose rp = urdf::Pose() * p;
+      EXPECT_EQ(p.xyz(), rp.xyz());
+      EXPECT_EQ(p.rpy(), rp.rpy());
+    }
+    {
+      urdf::Pose rp = urdf::Pose(mexp0, zeros) * p;
+      EXPECT_EQ(zeros, rp.xyz());
+      EXPECT_EQ(p.rpy(), rp.rpy());
+    }
+  }
+  {
+    EXPECT_TRUE(urdf::Pose(exp0, exp1) == urdf::Pose(exp0, exp1));
+    EXPECT_FALSE(urdf::Pose(exp0, exp0) == urdf::Pose(exp0, exp1));
+    EXPECT_FALSE(urdf::Pose(exp1, exp1) == urdf::Pose(exp0, exp1));
+
+    EXPECT_FALSE(urdf::Pose(exp0, exp1) != urdf::Pose(exp0, exp1));
+    EXPECT_TRUE(urdf::Pose(exp0, exp0) != urdf::Pose(exp0, exp1));
+    EXPECT_TRUE(urdf::Pose(exp1, exp1) != urdf::Pose(exp0, exp1));
+  }
+  // to_ptree
+  {
+    EXPECT_FALSE(urdf::Pose().to_ptree());
+  }
+  {
+    urdf::Pose p(zeros, exp0);
+    boost::optional<ptree> pt = p.to_ptree();
+    ASSERT_TRUE(pt);
+    EXPECT_FALSE(pt->get_child_optional("<xmlattr>.xyz"));
+    EXPECT_EQ(p, urdf::Pose::from_ptree(*pt));
+  }
+  {
+    urdf::Pose p(exp0, zeros);
+    boost::optional<ptree> pt = p.to_ptree();
+    ASSERT_TRUE(pt);
+    EXPECT_FALSE(pt->get_child_optional("<xmlattr>.rpy"));
+    EXPECT_EQ(p, urdf::Pose::from_ptree(*pt));
+  }
+  {
+    urdf::Pose p(exp0, exp1);
+    boost::optional<ptree> pt = p.to_ptree();
+    ASSERT_TRUE(pt);
+    EXPECT_EQ(p, urdf::Pose::from_ptree(*pt));
   }
 }
 

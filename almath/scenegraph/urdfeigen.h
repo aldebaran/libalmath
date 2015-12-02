@@ -22,14 +22,12 @@ inline Eigen::Quaterniond eigenQuaternionFromUrdfRpy(
 template <typename T>
 AL::urdf::Array3d urdfRpyFromEigenMatrix3(const T &t) {
   Eigen::Vector3d ypr = t.eulerAngles(2, 1, 0);
-  AL::urdf::Array3d result = {{ypr[2], ypr[1], ypr[0]}};
-  return result;
+  return AL::urdf::Array3d{ypr[2], ypr[1], ypr[0]};
 }
 
 inline Eigen::Isometry3d toEigenTransform(const AL::urdf::Pose &p) {
   typedef Eigen::Map<const Eigen::Vector3d> Vector3dMap;
-  const AL::urdf::Array3d xyz = p.xyz();
-  return Eigen::Translation3d(Vector3dMap(xyz.data())) *
+  return Eigen::Translation3d(Vector3dMap(p.xyz().data())) *
          eigenQuaternionFromUrdfRpy(p.rpy());
 }
 
