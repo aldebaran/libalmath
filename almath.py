@@ -11,7 +11,7 @@ import ctypes
 
 def load_almath():
     this_dir = os.path.abspath(os.path.dirname(__file__))
-    libalmath = os.path.join(this_dir, "libalmath.so")
+    libalmath = os.path.join(this_dir, "..", "..", "libalmath.so")
     if os.path.exists(libalmath):
         # we are likely to be in a relocatable SDK,
         # load the library so that setting LD_LIBRARY_PATH
