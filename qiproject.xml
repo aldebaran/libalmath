@@ -5,5 +5,7 @@
     <depends host="true" names="libqilang" />
   </qibuild>
   <qidoc name="libalmath" type="doxygen" dest="ref/libalmath" />
-  <qipython name="almath" />
+  <qipython name="almath">
+    <module name="almath" />
+  </qipython>
 </project>
