@@ -255,6 +255,8 @@ class ALMATH_API RobotTree {
   void traverse_joints(JointConstVisitor &visitor) const;
   void traverse_joints(JointVisitor &visitor);
 
+  bool is_mimic_tree_flat() const;
+
  private:
   std::unique_ptr<detail::RobotTreeP> _p;
 };
@@ -303,6 +305,16 @@ inline bool is_identity(const Pose &p) {
   return is_zero(p.xyz()) && is_zero(p.rpy());
 }
 
+// Convenience wrapper around an URDF mimic XML element
+class ALMATH_API Mimic {
+ public:
+  const ptree &pt;
+  Mimic(const ptree &pt);
+  std::string joint() const;
+  double multiplier() const;
+  double offset() const;
+};
+
 // Convenience wrapper around an URDF joint XML element
 class ALMATH_API Joint {
  public:
@@ -326,6 +338,7 @@ class ALMATH_API Joint {
   boost::optional<std::pair<double, double>> limit_lower_upper() const;
   boost::optional<double> limit_effort() const;
   boost::optional<double> limit_velocity() const;
+  boost::optional<Mimic> mimic() const;
 };
 
 // Convenience wrapper around an URDF inertial XML element

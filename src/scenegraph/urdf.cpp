@@ -20,10 +20,18 @@
 #include <almath/scenegraph/urdfeigen.h>
 
 namespace {
+
 using namespace boost::property_tree;
 std::string namep(const ptree *pt) { return AL::urdf::name(*pt); }
-std::string parent_linkp(const ptree *pt) { return AL::urdf::parent_link(*pt); }
 std::string child_linkp(const ptree *pt) { return AL::urdf::child_link(*pt); }
+std::string parent_linkp(const ptree *pt) { return AL::urdf::parent_link(*pt); }
+boost::optional<std::string> mimicp(const ptree *pt) {
+  boost::optional<std::string> ret;
+  if (boost::optional<const ptree &> child = pt->get_child_optional("mimic")) {
+    ret = child->get<std::string>("<xmlattr>.joint");
+  }
+  return ret;
+}
 
 // boost::multiindex does not provide an "at()" member function.
 template <typename T, typename K>
@@ -148,6 +156,26 @@ boost::optional<ptree> Pose::to_ptree() const {
   return res;
 }
 
+Mimic::Mimic(const ptree &pt) : pt(pt) {}
+
+std::string Mimic::joint() const {
+  return pt.get<std::string>("<xmlattr>.joint");
+}
+
+double Mimic::multiplier() const {
+  if (boost::optional<const ptree &> child =
+          pt.get_child_optional("<xmlattr>.multiplier"))
+    return child->get_value<double>();
+  return 1.;
+}
+
+double Mimic::offset() const {
+  if (boost::optional<const ptree &> child =
+          pt.get_child_optional("<xmlattr>.offset"))
+    return child->get_value<double>();
+  return 0.;
+}
+
 Joint::Joint(const ptree &pt) : pt(pt) {}
 std::string Joint::name() const {
   return pt.get<std::string>("<xmlattr>.name");
@@ -198,6 +226,12 @@ boost::optional<double> Joint::limit_effort() const {
 
 boost::optional<double> Joint::limit_velocity() const {
   return pt.get_optional<double>("limit.<xmlattr>.velocity");
+}
+
+boost::optional<Mimic> Joint::mimic() const {
+  if (auto child = pt.get_child_optional("mimic"))
+    return Mimic(*child);
+  return boost::optional<Mimic>();
 }
 
 Inertial::Inertial(const ptree &pt) : pt(pt) {}
@@ -297,21 +331,27 @@ using namespace boost::multi_index;
 
 class RobotTreeP {
  public:
+  // tags
   struct Name {};
   struct ParentLink {};
   struct ChildLink {};
+  struct Mimic {};
 
   typedef boost::multi_index_container<
       ptree *,
       indexed_by<
-          sequenced<>,  // used to keep the original joint ordering
-          ordered_unique<tag<Name>,
+          sequenced<>,               // used to keep the original joint ordering
+          ordered_unique<tag<Name>,  // joint name
                          global_fun<const ptree *, std::string, &::namep> >,
           ordered_unique<tag<ChildLink>, global_fun<const ptree *, std::string,
                                                     &::child_linkp> >,
-          ordered_non_unique<tag<ParentLink>,
-                             global_fun<const ptree *, std::string,
-                                        &::parent_linkp> > > > Joints;
+          ordered_non_unique<
+              tag<ParentLink>,
+              global_fun<const ptree *, std::string, &::parent_linkp> >,
+          ordered_non_unique<
+              tag<Mimic>,
+              global_fun<const ptree *, boost::optional<std::string>,
+                         &::mimicp> > > > Joints;
 
   typedef std::map<std::string, ptree *> Links;
 
@@ -333,16 +373,34 @@ class RobotTreeP {
   void walk_joint(RobotTree::JointConstVisitor &vis,
                   const std::string &link) const;
   void walk_joint(RobotTree::JointVisitor &vis, const std::string &link);
+  bool is_mimic_tree_flat() const;
+  // return true if lhs mimics rhs or a joint which itself mimics rhs.
+  // This function is defined static so that it can be used from the ctor.
+  static bool transitively_mimics(const Joints &joints,
+                                  const ptree *lhs_joint_pt,
+                                  const std::string &rhs_joint_name);
 };
+
+bool RobotTreeP::transitively_mimics(const Joints &joints,
+                                    const ptree *lhs_joint_pt,
+                                    const std::string &rhs_joint_name) {
+  BOOST_FOREACH (ptree *joint,
+                 joints.get<Mimic>().equal_range(rhs_joint_name)) {
+    if ((joint == lhs_joint_pt) ||
+        transitively_mimics(joints, joint, rhs_joint_name))
+      return true;
+  }
+  return false;
+}
 
 RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
   std::set<std::string> root_links;
 
   // list all the links
-  BOOST_FOREACH (ptree::value_type &child, robot.equal_range("link")) {
-    const std::string name = urdf::name(child.second);
+  BOOST_FOREACH (ptree::value_type &joint_kv, robot.equal_range("link")) {
+    const std::string name = urdf::name(joint_kv.second);
 
-    if (!links.insert(Links::value_type(name, &child.second)).second)
+    if (!links.insert(Links::value_type(name, &joint_kv.second)).second)
       throw std::runtime_error("cannot add link \"" + name +
                                "\": duplicate link name");
 
@@ -351,8 +409,8 @@ RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
   if (links.empty()) throw std::runtime_error("this urdf file has no link");
 
   // list all the joints and check the kinematic tree consistency
-  BOOST_FOREACH (ptree::value_type &child, robot.equal_range("joint")) {
-    Joint joint(child.second);
+  BOOST_FOREACH (ptree::value_type &joint_kv, robot.equal_range("joint")) {
+    Joint joint(joint_kv.second);
     const std::string name = joint.name();
 
     if (joints.get<Name>().find(name) != joints.get<Name>().end())
@@ -373,8 +431,22 @@ RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
         joints.get<ChildLink>().end())
       throw std::runtime_error("cannot add joint \"" + name +
                                "\": there is a loop in the kinematic tree");
-
-    joints.push_back(&child.second);
+    if (boost::optional<std::string> source_name = ::mimicp(&joint_kv.second)) {
+      // joint_kv mimics source_name, let check that adding it won't
+      // create a "mimicking loop":
+      if (name == *source_name) {
+        throw std::runtime_error("cannot add joint \"" + name +
+                                 "\": there is a loop in the mimic tree");
+      }
+      // check that, if it is already in the tree, source joint does not
+      // itself mimics joint_kv.
+      auto source_joint = joints.get<Name>().find(*source_name);
+      if ((source_joint != joints.get<Name>().end()) &&
+          transitively_mimics(joints, *source_joint, name))
+        throw std::runtime_error("cannot add joint \"" + name +
+                                 "\": there is a loop in the mimic tree");
+    }
+    joints.push_back(&joint_kv.second);
     std::set<std::string>::iterator it = root_links.find(joint.child_link());
     assert(it != root_links.end());
     root_links.erase(it);
@@ -385,6 +457,18 @@ RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
   assert(!root_links.empty());
   if (root_links.size() != 1)
     throw std::runtime_error("kinematic tree has several roots");
+  // Now that all the joints have been added, let check that there is not any
+  // mimicking a non-existent joint.
+  BOOST_FOREACH (auto joint_pt, joints.get<Name>()) {
+    if (boost::optional<std::string> source_name = ::mimicp(joint_pt)) {
+      if (joints.get<Name>().find(*source_name) == joints.get<Name>().end()) {
+        throw std::runtime_error("cannot add joint \"" +
+                                 Joint(*joint_pt).name() +
+                                 "\": it mimics a non-existent joint named \"" +
+                                 *source_name + "\"");
+      }
+    }
+  }
   root_link = *root_links.begin();
 }
 
@@ -588,6 +672,20 @@ void RobotTreeP::walk_joint(RobotTree::JointVisitor &vis,
   }
 }
 
+bool RobotTreeP::is_mimic_tree_flat() const {
+  BOOST_FOREACH (auto joint_pt, joints.get<Name>()) {
+    if (auto opt_mimic = Joint(*joint_pt).mimic()) {
+      auto it = joints.get<Name>().find(opt_mimic->joint());
+      assert(it != joints.get<Name>().end());
+      if (Joint(**it).mimic()) {
+        // the mimic source is itself a mimic target, we should flatten the
+        // tree.
+        return false;
+      }
+    }
+  }
+  return true;
+}
 }  // end of namespace AL::urdf::detail
 
 RobotTree::RobotTree(ptree &robot) : _p(new detail::RobotTreeP(robot)) {}
@@ -626,6 +724,7 @@ void RobotTree::traverse_joints(JointVisitor &vis) {
   _p->walk_joint(vis, _p->root_link);
 }
 
+bool RobotTree::is_mimic_tree_flat() const { return _p->is_mimic_tree_flat(); }
 UrdfDotPrinterVisitor::UrdfDotPrinterVisitor(std::ostream &os)
     : tab('\t'), depth(1), do_indent(false), os(os) {}
 

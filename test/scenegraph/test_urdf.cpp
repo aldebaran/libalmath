@@ -389,6 +389,19 @@ TEST(Urdf, Joint) {
   EXPECT_FALSE(urdf::Joint(pt).limit_velocity());
   pt.put("limit.<xmlattr>.velocity", "2.4");
   EXPECT_EQ(2.4, urdf::Joint(pt).limit_velocity());
+
+  EXPECT_FALSE(urdf::Joint(pt).mimic());
+  pt.put("mimic.<xmlattr>.joint", "another");
+  boost::optional<urdf::Mimic> m = urdf::Joint(pt).mimic();
+  EXPECT_EQ("another", m->joint());
+  EXPECT_TRUE(urdf::Joint(pt).mimic());
+  EXPECT_EQ("another", urdf::Joint(pt).mimic()->joint());
+  EXPECT_EQ(1., urdf::Joint(pt).mimic()->multiplier());
+  pt.put("mimic.<xmlattr>.multiplier", "2.0");
+  EXPECT_EQ(2., urdf::Joint(pt).mimic()->multiplier());
+  EXPECT_EQ(0., urdf::Joint(pt).mimic()->offset());
+  pt.put("mimic.<xmlattr>.offset", "0.5");
+  EXPECT_EQ(0.5, urdf::Joint(pt).mimic()->offset());
 }
 
 TEST(Urdf, Inertial) {
@@ -593,6 +606,77 @@ TEST(Urdf, read_joint_and_link_names_do_not_collide) {
   addJoint(robot, "a", "b", "b");
   std::unique_ptr<urdf::RobotTree> utree;
   EXPECT_NO_THROW(utree.reset(new urdf::RobotTree(robot)));
+}
+
+TEST(Urdf, read_mimic_self) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "ab");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, read_mimic_loop0) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "ac");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, read_mimic_loop1) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "ad");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  addJoint(robot, "a", "d", "ad").put("mimic.<xmlattr>.joint", "ac");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, read_mimic_nonexistent) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "nonexistent");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, is_mimic_tree_flat_empty) {
+  ptree robot;
+  addLink(robot, "a");
+  urdf::RobotTree tree(robot);
+  EXPECT_TRUE(tree.is_mimic_tree_flat());
+}
+
+TEST(Urdf, is_mimic_tree_flat_ok) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addJoint(robot, "a", "b", "ab");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  addJoint(robot, "a", "d", "ad").put("mimic.<xmlattr>.joint", "ab");
+  urdf::RobotTree tree(robot);
+  EXPECT_TRUE(tree.is_mimic_tree_flat());
+}
+
+TEST(Urdf, is_mimic_tree_flat_ko) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addJoint(robot, "a", "b", "ab");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  addJoint(robot, "a", "d", "ad").put("mimic.<xmlattr>.joint", "ac");
+  urdf::RobotTree tree(robot);
+  EXPECT_FALSE(tree.is_mimic_tree_flat());
 }
 
 TEST(Urdf, getters) {
