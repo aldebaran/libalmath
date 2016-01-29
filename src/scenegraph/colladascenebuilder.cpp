@@ -51,6 +51,7 @@ ColladaSceneBuilderP::ColladaSceneBuilderP(const SceneBuilder::Config &config)
 ColladaSceneBuilderP::ColladaSceneBuilderP(const ColladaSceneBuilderP &other)
     : id(other.id),
       config(other.config),
+      builder(other.builder),
       xml(other.xml),
       library_geometries(xml.get_child("COLLADA.library_geometries")),
       visual_scene(xml.get_child(
