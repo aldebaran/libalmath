@@ -2,6 +2,9 @@
 ## Use of this source code is governed by a BSD-style license that can be
 ## found in the COPYING file.
 
+qi_add_optional_package(rosbag)
+qi_add_optional_package(qi)
+
 set(almath_tests_srcs
     collisions/avoidfootcollision_test.cpp
 
@@ -40,6 +43,29 @@ qi_create_gtest(test_almath_shapes3d_utils
   DEPENDS ALMATH)
 
 ## scenegraph
+
+qi_create_gtest(test_almath_almatheigen
+  SRC scenegraph/test_almatheigen.cpp
+  DEPENDS ALMATH)
+
+if(WITH_ROSBAG AND WITH_QI)
+  qi_create_gtest(test_almath_qirosmsg
+    SRC scenegraph/test_qirosmsg.cpp
+    DEPENDS ALMATH QI ROSBAG)
+endif()
+
+qi_create_gtest(test_almath_rigidbodysystembuilder
+  SRC scenegraph/test_rigidbodysystembuilder.cpp
+  DEPENDS ALMATH)
+
+qi_create_gtest(test_almath_urdf
+  SRC scenegraph/test_urdf.cpp
+  DEPENDS ALMATH BOOST_FILESYSTEM)
+
+qi_create_gtest(test_almath_urdfeigen
+  SRC scenegraph/test_urdfeigen.cpp
+  DEPENDS ALMATH)
+
 qi_create_gtest(test_almath_visualization3d
   SRC scenegraph/test_visualization3d.cpp
   DEPENDS ALMATH BOOST_FILESYSTEM)

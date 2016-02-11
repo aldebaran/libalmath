@@ -12,7 +12,7 @@ enable_testing()
 # without getting conflicts.
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 
-set( ALMATH_SRCS
+set(ALMATH_SRCS
     src/dsp/digitalfilter.cpp
     src/dsp/pidcontroller.cpp
     src/geometrics/shapes3d.cpp
@@ -22,6 +22,8 @@ set( ALMATH_SRCS
     src/scenegraph/mesh.cpp
     src/scenegraph/meshfactory.cpp
     src/scenegraph/scenebuilder.cpp
+    src/scenegraph/urdf.cpp
+    src/scenegraph/urdfrigidbodysystemtraverser.cpp
     src/tools/avoidfootcollision.cpp
     src/tools/almath.cpp
     src/tools/almathio.cpp
@@ -63,22 +65,30 @@ set(ALMATH_H_WRAPPED
     almath/types/alvelocity6d.h
     almath/types/altransformandvelocity6d.h
     almath/tools/aldubinscurve.h
+    almath/tools/almath.h
+    almath/tools/altransformhelpers.h
     almath/tools/altrigonometry.h
     almath/tools/avoidfootcollision.h
-    almath/tools/altransformhelpers.h
-    almath/tools/almath.h
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
+    almath/scenegraph/almatheigen.h
+    almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
+    almath/scenegraph/rigidbodysystembuilder.h
+    almath/scenegraph/qirosmsg.h
     almath/scenegraph/scenebuilder.h
+    almath/scenegraph/urdf.h
+    almath/scenegraph/urdfeigen.h
+    almath/scenegraph/urdfrigidbodysystemtraverser.h
     almath/tools/almathio.h
 )
+
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
 qi_use_lib(almath BOOST EIGEN3)
 

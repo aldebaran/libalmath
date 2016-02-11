@@ -64,6 +64,8 @@
 #include "almath/tools/altransformhelpers.h"
 #include "almath/tools/almath.h"
 
+#include "almath/geometrics/shapes3d.h"
+
 // forward-declare function that swig will create (thanks to the %extend
 // below) and that we use to print some std::vector
 static char * AL_Math_Position2D___repr__(AL::Math::Position2D *);
@@ -182,6 +184,8 @@ namespace std {
 %include "almath/tools/avoidfootcollision.h"
 %include "almath/tools/altransformhelpers.h"
 %include "almath/tools/almath.h"
+
+%include "almath/geometrics/shapes3d.h"
 
 
 %extend AL::Math::Pose2D {
