@@ -60,6 +60,14 @@ inline ros::Time toValidRosTime(qi::Duration time_since_epoch) {
   ret.fromNSec(std::min(rosMax, std::max(rosMin, time_since_epoch.count())));
   return ret;
 }
+
+inline qi::Duration toQiDuration(ros::Time time) {
+  using qirep = qi::Duration::rep;
+  // if time <= ros::TIME_MAX, we know it can be casted to a qirep,
+  // which is signed, without wrapping over.
+  assert(time <= ros::TIME_MAX);
+  return qi::Duration(static_cast<qirep>(time.toNSec()));
+}
 }
 }
 #endif

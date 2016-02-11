@@ -26,3 +26,13 @@ TEST(QiRosMsg, toValidRosTime) {
   EXPECT_EQ(ros::Time(0, 999999999),
             toValidRosTime(qi::Seconds(1) - qi::NanoSeconds(1)));
 }
+
+TEST(QiRosMsg, toQiDuration) {
+  using AL::Math::toValidRosTime;
+  using AL::Math::toQiDuration;
+  EXPECT_EQ(qi::Duration(1), toQiDuration(ros::Time(0, 1)));
+  EXPECT_EQ(qi::Seconds(1), toQiDuration(ros::Time(1)));
+  EXPECT_EQ(qi::Seconds(1) + qi::NanoSeconds(1), toQiDuration(ros::Time(1, 1)));
+  EXPECT_EQ(ros::TIME_MAX, toValidRosTime(toQiDuration(ros::TIME_MAX)));
+  EXPECT_EQ(ros::TIME_MIN, toValidRosTime(toQiDuration(ros::TIME_MIN)));
+}
