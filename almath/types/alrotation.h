@@ -247,6 +247,13 @@ namespace AL {
       /// <param name="pRotX"> the float value for angle rotation in radian around x axis </param>
       static Rotation fromRotX(const float pRotX);
 
+      static Rotation fromRotXPi() {
+        Rotation r; // identity
+        r.r2_c2 = -1.f;
+        r.r3_c3 = -1.f;
+        return r;
+      }
+
       /// <summary>
       /// Create a Rotation initialized with explicit rotation around y axis.
       ///
@@ -260,6 +267,13 @@ namespace AL {
       /// <param name="pRotY"> the float value for angle rotation in radian around y axis </param>
       static Rotation fromRotY(const float pRotY);
 
+      static Rotation fromRotYPi() {
+        Rotation r; // identity
+        r.r1_c1 = -1.f;
+        r.r3_c3 = -1.f;
+        return r;
+      }
+
       /// <summary>
       /// Create a Rotation initialized with explicit rotation around z axis.
       ///
@@ -272,6 +286,28 @@ namespace AL {
       /// </summary>
       /// <param name="pRotZ"> the float value for angle rotation in radian around z axis </param>
       static Rotation fromRotZ(const float pRotZ);
+
+      /// <summary>
+      /// Create a Rotation initialized with rotation of pi around z axis.
+      /// </summary>
+      static Rotation fromRotZPi() {
+        Rotation r; // identity
+        r.r1_c1 = -1.f;
+        r.r2_c2 = -1.f;
+        return r;
+      }
+
+      /// <summary>
+      /// Create a Rotation initialized with rotation of pi/2 around z axis.
+      /// </summary>
+      static Rotation fromRotZHalfPi() {
+        Rotation r; // identity
+        r.r1_c1 = 0.f;
+        r.r1_c2 = -1.f;
+        r.r2_c1 = 1.f;
+        r.r2_c2 = 0.f;
+        return r;
+      }
 
       /// <summary>
       /// Create a Rotation initialized with euler angle.
