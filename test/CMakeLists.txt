@@ -48,6 +48,10 @@ qi_create_gtest(test_almath_almatheigen
   SRC scenegraph/test_almatheigen.cpp
   DEPENDS ALMATH)
 
+qi_create_gtest(test_almath_bodymass
+  SRC scenegraph/test_bodymass_solidworks.cpp
+  DEPENDS EIGEN3 BOOST)
+
 if(WITH_ROSTIME AND WITH_QI)
   qi_create_gtest(test_almath_qirostime
     SRC scenegraph/test_qirostime.cpp
