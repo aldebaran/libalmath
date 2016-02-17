@@ -137,6 +137,15 @@ TEST(ALMathEigen, position3d_almath_to_eigen) {
   EXPECT_FLOAT_EQ(p.z, v[2]);
 }
 
+TEST(ALMathEigen, position3d_eigen_to_almath) {
+  Eigen::Vector3f v(1, 2, 3);
+  Math::Position3D p = Math::toALMathPosition3D(v);
+
+  EXPECT_FLOAT_EQ(v[0], p.x);
+  EXPECT_FLOAT_EQ(v[1], p.y);
+  EXPECT_FLOAT_EQ(v[2], p.z);
+}
+
 TEST(ALMathEigen, velocity6d_eigen_to_almath) {
   Math::Vector6f v6;
   v6 << 1, 2, 3, 4, 5, 6;

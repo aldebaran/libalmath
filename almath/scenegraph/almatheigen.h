@@ -69,6 +69,15 @@ Transform toALMathTransform(
 }
 
 template <typename Derived0>
+Position3D toALMathPosition3D(const Eigen::MatrixBase<Derived0> &in) {
+  EIGEN_STATIC_ASSERT(
+      (Eigen::internal::is_same<float, typename Derived0::Scalar>::value),
+      YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
+  EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived0, 3, 1)
+  return Position3D(in[0], in[1], in[2]);
+}
+
+template <typename Derived0>
 void toALMathVelocity6D(const Eigen::MatrixBase<Derived0> &in,
                         Velocity6D &out) {
   EIGEN_STATIC_ASSERT(
