@@ -15,13 +15,30 @@ namespace AL {
 namespace Math {
 
 // return a ros::Time, clipped to [ros::TIME_MIN, ros::TIME_MAX]
-inline ros::Time toValidRosTime(qi::SystemClock::time_point time) {
+//
+// Note:
+//
+// altough this can be changed with an #ifdef, ros::Time typically uses
+// std::chrono::system_clock as its underlying time source.
+// As a consequence, ros::Time typically matches libqi's
+// qi::SystemClock::time_point.
+//
+// However, since the system clock is subject to clock jumps, we tend
+// to favour qi::Clock for timestamping sensor data, and when mapping
+// this data to ros messages for offline use, it is more convenient
+// to set the ros::Time with the value from qi::Clock instead of
+// qi::SystemClock.
+//
+// Given that both use case are valid, this conversion function does not
+// operate on qi::Clock::time_point nor qi::SystemClock::time_point but
+// rather on qi::Duration.
+inline ros::Time toValidRosTime(qi::Duration time_since_epoch) {
   // We need to care for several problems:
   //
   // * ros::Time::fromNSec expects an unsigned number of nano seconds,
-  //   but qi::SystemClock::time_point is signed
+  //   but libqi clocks use signed time_points
   //
-  // * ros::Time range is smaller than qi::SystemClock::time_point range
+  // * ros::Time range is smaller than libqi clocks range
   //   (many bits are wasted in ros::Time because it splits seconds and
   //   nanoseconds in two 32 bits members)
   //
@@ -32,7 +49,7 @@ inline ros::Time toValidRosTime(qi::SystemClock::time_point time) {
   //
   //    using qiTime = qi::SystemClock::time_point;
   //    qiTime::min() < 0 < ros::TIME_MIN < ros::TIME_MAX < qiTime::max()
-  using qirep = qi::SystemClock::time_point::duration::rep;
+  using qirep = qi::Duration::rep;
   constexpr qirep rosMin = 1;
   constexpr qirep rosMax =
       999999999 +
@@ -40,9 +57,16 @@ inline ros::Time toValidRosTime(qi::SystemClock::time_point time) {
   assert(rosMin == static_cast<qirep>(ros::TIME_MIN.toNSec()));
   assert(rosMax == static_cast<qirep>(ros::TIME_MAX.toNSec()));
   ros::Time ret;
-  ret.fromNSec(
-      std::min(rosMax, std::max(rosMin, time.time_since_epoch().count())));
+  ret.fromNSec(std::min(rosMax, std::max(rosMin, time_since_epoch.count())));
   return ret;
+}
+
+inline qi::Duration toQiDuration(ros::Time time) {
+  using qirep = qi::Duration::rep;
+  // if time <= ros::TIME_MAX, we know it can be casted to a qirep,
+  // which is signed, without wrapping over.
+  assert(time <= ros::TIME_MAX);
+  return qi::Duration(static_cast<qirep>(time.toNSec()));
 }
 }
 }
