@@ -8,6 +8,7 @@
 #include <almath/tools/altrigonometry.h>
 #include <almath/tools/almathio.h>
 #include <almath/tools/altransformhelpers.h>
+#include <boost/math/constants/constants.hpp>
 #include <gtest/gtest.h>
 #include <stdexcept>
 
@@ -440,6 +441,19 @@ TEST(ALMathTest, RotationFromAngleDirection)
   pRotOut = AL::Math::rotationFromAngleDirection(pTheta, pPos);
   EXPECT_TRUE(pRotOut.isNear(AL::Math::Rotation::fromRotZ(pTheta)));
   EXPECT_FALSE(pRotOut.isNear(AL::Math::Rotation()));
+
+  EXPECT_TRUE(AL::Math::Rotation::fromRotXPi().isNear(
+                  AL::Math::Rotation::fromRotX(
+                     boost::math::constants::pi<float>())));
+  EXPECT_TRUE(AL::Math::Rotation::fromRotYPi().isNear(
+                  AL::Math::Rotation::fromRotY(
+                     boost::math::constants::pi<float>())));
+  EXPECT_TRUE(AL::Math::Rotation::fromRotZPi().isNear(
+                  AL::Math::Rotation::fromRotZ(
+                     boost::math::constants::pi<float>())));
+  EXPECT_TRUE(AL::Math::Rotation::fromRotZHalfPi().isNear(
+                  AL::Math::Rotation::fromRotZ(
+                     0.5f * boost::math::constants::pi<float>())));
 }
 
 TEST(ALMathTest, quaternionOperator)
