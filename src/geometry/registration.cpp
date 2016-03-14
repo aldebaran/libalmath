@@ -7,7 +7,7 @@
 
 namespace qi
 {
-namespace sdk
+namespace geometry
 {
 Vector3 vector3(double x, double y, double z)
 {

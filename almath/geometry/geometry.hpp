@@ -9,7 +9,7 @@
 
 namespace qi
 {
-namespace sdk
+namespace geometry
 {
 struct Vector3 {
     Vector3() : Vector3 {0., 0., 0.} {}
@@ -63,9 +63,9 @@ inline std::ostream& operator<<(std::ostream &o, const Transform &tf)
 }
 }
 
-QI_TYPE_STRUCT(qi::sdk::Vector3, x, y, z)
-QI_TYPE_STRUCT(qi::sdk::Quaternion, x, y, z, w)
-QI_TYPE_STRUCT(qi::sdk::Transform, r, t)
-QI_TYPE_STRUCT(qi::sdk::TransformTime, transform, time)
+QI_TYPE_STRUCT(qi::geometry::Vector3, x, y, z)
+QI_TYPE_STRUCT(qi::geometry::Quaternion, x, y, z, w)
+QI_TYPE_STRUCT(qi::geometry::Transform, r, t)
+QI_TYPE_STRUCT(qi::geometry::TransformTime, transform, time)
 
 #endif

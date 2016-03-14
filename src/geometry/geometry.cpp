@@ -7,7 +7,7 @@
 
 namespace qi
 {
-namespace sdk
+namespace geometry
 {
 inline Eigen::Affine3d toEigenAffine3d(const Transform &tf)
 {
