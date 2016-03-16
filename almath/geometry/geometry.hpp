@@ -45,6 +45,12 @@ Transform operator*(const Transform &lhs, const Transform &rhs);
 
 Transform inverse(const Transform &tf);
 
+double norm(const Quaternion &r);
+
+void normalize(Quaternion &r);
+
+Quaternion normalized(const Quaternion &r);
+
 inline std::ostream& operator<<(std::ostream &o, const Quaternion &r)
 {
   return o << "Quaternion(" << r.x << ", " << r.y << ", " << r.z << ", "

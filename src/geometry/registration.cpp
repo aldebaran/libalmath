@@ -31,6 +31,8 @@ void register_geometry_module(qi::ModuleBuilder* mb)
   mb->advertiseMethod("transform", &transform);
   mb->advertiseMethod("inverse", &inverse);
   mb->advertiseMethod("multiply", &operator *);
+  mb->advertiseMethod("norm", &norm);
+  mb->advertiseMethod("normalized", &normalized);
 }
 
 QI_REGISTER_MODULE("geometry_module", &register_geometry_module)
