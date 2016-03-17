@@ -1,0 +1,24 @@
+package qi.geometry
+
+struct Vector3
+  x: float64
+  y: float64
+  z: float64
+end
+
+struct Quaternion
+  x: float64
+  y: float64
+  z: float64
+  w: float64
+end
+
+struct Transform
+  r: Quaternion
+  t: Vector3
+end
+
+struct TransformTime
+  transform: Transform
+  time: qitimepoint
+end

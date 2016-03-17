@@ -2,6 +2,7 @@
   <qibuild name="libalmath">
     <depends buildtime="true" runtime="true" names="boost eigen3 libqi rosbag" />
     <depends buildtime="true" names="gtest" />
+    <depends host="true" names="libqilang" />
   </qibuild>
   <qidoc name="libalmath" type="doxygen" dest="ref/libalmath" />
   <qipython name="almath" />

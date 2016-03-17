@@ -2,33 +2,18 @@
  * Copyright 2016 Aldebaran. All rights reserved.
  */
 
-#include <almath/geometry/geometry.hpp>
+#include <almath/geometry/tools.hpp>
 #include <qi/anymodule.hpp>
 
 namespace qi
 {
 namespace geometry
 {
-Vector3 vector3(double x, double y, double z)
-{
-  return Vector3(x, y, z);
-}
-
-Quaternion quaternion(double x, double y, double z, double w)
-{
-  return Quaternion(x, y, z, w);
-}
-
-Transform transform(const Quaternion &r, const Vector3 &t)
-{
-  return Transform(r, t);
-}
-
 void register_geometry_module(qi::ModuleBuilder* mb)
 {
-  mb->advertiseMethod("vector3", &vector3);
-  mb->advertiseMethod("quaternion", &quaternion);
-  mb->advertiseMethod("transform", &transform);
+  mb->advertiseMethod("make_vector3", &make_vector3);
+  mb->advertiseMethod("make_quaternion", &make_quaternion);
+  mb->advertiseMethod("make_transform", &make_transform);
   mb->advertiseMethod("inverse", &inverse);
   mb->advertiseMethod("multiply", &operator *);
   mb->advertiseMethod("norm", &norm);

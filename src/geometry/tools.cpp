@@ -2,13 +2,61 @@
  * Copyright 2016 Aldebaran. All rights reserved.
  */
 
-#include <almath/geometry/geometry.hpp>
+#include <almath/geometry/tools.hpp>
 #include <Eigen/Geometry>
 
 namespace qi
 {
 namespace geometry
 {
+Vector3 make_vector3(double x, double y, double z)
+{
+  // TODO: #34174 qilang does not let us define our constructors
+  Vector3 v;
+  v.x = x;
+  v.y = y;
+  v.z = z;
+  return v;
+}
+
+Quaternion make_quaternion(double x, double y, double z, double w)
+{
+  // TODO: #34174 qilang does not let us define our constructors
+  Quaternion q;
+  q.x = x;
+  q.y = y;
+  q.z = z;
+  q.w = w;
+  return q;
+}
+
+bool isNormalized(const Quaternion &r, double epsilon)
+{
+  return std::abs(norm(r) - 1.0) < epsilon;
+}
+
+Quaternion make_normalized_quaternion(double x, double y, double z, double w)
+{
+  auto q = make_quaternion(x, y, z, w);
+  if (!isNormalized(q, 1e-5f))
+  {
+    std::stringstream err;
+    err << "Quaternion(" << x << ", " << y << ", " << z << ", " << w
+        << ") is not normalized";
+    throw std::runtime_error(err.str());
+  }
+  return q;
+}
+
+Transform make_transform(const Quaternion &r, const Vector3 &t)
+{
+  // TODO: #34174 qilang does not let us define our constructors
+  Transform tf;
+  tf.t = t;
+  tf.r = r;
+  return tf;
+}
+
 double norm(const Quaternion &r)
 {
   return Eigen::Map<const Eigen::Quaterniond>(&r.x).norm();
@@ -24,11 +72,6 @@ Quaternion normalized(const Quaternion &r)
   Quaternion result = r;
   normalize(result);
   return result;
-}
-
-bool isNormalized(const Quaternion &r, double epsilon)
-{
-  return std::abs(norm(r) - 1.0) < epsilon;
 }
 
 inline Eigen::Affine3d toEigenAffine3d(const Transform &tf)
