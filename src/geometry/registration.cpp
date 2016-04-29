@@ -11,9 +11,10 @@ namespace geometry
 {
 void register_geometry_module(qi::ModuleBuilder* mb)
 {
-  mb->advertiseMethod("make_vector3", &make_vector3);
-  mb->advertiseMethod("make_quaternion", &make_quaternion);
-  mb->advertiseMethod("make_transform", &make_transform);
+  mb->advertiseMethod("makeVector3", &makeVector3);
+  mb->advertiseMethod("makeQuaternion", &makeQuaternion);
+  mb->advertiseMethod("makeNormalizedQuaternion", &makeNormalizedQuaternion);
+  mb->advertiseMethod("makeTransform", &makeTransform);
   mb->advertiseMethod("inverse", &inverse);
   mb->advertiseMethod("multiply", &operator *);
   mb->advertiseMethod("norm", &norm);

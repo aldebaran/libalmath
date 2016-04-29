@@ -9,7 +9,7 @@ namespace qi
 {
 namespace geometry
 {
-Vector3 make_vector3(double x, double y, double z)
+Vector3 makeVector3(double x, double y, double z)
 {
   // TODO: #34174 qilang does not let us define our constructors
   Vector3 v;
@@ -19,7 +19,7 @@ Vector3 make_vector3(double x, double y, double z)
   return v;
 }
 
-Quaternion make_quaternion(double x, double y, double z, double w)
+Quaternion makeQuaternion(double x, double y, double z, double w)
 {
   // TODO: #34174 qilang does not let us define our constructors
   Quaternion q;
@@ -35,9 +35,9 @@ bool isNormalized(const Quaternion &r, double epsilon)
   return std::abs(norm(r) - 1.0) < epsilon;
 }
 
-Quaternion make_normalized_quaternion(double x, double y, double z, double w)
+Quaternion makeNormalizedQuaternion(double x, double y, double z, double w)
 {
-  auto q = make_quaternion(x, y, z, w);
+  auto q = makeQuaternion(x, y, z, w);
   if (!isNormalized(q, 1e-5f))
   {
     std::stringstream err;
@@ -48,7 +48,7 @@ Quaternion make_normalized_quaternion(double x, double y, double z, double w)
   return q;
 }
 
-Transform make_transform(const Quaternion &r, const Vector3 &t)
+Transform makeTransform(const Quaternion &r, const Vector3 &t)
 {
   // TODO: #34174 qilang does not let us define our constructors
   Transform tf;

@@ -11,15 +11,15 @@ namespace qi
 {
 namespace geometry
 {
-Vector3 make_vector3(double x, double y, double z);
+Vector3 makeVector3(double x, double y, double z);
 
-Quaternion make_quaternion(double x, double y, double z, double w);
+Quaternion makeQuaternion(double x, double y, double z, double w);
 
 // Check if the quaternion made out of x, y, z, w is normalized, and
 // throw if it is not the case.
-Quaternion make_normalized_quaternion(double x, double y, double z, double w);
+Quaternion makeNormalizedQuaternion(double x, double y, double z, double w);
 
-Transform make_transform(const Quaternion &r, const Vector3 &t);
+Transform makeTransform(const Quaternion &r, const Vector3 &t);
 
 bool isNear(const Transform &lhs, const Transform &rhs, double epsilon);
 
