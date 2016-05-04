@@ -1,6 +1,6 @@
 <project version="3">
   <qibuild name="libalmath">
-    <depends buildtime="true" runtime="true" names="boost eigen3 libqi rosbag" />
+    <depends buildtime="true" runtime="true" names="boost eigen3 libqi ros" />
     <depends buildtime="true" names="gtest" />
     <depends host="true" names="libqilang" />
   </qibuild>
