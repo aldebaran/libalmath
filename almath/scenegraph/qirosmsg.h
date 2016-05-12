@@ -50,8 +50,8 @@ inline ros::Time toValidRosTime(qi::Duration time_since_epoch) {
   //    using qiTime = qi::SystemClock::time_point;
   //    qiTime::min() < 0 < ros::TIME_MIN < ros::TIME_MAX < qiTime::max()
   using qirep = qi::Duration::rep;
-  constexpr qirep rosMin = 1;
-  constexpr qirep rosMax =
+  const qirep rosMin = 1;
+  const qirep rosMax =
       999999999 +
       static_cast<qirep>(std::numeric_limits<uint32_t>::max()) * 1000000000;
   assert(rosMin == static_cast<qirep>(ros::TIME_MIN.toNSec()));
