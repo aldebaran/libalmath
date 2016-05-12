@@ -102,7 +102,6 @@ set(ALMATH_H
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
     almath/scenegraph/rigidbodysystembuilder.h
-    almath/scenegraph/qirosmsg.h
     almath/scenegraph/qirostime.h
     almath/scenegraph/scenebuilder.h
     almath/scenegraph/urdf.h
