@@ -8,6 +8,26 @@ find_package(qibuild)
 
 enable_testing()
 
+find_package(qilang-tools)
+
+# generate all the new files
+qi_gen_idl(geometry_idl CPP "qigeometry" "${CMAKE_CURRENT_BINARY_DIR}"
+  qi/geometry/geometry.idl.qi)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+# install the headers so that people can use your proxies
+qi_install_header(
+  ${geometry_idl_INTERFACE}
+  qi/geometry/api.hpp
+  KEEP_RELATIVE_PATHS)
+# create a lib with the proxies only
+qi_create_lib(qigeometry
+  ${geometry_idl_INTERFACE}
+  ${geometry_idl_LOCAL}
+  ${geometry_idl_REMOTE}
+  DEPENDS QI)
+qi_stage_lib(qigeometry)
+
 # Add BEFORE keyword so that we can rebuild almath against a sdk
 # without getting conflicts.
 include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -17,6 +37,7 @@ set(ALMATH_SRCS
     src/dsp/pidcontroller.cpp
     src/geometrics/shapes3d.cpp
     src/geometrics/shapes3d_utils.cpp
+    src/geometry/tools.cpp
     src/scenegraph/colladabuilder.cpp
     src/scenegraph/colladascenebuilder.cpp
     src/scenegraph/mesh.cpp
@@ -74,6 +95,7 @@ set(ALMATH_H
     ${ALMATH_H_WRAPPED}
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
+    almath/geometry/tools.hpp
     almath/scenegraph/almatheigen.h
     almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
@@ -90,7 +112,7 @@ set(ALMATH_H
 )
 
 qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
-qi_use_lib(almath BOOST EIGEN3)
+qi_use_lib(almath BOOST EIGEN3 QI QIGEOMETRY)
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.
 # It is useful when extending almathswig.
@@ -122,5 +144,14 @@ if(WITH_PYTHON)
     "${QI_SDK_DIR}/${QI_SDK_LIB}/almath.py"
   )
 endif()
+
+find_package(qimodule)
+qi_create_module(geometry_module
+  SRC
+  "src/geometry/registration.cpp"
+
+  DEPENDS
+  almath
+)
 
 add_subdirectory(test)
