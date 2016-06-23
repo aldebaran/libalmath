@@ -2,7 +2,7 @@
 ## Use of this source code is governed by a BSD-style license that can be
 ## found in the COPYING file.
 
-qi_add_optional_package(rosbag)
+qi_add_optional_package(rostime)
 qi_add_optional_package(qi)
 
 set(almath_tests_srcs
@@ -48,10 +48,10 @@ qi_create_gtest(test_almath_almatheigen
   SRC scenegraph/test_almatheigen.cpp
   DEPENDS ALMATH)
 
-if(WITH_ROSBAG AND WITH_QI)
-  qi_create_gtest(test_almath_qirosmsg
-    SRC scenegraph/test_qirosmsg.cpp
-    DEPENDS ALMATH QI ROSBAG)
+if(WITH_ROSTIME AND WITH_QI)
+  qi_create_gtest(test_almath_qirostime
+    SRC scenegraph/test_qirostime.cpp
+    DEPENDS ALMATH QI ROSTIME)
 endif()
 
 qi_create_gtest(test_almath_rigidbodysystembuilder

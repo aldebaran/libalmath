@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include <almath/scenegraph/qirosmsg.h>
+#include <almath/scenegraph/qirostime.h>
 
 using namespace AL;
 
-TEST(QiRosMsg, toValidRosTime) {
+TEST(QiRosTime, toValidRosTime) {
   using AL::Math::toValidRosTime;
   using qiTime = qi::Clock::time_point;
   using qiSystemTime = qi::SystemClock::time_point;
@@ -27,7 +27,7 @@ TEST(QiRosMsg, toValidRosTime) {
             toValidRosTime(qi::Seconds(1) - qi::NanoSeconds(1)));
 }
 
-TEST(QiRosMsg, toQiDuration) {
+TEST(QiRosTime, toQiDuration) {
   using AL::Math::toValidRosTime;
   using AL::Math::toQiDuration;
   EXPECT_EQ(qi::Duration(1), toQiDuration(ros::Time(0, 1)));
