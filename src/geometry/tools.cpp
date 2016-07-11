@@ -48,12 +48,12 @@ Quaternion makeNormalizedQuaternion(double x, double y, double z, double w)
   return q;
 }
 
-Transform makeTransform(const Quaternion &r, const Vector3 &t)
+Transform makeTransform(const Quaternion &rotation, const Vector3 &translation)
 {
   // TODO: #34174 qilang does not let us define our constructors
   Transform tf;
-  tf.t = t;
-  tf.r = r;
+  tf.translation = translation;
+  tf.rotation = rotation;
   return tf;
 }
 
@@ -76,22 +76,24 @@ Quaternion normalized(const Quaternion &r)
 
 inline Eigen::Affine3d toEigenAffine3d(const Transform &tf)
 {
-  assert(isNormalized(tf.r, 1e-5));
-  return Eigen::Affine3d(Eigen::Translation3d(tf.t.x, tf.t.y, tf.t.z) *
-                         Eigen::Quaterniond(tf.r.w, tf.r.x, tf.r.y, tf.r.z));
+  assert(isNormalized(tf.rotation, 1e-5));
+  const auto& t = tf.translation;
+  const auto& r = tf.rotation;
+  return Eigen::Affine3d(Eigen::Translation3d(t.x, t.y, t.z) *
+                         Eigen::Quaterniond(r.w, r.x, r.y, r.z));
 }
 
 Transform operator*(const Transform &lhs, const Transform &rhs)
 {
-  assert(isNormalized(lhs.r, 1e-5));
-  assert(isNormalized(rhs.r, 1e-5));
-  auto lv = Eigen::Map<const Eigen::Vector3d>(&lhs.t.x);
-  auto rv = Eigen::Map<const Eigen::Vector3d>(&rhs.t.x);
-  auto lq = Eigen::Map<const Eigen::Quaterniond>(&lhs.r.x);
-  auto rq = Eigen::Map<const Eigen::Quaterniond>(&rhs.r.x);
+  assert(isNormalized(lhs.rotation, 1e-5));
+  assert(isNormalized(rhs.rotation, 1e-5));
+  auto lv = Eigen::Map<const Eigen::Vector3d>(&lhs.translation.x);
+  auto rv = Eigen::Map<const Eigen::Vector3d>(&rhs.translation.x);
+  auto lq = Eigen::Map<const Eigen::Quaterniond>(&lhs.rotation.x);
+  auto rq = Eigen::Map<const Eigen::Quaterniond>(&rhs.rotation.x);
   Transform result;
-  Eigen::Map<Eigen::Quaterniond>(&result.r.x) = lq * rq;
-  Eigen::Map<Eigen::Vector3d>(&result.t.x) = lv + lq * rv;
+  Eigen::Map<Eigen::Quaterniond>(&result.rotation.x) = lq * rq;
+  Eigen::Map<Eigen::Vector3d>(&result.translation.x) = lv + lq * rv;
   return result;
 }
 
@@ -106,8 +108,8 @@ Transform inverse(const Transform &tf)
 {
   auto inv = toEigenAffine3d(tf).inverse();
   Transform result;
-  Eigen::Map<Eigen::Quaterniond>(&result.r.x) = inv.rotation();
-  Eigen::Map<Eigen::Vector3d>(&result.t.x) = inv.translation();
+  Eigen::Map<Eigen::Quaterniond>(&result.rotation.x) = inv.rotation();
+  Eigen::Map<Eigen::Vector3d>(&result.translation.x) = inv.translation();
   return result;
 }
 }
