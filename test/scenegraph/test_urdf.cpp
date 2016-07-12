@@ -14,6 +14,7 @@
 #include <boost/ref.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 #include <array>
+#include <memory>
 #include "myrigidbodysystembuilder.h"
 
 using namespace AL;
@@ -413,7 +414,8 @@ TEST(Urdf, Link) {
 TEST(Urdf, read_no_link) {
   ptree pt;
   addRobot(pt);
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, read_dupe_link) {
@@ -421,7 +423,8 @@ TEST(Urdf, read_dupe_link) {
   ptree &robot = addRobot(pt);
   addLink(robot, "a");
   addLink(robot, "a");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, read_dupe_joint) {
@@ -432,7 +435,8 @@ TEST(Urdf, read_dupe_joint) {
   addLink(robot, "c");
   addJoint(robot, "a", "b", "j");
   addJoint(robot, "a", "c", "j");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, read_non_existing_child_link) {
@@ -440,7 +444,8 @@ TEST(Urdf, read_non_existing_child_link) {
   ptree &robot = addRobot(pt);
   addLink(robot, "a");
   addJoint(robot, "a", "b", "j");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, read_non_existing_parent_link) {
@@ -448,7 +453,9 @@ TEST(Urdf, read_non_existing_parent_link) {
   ptree &robot = addRobot(pt);
   addLink(robot, "a");
   addJoint(robot, "b", "a", "j");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+
 }
 
 TEST(Urdf, read_kinematic_loop_0) {
@@ -458,7 +465,9 @@ TEST(Urdf, read_kinematic_loop_0) {
   addLink(robot, "b");
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "a", "b", "ab_bis");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+
 }
 
 TEST(Urdf, read_kinematic_loop_1) {
@@ -468,7 +477,8 @@ TEST(Urdf, read_kinematic_loop_1) {
   addLink(robot, "b");
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "b", "a", "ba");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, read_kinematic_loop_2) {
@@ -480,7 +490,8 @@ TEST(Urdf, read_kinematic_loop_2) {
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "b", "c", "bc");
   addJoint(robot, "a", "c", "ac");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, read_several_roots) {
@@ -488,7 +499,8 @@ TEST(Urdf, read_several_roots) {
   ptree &robot = addRobot(pt);
   addLink(robot, "a");
   addLink(robot, "b");
-  EXPECT_ANY_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, read_joint_and_link_names_do_not_collide) {
@@ -497,7 +509,8 @@ TEST(Urdf, read_joint_and_link_names_do_not_collide) {
   addLink(robot, "a");
   addLink(robot, "b");
   addJoint(robot, "a", "b", "b");
-  EXPECT_NO_THROW(new urdf::UrdfTree(pt));
+  std::unique_ptr<urdf::UrdfTree> utree;
+  EXPECT_NO_THROW(utree.reset(new urdf::UrdfTree(pt)));
 }
 
 TEST(Urdf, getters) {
