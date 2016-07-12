@@ -31,7 +31,7 @@ set(almath_tests_srcs
     types/aldisplacement_test.cpp
 )
 
-qi_create_gtest(almath_tests ${almath_tests_srcs} DEPENDS GTEST ALMATH TIMEOUT 120)
+qi_create_gtest(almath_tests ${almath_tests_srcs} DEPENDS GTEST ALMATH TIMEOUT 240)
 
 ## geometrics
 qi_create_gtest(test_almath_shapes3d
