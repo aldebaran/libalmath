@@ -63,6 +63,7 @@
 #include "almath/tools/avoidfootcollision.h"
 #include "almath/tools/altransformhelpers.h"
 #include "almath/tools/almath.h"
+#include "almath/types/occupancymapparams.h"
 
 #include "almath/geometrics/shapes3d.h"
 
@@ -186,6 +187,8 @@ namespace std {
 %include "almath/tools/almath.h"
 
 %include "almath/geometrics/shapes3d.h"
+
+%include "almath/types/occupancymapparams.h"
 
 
 %extend AL::Math::Pose2D {
@@ -383,4 +386,24 @@ namespace std {
    AL::Math::Velocity6D __rmul__(const float lhs) const {
        return lhs * (*$self);
    }
+};
+
+%extend AL::Math::OccupancyMapParams {
+    char *__repr__() {
+        static char tmp[1024];
+        sprintf(tmp, "OccupancyMapParams(size=%d, metersPerPixel=%g, "
+                     "originOffset=Position2D(x=%g, y=%g))",
+                $self->size, $self->metersPerPixel, $self->originOffset.x,
+                $self->originOffset.y);
+        return tmp;
+    }
+};
+
+%extend AL::Math::Point2Di {
+    char *__repr__() {
+        static char tmp[1024];
+        sprintf(tmp, "Point2Di(x=%d, y=%d)",
+                $self->x, $self->y);
+        return tmp;
+    }
 };

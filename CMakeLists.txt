@@ -63,6 +63,7 @@ set(ALMATH_SRCS
     src/types/alposition6d.cpp
     src/types/alquaternion.cpp
     src/types/aldisplacement.cpp
+    src/types/occupancymapparams.cpp
 )
 
 # list of the public headers which are wrapped
@@ -89,6 +90,7 @@ set(ALMATH_H_WRAPPED
     almath/tools/altransformhelpers.h
     almath/tools/altrigonometry.h
     almath/tools/avoidfootcollision.h
+    almath/types/occupancymapparams.h
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
