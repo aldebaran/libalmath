@@ -48,6 +48,13 @@ namespace Math {
   typedef std::vector<Pose2D> Pose2DVect;
   typedef std::vector<Pose2Di> Pose2DiVect;
 
+  static inline int roundToInt(float x) {
+    if (x >= 0.0f) {
+      return static_cast<int>(x + 0.5f);
+    }
+    return static_cast<int>(x - 0.5f);
+  }
+
   /// <summary>
   /// Create a OccupancyMapParams.
   /// OccupancyMapParams are used used to define occupancy maps and to provide
@@ -74,10 +81,10 @@ struct OccupancyMapParams {
     const float kPixelPerMeter = 1.0f / metersPerPixel;
 
     const float xx = (pose.x - originOffset.x) * kPixelPerMeter;
-    const int x = std::round(xx);
+    const int x = roundToInt(xx);
 
     const float yy = -(pose.y - originOffset.y) * kPixelPerMeter;
-    const int y = std::round(yy);
+    const int y = roundToInt(yy);
     return Point2Di(x, y);
   }
 
