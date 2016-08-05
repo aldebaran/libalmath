@@ -5,8 +5,8 @@
  */
 
 #pragma once
-#ifndef _LIBALMATH_ALMATH_SCENEGRAPH_QIROSMSG_H_
-#define _LIBALMATH_ALMATH_SCENEGRAPH_QIROSMSG_H_
+#ifndef _LIBALMATH_ALMATH_SCENEGRAPH_QIROSTIME_H_
+#define _LIBALMATH_ALMATH_SCENEGRAPH_QIROSTIME_H_
 
 #include <qi/clock.hpp>
 #include <ros/time.h>
