@@ -1,0 +1,31 @@
+package qi.geometry
+
+//! @brief A generic 3D vector.
+struct Vector3
+  x: float64
+  y: float64
+  z: float64
+end
+
+//! @brief Quaternion representation of rotations.
+//! See https://en.wikipedia.org/wiki/Quaternion for more information.
+struct Quaternion
+  x: float64
+  y: float64
+  z: float64
+  w: float64
+end
+
+//! @brief A homogenous transformation matrix.
+//! See http://en.wikipedia.org/wiki/Transformation_matrix for more information.
+//! It is represented by a 3D vector and a quaternion.
+struct Transform
+  r: Quaternion
+  t: Vector3
+end
+
+//! @brief A transform associated with at timestamp.
+struct TransformTime
+  transform: Transform
+  time: qitimepoint
+end
