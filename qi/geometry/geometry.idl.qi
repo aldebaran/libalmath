@@ -20,8 +20,8 @@ end
 //! See http://en.wikipedia.org/wiki/Transformation_matrix for more information.
 //! It is represented by a 3D vector and a quaternion.
 struct Transform
-  rotation: Quaternion
-  translation: Vector3
+  r: Quaternion
+  t: Vector3
 end
 
 //! @brief A transform associated with at timestamp.
