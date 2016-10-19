@@ -103,6 +103,49 @@ T exp(const Eigen::MatrixBase<Derived0> &v,
                          (SC + dSC * w2[2]) * v[2];
   return res;
 }
+
+template <typename Derived0>
+Eigen::Matrix3f skew(const Eigen::MatrixBase<Derived0> &in)
+{
+  EIGEN_STATIC_ASSERT(
+      (Eigen::internal::is_same<float, typename Derived0::Scalar>::value),
+      YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
+  EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived0, 3, 1)
+  Eigen::Matrix3f ret = Eigen::Matrix3f::Zero();
+  ret(1, 2) = -in(0);
+  ret(2, 1) = in(0);
+  ret(0, 2) = in(1);
+  ret(2, 0) = -in(1);
+  ret(0, 1) = -in(2);
+  ret(1, 0) = in(2);
+  return ret;
+}
+
+// given a matrix pose_a_b such that
+//   p_a = pose_a_b * p_b,
+// compute adjoint_a_b, such that
+//   twist_a = adjoint_a_b * twist_b
+template <TwistPolarity Polarity_, typename Scalar_>
+inline Eigen::Matrix<Scalar_, 6, 6> adjoint(
+    const Eigen::Matrix<Scalar_, 3, 4> &pose_a_b)
+{
+  Eigen::Block<const Eigen::Matrix<Scalar_, 3, 4>, 3, 3, false> rot_a_b =
+      pose_a_b.template block<3, 3>(0, 0);
+  Eigen::Block<const Eigen::Matrix<Scalar_, 3, 4>, 3, 1, true> p_a_b =
+      pose_a_b.template rightCols<1>();
+  Eigen::Matrix<Scalar_, 6, 6> adjoint_a_b;
+  if (Polarity_ == TwistPolarity::AngularFirst)
+  {
+    adjoint_a_b << rot_a_b,                 Eigen::Matrix3f::Zero(),
+                   (skew(p_a_b) * rot_a_b), rot_a_b;
+  }
+  else
+  {
+    adjoint_a_b << rot_a_b,                 (skew(p_a_b) * rot_a_b),
+                   Eigen::Matrix3f::Zero(), rot_a_b;
+  }
+  return adjoint_a_b;
+}
 }  // namespace Math
 }  // namespace AL
 #endif
