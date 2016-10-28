@@ -74,3 +74,7 @@ qi_create_gtest(test_almath_urdfeigen
 qi_create_gtest(test_almath_visualization3d
   SRC scenegraph/test_visualization3d.cpp
   DEPENDS ALMATH BOOST_FILESYSTEM)
+
+qi_create_gtest(test_almathqigeometry
+  SRC scenegraph/test_almathqigeometry.cpp
+  DEPENDS almath qigeometry)

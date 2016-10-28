@@ -109,6 +109,7 @@ set(ALMATH_H
     almath/scenegraph/urdf.h
     almath/scenegraph/urdfeigen.h
     almath/scenegraph/urdfrigidbodysystemtraverser.h
+    almath/scenegraph/almathqigeometry.hpp
     almath/tools/almathio.h
 )
 
