@@ -41,6 +41,7 @@ public :
                         float pPeriod = -1.0f);
   float computeFeedbackAbsolute(float pAbsoluteErr);
 
+  void setGains(float pKp, float pKv, float pKi);
 
 private:
   float fKp;
