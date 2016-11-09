@@ -10,6 +10,7 @@
 #define _LIB_ALMATH_ALMATH_DSP_DIGITALFILTER_H_
 
 #include <vector>
+#include <almath/api.h>
 #include <boost/circular_buffer.hpp>
 
 namespace AL
@@ -19,7 +20,7 @@ namespace Math
 namespace DSP
 {
 
-class DigitalFilter
+class ALMATH_API DigitalFilter
 {
 public:
   DigitalFilter(void);
@@ -57,7 +58,6 @@ private:
 
   std::vector<float> fFilterWeightsIn;
   std::vector<float> fFilterWeightsOut;
-
 };
 }
 }

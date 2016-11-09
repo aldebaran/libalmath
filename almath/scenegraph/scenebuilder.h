@@ -7,6 +7,7 @@
 #define LIB_ALMATH_SCENEGRAPH_SCENEBUILDER_H
 
 #include <Eigen/Geometry>
+#include <almath/api.h>
 
 namespace AL {
 class Mesh;
@@ -52,7 +53,7 @@ class Shape3D;
 // * animate an ogre scene
 // * idem with renderwidget?
 // * write the animation in a ros bag
-class SceneBuilder {
+class ALMATH_API SceneBuilder {
  public:
   class Color {
    public:

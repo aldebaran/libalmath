@@ -6,6 +6,7 @@
 #ifndef LIB_ALMATH_SCENEGRAPH_URDF_H
 #define LIB_ALMATH_SCENEGRAPH_URDF_H
 
+#include <almath/api.h>
 #include <string>
 #include <iosfwd>
 #include <memory>
@@ -67,13 +68,13 @@ inline bool is_zero(const Array3d &a) {
 class Pose;
 
 // return the name attribute of a joint or link element
-std::string name(const ptree &pt);
+ALMATH_API std::string name(const ptree &pt);
 
 // return the parent link of a joint element
-std::string parent_link(const ptree &pt);
+ALMATH_API std::string parent_link(const ptree &pt);
 
 // return the child link of a joint element
-std::string child_link(const ptree &pt);
+ALMATH_API std::string child_link(const ptree &pt);
 
 // a parser for urdf xml files [1].
 //
@@ -113,7 +114,7 @@ std::string child_link(const ptree &pt);
 //
 // On the other hand, some UrdfTree functions enable the safe modification or
 // removal of joints and links.
-class UrdfTree {
+class ALMATH_API UrdfTree {
  public:
   // read a XML tree given the XML root element.
   // The XML tree is not copied, the user shall ensure that the reference
@@ -247,7 +248,7 @@ typedef UrdfTree::JointVisitor JointVisitor;
 // Convenience wrapper classes around URDF ptree elements
 
 // helper to convert ptree to/from Array3d
-struct Array3dTranslator {
+struct ALMATH_API Array3dTranslator {
   typedef std::string internal_type;
   typedef std::array<double, 3> external_type;
 
@@ -256,14 +257,14 @@ struct Array3dTranslator {
 };
 
 // Models an URDF pose/transform ("origin" XML element)
-class Pose {
+class ALMATH_API Pose {
  public:
   Pose(const Array3d &xyz, const Array3d &rpy) : _xyz(xyz), _rpy(rpy) {}
   Pose() : Pose({{0, 0, 0}}, {{0, 0, 0}}) {}
   const Array3d &xyz() const { return _xyz; }
   const Array3d &rpy() const { return _rpy; }
   Pose inverse() const;
-  friend Pose operator*(const Pose &lhs, const Pose &rhs);
+  ALMATH_API friend Pose operator*(const Pose &lhs, const Pose &rhs);
 
   static Pose from_ptree(const ptree &pt);
   static Pose from_ptree(const boost::optional<const ptree &> &pt);
@@ -286,7 +287,7 @@ inline bool is_identity(const Pose &p) {
 }
 
 // Convenience wrapper around an URDF joint XML element
-class Joint {
+class ALMATH_API Joint {
  public:
   enum Type { revolute, continuous, prismatic, fixed, floating, planar };
   const ptree &pt;
@@ -300,7 +301,7 @@ class Joint {
 };
 
 // Convenience wrapper around an URDF inertial XML element
-class Inertial {
+class ALMATH_API Inertial {
  public:
   const ptree &pt;
   Inertial(const ptree &pt);
@@ -315,7 +316,7 @@ class Inertial {
 };
 
 // Convenience wrapper around an URDF link XML element
-class Link {
+class ALMATH_API Link {
  public:
   const ptree &pt;
   Link(const ptree &pt);
@@ -327,33 +328,34 @@ class Link {
 
 // make the type of the joint named "name" equal to "fixed",
 // and erase the joint axis, if any.
-void makeJointFixed(UrdfTree &parser, const std::string &name);
+ALMATH_API void makeJointFixed(UrdfTree &parser, const std::string &name);
 
 // make the type of the joint named "name" equal to "floating",
 // and erase the joint axis, if any.
-void makeJointFloating(UrdfTree &parser, const std::string &name);
+ALMATH_API void makeJointFloating(UrdfTree &parser, const std::string &name);
 
 // apply makeJointFixed to all joints of type "continuous".
 // Return the names of the joints whose type was changed.
+ALMATH_API
 std::vector<std::string> makeContinuousJointsFixed(UrdfTree &parser);
 
 // Squash a joint's child link mass into its parent link mass.
 // The child link mass element (if any) is erased.
-void squashJointMass(UrdfTree &parser, const std::string &name);
+ALMATH_API void squashJointMass(UrdfTree &parser, const std::string &name);
 
 // apply squashJointMass to all fixed joints.
-void squashFixedJointsMass(UrdfTree &parser);
+ALMATH_API void squashFixedJointsMass(UrdfTree &parser);
 
 // Squash all fixed joint's child link mass into their parent link mass and
 // then convert all massless joints into fixed joints.
 // The point is to avoid massless mobile joints, which have no physical
 // meaning.
 // Return the names of the joints whose type was changed.
-std::vector<std::string> makeMasslessJointsFixed(UrdfTree &parser);
+ALMATH_API std::vector<std::string> makeMasslessJointsFixed(UrdfTree &parser);
 
 // a visitor which prints the URDF kinematic tree as a dot graph
 // when visiting its joints.
-class UrdfDotPrinterVisitor : public UrdfTree::JointConstVisitor {
+class ALMATH_API UrdfDotPrinterVisitor : public UrdfTree::JointConstVisitor {
   const char tab;
   int depth;
   bool do_indent;

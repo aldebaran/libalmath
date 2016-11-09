@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALPOSITIONANDVELOCITY_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -20,7 +21,7 @@ namespace AL {
     /// A PositionAndVelocity is just defined by q and dq.
     /// </summary>
     /// \ingroup Types
-    struct PositionAndVelocity
+    struct ALMATH_API PositionAndVelocity
     {
       /// <summary> </summary>
       float q;

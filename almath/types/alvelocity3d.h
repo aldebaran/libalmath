@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALVELOCITY3D_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -20,7 +21,7 @@ namespace AL {
     /// A Velocity3D is just defined by xd, yd and zd.
     /// </summary>
     /// \ingroup Types
-    struct Velocity3D {
+    struct ALMATH_API Velocity3D {
       /// <summary> </summary>
       float xd;
       /// <summary> </summary>
@@ -248,7 +249,7 @@ namespace AL {
       void writeToVector(std::vector<float>::iterator& pIt) const;
     };
 
-    Velocity3D operator* (
+    ALMATH_API Velocity3D operator* (
       const float       pM,
       const Velocity3D& pVel1);
 
@@ -262,7 +263,7 @@ namespace AL {
     /// the float norm of the given Velocity3D
     /// </returns>
     /// \ingroup Types
-    float norm (const Velocity3D& pVel);
+    ALMATH_API float norm (const Velocity3D& pVel);
 
     /// <summary>
     /// Normalize a Velocity3D:
@@ -274,7 +275,7 @@ namespace AL {
     /// the given Velocity3D normalized
     /// </returns>
     /// \ingroup Types
-    Velocity3D normalize(const Velocity3D& pVel);
+    ALMATH_API Velocity3D normalize(const Velocity3D& pVel);
 
   } // end namespace Math
 } // end namespace AL

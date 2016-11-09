@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALROTATION_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -27,7 +28,7 @@ namespace AL {
   /// </summary>
   /// <A HREF="http://en.wikipedia.org/wiki/Rotation_matrix">more information</A>
   /// \ingroup Types
-    struct Rotation
+    struct ALMATH_API Rotation
     {
       /// <summary>
       /// row 1 column 1.
@@ -347,7 +348,7 @@ namespace AL {
     /// the rotation transposed
     /// </returns>
         /// \ingroup Types
-    Rotation transpose(const Rotation& pRot);
+    ALMATH_API Rotation transpose(const Rotation& pRot);
 
 
     /// <summary>
@@ -366,7 +367,7 @@ namespace AL {
     /// the float determinant of Rotation
     /// </returns>
     /// \ingroup Types
-    float determinant(const Rotation& pRot);
+    ALMATH_API float determinant(const Rotation& pRot);
 
     /// <summary>
     /// Normalize data, if needed, to have Rotation properties.
@@ -374,7 +375,7 @@ namespace AL {
     /// </summary>
     /// <param name="pRot"> the given Rotation </param>
     /// \ingroup Types
-    void normalizeRotation(Rotation& pRot);
+    ALMATH_API void normalizeRotation(Rotation& pRot);
 
     /// <summary>
     /// Creates a 3*3 Rotation Matrix from a normalized quaternion ( |a + bi + cj + dk| = 1).
@@ -387,7 +388,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Types
-    Rotation rotationFromQuaternion(
+    ALMATH_API Rotation rotationFromQuaternion(
       const float pA,
       const float pB,
       const float pC,
@@ -404,7 +405,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Types
-    Rotation rotationFromAngleDirection(
+    ALMATH_API Rotation rotationFromAngleDirection(
       const float pAngle,
       const float pX,
       const float pY,
@@ -418,7 +419,7 @@ namespace AL {
     /// <param name="pY"> the Y position of the 3D point after rotation </param>
     /// <param name="pZ"> the Z position of the 3D point after rotation </param>
     /// \ingroup Types
-    void applyRotation(
+    ALMATH_API void applyRotation(
       const AL::Math::Rotation& pRot,
       float&                    pX,
       float&                    pY,
@@ -439,7 +440,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Types
-    Rotation rotationFromRotX(const float pRotX);
+    ALMATH_API Rotation rotationFromRotX(const float pRotX);
 
     /// <summary>
     /// Create a Rotation initialized with explicit rotation around y axis.
@@ -456,7 +457,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Types
-    Rotation rotationFromRotY(const float pRotY);
+    ALMATH_API Rotation rotationFromRotY(const float pRotY);
 
     /// <summary>
     /// Create a Rotation initialized with explicit rotation around z axis.
@@ -472,7 +473,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Types
-    Rotation rotationFromRotZ(const float pRotZ);
+    ALMATH_API Rotation rotationFromRotZ(const float pRotZ);
 
     /// <summary>
     /// Create a Rotation initialized with euler angle.
@@ -486,7 +487,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Types
-    Rotation rotationFrom3DRotation(
+    ALMATH_API Rotation rotationFrom3DRotation(
       const float& pWX,
       const float& pWY,
       const float& pWZ);

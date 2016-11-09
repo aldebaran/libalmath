@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALPOSITION6D_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -20,7 +21,7 @@ namespace AL {
     /// A Position6D is just defined by x, y, z, wx, wy and wz.
     /// </summary>
     /// \ingroup Types
-    struct Position6D {
+    struct ALMATH_API Position6D {
       /// <summary> </summary>
       float x;
       /// <summary> </summary>
@@ -327,7 +328,7 @@ namespace AL {
     /// the float squared distance between the two Position6D
     /// </returns>
     /// \ingroup Types
-    float distanceSquared(
+    ALMATH_API float distanceSquared(
       const Position6D& pPos1,
       const Position6D& pPos2);
 
@@ -343,7 +344,7 @@ namespace AL {
     /// the float distance between the two Position6D
     /// </returns>
     /// \ingroup Types
-    float distance(
+    ALMATH_API float distance(
       const Position6D& pPos1,
       const Position6D& pPos2);
 
@@ -357,7 +358,7 @@ namespace AL {
     /// the float norm of the given Position6D
     /// </returns>
     /// \ingroup Types
-    float norm(const Position6D& pPos);
+    ALMATH_API float norm(const Position6D& pPos);
 
     /// <summary>
     /// Normalize a Position6D:
@@ -369,7 +370,7 @@ namespace AL {
     /// the given Position6D normalized
     /// </returns>
     /// \ingroup Types
-    Position6D normalize(const Position6D& pPos);
+    ALMATH_API Position6D normalize(const Position6D& pPos);
 
   } // end namespace math
 } // end namespace al

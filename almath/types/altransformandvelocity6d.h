@@ -9,8 +9,9 @@
 #ifndef _LIBALMATH_ALMATH_TYPES_ALTRANSFORMANDVELOCITY6D_H_
 #define _LIBALMATH_ALMATH_TYPES_ALTRANSFORMANDVELOCITY6D_H_
 
-#include<almath/types/altransform.h>
-#include<almath/types/alvelocity6d.h>
+#include <almath/api.h>
+#include <almath/types/altransform.h>
+#include <almath/types/alvelocity6d.h>
 
 namespace AL {
   namespace Math {
@@ -18,7 +19,7 @@ namespace AL {
     /// <summary>
     /// Struct composed of a Transform and a Velocity6D
     /// </summary>
-    struct TransformAndVelocity6D
+    struct ALMATH_API TransformAndVelocity6D
     {
         /// <summary> </summary>
         AL::Math::Transform  T;

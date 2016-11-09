@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALPOSITION2D_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -20,7 +21,7 @@ namespace AL {
     /// A Position2D is just defined by x and y.
     /// </summary>
     /// \ingroup Types
-    struct Position2D
+    struct ALMATH_API Position2D
     {
       /// <summary> </summary>
       float x;
@@ -301,7 +302,7 @@ namespace AL {
     };
 
     // TODO : Need this ?
-    Position2D operator* (
+    ALMATH_API Position2D operator* (
       const float       pM,
       const Position2D& pPos1);
 
@@ -316,7 +317,7 @@ namespace AL {
     /// the float squared distance between the two Position2D
     /// </returns>
     /// \ingroup Types
-    float distanceSquared(
+    ALMATH_API float distanceSquared(
       const Position2D& pPos1,
       const Position2D& pPos2);
 
@@ -331,7 +332,7 @@ namespace AL {
     /// the float distance between the two Position2D
     /// </returns>
     /// \ingroup Types
-    float distance(
+    ALMATH_API float distance(
       const Position2D& pPos1,
       const Position2D& pPos2);
 
@@ -345,7 +346,7 @@ namespace AL {
     /// the float norm of the given Position2D
     /// </returns>
     /// \ingroup Types
-    float norm(const Position2D& pPos);
+    ALMATH_API float norm(const Position2D& pPos);
 
     /// <summary>
     /// Normalize a Position2D.
@@ -357,7 +358,7 @@ namespace AL {
     /// the given Position2D normalized
     /// </returns>
     /// \ingroup Types
-    Position2D normalize(const Position2D& pPos);
+    ALMATH_API Position2D normalize(const Position2D& pPos);
 
     /// <summary>
     /// Compute the dot Product between two Position2D:
@@ -369,7 +370,7 @@ namespace AL {
     /// <returns>
     /// the float dot product between the two Position2D
     /// </returns>
-    float dotProduct(
+    ALMATH_API float dotProduct(
       const Position2D& pPos1,
       const Position2D& pPos2);
 
@@ -384,7 +385,7 @@ namespace AL {
     /// the float cross product between the two Position2D
     /// </returns>
     /// \ingroup Types
-    float crossProduct(
+    ALMATH_API float crossProduct(
       const Position2D& pPos1,
       const Position2D& pPos2);
 
@@ -398,7 +399,7 @@ namespace AL {
     /// <param name="pRes">
     /// the float cross product between the two Position2D </param>
     /// \ingroup Types
-    void crossProduct(
+    ALMATH_API void crossProduct(
       const Position2D& pPos1,
       const Position2D& pPos2,
       float&            pRes);

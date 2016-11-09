@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALAXISMASK_H_
 
 #include <bitset>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -51,8 +52,7 @@ namespace AL {
     /// <summary> Validates an AxisMask. </summary>
     /// <param name="pAxisMask"> An Axis Mask. </param>
     /// <returns> true if it succeeds, false if it fails. </returns>
-    bool isAxisMask(const int pAxisMask);
-
+    ALMATH_API bool isAxisMask(const int pAxisMask);
   }
 }
 #endif  // _LIBALMATH_ALMATH_TYPES_ALAXISMASK_H_

@@ -94,6 +94,7 @@ set(ALMATH_H_WRAPPED
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
+    almath/api.h
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
     almath/geometry/tools.hpp
@@ -113,7 +114,8 @@ set(ALMATH_H
     almath/tools/almathio.h
 )
 
-qi_create_lib(almath ${ALMATH_SRCS} ${ALMATH_H})
+qi_create_lib(almath SHARED ${ALMATH_SRCS} ${ALMATH_H})
+set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
 qi_use_lib(almath BOOST EIGEN3 QI QIGEOMETRY)
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.

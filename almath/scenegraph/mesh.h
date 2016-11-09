@@ -6,6 +6,7 @@
 #ifndef LIB_ALMATH_SCENEGRAPH_MESH_H
 #define LIB_ALMATH_SCENEGRAPH_MESH_H
 
+#include <almath/api.h>
 #include <boost/optional.hpp>
 #include <string>
 #include <vector>
@@ -85,7 +86,7 @@ namespace AL {
 //
 // The data sctructures were loosely adapted from:
 // http://www.ics.com/blog/qt-and-opengl-part-1-loading-3d-model-open-asset-import-library-assimp
-class Mesh {
+class ALMATH_API Mesh {
  public:
   Mesh(bool withTexCoords = false);
   bool withTexCoords() const;

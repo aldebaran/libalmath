@@ -5,33 +5,38 @@
 #ifndef _LIBALMATH_ALMATH_GEOMETRY_TOOLS_HPP_
 #define _LIBALMATH_ALMATH_GEOMETRY_TOOLS_HPP_
 
+#include <almath/api.h>
 #include <qi/geometry/geometry.hpp>
 
 namespace qi
 {
 namespace geometry
 {
-Vector3 makeVector3(double x, double y, double z);
+ALMATH_API Vector3 makeVector3(double x, double y, double z);
 
-Quaternion makeQuaternion(double x, double y, double z, double w);
+ALMATH_API Quaternion makeQuaternion(double x, double y, double z, double w);
 
 // Check if the quaternion made out of x, y, z, w is normalized, and
 // throw if it is not the case.
+ALMATH_API
 Quaternion makeNormalizedQuaternion(double x, double y, double z, double w);
 
+ALMATH_API
 Transform makeTransform(const Quaternion &rotation, const Vector3 &translation);
 
-bool isNear(const Transform &lhs, const Transform &rhs, double epsilon);
+ALMATH_API Transform makeTransform(const Quaternion &r, const Vector3 &t);
 
-Transform operator*(const Transform &lhs, const Transform &rhs);
+ALMATH_API bool isNear(const Transform &lhs, const Transform &rhs, double epsilon);
 
-Transform inverse(const Transform &tf);
+ALMATH_API Transform operator*(const Transform &lhs, const Transform &rhs);
 
-double norm(const Quaternion &r);
+ALMATH_API Transform inverse(const Transform &tf);
 
-void normalize(Quaternion &r);
+ALMATH_API double norm(const Quaternion &r);
 
-Quaternion normalized(const Quaternion &r);
+ALMATH_API void normalize(Quaternion &r);
+
+ALMATH_API Quaternion normalized(const Quaternion &r);
 
 inline std::ostream& operator<<(std::ostream &o, const Quaternion &r)
 {

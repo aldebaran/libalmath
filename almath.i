@@ -4,6 +4,8 @@
  * found in the COPYING file.
  */
 
+%define ALMATH_API
+%enddef
 /*
  * Workaround a swig problem regarding std::vector __getitem__
  * Without this macro, constructs like x = myVectorPosition2D[i] return
