@@ -19,7 +19,7 @@ Quaternion makeQuaternion(double x, double y, double z, double w);
 // throw if it is not the case.
 Quaternion makeNormalizedQuaternion(double x, double y, double z, double w);
 
-Transform makeTransform(const Quaternion &r, const Vector3 &t);
+Transform makeTransform(const Quaternion &rotation, const Vector3 &translation);
 
 bool isNear(const Transform &lhs, const Transform &rhs, double epsilon);
 
@@ -46,7 +46,7 @@ inline std::ostream& operator<<(std::ostream &o, const Vector3 &t)
 
 inline std::ostream& operator<<(std::ostream &o, const Transform &tf)
 {
-  return o << "Transform(" << tf.r << ", " << tf.t << ")";
+  return o << "Transform(" << tf.rotation << ", " << tf.translation << ")";
 }
 }
 }
