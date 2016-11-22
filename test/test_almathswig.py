@@ -41,12 +41,6 @@ print Rotation.__repr__()
 print Rotation
 print ''
 
-print 'Check Rotation2D'
-Rotation2D = m.Rotation2D.fromAngle(0.1)
-print Rotation2D.__repr__()
-print Rotation2D
-print ''
-
 print 'Check Rotation3D'
 Rotation3D = m.Rotation3D(0.1, 0.2, 0.3)
 print Rotation3D.__repr__()
@@ -84,8 +78,8 @@ print quaternion
 print ''
 
 # Transform stuff.
-t = m.TransformFromPosition (0.0, 1.3, 2.9)
-t1 = m.TransformFromPosition (0.0, 0.0, 10.0)
+t = m.transformFromPosition (0.0, 1.3, 2.9)
+t1 = m.transformFromPosition (0.0, 0.0, 10.0)
 t *= t1
 
 
@@ -93,15 +87,15 @@ print t.__repr__()
 print t
 
 
-p = m.Position3DFromTransform(t)
+p = m.position3DFromTransform(t)
 print p.__repr__()
 print p
 
 
-t2 = m.TransformFromRotZ(0.3)
+t2 = m.transformFromRotZ(0.3)
 
 print t2
-print m.Determinant(t2)
+print m.determinant(t2)
 
 
 p1 = m.Position6D(0.2)
