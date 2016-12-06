@@ -94,7 +94,6 @@ set(ALMATH_H_WRAPPED
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
-    almath/api.h
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
     almath/geometry/tools.hpp
@@ -116,7 +115,20 @@ set(ALMATH_H
 
 qi_create_lib(almath SHARED ${ALMATH_SRCS} ${ALMATH_H})
 set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
+
 qi_use_lib(almath BOOST EIGEN3 QI QIGEOMETRY)
+
+# generate a header that will define the symbol visibility/deprecation macros:
+#  ALMATH_API
+#  ALMATH_DEPRECATED
+# tweak it so that it behaves like QI_LIB_API from qi/macro.hpp
+include(GenerateExportHeader)
+generate_export_header(almath
+  EXPORT_MACRO_NAME ALMATH_API
+  STATIC_DEFINE almath_STATIC_BUILD
+  EXPORT_FILE_NAME ${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h)
+qi_install_header(${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h SUBFOLDER almath)
+include_directories(${QI_SDK_DIR}/${QI_SDK_INCLUDE})
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.
 # It is useful when extending almathswig.
