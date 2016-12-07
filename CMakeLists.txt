@@ -162,13 +162,5 @@ if(WITH_PYTHON)
   )
 endif()
 
-find_package(qimodule)
-qi_create_module(geometry_module
-  SRC
-  "src/geometry/registration.cpp"
-
-  DEPENDS
-  almath
-)
-
 add_subdirectory(test)
+add_subdirectory(geometry_module)

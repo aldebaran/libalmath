@@ -24,12 +24,13 @@ Quaternion makeNormalizedQuaternion(double x, double y, double z, double w);
 ALMATH_API
 Transform makeTransform(const Quaternion &rotation, const Vector3 &translation);
 
-ALMATH_API Transform makeTransform(const Quaternion &r, const Vector3 &t);
-
+// assumes lhs and rhs have normalized quaternions
 ALMATH_API bool isNear(const Transform &lhs, const Transform &rhs, double epsilon);
 
+// assumes lhs and rhs have normalized quaternions
 ALMATH_API Transform operator*(const Transform &lhs, const Transform &rhs);
 
+// assumes tf has normalized quaternion
 ALMATH_API Transform inverse(const Transform &tf);
 
 ALMATH_API double norm(const Quaternion &r);
