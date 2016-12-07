@@ -18,7 +18,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # install the headers so that people can use your proxies
 qi_install_header(
   ${geometry_idl_INTERFACE}
-  qi/geometry/api.hpp)
+  qi/geometry/api.hpp
+  SUBFOLDER qi/geometry)
 # create a lib with the proxies only
 qi_create_lib(qigeometry
   ${geometry_idl_INTERFACE}
