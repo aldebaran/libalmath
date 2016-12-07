@@ -46,6 +46,7 @@ set(ALMATH_SRCS
     src/dsp/pidcontroller.cpp
     src/geometrics/shapes3d.cpp
     src/geometrics/shapes3d_utils.cpp
+    src/scenegraph/qianim.cpp
     src/scenegraph/colladabuilder.cpp
     src/scenegraph/colladascenebuilder.cpp
     src/scenegraph/mesh.cpp
@@ -110,6 +111,8 @@ set(ALMATH_H
     almath/geometrics/shapes3d_utils.h
     almath/geometry/tools.hpp
     almath/scenegraph/almatheigen.h
+    almath/scenegraph/qianim.h
+    almath/scenegraph/qianim/unit.h
     almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
