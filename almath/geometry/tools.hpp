@@ -5,6 +5,11 @@
 #ifndef _LIBALMATH_ALMATH_GEOMETRY_TOOLS_HPP_
 #define _LIBALMATH_ALMATH_GEOMETRY_TOOLS_HPP_
 
+#include <almath/config.h>
+#ifndef ALMATH_WITH_QIGEOMETRY
+#error almath/geometry/tools.h requires qigeometry support
+#endif
+
 #include <almath/api.h>
 #include <qi/geometry/geometry.hpp>
 

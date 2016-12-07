@@ -8,25 +8,31 @@ find_package(qibuild)
 
 enable_testing()
 
-find_package(qilang-tools)
+option(ALMATH_WITH_QIGEOMETRY
+  "if true, qigeometry and geometry_module are built and almath is built with qigeometry support"
+  ON)
 
-# generate all the new files
-qi_gen_idl(geometry_idl CPP "qigeometry" "${CMAKE_CURRENT_BINARY_DIR}"
-  qi/geometry/geometry.idl.qi)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+if (ALMATH_WITH_QIGEOMETRY)
+  find_package(qilang-tools)
 
-# install the headers so that people can use your proxies
-qi_install_header(
-  ${geometry_idl_INTERFACE}
-  qi/geometry/api.hpp
-  SUBFOLDER qi/geometry)
-# create a lib with the proxies only
-qi_create_lib(qigeometry
-  ${geometry_idl_INTERFACE}
-  ${geometry_idl_LOCAL}
-  ${geometry_idl_REMOTE}
-  DEPENDS QI)
-qi_stage_lib(qigeometry)
+  # generate all the new files
+  qi_gen_idl(geometry_idl CPP "qigeometry" "${CMAKE_CURRENT_BINARY_DIR}"
+    qi/geometry/geometry.idl.qi)
+  include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+  # install the headers so that people can use your proxies
+  qi_install_header(
+    ${geometry_idl_INTERFACE}
+    qi/geometry/api.hpp
+    SUBFOLDER qi/geometry)
+  # create a lib with the proxies only
+  qi_create_lib(qigeometry
+    ${geometry_idl_INTERFACE}
+    ${geometry_idl_LOCAL}
+    ${geometry_idl_REMOTE}
+    DEPENDS QI)
+  qi_stage_lib(qigeometry)
+endif()
 
 # Add BEFORE keyword so that we can rebuild almath against a sdk
 # without getting conflicts.
@@ -37,7 +43,6 @@ set(ALMATH_SRCS
     src/dsp/pidcontroller.cpp
     src/geometrics/shapes3d.cpp
     src/geometrics/shapes3d_utils.cpp
-    src/geometry/tools.cpp
     src/scenegraph/colladabuilder.cpp
     src/scenegraph/colladascenebuilder.cpp
     src/scenegraph/mesh.cpp
@@ -66,6 +71,9 @@ set(ALMATH_SRCS
     src/types/aldisplacement.cpp
     src/types/occupancymapparams.cpp
 )
+if (ALMATH_WITH_QIGEOMETRY)
+  list(APPEND ALMATH_SRCS src/geometry/tools.cpp)
+endif()
 
 # list of the public headers which are wrapped
 # check it against swig -MM almath.i
@@ -117,7 +125,11 @@ set(ALMATH_H
 qi_create_lib(almath SHARED ${ALMATH_SRCS} ${ALMATH_H})
 set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
-qi_use_lib(almath BOOST EIGEN3 QI QIGEOMETRY)
+qi_use_lib(almath BOOST EIGEN3)
+
+if(ALMATH_WITH_QIGEOMETRY)
+  qi_use_lib(almath QIGEOMETRY)
+endif()
 
 # generate a header that will define the symbol visibility/deprecation macros:
 #  ALMATH_API
@@ -129,6 +141,14 @@ generate_export_header(almath
   STATIC_DEFINE almath_STATIC_BUILD
   EXPORT_FILE_NAME ${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h)
 qi_install_header(${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h SUBFOLDER almath)
+
+# generate a header that will define which compile options have been used
+configure_file(almath/config.h.in
+               ${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/config.h
+               @ONLY)
+qi_install_header(${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/config.h SUBFOLDER almath)
+
+# ensure generated headers are found
 include_directories(${QI_SDK_DIR}/${QI_SDK_INCLUDE})
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.
@@ -163,4 +183,7 @@ if(WITH_PYTHON)
 endif()
 
 add_subdirectory(test)
-add_subdirectory(geometry_module)
+
+if(ALMATH_WITH_QIGEOMETRY)
+  add_subdirectory(geometry_module)
+endif()
