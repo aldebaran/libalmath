@@ -100,3 +100,7 @@ if (WITH_PYTHON AND NOT WIN32)
     ARGUMENTS ${CMAKE_CURRENT_SOURCE_DIR}/test_almathswig.py
     ENVIRONMENT PYTHONPATH=${QI_SDK_DIR}/lib:${QI_SDK_DIR}/lib/python2.7/site-packages)
 endif()
+
+qi_create_gtest(test_almath_eigen
+  SRC scenegraph/test_eigen.cpp
+  DEPENDS ALMATH)
