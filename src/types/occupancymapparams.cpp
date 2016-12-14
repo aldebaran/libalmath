@@ -10,10 +10,11 @@ namespace AL {
 namespace Math {
 
 OccupancyMapParams::OccupancyMapParams(int size,
-                            float metersPerPixel,
-                            const Math::Position2D& mapCenter)
+    float metersPerPixel, const Math::Position2D& mapCenter,
+    float obstacleThreshold)
   : size(size),
-    metersPerPixel(metersPerPixel) {
+    metersPerPixel(metersPerPixel),
+    obstacleProbabilityThreshold(obstacleThreshold) {
   initOriginOffset(mapCenter);
 }
 
@@ -62,6 +63,10 @@ Point2Di OccupancyMapParams::getDeltaPixelFromDeltaPosition(
   // Give an offset of (0.0, 0.0) to get the delta.
   return getPixelFromOffsetAndScale(AL::Math::pose2DFromPosition2D(position),
                                     metersPerPixel, Position2D());
+}
+
+float OccupancyMapParams::getObstacleProbabilityThreshold() const {
+  return obstacleProbabilityThreshold;
 }
 
 }
