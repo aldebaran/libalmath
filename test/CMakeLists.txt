@@ -74,3 +74,14 @@ qi_create_gtest(test_almath_urdfeigen
 qi_create_gtest(test_almath_visualization3d
   SRC scenegraph/test_visualization3d.cpp
   DEPENDS ALMATH BOOST_FILESYSTEM)
+
+qi_create_gtest(test_almathqigeometry
+  SRC scenegraph/test_almathqigeometry.cpp
+  DEPENDS almath qigeometry)
+
+if (WITH_PYTHON AND NOT WIN32)
+  find_program(_PYTHON_EXECUTABLE python REQUIRED)
+  qi_add_test(test_almath_swig ${_PYTHON_EXECUTABLE}
+    ARGUMENTS ${CMAKE_CURRENT_SOURCE_DIR}/test_almathswig.py
+    ENVIRONMENT PYTHONPATH=${QI_SDK_DIR}/lib:${QI_SDK_DIR}/lib/python2.7/site-packages)
+endif()

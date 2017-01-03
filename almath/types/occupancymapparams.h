@@ -2,6 +2,7 @@
 #define OCCUPANCYMAPPARAMS_H
 
 #include <almath/tools/almath.h>
+#include <almath/api.h>
 
 namespace AL {
 namespace Math {
@@ -14,7 +15,7 @@ namespace Math {
   /// A Point2Di is just defined by integers x and y.
   /// </summary>
   /// \ingroup Types
-  struct Point2Di {
+  struct ALMATH_API Point2Di {
     explicit Point2Di(int _x=0, int _y=0): x(_x), y(_y) {}
     int x;
     int y;
@@ -31,7 +32,7 @@ namespace Math {
   /// A Pose2Di is defined by integers x and y, and a theta for orientation.
   /// </summary>
   /// \ingroup Types
-  struct Pose2Di {
+  struct ALMATH_API Pose2Di {
     explicit Pose2Di(int _x=0, int _y=0, float _angle=0.0f)
         : x(_x), y(_y), theta(_angle) {}
     explicit Pose2Di(const Point2Di& pt, float _angle=0.0f)
@@ -63,7 +64,7 @@ namespace Math {
   ///
   /// </summary>
   /// \ingroup Types
-struct OccupancyMapParams {
+struct ALMATH_API OccupancyMapParams {
   explicit OccupancyMapParams(int size, float metersPerPixel,
                               const Position2D &mapCenter);
 

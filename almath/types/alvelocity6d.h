@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALVELOCITY6D_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
 namespace Math {
@@ -21,7 +22,7 @@ namespace Math {
 /// A Velocity6D is just defined by xd, yd, zd, wxd, wyd and wzd.
 /// </summary>
 /// \ingroup Types
-struct Velocity6D {
+struct ALMATH_API Velocity6D {
   /// <summary> </summary>
   float xd;
   /// <summary> </summary>
@@ -293,7 +294,7 @@ struct Velocity6D {
 /// </summary>
 /// <param name="pVal"> the float factor. </param>
 /// <param name="pVel"> the given Velocity6D. </param>
-Velocity6D operator* (
+ALMATH_API Velocity6D operator* (
   const float       pVal,
   const Velocity6D& pVel);
 
@@ -307,7 +308,7 @@ Velocity6D operator* (
 /// the float norm of the given Velocity6D
 /// </returns>
 /// \ingroup Types
-float norm(const Velocity6D& pVel);
+ALMATH_API float norm(const Velocity6D& pVel);
 
 /// <summary>
 /// Normalize a Velocity6D:
@@ -319,7 +320,7 @@ float norm(const Velocity6D& pVel);
 /// the given Velocity6D normalized
 /// </returns>
 /// \ingroup Types
-Velocity6D normalize(const Velocity6D& pVel);
+ALMATH_API Velocity6D normalize(const Velocity6D& pVel);
 
 } // end namespace Math
 } // end namespace AL

@@ -6,6 +6,7 @@
 #ifndef LIB_ALMATH_SCENEGRAPH_COLLADASCENEBUILDER_H
 #define LIB_ALMATH_SCENEGRAPH_COLLADASCENEBUILDER_H
 
+#include <almath/api.h>
 #include <almath/scenegraph/scenebuilder.h>
 #include <iosfwd>
 
@@ -21,14 +22,14 @@ class ColladaSceneBuilderP;
 // Maybe a version which opens an existing collada file and
 // adds nodes to it would be more useful.
 // However, one should then care about id collisions.
-class ColladaSceneBuilder : public SceneBuilder {
+class ALMATH_API ColladaSceneBuilder : public SceneBuilder {
  public:
   ColladaSceneBuilder(const Config &config = Config());
   ~ColladaSceneBuilder();
 
   void xAddMesh(const Mesh &mesh, const Eigen::Affine3f &tf);
-  friend std::ostream &operator<<(std::ostream &os,
-                                  const ColladaSceneBuilder &builder);
+  ALMATH_API friend std::ostream &operator<<(std::ostream &os,
+                                             const ColladaSceneBuilder &builder);
   ColladaSceneBuilder(const ColladaSceneBuilder &other);
   ColladaSceneBuilder &operator=(const ColladaSceneBuilder &other);
 

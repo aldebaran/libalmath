@@ -11,6 +11,7 @@
 
 #include <almath/types/alposition3d.h>
 #include <almath/types/alquaternion.h>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -18,7 +19,7 @@ namespace AL {
     /// <summary>
     /// Struct composed of a Position3D and a Quaternion
     /// </summary>
-    struct Displacement
+    struct ALMATH_API Displacement
     {
       /// <summary> Translation of the Displacement </summary>
       Position3D P;

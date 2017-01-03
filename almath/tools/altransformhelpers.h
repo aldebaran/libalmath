@@ -44,7 +44,7 @@ namespace AL {
   /// the Velocity6D logarithme: kinematic screw in se3
   /// </returns>
   /// \ingroup Tools
-  void transformLogarithmInPlace(
+  ALMATH_API void transformLogarithmInPlace(
     const Transform& pT,
     Velocity6D&      pVel);
 
@@ -67,7 +67,7 @@ namespace AL {
     /// the Velocity6D logarithme: kinematic screw in se3
     /// </returns>
     /// \ingroup Tools
-    Velocity6D transformLogarithm(const Transform& pT);
+    ALMATH_API Velocity6D transformLogarithm(const Transform& pT);
 
 
     /// <summary>
@@ -81,10 +81,10 @@ namespace AL {
     /// the Velocity6D logarithme: kinematic screw in se3
     /// </returns>
     /// \ingroup Tools
-    Transform velocityExponential(const Velocity6D& pVel);
+    ALMATH_API Transform velocityExponential(const Velocity6D& pVel);
 
     // TODO: Add to doc or set private.
-    void velocityExponentialInPlace(
+    ALMATH_API void velocityExponentialInPlace(
       const Velocity6D& pVel,
       Transform&        pT);
 
@@ -125,7 +125,7 @@ namespace AL {
     /// <param name = "pVelOut">  a Velocity6D containing the changed velocity
     /// </param>
     /// \ingroup Tools
-    void changeReferenceVelocity6D(
+    ALMATH_API void changeReferenceVelocity6D(
       const Transform&  pT,
       const Velocity6D& pVelIn,
       Velocity6D&       pVelOut);
@@ -167,18 +167,18 @@ namespace AL {
     /// <param name = "pPosOut">  a Position6D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeReferencePosition6D(
+    ALMATH_API void changeReferencePosition6D(
       const Transform&  pT,
       const Position6D& pPosIn,
       Position6D&       pPosOut);
 
     // TODO: rename argument.
-    void changeReferencePosition3DInPlace(
+    ALMATH_API void changeReferencePosition3DInPlace(
       const Transform& pT,
       Position3D&      pPosOut);
 
     // TODO: rename argument.
-    void changeReferenceTransposePosition3DInPlace(
+    ALMATH_API void changeReferenceTransposePosition3DInPlace(
       const Transform& pT,
       Position3D&      pPosOut);
 
@@ -210,7 +210,7 @@ namespace AL {
     /// <param name = "pPosOut"> a Position3D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeReferencePosition3D(
+    ALMATH_API void changeReferencePosition3D(
       const Transform&  pT,
       const Position3D& pPosIn,
       Position3D&       pPosOut);
@@ -235,7 +235,7 @@ namespace AL {
     /// <param name = "pPosOut"> a Position3D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeReferenceTransposePosition3D(
+    ALMATH_API void changeReferenceTransposePosition3D(
       const Transform&  pT,
       const Position3D& pPosIn,
       Position3D&       pPosOut);
@@ -260,7 +260,7 @@ namespace AL {
     /// <param name = "pTOut"> the changed Transform
     /// </param>
     /// \ingroup Tools
-    void changeReferenceTransform(
+    ALMATH_API void changeReferenceTransform(
       const Transform& pT,
       const Transform& pTIn,
       Transform&       pTOut);
@@ -285,7 +285,7 @@ namespace AL {
     /// <param name = "pTOut"> the changed Transform
     /// </param>
     /// \ingroup Tools
-    void changeReferenceTransposeTransform(
+    ALMATH_API void changeReferenceTransposeTransform(
       const Transform& pT,
       const Transform& pTIn,
       Transform&       pTOut);
@@ -328,7 +328,7 @@ namespace AL {
     /// <param name = "pVelOut">  a Velocity6D containing the changed velocity
     /// </param>
     /// \ingroup Tools
-    void changeReferenceTransposeVelocity6D(
+    ALMATH_API void changeReferenceTransposeVelocity6D(
       const Transform&  pT,
       const Velocity6D& pVelIn,
       Velocity6D&       pVelOut);
@@ -370,7 +370,7 @@ namespace AL {
     /// <param name = "pPosOut">  a Position6D containing the changed position
     /// </param>
     /// \ingroup Tools
-    void changeReferenceTransposePosition6D(
+    ALMATH_API void changeReferenceTransposePosition6D(
       const Transform&  pT,
       const Position6D& pPosIn,
       Position6D&       pPosOut);
@@ -385,7 +385,7 @@ namespace AL {
     /// <param name = "pTOut">  the output Transform.
     /// </param>
     /// \ingroup Tools
-    void transformMeanInPlace(
+    ALMATH_API void transformMeanInPlace(
       const Transform& pTIn1,
       const Transform& pTIn2,
       const float&     pVal,
@@ -402,7 +402,7 @@ namespace AL {
     /// a Transform with the mean of pTIn1 and pTIn2
     /// </returns>
     /// \ingroup Tools
-    Transform transformMean(
+    ALMATH_API Transform transformMean(
       const Transform& pTIn1,
       const Transform& pTIn2,
       const float&     pVal = 0.5f);
@@ -425,7 +425,7 @@ namespace AL {
     /// the Transform result.
     /// </returns>
     /// \ingroup Tools
-    Transform transformFromRotationPosition3D(
+    ALMATH_API Transform transformFromRotationPosition3D(
       const Rotation& pRot,
       const float&    pX,
       const float&    pY,
@@ -446,7 +446,7 @@ namespace AL {
     /// the Transform result.
     /// </returns>
     /// \ingroup Tools
-    Transform transformFromRotationPosition3D(
+    ALMATH_API Transform transformFromRotationPosition3D(
       const Rotation&   pRot,
       const Position3D& pPos);
 
@@ -467,7 +467,7 @@ namespace AL {
     /// <param name = "pPosition"> a Position3D cartesian coordinates </param>
     /// <param name = "pTransform"> the given Transform </param>
     /// \ingroup Tools
-    void transformFromPosition3DInPlace(
+    ALMATH_API void transformFromPosition3DInPlace(
       const Position3D& pPosition,
       Transform&        pTransform);
 
@@ -492,7 +492,7 @@ namespace AL {
     /// part is set to identity
     /// </returns>
     /// \ingroup Tools
-    Transform transformFromPosition3D(const Position3D& pPosition);
+    ALMATH_API Transform transformFromPosition3D(const Position3D& pPosition);
 
     /// <summary>
     /// Modify the rotation part of the transform.
@@ -512,7 +512,7 @@ namespace AL {
     /// <param name = "pRotation"> the given Rotation </param>
     /// <param name = "pTransform"> the Transform to modify </param>
     /// \ingroup Tools
-    void transformFromRotationInPlace(
+    ALMATH_API void transformFromRotationInPlace(
       const Rotation& pRotation,
       Transform&      pTransform);
 
@@ -534,7 +534,7 @@ namespace AL {
     /// a Transform with the rotation part initialized to pRotation
     /// </returns>
     /// \ingroup Tools
-    Transform transformFromRotation(const Rotation& pRotation);
+    ALMATH_API Transform transformFromRotation(const Rotation& pRotation);
 
     /// <summary>
     /// Extract the position coordinates from a Transform.
@@ -542,7 +542,7 @@ namespace AL {
     /// <param name = "pTransform"> the given transform </param>
     /// <param name = "pRotation"> a Rotation to be set with the reslut </param>
     /// \ingroup Tools
-    void rotationFromTransformInPlace(
+    ALMATH_API void rotationFromTransformInPlace(
       const Transform& pTransform,
       Rotation&        pRotation);
 
@@ -554,7 +554,7 @@ namespace AL {
     /// the Rotation extracted from the Transform
     /// </returns>
     /// \ingroup Tools
-    Rotation rotationFromTransform(const Transform& pTransform);
+    ALMATH_API Rotation rotationFromTransform(const Transform& pTransform);
 
     /// <summary>
     /// return 3 angles which result in the equivalent rotation when composed
@@ -565,7 +565,7 @@ namespace AL {
     /// the Rotation3D extracted from pRotation
     /// </returns>
     /// \ingroup Tools
-    Rotation3D rotation3DFromRotation(const Rotation& pRotation);
+    ALMATH_API Rotation3D rotation3DFromRotation(const Rotation& pRotation);
 
     /// <summary>
     /// return a Rotation Matrix initialized with its direction vectors
@@ -580,7 +580,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Tools
-    Rotation rotationFromAxesXY(const Position3D& pX, const Position3D& pY);
+    ALMATH_API Rotation rotationFromAxesXY(const Position3D& pX, const Position3D& pY);
 
     /// <summary>
     /// return a Rotation Matrix initialized with its direction vectors
@@ -595,7 +595,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Tools
-    Rotation rotationFromAxesXZ(const Position3D& pX, const Position3D& pZ);
+    ALMATH_API Rotation rotationFromAxesXZ(const Position3D& pX, const Position3D& pZ);
 
     /// <summary>
     /// return a Rotation Matrix initialized with its direction vectors
@@ -610,7 +610,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Tools
-    Rotation rotationFromAxesYZ(const Position3D& pY, const Position3D& pZ);
+    ALMATH_API Rotation rotationFromAxesYZ(const Position3D& pY, const Position3D& pZ);
 
     /// <summary>
     /// return a Rotation Matrix initialized with its direction vectors
@@ -625,7 +625,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Tools
-    Rotation rotationFromAxesXYZ(const Position3D& pX, const Position3D& pY, const Position3D& pZ);
+    ALMATH_API Rotation rotationFromAxesXYZ(const Position3D& pX, const Position3D& pY, const Position3D& pZ);
 
 
     /// <summary>
@@ -634,7 +634,7 @@ namespace AL {
     /// <param name = "pT"> the transform you want to extract </param>
     /// <param name = "pPos"> the transform you want to extract </param>
     /// \ingroup Tools
-    void position6DFromTransformInPlace(
+    ALMATH_API void position6DFromTransformInPlace(
         const Transform& pT,
         Position6D&      pPos);
 
@@ -644,7 +644,7 @@ namespace AL {
     /// <param name = "pT"> the transform you want to extract </param>
     /// <returns> the extracted Position6D </returns>
     /// \ingroup Tools
-    Position6D position6DFromTransform(const Transform& pT);
+    ALMATH_API Position6D position6DFromTransform(const Transform& pT);
 
     /// <summary>
     /// Compute a Transform from a Pose2D.
@@ -652,7 +652,7 @@ namespace AL {
     /// <param name = "pPose"> the Pose2D to extract </param>
     /// <param name = "pT"> the result Transform </param>
     /// \ingroup Tools
-    void transformFromPose2DInPlace(
+    ALMATH_API void transformFromPose2DInPlace(
         const Pose2D& pPose,
         Transform&    pT);
 
@@ -662,7 +662,7 @@ namespace AL {
     /// <param name = "pPose"> the pose2D you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform transformFromPose2D(const Pose2D& pPose);
+    ALMATH_API Transform transformFromPose2D(const Pose2D& pPose);
 
     /// <summary>
     /// Compute a Pose2D from a Transform.
@@ -670,7 +670,7 @@ namespace AL {
     /// <param name = "pT"> the Transform you want to extract </param>
     /// <param name = "pPos"> the result Pose2D </param>
     /// \ingroup Tools
-    void pose2DFromTransformInPlace(
+    ALMATH_API void pose2DFromTransformInPlace(
         const Transform& pT,
         Pose2D&          pPos);
 
@@ -680,7 +680,7 @@ namespace AL {
     /// <param name = "pT"> the transform you want to extract </param>
     /// <returns> the Pose2D extracted from the Transform </returns>
     /// \ingroup Tools
-    Pose2D pose2DFromTransform(const Transform& pT);
+    ALMATH_API Pose2D pose2DFromTransform(const Transform& pT);
 
     /// <summary>
     /// Compute a Position2D from a Transform.
@@ -688,7 +688,7 @@ namespace AL {
     /// <param name = "pT"> the Transform you want to extract </param>
     /// <param name = "pPos"> the result Position2D </param>
     /// \ingroup Tools
-    void position2DFromTransformInPlace(
+    ALMATH_API void position2DFromTransformInPlace(
         const Transform&     pT,
         Position2D&          pPos);
 
@@ -698,7 +698,7 @@ namespace AL {
     /// <param name = "pT"> the transform you want to extract </param>
     /// <returns> the Position2D extracted from the Transform </returns>
     /// \ingroup Tools
-    Position2D position2DFromTransform(const Transform& pT);
+    ALMATH_API Position2D position2DFromTransform(const Transform& pT);
 
     /// <summary>
     /// Create a Transform from the 3 angles stored in a Rotation3D.
@@ -708,7 +708,7 @@ namespace AL {
     /// <param name = "pRotation"> the Rotation you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform transformFromRotation3D(const Rotation3D& pRotation);
+    ALMATH_API Transform transformFromRotation3D(const Rotation3D& pRotation);
 
     /// <summary>
     /// Create a Transform from a Position6D.
@@ -716,7 +716,7 @@ namespace AL {
     /// <param name = "pPosition6D"> the Position6D you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform transformFromPosition6D(const Position6D& pPosition6D);
+    ALMATH_API Transform transformFromPosition6D(const Position6D& pPosition6D);
 
     /// <summary>
     /// Computes a 6 differential motion required to move
@@ -736,7 +736,7 @@ namespace AL {
     /// <param name = "pTarget"> the Position6D you want to extract </param>
     /// <param name = "result"> the result Position6D </param>
     /// \ingroup Tools
-    void position6DFromTransformDiffInPlace(
+    ALMATH_API void position6DFromTransformDiffInPlace(
       const Transform& pCurrent,
       const Transform& pTarget,
       Position6D&      result);
@@ -750,7 +750,7 @@ namespace AL {
     /// <param name = "pTarget"> the Position6D you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
-    Position6D position6DFromTransformDiff(
+    ALMATH_API Position6D position6DFromTransformDiff(
       const Transform& pCurrent,
       const Transform& pTarget);
 
@@ -775,7 +775,7 @@ namespace AL {
     /// <param name = "pT"> the Transform you want to extract </param>
     /// <param name = "pPos"> the result Position3D </param>
     /// \ingroup Tools
-    void position3DFromTransformInPlace(
+    ALMATH_API void position3DFromTransformInPlace(
       const Transform& pT,
       Position3D&      pPos);
 
@@ -800,7 +800,7 @@ namespace AL {
     /// <param name = "pT"> the Transform you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
-    Position3D position3DFromTransform(const Transform& pT);
+    ALMATH_API Position3D position3DFromTransform(const Transform& pT);
 
 
     /// <summary>
@@ -811,7 +811,7 @@ namespace AL {
     /// <param name = "pT"> the Transform you want to extract </param>
     /// <returns> the result Rotation3D </returns>
     /// \ingroup Tools
-    Rotation3D rotation3DFromTransform(const Transform& pT);
+    ALMATH_API Rotation3D rotation3DFromTransform(const Transform& pT);
 
     /// <summary>
     /// Compute a Transform from
@@ -821,7 +821,7 @@ namespace AL {
     /// <param name = "pPos"> the Position3D you want to extract </param>
     /// <param name = "pT"> the Rotation you want to extract </param>
     /// \ingroup Tools
-    void transformFromRotVecInPlace(
+    ALMATH_API void transformFromRotVecInPlace(
       const int         pAxis,
       const float       pTheta,
       const Position3D& pPos,
@@ -834,7 +834,7 @@ namespace AL {
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform transformFromRotVec(
+    ALMATH_API Transform transformFromRotVec(
       const int         pAxis,
       const float       pTheta,
       const Position3D& pPos);
@@ -845,7 +845,7 @@ namespace AL {
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <param name = "pT"> the Rotation you want to extract </param>
     /// \ingroup Tools
-    void transformFromRotVecInPlace(
+    ALMATH_API void transformFromRotVecInPlace(
       const Position3D& pPos,
       Transform&        pT);
 
@@ -854,7 +854,7 @@ namespace AL {
     /// <param name = "pPos"> the Rotation you want to extract </param>
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform transformFromRotVec(const Position3D& pPos);
+    ALMATH_API Transform transformFromRotVec(const Position3D& pPos);
 
     /// <summary>
     /// </summary>
@@ -863,15 +863,15 @@ namespace AL {
 
     /// <returns> the result Transform </returns>
     /// \ingroup Tools
-    Transform transformFromRotVec(
+    ALMATH_API Transform transformFromRotVec(
       const int&   pAxis,
       const float& pTheta);
 
-    Position3D operator*(
+    ALMATH_API Position3D operator*(
       const Transform&  pT,
       const Position2D& pPos);
 
-    Position3D operator*(
+    ALMATH_API Position3D operator*(
       const Transform&  pT,
       const Position3D& pPos);
 
@@ -882,7 +882,7 @@ namespace AL {
     * @param pT: a transform
     * @return Transform
     **/
-    Transform axisRotationProjection(
+    ALMATH_API Transform axisRotationProjection(
       const Position3D& pAxis,
       const Transform&  pT);
 
@@ -893,7 +893,7 @@ namespace AL {
     * @param pRot: a rotation
     * @return Rotation
     **/
-    Rotation axisRotationProjection(
+    ALMATH_API Rotation axisRotationProjection(
       const Position3D& pAxis,
       const Rotation&   pRot);
 
@@ -904,7 +904,7 @@ namespace AL {
     * @param pAxis: axis of rotation
     * @param pT: a transform
     **/
-    void axisRotationProjectionInPlace(
+    ALMATH_API void axisRotationProjectionInPlace(
       const Position3D& pAxis,
       Transform&        pT);
 
@@ -914,7 +914,7 @@ namespace AL {
     * @param pAxis: axis of rotation
     * @param pRot: a rotation
     **/
-    void axisRotationProjectionInPlace(
+    ALMATH_API void axisRotationProjectionInPlace(
       const Position3D& pAxis,
       Rotation&         pRot);
 
@@ -924,16 +924,16 @@ namespace AL {
     * @param pPos: a vector of direction
     * @param pTf: the result transform
     **/
-    void orthogonalSpace(
+    ALMATH_API void orthogonalSpace(
       const Position3D& pPos,
       Transform&        pTf);
 
-    Transform orthogonalSpace(const Position3D& pPos);
+    ALMATH_API Transform orthogonalSpace(const Position3D& pPos);
 
-    Transform transformFromQuaternion(
+    ALMATH_API Transform transformFromQuaternion(
       const Quaternion& pQua);
 
-    Quaternion quaternionFromTransform(
+    ALMATH_API Quaternion quaternionFromTransform(
       const Transform& pT);
 
     /**
@@ -942,7 +942,7 @@ namespace AL {
     * @param pDisp: a displacement
     * @return computed Transform
     **/
-    Transform transformFromDisplacement(const Displacement& pDisp);
+    ALMATH_API Transform transformFromDisplacement(const Displacement& pDisp);
 
     /**
     * Function displacementFromTransform:
@@ -950,7 +950,7 @@ namespace AL {
     * @param pTrans: a transform
     * @return computed Displacement
     **/
-    Displacement displacementFromTransform(const Transform& pTrans);
+    ALMATH_API Displacement displacementFromTransform(const Transform& pTrans);
 
   } // namespace Math
 } // namespace AL

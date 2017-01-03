@@ -6,6 +6,7 @@
 #ifndef LIB_ALMATH_SCENEGRAPH_COLLADABUILDER_H
 #define LIB_ALMATH_SCENEGRAPH_COLLADABUILDER_H
 
+#include <almath/api.h>
 #include <Eigen/Geometry>
 #include <vector>
 #include <string>
@@ -24,7 +25,7 @@ class Mesh;
 // Possible future developments:
 //  * maybe create an object for "id/target/url"
 //  * let addGeometryMesh() support meshes with texture coordinates.
-class ColladaBuilder {
+class ALMATH_API ColladaBuilder {
  public:
   typedef boost::property_tree::ptree ptree;
   ptree &addEffectColor(ptree &parent, const std::string &id, float red,

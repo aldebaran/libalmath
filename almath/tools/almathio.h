@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <sstream>
-
+#include <almath/api.h>
 #include <almath/types/alpose2d.h>
 #include <almath/types/alposition2d.h>
 #include <almath/types/alposition3d.h>
@@ -40,7 +40,7 @@ namespace Math {
 /// the Pose2D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Pose2D& pPos);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Pose2D& pPos);
 
 /// <summary>
 /// Overloading of operator << for Position2D.
@@ -52,7 +52,7 @@ std::ostream& operator<< (std::ostream& pStream, const Pose2D& pPos);
 /// the Position2D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Position2D& pPos);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Position2D& pPos);
 
 /// <summary>
 /// Overloading of operator << for Position3D.
@@ -64,7 +64,7 @@ std::ostream& operator<< (std::ostream& pStream, const Position2D& pPos);
 /// the Position3D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Position3D& pPos);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Position3D& pPos);
 
 /// <summary>
 /// Overloading of operator << for Position6D.
@@ -76,7 +76,7 @@ std::ostream& operator<< (std::ostream& pStream, const Position3D& pPos);
 /// the Position6D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Position6D& pPos);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Position6D& pPos);
 
 /// <summary>
 /// Overloading of operator << for PositionAndVelocity.
@@ -88,7 +88,7 @@ std::ostream& operator<< (std::ostream& pStream, const Position6D& pPos);
 /// the PositionAndVelocity print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const PositionAndVelocity& pPosVel);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const PositionAndVelocity& pPosVel);
 
 /// <summary>
 /// Overloading of operator << for Rotation.
@@ -100,7 +100,7 @@ std::ostream& operator<< (std::ostream& pStream, const PositionAndVelocity& pPos
 /// the Rotation print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Rotation& pRot);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Rotation& pRot);
 
 /// <summary>
 /// Overloading of operator << for Rotation3D.
@@ -112,7 +112,7 @@ std::ostream& operator<< (std::ostream& pStream, const Rotation& pRot);
 /// the Rotation3D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Rotation3D& pRot);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Rotation3D& pRot);
 
 /// <summary>
 /// Overloading of operator << for Transform.
@@ -124,7 +124,7 @@ std::ostream& operator<< (std::ostream& pStream, const Rotation3D& pRot);
 /// the Transform print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Transform& pT);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Transform& pT);
 
 /// <summary>
 /// Overloading of operator << for TransformAndVelocity6D.
@@ -136,7 +136,7 @@ std::ostream& operator<< (std::ostream& pStream, const Transform& pT);
 /// the TransformAndVelocity6D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const TransformAndVelocity6D& pTV);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const TransformAndVelocity6D& pTV);
 
 /// <summary>
 /// Overloading of operator << for Velocity3D.
@@ -148,7 +148,7 @@ std::ostream& operator<< (std::ostream& pStream, const TransformAndVelocity6D& p
 /// the Velocity3D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Velocity3D& pVel);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Velocity3D& pVel);
 
 /// <summary>
 /// Overloading of operator << for Quaternion.
@@ -160,7 +160,7 @@ std::ostream& operator<< (std::ostream& pStream, const Velocity3D& pVel);
 /// the Quaternion print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Quaternion& pQua);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Quaternion& pQua);
 
 /// <summary>
 /// Overloading of operator << for Velocity6D.
@@ -172,7 +172,7 @@ std::ostream& operator<< (std::ostream& pStream, const Quaternion& pQua);
 /// the Velocity6D print
 /// </returns>
 /// \ingroup Types
-std::ostream& operator<< (std::ostream& pStream, const Velocity6D& pVel);
+ALMATH_API std::ostream& operator<< (std::ostream& pStream, const Velocity6D& pVel);
 
 /// <summary>
 /// Create a string of Position3D.
@@ -183,7 +183,7 @@ std::ostream& operator<< (std::ostream& pStream, const Velocity6D& pVel);
 /// the Position3D string
 /// </returns>
 /// \ingroup Types
-std::string toSpaceSeparated(const Position3D& pPos);
+ALMATH_API std::string toSpaceSeparated(const Position3D& pPos);
 
 /// <summary>
 /// Create a string of Rotation3D.
@@ -194,7 +194,7 @@ std::string toSpaceSeparated(const Position3D& pPos);
 /// the Rotation3D string
 /// </returns>
 /// \ingroup Types
-std::string toSpaceSeparated(const Rotation3D& pPos);
+ALMATH_API std::string toSpaceSeparated(const Rotation3D& pPos);
 
 /// <summary>
 /// Create a string of Velocity6D.
@@ -205,7 +205,7 @@ std::string toSpaceSeparated(const Rotation3D& pPos);
 /// the Velocity6D string
 /// </returns>
 /// \ingroup Types
-std::string toSpaceSeparated(const Velocity6D& pVel);
+ALMATH_API std::string toSpaceSeparated(const Velocity6D& pVel);
 
 /// <summary>
 /// Create a string of Transform.
@@ -216,7 +216,7 @@ std::string toSpaceSeparated(const Velocity6D& pVel);
 /// the Transform string
 /// </returns>
 /// \ingroup Types
-std::string toSpaceSeparated(const Transform& pT);
+ALMATH_API std::string toSpaceSeparated(const Transform& pT);
 
 /// <summary>
 /// Create a string of Position6D.
@@ -227,7 +227,7 @@ std::string toSpaceSeparated(const Transform& pT);
 /// the Position6D string
 /// </returns>
 /// \ingroup Types
-std::string toSpaceSeparated(const Position6D& pPos);
+ALMATH_API std::string toSpaceSeparated(const Position6D& pPos);
 
 /// <summary>
 /// Create a string of Quaternion.
@@ -238,7 +238,7 @@ std::string toSpaceSeparated(const Position6D& pPos);
 /// the Quaternion string
 /// </returns>
 /// \ingroup Types
-std::string toSpaceSeparated(const Quaternion& pQuat);
+ALMATH_API std::string toSpaceSeparated(const Quaternion& pQuat);
 
 }
 }

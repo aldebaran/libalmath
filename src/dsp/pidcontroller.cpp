@@ -110,6 +110,16 @@ float PIDController::computeFeedbackAbsolute(const float pAbsoluteErr)
   return fStaticOffset + fKp*fErr + fKv*fdErr + fKi*fiErr;
 }
 
+void PIDController::setGains(float pKp, float pKv, float pKi)
+{
+  xCheckPositif(pKp);
+  xCheckPositif(pKv);
+  xCheckPositif(pKi);
+  fKp = pKp;
+  fKv = pKv;
+  fKi = pKi;
+}
+
 
 float PIDController::computeFeedback(const float pCommand,
                                      const float pSensor,

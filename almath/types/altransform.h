@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALTRANSFORM_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -19,7 +20,7 @@ namespace AL {
     /// </summary>
     /// <A HREF="http://en.wikipedia.org/wiki/Transformation_matrix">more information</A>
     /// \ingroup Types
-    struct  Transform {
+    struct ALMATH_API Transform {
 
       /** \cond PRIVATE */
       float r1_c1, r1_c2, r1_c3, r1_c4;
@@ -379,7 +380,7 @@ namespace AL {
     /// <param name="pT"> the first constant Transform </param>
     /// <param name="pTOut"> the second modified Transform </param>
     /// \ingroup Types
-    void transformPreMultiply(
+    ALMATH_API void transformPreMultiply(
       const Transform& pT,
       Transform&       pTOut);
 
@@ -393,7 +394,7 @@ namespace AL {
     /// the float norm of the given Transform
     /// </returns>
     /// \ingroup Types
-    float norm(const Transform& pT);
+    ALMATH_API float norm(const Transform& pT);
 
     /// <summary>
     /// Normalize data, if needed, to have transform properties.
@@ -401,7 +402,7 @@ namespace AL {
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// \ingroup Types
-    void normalizeTransform(Transform& pT);
+    ALMATH_API void normalizeTransform(Transform& pT);
 
     /// <summary>
     /// DEPRECATED: Use toVector function.
@@ -419,7 +420,7 @@ namespace AL {
     /// <param name="pT"> the given Transform </param>
     /// <param name="pTOut"> the vector of float update to given transform value </param>
     /// \ingroup Types
-    void transformToFloatVector(
+    ALMATH_API void transformToFloatVector(
       const Transform&    pT,
       std::vector<float>& pTOut);
 
@@ -442,7 +443,7 @@ namespace AL {
     /// the vector of float update to given transform value
     /// </returns>
     /// \ingroup Types
-    std::vector<float> transformToFloatVector(
+    ALMATH_API std::vector<float> transformToFloatVector(
       const Transform& pT);
 
 
@@ -459,7 +460,7 @@ namespace AL {
     /// the float determinant of rotation Transform part
     /// </returns>
     /// \ingroup Types
-    float determinant(const Transform& pT);
+    ALMATH_API float determinant(const Transform& pT);
 
     /// <summary>
     /// Compute the determinant of rotation part of the given vector of floats:
@@ -474,7 +475,7 @@ namespace AL {
     /// the float determinant of rotation Transform part
     /// </returns>
     /// \ingroup Types
-    float determinant(const std::vector<float>& pFloats);
+    ALMATH_API float determinant(const std::vector<float>& pFloats);
 
     /// <summary>
     /// Return the transform inverse of the given Transform:
@@ -495,7 +496,7 @@ namespace AL {
     /// <param name="pT"> the given Transform </param>
     /// <param name="pTOut"> the inverse of the given Transform </param>
     /// \ingroup Types
-    void transformInverse(
+    ALMATH_API void transformInverse(
       const Transform& pT,
       Transform&       pTOut);
 
@@ -520,7 +521,7 @@ namespace AL {
     /// the Transform inverse
     /// </returns>
     /// \ingroup Types
-    Transform transformInverse(const Transform& pT);
+    ALMATH_API Transform transformInverse(const Transform& pT);
 
 
     /// <summary>
@@ -540,7 +541,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform transformFromRotX(const float pRotX);
+    ALMATH_API Transform transformFromRotX(const float pRotX);
 
     /// <summary>
     /// Create a Transform initialize with explicit rotation around y axis:
@@ -559,7 +560,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform transformFromRotY(const float pRotY);
+    ALMATH_API Transform transformFromRotY(const float pRotY);
 
     /// <summary>
     /// Create a Transform initialize with explicit rotation around z axis:
@@ -578,7 +579,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform transformFromRotZ(const float pRotZ);
+    ALMATH_API Transform transformFromRotZ(const float pRotZ);
 
 
     /// <summary>
@@ -593,7 +594,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform transformFrom3DRotation(
+    ALMATH_API Transform transformFrom3DRotation(
       const float& pWX,
       const float& pWY,
       const float& pWZ);
@@ -617,7 +618,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform transformFromPosition(
+    ALMATH_API Transform transformFromPosition(
       const float& pX,
       const float& pY,
       const float& pZ);
@@ -644,7 +645,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform transformFromPosition(
+    ALMATH_API Transform transformFromPosition(
       const float& pX,
       const float& pY,
       const float& pZ,
@@ -659,7 +660,7 @@ namespace AL {
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// \ingroup Types
-    void transformInvertInPlace(Transform& pT);
+    ALMATH_API void transformInvertInPlace(Transform& pT);
 
 
     /// <summary>
@@ -680,7 +681,7 @@ namespace AL {
     /// </summary>
     /// <param name="pT"> the given Transform </param>
     /// \ingroup Types
-    Transform pinv(const Transform& pT);
+    ALMATH_API Transform pinv(const Transform& pT);
 
 
     /// <summary>
@@ -695,7 +696,7 @@ namespace AL {
     /// the Transform
     /// </returns>
     /// \ingroup Types
-    Transform transformDiff(
+    ALMATH_API Transform transformDiff(
       const Transform& pT1,
       const Transform& pT2);
 
@@ -711,7 +712,7 @@ namespace AL {
     /// the float squared distance between the two Transform: translation part
     /// </returns>
     /// \ingroup Types
-    float transformDistanceSquared(
+    ALMATH_API float transformDistanceSquared(
       const Transform& pT1,
       const Transform& pT2);
 
@@ -728,7 +729,7 @@ namespace AL {
     /// the float distance between the two Transform
     /// </returns>
     /// \ingroup Types
-    float transformDistance(
+    ALMATH_API float transformDistance(
       const Transform& pT1,
       const Transform& pT2);
 

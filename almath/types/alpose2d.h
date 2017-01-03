@@ -11,6 +11,7 @@
 
 #include <vector>
 #include <cmath>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -22,7 +23,7 @@ namespace AL {
     /// by the postions x,y and the rotation theta.
     /// </summary>
     /// \ingroup Types
-    struct Pose2D {
+    struct ALMATH_API Pose2D {
       /// <summary> </summary>
       float x;
       /// <summary> </summary>
@@ -337,7 +338,7 @@ namespace AL {
     /// the float squared distance between the two Pose2D
     /// </returns>
     /// \ingroup Types
-    float distanceSquared(
+    ALMATH_API float distanceSquared(
       const Pose2D& pPos1,
       const Pose2D& pPos2);
 
@@ -352,7 +353,7 @@ namespace AL {
     /// the float distance between the two Pose2D
     /// </returns>
     /// \ingroup Types
-    float distance(
+    ALMATH_API float distance(
       const Pose2D& pPos1,
       const Pose2D& pPos2);
 
@@ -362,7 +363,7 @@ namespace AL {
     /// </summary>
     /// <param name="pPos"> the given Pose2D </param>
     /// \ingroup Types
-    void pose2dInvertInPlace(Pose2D& pPos);
+    ALMATH_API void pose2dInvertInPlace(Pose2D& pPos);
 
     /// <summary>
     /// Alternative name for inverse: return the pose2d inverse of the given Pose2D.
@@ -370,7 +371,7 @@ namespace AL {
     /// </summary>
     /// <param name="pPos"> the given Pose2D </param>
     /// \ingroup Types
-    Pose2D pinv(const Pose2D& pPos);
+    ALMATH_API Pose2D pinv(const Pose2D& pPos);
 
 
     /// <summary>
@@ -385,7 +386,7 @@ namespace AL {
     /// the Pose2D
     /// </returns>
     /// \ingroup Types
-    Pose2D pose2dDiff(
+    ALMATH_API Pose2D pose2dDiff(
       const Pose2D& pPos1,
       const Pose2D& pPos2);
 
@@ -395,7 +396,7 @@ namespace AL {
     /// <param name="pPos"> the initial Pose2D </param>
     /// <returns> the inverse Pose2D </returns>
     /// \ingroup Types
-    Pose2D pose2DInverse(const Pose2D& pPos);
+    ALMATH_API Pose2D pose2DInverse(const Pose2D& pPos);
 
     /// <summary>
     /// Compute the inverse of a Pose2D.
@@ -403,7 +404,7 @@ namespace AL {
     /// <param name="pPos"> the initial Pose2D </param>
     /// <param name="pRes"> the inverse Pose2D </param>
     /// \ingroup Types
-    void pose2DInverse(
+    ALMATH_API void pose2DInverse(
       const Pose2D& pPos,
       Pose2D&       pRes);
 

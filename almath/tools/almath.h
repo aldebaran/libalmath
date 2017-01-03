@@ -28,7 +28,7 @@ namespace AL {
   /// </summary>
   /// <param name="pAngle"> the input/output angle </param>
   /// \ingroup Tools
-  void modulo2PIInPlace(float& pAngle);
+  ALMATH_API void modulo2PIInPlace(float& pAngle);
 
   /// <summary>
   /// Return an angle between ]-PI, PI].
@@ -39,7 +39,7 @@ namespace AL {
   /// Return an angle between ]-PI, PI].
   /// </returns>
   /// \ingroup Tools
-  float modulo2PI(float pAngle);
+  ALMATH_API float modulo2PI(float pAngle);
 
   /// <summary>
   /// Returns the mean of given angles (between ]-PI, PI]). It is defined by the
@@ -52,7 +52,7 @@ namespace AL {
   /// The computed mean (in ]-PI, PI]).
   /// </returns>
   /// \ingroup Tools
-  float meanAngle(const std::vector<float>& pAngles);
+  ALMATH_API float meanAngle(const std::vector<float>& pAngles);
 
   /// <summary>
   /// Returns the weighted mean of given angles (between ]-PI, PI]). It is
@@ -69,7 +69,7 @@ namespace AL {
   /// The computed mean (in ]-PI, PI]).
   /// </returns>
   /// \ingroup Tools
-  float weightedMeanAngle(const std::vector<float>& pAngles,
+  ALMATH_API float weightedMeanAngle(const std::vector<float>& pAngles,
                           const std::vector<float>& pWeights);
 
   /// <summary>
@@ -85,17 +85,17 @@ namespace AL {
   /// Return true if the input pData is clipped.
   /// </returns>
   /// \ingroup Tools
-  bool clipData(
+  ALMATH_API bool clipData(
     const float& pMin,
     const float& pMax,
     float&       pData);
 
-  bool clipData(
+  ALMATH_API bool clipData(
     const float& pMin,
     const float& pMax,
     std::vector<float>& pData);
 
-  bool clipData(
+  ALMATH_API bool clipData(
     const float& pMin,
     const float& pMax,
     std::vector<std::vector<float> >& pData);
@@ -125,7 +125,7 @@ namespace AL {
   /// <param name = "pPosIn"> a input Pose2D </param>
   /// <param name = "pPosOut"> the output Pose2D </param>
   /// \ingroup Tools
-  void changeReferencePose2D(
+  ALMATH_API void changeReferencePose2D(
       const float&  pTheta,
       const Pose2D& pPosIn,
       Pose2D&       pPosOut);
@@ -136,7 +136,7 @@ namespace AL {
   /// <param name = "pTheta"> the given angle in radian </param>
   /// <param name = "pPosOut"> the input output Pose2D </param>
   /// \ingroup Tools
-  void changeReferencePose2DInPlace(
+  ALMATH_API void changeReferencePose2DInPlace(
       const float& pTheta,
       Pose2D&      pPosOut);
 
@@ -159,7 +159,7 @@ namespace AL {
     /// the Position6D result.
     /// </returns>
     /// \ingroup Tools
-    Position6D position6DFromVelocity6D(const Velocity6D& pVel);
+    ALMATH_API Position6D position6DFromVelocity6D(const Velocity6D& pVel);
 
     /// <summary>
     /// Compute a Position2D from a Pose2D.
@@ -168,7 +168,7 @@ namespace AL {
     /// <param name = "pPose2D"> the Pose2D to extract </param>
     /// <param name = "pPosition2D"> the result Position2D </param>
     /// \ingroup Tools
-    void position2DFromPose2DInPlace(
+    ALMATH_API void position2DFromPose2DInPlace(
         const Pose2D& pPose2D,
         Position2D&   pPosition2D);
 
@@ -187,7 +187,7 @@ namespace AL {
     /// the Position2D result.
     /// </returns>
     /// \ingroup Tools
-    Position2D position2DFromPose2D(const Pose2D& pPose2D);
+    ALMATH_API Position2D position2DFromPose2D(const Pose2D& pPose2D);
 
     /// <summary>
     /// Create a Position3D from a Position6D
@@ -205,7 +205,7 @@ namespace AL {
     /// the Position3D result.
     /// </returns>
     /// \ingroup Tools
-    Position3D position3DFromPosition6D(const Position6D& pPosition6D);
+    ALMATH_API Position3D position3DFromPosition6D(const Position6D& pPosition6D);
 
     /// <summary>
     /// Overloading of operator * between Rotation and Position3D:
@@ -234,7 +234,7 @@ namespace AL {
     /// the Position3D result.
     /// </returns>
     /// \ingroup Tools
-    Position3D operator*(
+    ALMATH_API Position3D operator*(
       const Rotation&   pRot,
       const Position3D& pPos);
 
@@ -247,7 +247,7 @@ namespace AL {
     /// the Position3D result.
     /// </returns>
     /// \ingroup Tools
-    Position3D operator*(
+    ALMATH_API Position3D operator*(
         const Quaternion& pQuat,
         const Position3D& pPos);
 
@@ -272,7 +272,7 @@ namespace AL {
     /// the Velocity6D
     /// </returns>
     /// \ingroup Tools
-    Velocity6D operator*(
+    ALMATH_API Velocity6D operator*(
       const float       pVal,
       const Position6D& pPos);
 
@@ -293,7 +293,7 @@ namespace AL {
     /// the Velocity3D
     /// </returns>
     /// \ingroup Tools
-    Velocity3D operator*(
+    ALMATH_API Velocity3D operator*(
       const float       pVal,
       const Position3D& pPos);
 
@@ -324,7 +324,7 @@ namespace AL {
     /// the Velocity3D result.
     /// </returns>
     /// \ingroup Tools
-    Velocity3D operator*(
+    ALMATH_API Velocity3D operator*(
       const Rotation&   pRot,
       const Velocity3D& pVel);
 
@@ -337,7 +337,7 @@ namespace AL {
     /// the Rotation matrix
     /// </returns>
     /// \ingroup Tools
-    Rotation rotationFromAngleDirection(
+    ALMATH_API Rotation rotationFromAngleDirection(
       const float&      pTheta,
       const Position3D& pPos);
 
@@ -348,7 +348,7 @@ namespace AL {
     /// <param name = "pPose2D"> the Pose2D to extract </param>
     /// <param name = "pPosition6D"> the result Position6D </param>
     /// \ingroup Tools
-    void position6DFromPose2DInPlace(
+    ALMATH_API void position6DFromPose2DInPlace(
         const Pose2D& pPose2D,
         Position6D&   pPosition6D);
 
@@ -358,7 +358,7 @@ namespace AL {
     /// <param name = "pPose2D"> the pose2D you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
-    Position6D position6DFromPose2D(const Pose2D& pPose2D);
+    ALMATH_API Position6D position6DFromPose2D(const Pose2D& pPose2D);
 
     /// <summary>
     /// Compute a Position6D from a Position3D.
@@ -366,7 +366,7 @@ namespace AL {
     /// <param name = "pPosition3D"> the Position3D to extract </param>
     /// <param name = "pPosition6D"> the result Position6D </param>
     /// \ingroup Tools
-    void position6DFromPosition3DInPlace(
+    ALMATH_API void position6DFromPosition3DInPlace(
         const Position3D& pPosition3D,
         Position6D&       pPosition6D);
 
@@ -376,7 +376,7 @@ namespace AL {
     /// <param name = "pPosition3D"> the position3D you want to extract </param>
     /// <returns> the result Position6D </returns>
     /// \ingroup Tools
-    Position6D position6DFromPosition3D(const Position3D& pPosition3D);
+    ALMATH_API Position6D position6DFromPosition3D(const Position3D& pPosition3D);
 
     /// <summary>
     /// Compute a Pose2D from a Position6D.
@@ -384,7 +384,7 @@ namespace AL {
     /// <param name = "pPosition6D"> the Position6D you want to extract </param>
     /// <param name = "pPose2D"> the result Pose2D </param>
     /// \ingroup Tools
-    void pose2DFromPosition6DInPlace(
+    ALMATH_API void pose2DFromPosition6DInPlace(
         const Position6D& pPosition6D,
         Pose2D&           pPose2D);
 
@@ -394,7 +394,7 @@ namespace AL {
     /// <param name = "pPosition6D"> the position6d you want to extract </param>
     /// <returns> the Pose2D extracted from the Position6D </returns>
     /// \ingroup Tools
-    Pose2D pose2DFromPosition6D(const Position6D& pPosition6D);
+    ALMATH_API Pose2D pose2DFromPosition6D(const Position6D& pPosition6D);
 
     /// <summary>
     /// Compute a Pose2D from a Position2D.
@@ -406,7 +406,7 @@ namespace AL {
     /// <param name = "pAngle"> the angle in radians to set pPose2d to </param>
     /// <param name = "pPose2D"> the result Pose2D </param>
     /// \ingroup Tools
-    void pose2DFromPosition2DInPlace(
+    ALMATH_API void pose2DFromPosition2DInPlace(
         const Position2D& pPosition2D,
         const float pAngle,
         Pose2D& pPose2D);
@@ -418,8 +418,8 @@ namespace AL {
     /// <param name = "pAngle"> the angle in radians to set the new Pose2D to </param>
     /// <returns> the Pose2D extracted from the Position2D </returns>
     /// \ingroup Tools
-    Pose2D pose2DFromPosition2D(const Position2D& pPosition2D,
-                                const float       pAngle=0.0f);
+    ALMATH_API Pose2D pose2DFromPosition2D(const Position2D& pPosition2D,
+                                           const float pAngle=0.0f);
 
     /// <summary>
     /// Overloading of operator * for Pose2D to Position2D, give a Position2D:
@@ -437,7 +437,7 @@ namespace AL {
     /// the Position2D
     /// </returns>
     /// \ingroup Tools
-    Position2D operator*(
+    ALMATH_API Position2D operator*(
       const Pose2D& pVal,
       const Position2D& pPos);
 
@@ -448,11 +448,11 @@ namespace AL {
     /// <param name = "pRot3D"> the rotation3d you want to extract </param>
     /// <returns> the Quaternion extracted from the Rotation3D </returns>
     /// \ingroup Tools
-    void quaternionFromRotation3D(
+    ALMATH_API void quaternionFromRotation3D(
         const Rotation3D& pRot3D,
         Quaternion& pQuaternion);
 
-    Quaternion quaternionFromRotation3D(
+    ALMATH_API Quaternion quaternionFromRotation3D(
         const Rotation3D& pRot3D);
 
     /// <summary>
@@ -461,11 +461,11 @@ namespace AL {
     /// <param name = "pQua"> the quaternion you want to extract </param>
     /// <returns> the Rotation matrix extracted from the Quaternion </returns>
     /// \ingroup Tools
-    void rotationFromQuaternion(
+    ALMATH_API void rotationFromQuaternion(
         const Quaternion& pQua,
         Rotation& pRot);
 
-    Rotation rotationFromQuaternion(
+    ALMATH_API Rotation rotationFromQuaternion(
         const Quaternion& pQua);
 
     /// <summary>
@@ -475,11 +475,11 @@ namespace AL {
     /// <param name = "pQuaternion"> the quaternion you want to extract </param>
     /// <returns> the Rotation3D extracted from the Quaternion </returns>
     /// \ingroup Tools
-    void rotation3DFromQuaternion(
+    ALMATH_API void rotation3DFromQuaternion(
         const Quaternion& pQuaterion,
         Rotation3D& pRot3D);
 
-    Rotation3D rotation3DFromQuaternion(
+    ALMATH_API Rotation3D rotation3DFromQuaternion(
         const Quaternion& pQuaternion);
 
     /// <summary>
@@ -489,7 +489,7 @@ namespace AL {
     /// <param name = "pQua"> the Quaternion extracted from Position6D </param>
     /// <param name = "pPos3D"> the Position3D extracted from Position6D </param>
     /// \ingroup Tools
-    void quaternionPosition3DFromPosition6D(
+    ALMATH_API void quaternionPosition3DFromPosition6D(
         const Position6D& pPos6D,
         Quaternion& pQua,
         Position3D& pPos3D);
@@ -529,7 +529,7 @@ namespace AL {
     ///                inertiaAtOrigin.begin(),
     ///                std::plus<float>());
     /// \ingroup Tools
-    void pointMassRotationalInertia(
+    ALMATH_API void pointMassRotationalInertia(
       float pMass,
       const Position3D& pPos,
       std::vector<float>& pInertia);

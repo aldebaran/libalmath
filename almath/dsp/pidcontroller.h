@@ -6,13 +6,13 @@
 
 #ifndef _LIB_ALMATH_ALMATH_DSP_PIDCONTROLLER_H_
 #define _LIB_ALMATH_ALMATH_DSP_PIDCONTROLLER_H_
-
+#include <almath/api.h>
 
 namespace AL {
 namespace Math {
 
 namespace DSP {
-class PIDController
+class ALMATH_API PIDController
 {
 
 public :
@@ -41,6 +41,7 @@ public :
                         float pPeriod = -1.0f);
   float computeFeedbackAbsolute(float pAbsoluteErr);
 
+  void setGains(float pKp, float pKv, float pKi);
 
 private:
   float fKp;

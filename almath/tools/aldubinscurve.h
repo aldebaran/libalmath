@@ -9,6 +9,7 @@
 #ifndef _LIBALMATH_ALMATH_TOOLS_ALDUBINSCURVE_H_
 #define _LIBALMATH_ALMATH_TOOLS_ALDUBINSCURVE_H_
 
+#include <almath/api.h>
 #include <almath/types/alpose2d.h>
 #include <vector>
 
@@ -20,7 +21,7 @@ namespace AL {
     /// <param name="pCircleRadius"> the circle radius </param>
     /// <returns> The dubins solution. </returns>
     /// \ingroup Tools
-    std::vector<Pose2D> getDubinsSolutions(
+    ALMATH_API std::vector<Pose2D> getDubinsSolutions(
       const Pose2D& pTargetPose,
       const float   pCircleRadius);
 

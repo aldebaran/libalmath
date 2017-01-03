@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALQUATERNION_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -20,7 +21,7 @@ namespace AL {
     /// A Quaternion is just defined by w, x, y and z.
     /// </summary>
     /// \ingroup Types
-    struct Quaternion {
+    struct ALMATH_API Quaternion {
       /// <summary> </summary>
       float w;
       /// <summary> </summary>
@@ -235,7 +236,7 @@ namespace AL {
     /// the float norm of the given Quaternion
     /// </returns>
     /// \ingroup Types
-    float norm(const Quaternion& pQua);
+    ALMATH_API float norm(const Quaternion& pQua);
 
     /// <summary>
     /// Normalize a Quaternion:
@@ -247,7 +248,7 @@ namespace AL {
     /// the given Quaternion normalized
     /// </returns>
     /// \ingroup Types
-    Quaternion normalize(const Quaternion& pQua);
+    ALMATH_API Quaternion normalize(const Quaternion& pQua);
 
 
     /// <summary>
@@ -257,7 +258,7 @@ namespace AL {
     /// <param name="pQua"> the given Quaternion </param>
     /// <param name="pQuaOut"> the inverse of the given Quaternion </param>
     /// \ingroup Types
-    void quaternionInverse(
+    ALMATH_API void quaternionInverse(
       const Quaternion& pQua,
       Quaternion&       pQuaOut);
 
@@ -270,7 +271,7 @@ namespace AL {
     /// the Quaternion inverse
     /// </returns>
     /// \ingroup Types
-    Quaternion quaternionInverse(const Quaternion& pQua);
+    ALMATH_API Quaternion quaternionInverse(const Quaternion& pQua);
 
 
     /// <summary>
@@ -285,7 +286,7 @@ namespace AL {
     /// the Quaternion
     /// </returns>
     /// \ingroup Types
-    Quaternion quaternionFromAngleAndAxisRotation(
+    ALMATH_API Quaternion quaternionFromAngleAndAxisRotation(
       const float pAngle,
       const float pAxisX,
       const float pAxisY,
@@ -302,7 +303,7 @@ namespace AL {
     /// <param name="pAxisY"> the computed float value for y value of axis rotation </param>
     /// <param name="pAxisZ"> the computed float value for z value of axis rotation </param>
     /// \ingroup Types
-    void angleAndAxisRotationFromQuaternion(
+    ALMATH_API void angleAndAxisRotationFromQuaternion(
       const Quaternion& pQuaternion,
       float& pAngle,
       float& pAxisX,
@@ -318,7 +319,7 @@ namespace AL {
     /// a vector containing angle, axisX, axisY, axisZ.
     /// </returns>
     /// \ingroup Types
-    std::vector<float> angleAndAxisRotationFromQuaternion(
+    ALMATH_API std::vector<float> angleAndAxisRotationFromQuaternion(
       const Quaternion& pQuaternion);
 
 

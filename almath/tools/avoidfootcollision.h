@@ -9,6 +9,7 @@
 #ifndef _LIBALMATH_ALMATH_TOOLS_AVOIDFOOTCOLLISION_H_
 #define _LIBALMATH_ALMATH_TOOLS_AVOIDFOOTCOLLISION_H_
 
+#include <almath/api.h>
 #include <almath/types/alpose2d.h>
 #include <almath/types/alposition2d.h>
 #include <vector>
@@ -28,7 +29,7 @@ namespace AL
     /// true if pMove is clamped.
     /// </returns>
     /// \ingroup Tools
-    const bool avoidFootCollision(
+    ALMATH_API const bool avoidFootCollision(
         const std::vector<Position2D>&  pLFootBoundingBox,
         const std::vector<Position2D>&  pRFootBoundingBox,
         const bool&                     pIsLeftSupport,
@@ -45,7 +46,7 @@ namespace AL
     /// true if pMove is clamped.
     /// </returns>
     /// \ingroup Tools
-    const bool clipFootWithEllipse(
+    ALMATH_API const bool clipFootWithEllipse(
         const float&    pMaxFootX,
         const float&    pMaxFootY,
         Pose2D&         pMove);
@@ -54,7 +55,7 @@ namespace AL
     // <param name="pBoxA"> vector<Position2D> of the box A. </param>
     // <param name="pBoxB"> vector<Position2D> of the box B. </param>
     // <returns> true if box A and the box B are in collision. </returns>
-    const bool areTwoBoxesInCollision(
+    ALMATH_API const bool areTwoBoxesInCollision(
       const std::vector<Position2D>&  pBoxA,
       const std::vector<Position2D>&  pBoxB);
 
@@ -62,7 +63,7 @@ namespace AL
     // <param name="pInitBox">  vector<Position2D> of the fixed box. </param>
     // <param name="pMove">      Pose2D the initial move. </param>
     // <param name> vector<Position2D> the new box. </returns>
-    void computeBox(
+    ALMATH_API void computeBox(
       const std::vector<Position2D>&  pInitBox,
       const Pose2D&                   pMove,
       std::vector<Position2D>&        pMovedBox);
@@ -73,7 +74,7 @@ namespace AL
     // <param name="pMovingBox"> vector<Position2D> of the moving box. </param>
     // <param name="pMove"> Pose2D of moving box respect to fix box. </param>
     // <returns> Pose2D, the best position. </returns>
-    const void dichotomie(
+    ALMATH_API const void dichotomie(
       const std::vector<Position2D>&  pFixedBox,
       const std::vector<Position2D>&  pMovingBox,
       Pose2D&                         pMove);
@@ -85,7 +86,7 @@ namespace AL
     // <param name="pB2"> second point of segment B. </param>
     // <param name="pC">  computed intersection point. </param>
     // <returns> true if the segments intersect in a single point (pC). </returns>
-    bool intersectionSegment2D(
+    ALMATH_API bool intersectionSegment2D(
         const Position2D &pA1,
         const Position2D &pA2,
         const Position2D &pB1,

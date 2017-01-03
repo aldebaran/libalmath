@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALROTATION3D_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -18,7 +19,7 @@ namespace AL {
   /// A Rotation3D give 3 composed angles in radians.
   /// </summary>
   /// \ingroup Types
-    struct Rotation3D {
+    struct ALMATH_API Rotation3D {
       /// <summary> </summary>
       float wx;
       /// <summary> </summary>
@@ -226,7 +227,7 @@ namespace AL {
     /// the float norm of the given Rotation3D
     /// </returns>
     /// \ingroup Types
-    float norm(const Rotation3D& pRot);
+    ALMATH_API float norm(const Rotation3D& pRot);
 
   } // end namespace Math
 } // end namespace AL

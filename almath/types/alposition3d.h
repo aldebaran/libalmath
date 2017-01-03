@@ -10,6 +10,7 @@
 #define _LIBALMATH_ALMATH_TYPES_ALPOSITION3D_H_
 
 #include <vector>
+#include <almath/api.h>
 
 namespace AL {
   namespace Math {
@@ -20,7 +21,7 @@ namespace AL {
     /// A Position3D is just defined by x, y and z.
     /// </summary>
     /// \ingroup Types
-    struct Position3D {
+    struct ALMATH_API Position3D {
       /// <summary> </summary>
       float x;
       /// <summary> </summary>
@@ -323,7 +324,7 @@ namespace AL {
     /// the float squared distance between the two Position3D
     /// </returns>
     /// \ingroup Types
-    float distanceSquared(
+    ALMATH_API float distanceSquared(
       const Position3D& pPos1,
       const Position3D& pPos2);
 
@@ -338,7 +339,7 @@ namespace AL {
     /// the float distance between the two Position3D
     /// </returns>
     /// \ingroup Types
-    float distance(
+    ALMATH_API float distance(
       const Position3D& pPos1,
       const Position3D& pPos2);
 
@@ -352,7 +353,7 @@ namespace AL {
     /// the float norm of the given Position3D
     /// </returns>
     /// \ingroup Types
-    float norm(const Position3D& pPos);
+    ALMATH_API float norm(const Position3D& pPos);
 
     /// <summary>
     /// Normalize a Position3D:
@@ -364,7 +365,7 @@ namespace AL {
     /// the given Position3D normalized
     /// </returns>
     /// \ingroup Types
-    Position3D normalize(const Position3D& pPos);
+    ALMATH_API Position3D normalize(const Position3D& pPos);
 
     /// <summary>
     /// Compute the dot Product between two Position3D:
@@ -376,7 +377,7 @@ namespace AL {
     /// <returns>
     /// the float dot product between the two Position3D
     /// </returns>
-    float dotProduct(
+    ALMATH_API float dotProduct(
       const Position3D& pPos1,
       const Position3D& pPos2);
 
@@ -392,7 +393,7 @@ namespace AL {
     /// <returns>
     /// the Position3D cross product between the two Position3D
     /// </returns>
-    Position3D crossProduct(
+    ALMATH_API Position3D crossProduct(
       const Position3D& pPos1,
       const Position3D& pPos2);
 
@@ -406,7 +407,7 @@ namespace AL {
     /// <param name="pPos1"> the first Position3D </param>
     /// <param name="pPos2"> the second Position3D </param>
     /// <param name="pRes"> the Position3D cross product between the two Position3D </param>
-    void crossProduct(
+    ALMATH_API void crossProduct(
       const Position3D& pPos1,
       const Position3D& pPos2,
       Position3D&       pRes);
@@ -420,7 +421,7 @@ namespace AL {
     /// true if the norm of the vector is near to 1.0
     /// </returns>
     /// \ingroup Types
-    bool isUnitVector(const Position3D& pPos,
+    ALMATH_API bool isUnitVector(const Position3D& pPos,
                       const float& pEpsilon=0.0001f);
 
     /// <summary>
@@ -433,7 +434,7 @@ namespace AL {
     /// true if orthogonal
     /// </returns>
     /// \ingroup Types
-    bool isOrthogonal(const Position3D& pPos1,
+    ALMATH_API bool isOrthogonal(const Position3D& pPos1,
                       const Position3D& pPos2,
                       const float& pEpsilon=0.0001f);
 
