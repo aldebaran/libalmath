@@ -292,6 +292,7 @@ ALMATH_API ptree &require_actuatorcurve(ptree &pt,
 // return the Animation element, checking its version
 ALMATH_API ptree &get_animation(ptree &root);
 ALMATH_API const ptree &get_animation(const ptree &root);
+ALMATH_API ptree &require_animation(ptree &root);
 }
 }
 }

@@ -237,6 +237,18 @@ const ptree &get_animation(const ptree &root) {
   Animation::check_version(animation);
   return animation;
 }
+
+ptree &require_animation(ptree &root) {
+  auto opt = root.get_child_optional("Animation");
+  if (opt) {
+    Animation::check_version(*opt);
+    return *opt;
+  }
+  ptree &animation = root.put_child("Animation", ptree{});
+  animation.put("<xmlattr>.typeVersion", "2.0");
+  return animation;
+}
+
 }
 }
 }

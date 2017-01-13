@@ -507,17 +507,25 @@ TEST(ALMathQiAnimTest, Animation_check_version)
   EXPECT_NO_THROW(V2::Animation::check_version(good));
 }
 
-TEST(ALMathQiAnimTest, get_animation)
+TEST(ALMathQiAnimTest, get_require_animation)
 {
-  EXPECT_ANY_THROW(V2::get_animation(ptree{}));
-
   ptree wrong;
   wrong.put("Animation.<xmlattr>.typeVersion", "1.0");
   EXPECT_ANY_THROW(V2::get_animation(wrong));
+  EXPECT_ANY_THROW(V2::require_animation(wrong));
 
   ptree good;
   good.put("Animation.<xmlattr>.typeVersion", "2.0");
   EXPECT_NO_THROW(V2::get_animation(good));
+  EXPECT_NO_THROW(V2::require_animation(good));
+
+  ptree root;
+
+  EXPECT_ANY_THROW(V2::get_animation(root));
+
+  ptree &animation = V2::require_animation(root);
+  EXPECT_NO_THROW(V2::Animation::check_version(animation));
+  EXPECT_NO_THROW(V2::get_animation(root));
 }
 
 TEST(ALMathQiAnimTest, Animation_get_actuatorcurves)
