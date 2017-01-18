@@ -11,6 +11,9 @@ enable_testing()
 option(ALMATH_WITH_QIGEOMETRY
   "if true, qigeometry and geometry_module are built and almath is built with qigeometry support"
   ON)
+option(ALMATH_AS_STATIC_LIBRARY
+  "if true, almath is built as a static library"
+  OFF)
 
 if (ALMATH_WITH_QIGEOMETRY)
   find_package(qilang-tools)
@@ -122,8 +125,12 @@ set(ALMATH_H
     almath/tools/almathio.h
 )
 
-qi_create_lib(almath SHARED ${ALMATH_SRCS} ${ALMATH_H})
-set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
+if(ALMATH_AS_STATIC_LIBRARY)
+  qi_create_lib(almath STATIC ${ALMATH_SRCS} ${ALMATH_H})
+else()
+  qi_create_lib(almath SHARED ${ALMATH_SRCS} ${ALMATH_H})
+  set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
+endif()
 
 qi_use_lib(almath BOOST EIGEN3)
 
