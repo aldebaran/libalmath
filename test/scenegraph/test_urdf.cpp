@@ -17,6 +17,12 @@
 #include <memory>
 #include "myrigidbodysystembuilder.h"
 
+namespace std {
+::std::ostream& operator<<(::std::ostream& os, const std::pair<double, double>& v) {
+  return os << "(" << v.first << ", " << v.second << ")";
+}
+}
+
 using namespace AL;
 typedef AL::urdf::ptree ptree;
 using namespace AL::RigidBodySystemBuilder;
@@ -368,6 +374,20 @@ TEST(Urdf, Joint) {
 
   pt.put("axis.<xmlattr>.xyz", "1. 2.2 3.3");
   EXPECT_EQ(exp0, urdf::Joint(pt).axis());
+
+  EXPECT_FALSE(urdf::Joint(pt).limit_lower_upper());
+  pt.put("limit.<xmlattr>.lower", "2.2");
+  EXPECT_EQ(std::make_pair(2.2, 0.), urdf::Joint(pt).limit_lower_upper());
+  pt.put("limit.<xmlattr>.upper", "3.3");
+  EXPECT_EQ(std::make_pair(2.2, 3.3), urdf::Joint(pt).limit_lower_upper());
+
+  EXPECT_FALSE(urdf::Joint(pt).limit_effort());
+  pt.put("limit.<xmlattr>.effort", "4.2");
+  EXPECT_EQ(4.2, urdf::Joint(pt).limit_effort());
+
+  EXPECT_FALSE(urdf::Joint(pt).limit_velocity());
+  pt.put("limit.<xmlattr>.velocity", "2.4");
+  EXPECT_EQ(2.4, urdf::Joint(pt).limit_velocity());
 }
 
 TEST(Urdf, Inertial) {
@@ -398,6 +418,61 @@ TEST(Urdf, Inertial) {
   EXPECT_EQ(2.2, urdf::Inertial(pt).izz());
 }
 
+TEST(Urdf, Box) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Box(pt).size());
+  urdf::Array3d exp0 = {{1, 2.2, 3.3}};
+  pt.put("<xmlattr>.size", "1 2.2 3.3");
+  EXPECT_EQ(exp0, urdf::Box(pt).size());
+}
+
+TEST(Urdf, Cylinder) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Cylinder(pt).radius());
+  EXPECT_ANY_THROW(urdf::Cylinder(pt).length());
+
+  pt.put("<xmlattr>.radius", "2.2");
+  pt.put("<xmlattr>.length", "3.3");
+  EXPECT_EQ(2.2, urdf::Cylinder(pt).radius());
+  EXPECT_EQ(3.3, urdf::Cylinder(pt).length());
+}
+
+TEST(Urdf, Sphere) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Sphere(pt).radius());
+  pt.put("<xmlattr>.radius", "2.2");
+  EXPECT_EQ(2.2, urdf::Sphere(pt).radius());
+}
+
+TEST(Urdf, Mesh) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Mesh(pt).filename());
+  urdf::Array3d ones = {{1, 1, 1}};
+  EXPECT_EQ(ones, urdf::Mesh(pt).scale());
+
+  pt.put("<xmlattr>.filename", "hello");
+  EXPECT_EQ("hello", urdf::Mesh(pt).filename());
+
+  pt.put("<xmlattr>.scale", "1 2.2 3.3");
+  urdf::Array3d exp0 = {{1, 2.2, 3.3}};
+  EXPECT_EQ(exp0, urdf::Mesh(pt).scale());
+}
+
+TEST(Urdf, Visual) {
+  ptree pt;
+  urdf::Array3d zeros = {{0, 0, 0}};
+  EXPECT_EQ(zeros, urdf::Visual(pt).origin().xyz());
+  EXPECT_EQ(zeros, urdf::Visual(pt).origin().rpy());
+  EXPECT_ANY_THROW(urdf::Visual(pt).geometry());
+
+  pt.put("geometry.sphere.<xmlattr>.radius", "2.2");
+  urdf::Geometry g = urdf::Visual(pt).geometry();
+  EXPECT_ANY_THROW(boost::get<urdf::Box>(g));
+
+  EXPECT_NO_THROW(boost::get<urdf::Sphere>(g));
+  EXPECT_EQ(2.2, boost::get<urdf::Sphere>(g).radius());
+}
+
 TEST(Urdf, Link) {
   ptree pt;
   EXPECT_ANY_THROW(urdf::Link(pt).name());
@@ -409,6 +484,21 @@ TEST(Urdf, Link) {
 
   pt.put("inertial.mass.<xmlattr>.value", "2.2");
   EXPECT_EQ(2.2, urdf::Link(pt).inertial()->mass());
+
+  auto visuals = urdf::Link(pt).visuals();
+  EXPECT_TRUE(empty(visuals));
+  pt.add_child("visual", ptree()).put("geometry.sphere.<xmlattr>.radius", "2.2");
+  visuals = urdf::Link(pt).visuals();
+  ASSERT_EQ(1u, size(visuals));
+
+  pt.add_child("visual", ptree()).put("geometry.mesh.<xmlattr>.filename", "hello");
+  visuals = urdf::Link(pt).visuals();
+  ASSERT_EQ(2u, size(visuals));
+
+  auto it = begin(visuals);
+  EXPECT_NO_THROW(boost::get<urdf::Sphere>(it->geometry()));
+  ++it;
+  EXPECT_NO_THROW(boost::get<urdf::Mesh>(it->geometry()));
 }
 
 TEST(Urdf, read_no_link) {

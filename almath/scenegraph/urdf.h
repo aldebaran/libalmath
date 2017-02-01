@@ -11,8 +11,11 @@
 #include <iosfwd>
 #include <memory>
 #include <array>
-#include <boost/property_tree/ptree_fwd.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <boost/optional.hpp>
+#include <boost/variant.hpp>
+#include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/filtered.hpp>
 #include <boost/function/function_fwd.hpp>
 #include <boost/ref.hpp>
 #include <boost/multi_index_container.hpp>
@@ -63,6 +66,10 @@ typedef std::array<double, 3> Array3d;
 
 inline bool is_zero(const Array3d &a) {
   return (a[0] == 0) && (a[1] == 0) && (a[2] == 0);
+}
+
+inline bool is_ones(const Array3d &a) {
+  return (a[0] == 1) && (a[1] == 1) && (a[2] == 1);
 }
 
 class Pose;
@@ -298,6 +305,17 @@ class ALMATH_API Joint {
   std::string child_link() const;
   Pose origin() const;
   Array3d axis() const;
+
+  // Return the (lower, upper) limits pair.
+  //
+  // If both limits are missing, the pair is uninitialized
+  // If one of them is missing, it is defaulted to 0.
+  // This behavior is slightly different from the
+  // http://wiki.ros.org/urdf/XML/joint spec.
+  // Beware, there is no warranty that lower <= upper.
+  boost::optional<std::pair<double, double>> limit_lower_upper() const;
+  boost::optional<double> limit_effort() const;
+  boost::optional<double> limit_velocity() const;
 };
 
 // Convenience wrapper around an URDF inertial XML element
@@ -315,6 +333,50 @@ class ALMATH_API Inertial {
   double izz() const;
 };
 
+class ALMATH_API Box {
+ public:
+  const ptree &pt;
+  Box(const ptree &pt);
+  Array3d size();
+};
+
+// z-axis cylinder, centered at the origin
+class ALMATH_API Cylinder {
+ public:
+  const ptree &pt;
+  Cylinder(const ptree &pt);
+  double radius();
+  double length();
+};
+
+class ALMATH_API Sphere {
+ public:
+  const ptree &pt;
+  Sphere(const ptree &pt);
+  double radius();
+};
+
+class ALMATH_API Mesh {
+ public:
+  const ptree &pt;
+  Mesh(const ptree &pt);
+  std::string filename() const;
+  // Note: scale element is optional. When absent, we return (1, 1, 1)
+  Array3d scale() const;
+};
+
+using Geometry = boost::variant<Box, Cylinder, Sphere, Mesh>;
+
+class ALMATH_API Visual {
+public:
+  const ptree &pt;
+  Visual(const ptree &pt);
+  Pose origin() const;
+  Geometry geometry() const;
+
+  static bool is_visual(const ptree::value_type &val);
+};
+
 // Convenience wrapper around an URDF link XML element
 class ALMATH_API Link {
  public:
@@ -322,6 +384,26 @@ class ALMATH_API Link {
   Link(const ptree &pt);
   std::string name() const;
   boost::optional<Inertial> inertial() const;
+
+ private:
+  // helper: return the range of visual ptree children
+  inline auto _visual_ptrees() const
+  -> boost::select_second_const_range<
+        decltype(boost::adaptors::filter(pt, Visual::is_visual))> {
+  return boost::adaptors::values(
+        boost::adaptors::filter(pt, Visual::is_visual));
+  }
+  // helper, call the Visual ctor
+  static inline Visual _makeVisual(const ptree &pt) { return Visual(pt); }
+
+ public:
+  // return the range of Visual children
+  inline auto visuals() const
+  -> boost::transformed_range<
+        decltype(&_makeVisual),
+        const decltype(_visual_ptrees())> {
+    return boost::adaptors::transform(_visual_ptrees(), &_makeVisual);
+  }
 };
 
 // Utils

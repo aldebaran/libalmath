@@ -177,10 +177,27 @@ Pose Joint::origin() const {
 }
 
 Array3d Joint::axis() const {
-  if (boost::optional<const ptree &> child =
-          pt.get_child_optional("axis.<xmlattr>.xyz"))
-    return child->get_value<Array3d>(Array3dTranslator());
-  return Array3d{1, 0, 0};
+  return pt.get<Array3d>("axis.<xmlattr>.xyz",
+                         Array3d{1, 0, 0},
+                         Array3dTranslator());
+}
+
+boost::optional<std::pair<double, double>> Joint::limit_lower_upper() const {
+  using Pair = std::pair<double, double>;
+  using OptPair = boost::optional<Pair>;
+  const auto lower = pt.get_optional<double>("limit.<xmlattr>.lower");
+  const auto upper = pt.get_optional<double>("limit.<xmlattr>.upper");
+  if (lower || upper)
+    return Pair(lower.get_value_or(0.), upper.get_value_or(0.));
+  return OptPair();
+}
+
+boost::optional<double> Joint::limit_effort() const {
+  return pt.get_optional<double>("limit.<xmlattr>.effort");
+}
+
+boost::optional<double> Joint::limit_velocity() const {
+  return pt.get_optional<double>("limit.<xmlattr>.velocity");
 }
 
 Inertial::Inertial(const ptree &pt) : pt(pt) {}
@@ -204,6 +221,65 @@ DEF_INERTIA_GETTER(iyz);
 DEF_INERTIA_GETTER(izz);
 
 #undef DEF_INERTIA_GETTER
+
+Box::Box(const ptree &pt) : pt(pt) {}
+
+Array3d Box::size() {
+  return pt.get<Array3d>("<xmlattr>.size", Array3dTranslator());
+}
+
+Cylinder::Cylinder(const ptree &pt) : pt(pt) {}
+
+double Cylinder::radius() {
+  return pt.get<double>("<xmlattr>.radius");
+}
+
+double Cylinder::length() {
+  return pt.get<double>("<xmlattr>.length");
+}
+
+Sphere::Sphere(const ptree &pt) : pt(pt) {}
+
+double Sphere::radius() {
+  return pt.get<double>("<xmlattr>.radius");
+}
+
+Mesh::Mesh(const ptree &pt) : pt(pt) {}
+
+std::string Mesh::filename() const {
+  return pt.get<std::string>("<xmlattr>.filename");
+}
+
+Array3d Mesh::scale() const {
+  return pt.get<Array3d>("<xmlattr>.scale",
+                         Array3d{1., 1., 1.},
+                         Array3dTranslator());
+}
+
+Visual::Visual(const ptree &pt) : pt(pt) {}
+
+Pose Visual::origin() const {
+  return Pose::from_ptree(pt.get_child_optional("origin"));
+}
+
+Geometry Visual::geometry() const {
+  const auto &g = pt.get_child("geometry");
+
+  boost::optional<const ptree &> gc;
+  if ((gc = g.get_child_optional("box")))
+    return Box(*gc);
+  if ((gc = g.get_child_optional("cylinder")))
+    return Cylinder(*gc);
+  if ((gc = g.get_child_optional("sphere")))
+    return Sphere(*gc);
+  if ((gc = g.get_child_optional("mesh")))
+    return Mesh(*gc);
+  throw std::runtime_error("this geometry has no shape");
+}
+
+bool Visual::is_visual(const ptree::value_type &val) {
+  return val.first == "visual";
+}
 
 Link::Link(const ptree &pt) : pt(pt) {}
 
