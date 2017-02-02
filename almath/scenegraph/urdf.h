@@ -59,7 +59,7 @@ namespace urdf {
 typedef boost::property_tree::ptree ptree;
 
 namespace detail {
-class UrdfTreeP;
+class RobotTreeP;
 }
 
 typedef std::array<double, 3> Array3d;
@@ -83,7 +83,7 @@ ALMATH_API std::string parent_link(const ptree &pt);
 // return the child link of a joint element
 ALMATH_API std::string child_link(const ptree &pt);
 
-// a parser for urdf xml files [1].
+// A parser for urdf xml files [1].
 //
 // Contrary to the urdf parser from ROS [2], [3], this parser:
 //
@@ -106,30 +106,31 @@ ALMATH_API std::string child_link(const ptree &pt);
 //
 // The UrdfTree class acts as an index for the boost::property_tree of the
 // (URDF) XML document.
-// Given the ptree of the root XML element, it walks the document and
+// Given the ptree of the robot XML element, it traverses the tree and
 // indexes the ptree elements for the URDF joints and links.
 //
 // The class is akin to a set of iterators: it does not copy nor own the
 // XML tree, and may be invalidated if the XML tree changes.
 //
 // The user shall ensure that the XML root and the joint and link ptree
-// elements stays alive and valid for the lifetime of this UrdfTree.
+// elements stay alive and valid for the lifetime of this RobotTree.
 // For instance the user may use direct access to the ptree elements to alter
 // the mass of a link, but shall no delete the link, otherwise calls to
-// UrdfTree::link("my_link_name") would use dandling pointers and return
+// RobotTree::link("my_link_name") would use dandling pointers and return
 // invalid references.
 //
-// On the other hand, some UrdfTree functions enable the safe modification or
+// On the other hand, some RobotTree functions enable the safe modification or
 // removal of joints and links.
-class ALMATH_API UrdfTree {
+class ALMATH_API RobotTree {
  public:
-  // read a XML tree given the XML root element.
-  // The XML tree is not copied, the user shall ensure that the reference
-  // is valid for the whole life of the UrdfTree object.
-  UrdfTree(ptree &pt);
-  ~UrdfTree();
-  UrdfTree(UrdfTree const &) = delete;
-  void operator=(UrdfTree const &other) = delete;
+  // Read a XML tree given the robot element.
+  // The ptree is not copied, a reference is kept instead.
+  // The user shall ensure that the reference is valid for the whole life
+  // of the RobotTree object.
+  RobotTree(ptree &robot);
+  ~RobotTree();
+  RobotTree(RobotTree const &) = delete;
+  void operator=(RobotTree const &other) = delete;
 
   const ptree &link(const std::string &name) const;
   ptree &link(const std::string &name);
@@ -230,7 +231,7 @@ class ALMATH_API UrdfTree {
 
   class JointConstVisitor {
    public:
-    // a false return value stops the walk for the current branch
+    // a false return value stops the traversal for the current branch
     virtual bool discover(const ptree &) { return true; }
     virtual void finish(const ptree &) {}
   };
@@ -246,11 +247,11 @@ class ALMATH_API UrdfTree {
   void traverse_joints(JointVisitor &visitor);
 
  private:
-  std::unique_ptr<detail::UrdfTreeP> _p;
+  std::unique_ptr<detail::RobotTreeP> _p;
 };
 
-typedef UrdfTree::JointConstVisitor JointConstVisitor;
-typedef UrdfTree::JointVisitor JointVisitor;
+typedef RobotTree::JointConstVisitor JointConstVisitor;
+typedef RobotTree::JointVisitor JointVisitor;
 
 // Convenience wrapper classes around URDF ptree elements
 
@@ -410,34 +411,34 @@ class ALMATH_API Link {
 
 // make the type of the joint named "name" equal to "fixed",
 // and erase the joint axis, if any.
-ALMATH_API void makeJointFixed(UrdfTree &parser, const std::string &name);
+ALMATH_API void makeJointFixed(RobotTree &parser, const std::string &name);
 
 // make the type of the joint named "name" equal to "floating",
 // and erase the joint axis, if any.
-ALMATH_API void makeJointFloating(UrdfTree &parser, const std::string &name);
+ALMATH_API void makeJointFloating(RobotTree &parser, const std::string &name);
 
 // apply makeJointFixed to all joints of type "continuous".
 // Return the names of the joints whose type was changed.
 ALMATH_API
-std::vector<std::string> makeContinuousJointsFixed(UrdfTree &parser);
+std::vector<std::string> makeContinuousJointsFixed(RobotTree &parser);
 
 // Squash a joint's child link mass into its parent link mass.
 // The child link mass element (if any) is erased.
-ALMATH_API void squashJointMass(UrdfTree &parser, const std::string &name);
+ALMATH_API void squashJointMass(RobotTree &parser, const std::string &name);
 
 // apply squashJointMass to all fixed joints.
-ALMATH_API void squashFixedJointsMass(UrdfTree &parser);
+ALMATH_API void squashFixedJointsMass(RobotTree &parser);
 
 // Squash all fixed joint's child link mass into their parent link mass and
 // then convert all massless joints into fixed joints.
 // The point is to avoid massless mobile joints, which have no physical
 // meaning.
 // Return the names of the joints whose type was changed.
-ALMATH_API std::vector<std::string> makeMasslessJointsFixed(UrdfTree &parser);
+ALMATH_API std::vector<std::string> makeMasslessJointsFixed(RobotTree &parser);
 
 // a visitor which prints the URDF kinematic tree as a dot graph
 // when visiting its joints.
-class ALMATH_API UrdfDotPrinterVisitor : public UrdfTree::JointConstVisitor {
+class ALMATH_API UrdfDotPrinterVisitor : public RobotTree::JointConstVisitor {
   const char tab;
   int depth;
   bool do_indent;

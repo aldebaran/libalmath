@@ -295,7 +295,7 @@ namespace detail {
 
 using namespace boost::multi_index;
 
-class UrdfTreeP {
+class RobotTreeP {
  public:
   struct Name {};
   struct ParentLink {};
@@ -321,7 +321,7 @@ class UrdfTreeP {
   Links links;
   Joints joints;
   std::string root_link;
-  UrdfTreeP(ptree &pt);  // keeps refs and points to pt elements
+  RobotTreeP(ptree &robot); // keeps refs and points to robot elements
   void rm_root_joint();
   void transport_root_link_frame(
       const Pose &pose,
@@ -329,12 +329,12 @@ class UrdfTreeP {
   void flip_root_link_joint(const std::string &joint_name,
                             bool add_prune_exception);
   void define_as_root_link(const std::string &link_name);
-  void walk_joint(UrdfTree::JointConstVisitor &vis,
+  void walk_joint(RobotTree::JointConstVisitor &vis,
                   const std::string &link) const;
-  void walk_joint(UrdfTree::JointVisitor &vis, const std::string &link);
+  void walk_joint(RobotTree::JointVisitor &vis, const std::string &link);
 };
 
-UrdfTreeP::UrdfTreeP(ptree &pt) : robot(pt.get_child("robot")) {
+RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
   std::set<std::string> root_links;
 
   // list all the links
@@ -387,7 +387,7 @@ UrdfTreeP::UrdfTreeP(ptree &pt) : robot(pt.get_child("robot")) {
   root_link = *root_links.begin();
 }
 
-void UrdfTreeP::rm_root_joint() {
+void RobotTreeP::rm_root_joint() {
   if (joints.get<ParentLink>().count(root_link) != 1) {
     throw std::runtime_error("rm_root_joint: there is not a single root joint");
   }
@@ -433,7 +433,7 @@ void premul(const Pose &lhs, const Pose &ilhs, ptree::assoc_iterator rhs_parent,
   premul(lhs, ilhs, &(rhs_parent->second), noprune);
 }
 
-void UrdfTreeP::transport_root_link_frame(
+void RobotTreeP::transport_root_link_frame(
     const Pose &pose, const std::function<bool(const ptree *)> &noprune) {
   Pose ipose = pose.inverse();
   // relocate the joints origins
@@ -505,8 +505,8 @@ struct joint_has_name_fctor {
 //
 // This won't change the physical meaning of the kinematic system being
 // described.
-void UrdfTreeP::flip_root_link_joint(const std::string &joint_name,
-                                     bool add_prune_exception) {
+void RobotTreeP::flip_root_link_joint(const std::string &joint_name,
+                                      bool add_prune_exception) {
   auto joint_it = checked_find(joints.get<Name>(), joint_name);
   ptree *joint_pt = *joint_it;
   Joint joint(*joint_pt);
@@ -525,10 +525,10 @@ void UrdfTreeP::flip_root_link_joint(const std::string &joint_name,
   if (opt_origin) {
     Pose origin = Pose::from_ptree(opt_origin);
     if (add_prune_exception) {
-      UrdfTreeP::transport_root_link_frame(origin,
+      RobotTreeP::transport_root_link_frame(origin,
                                            joint_has_name_fctor(joint_name));
     } else {
-      UrdfTreeP::transport_root_link_frame(origin);
+      RobotTreeP::transport_root_link_frame(origin);
     }
   }
   // update kinematic tree
@@ -538,7 +538,7 @@ void UrdfTreeP::flip_root_link_joint(const std::string &joint_name,
   flip_joint_axis(*joint_pt);
 }
 
-void UrdfTreeP::define_as_root_link(const std::string &link_name) {
+void RobotTreeP::define_as_root_link(const std::string &link_name) {
   std::vector<std::string> joints_path;
   std::string cur_link_name = link_name;
   while (cur_link_name != root_link) {
@@ -557,8 +557,8 @@ void UrdfTreeP::define_as_root_link(const std::string &link_name) {
   }
 }
 
-void UrdfTreeP::walk_joint(UrdfTree::JointConstVisitor &vis,
-                           const std::string &link) const {
+void RobotTreeP::walk_joint(RobotTree::JointConstVisitor &vis,
+                            const std::string &link) const {
   BOOST_FOREACH (const ptree *joint,
                  joints.get<ParentLink>().equal_range(link)) {
     if (vis.discover(*joint)) walk_joint(vis, Joint(*joint).child_link());
@@ -566,8 +566,8 @@ void UrdfTreeP::walk_joint(UrdfTree::JointConstVisitor &vis,
   }
 }
 
-void UrdfTreeP::walk_joint(UrdfTree::JointVisitor &vis,
-                           const std::string &link) {
+void RobotTreeP::walk_joint(RobotTree::JointVisitor &vis,
+                            const std::string &link) {
   BOOST_FOREACH (ptree *joint, joints.get<ParentLink>().equal_range(link)) {
     if (vis.discover(*joint)) walk_joint(vis, Joint(*joint).child_link());
     vis.finish(*joint);
@@ -576,37 +576,37 @@ void UrdfTreeP::walk_joint(UrdfTree::JointVisitor &vis,
 
 }  // end of namespace AL::urdf::detail
 
-UrdfTree::UrdfTree(ptree &pt) : _p(new detail::UrdfTreeP(pt)) {}
-UrdfTree::~UrdfTree() {}
+RobotTree::RobotTree(ptree &robot) : _p(new detail::RobotTreeP(robot)) {}
+RobotTree::~RobotTree() {}
 
-const ptree &UrdfTree::link(const std::string &name) const {
+const ptree &RobotTree::link(const std::string &name) const {
   return *_p->links.at(name);
 }
-ptree &UrdfTree::link(const std::string &name) { return *_p->links.at(name); }
-const ptree &UrdfTree::joint(const std::string &name) const {
-  return **checked_find(_p->joints.get<detail::UrdfTreeP::Name>(), name);
+ptree &RobotTree::link(const std::string &name) { return *_p->links.at(name); }
+const ptree &RobotTree::joint(const std::string &name) const {
+  return **checked_find(_p->joints.get<detail::RobotTreeP::Name>(), name);
 }
-ptree &UrdfTree::joint(const std::string &name) {
-  return **checked_find(_p->joints.get<detail::UrdfTreeP::Name>(), name);
+ptree &RobotTree::joint(const std::string &name) {
+  return **checked_find(_p->joints.get<detail::RobotTreeP::Name>(), name);
 }
 
-const std::string &UrdfTree::root_link() const { return _p->root_link; }
+const std::string &RobotTree::root_link() const { return _p->root_link; }
 
-void UrdfTree::rm_root_joint() { _p->rm_root_joint(); }
+void RobotTree::rm_root_joint() { _p->rm_root_joint(); }
 
-void UrdfTree::transport_root_link_frame(const Pose &pose) {
+void RobotTree::transport_root_link_frame(const Pose &pose) {
   _p->transport_root_link_frame(pose);
 }
 
-void UrdfTree::define_as_root_link(const std::string &name) {
+void RobotTree::define_as_root_link(const std::string &name) {
   _p->define_as_root_link(name);
 }
 
-void UrdfTree::traverse_joints(JointConstVisitor &vis) const {
+void RobotTree::traverse_joints(JointConstVisitor &vis) const {
   _p->walk_joint(vis, _p->root_link);
 }
 
-void UrdfTree::traverse_joints(JointVisitor &vis) {
+void RobotTree::traverse_joints(JointVisitor &vis) {
   _p->walk_joint(vis, _p->root_link);
 }
 
@@ -629,11 +629,11 @@ void makeJointFixed(ptree &joint_pt) {
   joint_pt.erase("axis");
 }
 
-void makeJointFixed(UrdfTree &parser, const std::string &name) {
+void makeJointFixed(RobotTree &parser, const std::string &name) {
   makeJointFixed(parser.joint(name));
 }
 
-void makeJointFloating(UrdfTree &parser, const std::string &name) {
+void makeJointFloating(RobotTree &parser, const std::string &name) {
   ptree &joint = parser.joint(name);
   joint.put("<xmlattr>.type", "floating");
   joint.erase("axis");
@@ -653,14 +653,14 @@ class MakeContinuousJointsFixedVisitor : public JointVisitor {
   }
 };
 
-std::vector<std::string> makeContinuousJointsFixed(UrdfTree &parser) {
+std::vector<std::string> makeContinuousJointsFixed(RobotTree &parser) {
   MakeContinuousJointsFixedVisitor vis;
   parser.traverse_joints(vis);
   return vis.names;
 }
 
 // internal helper overload
-void squashJointMass(UrdfTree &parser, ptree &joint_pt) {
+void squashJointMass(RobotTree &parser, ptree &joint_pt) {
   typedef Eigen::Matrix3d Matrix3;
   typedef Eigen::Vector3d Vector3;
   typedef Eigen::Transform<double, 3, Eigen::AffineCompact, Eigen::DontAlign>
@@ -722,24 +722,24 @@ void squashJointMass(UrdfTree &parser, ptree &joint_pt) {
   child_pt.erase("inertial");
 }
 
-void squashJointMass(UrdfTree &parser, const std::string &name) {
+void squashJointMass(RobotTree &parser, const std::string &name) {
   squashJointMass(parser, parser.joint(name));
 }
 
 // internal helper class
 class SquashFixedJointsMassVisitor : public JointVisitor {
  public:
-  SquashFixedJointsMassVisitor(UrdfTree &parser) : parser(parser) {}
+  SquashFixedJointsMassVisitor(RobotTree &parser) : parser(parser) {}
   void finish(ptree &joint_pt) {
     if (Joint(joint_pt).type() != Joint::fixed) return;
     squashJointMass(parser, joint_pt);
   }
 
  private:
-  UrdfTree &parser;
+  RobotTree &parser;
 };
 
-void squashFixedJointsMass(UrdfTree &parser) {
+void squashFixedJointsMass(RobotTree &parser) {
   urdf::SquashFixedJointsMassVisitor vis(parser);
   parser.traverse_joints(vis);
 }
@@ -747,7 +747,7 @@ void squashFixedJointsMass(UrdfTree &parser) {
 // internal helper class
 class MakeMasslessJointsFixedVisitor : public JointVisitor {
  public:
-  MakeMasslessJointsFixedVisitor(UrdfTree &parser) : parser(parser) {}
+  MakeMasslessJointsFixedVisitor(RobotTree &parser) : parser(parser) {}
   std::vector<std::string> names;
   void finish(ptree &joint_pt) {
     Joint joint(joint_pt);
@@ -762,10 +762,10 @@ class MakeMasslessJointsFixedVisitor : public JointVisitor {
   }
 
  private:
-  UrdfTree &parser;
+  RobotTree &parser;
 };
 
-std::vector<std::string> makeMasslessJointsFixed(UrdfTree &parser) {
+std::vector<std::string> makeMasslessJointsFixed(RobotTree &parser) {
   urdf::MakeMasslessJointsFixedVisitor vis(parser);
   parser.traverse_joints(vis);
   return vis.names;

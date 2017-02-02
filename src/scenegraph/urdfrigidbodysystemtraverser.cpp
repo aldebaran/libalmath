@@ -18,10 +18,10 @@ static const urdf::Array3d unit_x = {{1., 0., 0.}};
 static const urdf::Array3d unit_y = {{0., 1., 0.}};
 static const urdf::Array3d unit_z = {{0., 0., 1.}};
 
-class UrdfRigidBodySystemTraverser : public urdf::UrdfTree::JointConstVisitor {
+class UrdfRigidBodySystemTraverser : public urdf::RobotTree::JointConstVisitor {
  public:
   UrdfRigidBodySystemTraverser(Builder::Interface<double> &builder,
-                               const urdf::UrdfTree &parser)
+                               const urdf::RobotTree &parser)
       : builder(builder), parser(parser), removed_root_link(false) {}
 
   bool _discover(const std::string &parent_link_name,
@@ -32,7 +32,7 @@ class UrdfRigidBodySystemTraverser : public urdf::UrdfTree::JointConstVisitor {
 
  private:
   Builder::Interface<double> &builder;
-  const urdf::UrdfTree &parser;
+  const urdf::RobotTree &parser;
   boost::optional<std::string> urdf_root_link;
   bool removed_root_link;
 };
@@ -97,7 +97,7 @@ bool UrdfRigidBodySystemTraverser::discover(const urdf::ptree &joint_el) {
 void buildRigidBodySystemFromUrdf(
     RigidBodySystemBuilder::Interface<double> &builder, urdf::ptree &pt,
     bool remove_root_joint, bool make_continuous_joints_fixed) {
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(pt.get_child("robot"));
   if (remove_root_joint) parser.rm_root_joint();
   if (make_continuous_joints_fixed) makeContinuousJointsFixed(parser);
   makeMasslessJointsFixed(parser);
