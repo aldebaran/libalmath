@@ -450,6 +450,21 @@ class ALMATH_API UrdfDotPrinterVisitor : public UrdfTree::JointConstVisitor {
   bool discover(const ptree &joint);
   void finish(const ptree &joint);
 };
+
+namespace robot {
+
+// Replace each mesh and texture filename by the result of applying op() to it.
+//
+// For instance, to replace .mesh extensions by .dae, one could do:
+//
+//   ptree robot = ...
+//   auto op = [](std::string in) {
+//     return boost::regex_replace(in, boost::regex("\\.mesh$"), ".dae");};
+//   urdf::robot::transform_filenames(robot, op);
+ALMATH_API void transform_filenames(
+    ptree &robot, std::function<std::string(std::string)> op);
 }
 }
+}
+
 #endif

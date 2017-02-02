@@ -16,6 +16,7 @@
 #include <array>
 #include <memory>
 #include "myrigidbodysystembuilder.h"
+#include <boost/regex.hpp>
 
 namespace std {
 ::std::ostream& operator<<(::std::ostream& os, const std::pair<double, double>& v) {
@@ -1068,6 +1069,66 @@ TEST(Urdf, transport_root_link_frame) {
   urdf::Pose exp = itr * urdf::Pose{xyz, {{0, 0, 0}}};
   EXPECT_EQ(exp, urdf::Pose::from_ptree(a.get_child("visual.origin")));
   EXPECT_EQ(exp, urdf::Pose::from_ptree(a.get_child("collision.origin")));
+}
+
+TEST(Urdf, transform_filenames) {
+  auto lmpath = "link.visual.geometry.mesh.<xmlattr>.filename";
+  auto lmbefore = "file:///usr/share/local/juliette/KneePitch.mesh";
+  auto lmafter = "file:///juliette/KneePitch.dae";
+
+  auto rtpath = "material.texture.<xmlattr>.filename";
+  auto ltpath = "link.visual.material.texture.<xmlattr>.filename";
+  auto tbefore = "file:///usr/share/local/mytexture.png";
+  auto tafter = "file:///mytexture.png";
+
+  ptree robot;
+  robot.put(lmpath, lmbefore);
+  robot.put(rtpath, tbefore);
+  robot.put(ltpath, tbefore);
+
+  auto op = [](std::string in) {
+    // Beware of double '\' escaping: one for C++, one for regex
+    // Note: I don't know why I need to escape the ':' in the format
+    return boost::regex_replace(
+          in,
+          boost::regex("(^file:///usr/share/local/)|(\\.mesh$)"),
+          "(?1file\\:///)(?2\\.dae)",
+          boost::match_default | boost::format_all);
+  };
+
+  urdf::robot::transform_filenames(robot, op);
+
+  EXPECT_EQ(lmafter, robot.get<std::string>(lmpath));
+  EXPECT_EQ(tafter, robot.get<std::string>(rtpath));
+  EXPECT_EQ(tafter, robot.get<std::string>(ltpath));
+}
+
+TEST(Urdf, transform_filenames_tolerate_the_ros_parser_output) {
+  // check we're tolerant with the ros parser which creates "illegal"
+  // texture elements with no filename
+  ptree robot;
+  robot.put_child("material.texture", ptree());
+  robot.put_child("link.visual.material.texture", ptree());
+  robot.put_child("link.visual.geometry", ptree());
+  auto op = [](std::string in) { return in; };
+  EXPECT_NO_THROW(urdf::robot::transform_filenames(robot, op));
+}
+
+TEST(Urdf, transform_filenames_example) {
+  auto lmpath = "link.visual.geometry.mesh.<xmlattr>.filename";
+  auto lmbefore = "file:///usr/share/local/juliette/KneePitch.mesh";
+  auto lmafter = "file:///usr/share/local/juliette/KneePitch.dae";
+
+  ptree robot;
+  robot.put(lmpath, lmbefore);
+
+  auto op = [](std::string in) {
+    // Beware of double '\' escaping: one for C++, one for regex
+    return boost::regex_replace(in, boost::regex("\\.mesh$"), ".dae");
+  };
+  urdf::robot::transform_filenames(robot, op);
+
+  EXPECT_EQ(lmafter, robot.get<std::string>(lmpath));
 }
 
 TEST_F(RigidBodySystemBuilderTest, buildFromUrdf_none) {

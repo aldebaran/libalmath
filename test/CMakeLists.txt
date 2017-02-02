@@ -65,7 +65,7 @@ qi_create_gtest(test_almath_rigidbodysystembuilder
 
 qi_create_gtest(test_almath_urdf
   SRC scenegraph/test_urdf.cpp
-  DEPENDS ALMATH BOOST_FILESYSTEM)
+  DEPENDS ALMATH BOOST_FILESYSTEM BOOST_REGEX)
 
 qi_create_gtest(test_almath_urdfeigen
   SRC scenegraph/test_urdfeigen.cpp

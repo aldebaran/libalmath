@@ -770,5 +770,50 @@ std::vector<std::string> makeMasslessJointsFixed(UrdfTree &parser) {
   parser.traverse_joints(vis);
   return vis.names;
 }
+
+namespace robot {
+void transform_filenames(
+    ptree &robot, std::function<std::string(std::string)> op) {
+  // parent can be a texture or a mesh element
+  auto apply_op =
+      [&op](ptree &parent) -> void {
+    // Note: according to the urdf spec, the filename is a mandatory attribute
+    // of the mesh and texture elements.
+    // However, the official urdf parser from ROS produces texture elements
+    // without the filename attribute.
+    // As a consequence, we need to be tolerant.
+    auto opt = parent.get_child_optional("<xmlattr>.filename");
+    if (opt) {
+      ptree &f = *opt;
+      f.put_value(op(f.get_value<std::string>()));
+    }
+  };
+  {
+    auto materials = robot.equal_range("material");
+    for (ptree &material: boost::adaptors::values(materials)) {
+      boost::optional<ptree &> texture = material.get_child_optional("texture");
+      if (texture)
+        apply_op(*texture);
+    }
+  }
+  auto links = robot.equal_range("link");
+  for (ptree &link: boost::adaptors::values(links)) {
+    auto visuals = link.equal_range("visual");
+    for (ptree &visual: boost::adaptors::values(visuals)) {
+      ptree &geometry = visual.get_child("geometry");
+      auto meshes = geometry.equal_range("mesh");
+      for (ptree &mesh: boost::adaptors::values(meshes)) {
+        apply_op(mesh);
+      }
+      auto materials = visual.equal_range("material");
+      for (ptree &material: boost::adaptors::values(materials)) {
+        boost::optional<ptree &> texture = material.get_child_optional("texture");
+        if (texture)
+          apply_op(*texture);
+      }
+    }
+  }
+}
+}
 }
 }
