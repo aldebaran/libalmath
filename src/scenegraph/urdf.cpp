@@ -323,6 +323,7 @@ class RobotTreeP {
   std::string root_link;
   RobotTreeP(ptree &robot); // keeps refs and points to robot elements
   void rm_root_joint();
+  void rm_leaf_joint(const std::string &name);
   void transport_root_link_frame(
       const Pose &pose,
       const donotprune_fct &noprune = [](const ptree *) { return false; });
@@ -388,13 +389,26 @@ RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
 }
 
 void RobotTreeP::rm_root_joint() {
+  // joints whose  parent link is root_link
   if (joints.get<ParentLink>().count(root_link) != 1) {
     throw std::runtime_error("rm_root_joint: there is not a single root joint");
   }
   const ptree *new_root_joint = *joints.get<ParentLink>().find(root_link);
   joints.get<ParentLink>().erase(root_link);
   links.erase(root_link);
-  root_link = Joint(*new_root_joint).child_link();
+  root_link = ::child_linkp(new_root_joint);
+}
+
+void RobotTreeP::rm_leaf_joint(const std::string &name) {
+  auto joint_it = checked_find(joints.get<Name>(), name);
+  const auto child_link = ::child_linkp(*joint_it);
+  // joints whose parent link is child_link_name
+  if (joints.get<ParentLink>().count(child_link) > 0) {
+    throw std::runtime_error("rm_leaf_joint: the joint \"" + name +
+                             "\" is not a leaf in the kinematic tree");
+  }
+  joints.get<Name>().erase(name);
+  links.erase(child_link);
 }
 
 // premultiply the rhs with lhs. So that
@@ -594,6 +608,8 @@ const std::string &RobotTree::root_link() const { return _p->root_link; }
 
 void RobotTree::rm_root_joint() { _p->rm_root_joint(); }
 
+void RobotTree::rm_leaf_joint(const std::string &name) { _p->rm_leaf_joint(name); }
+
 void RobotTree::transport_root_link_frame(const Pose &pose) {
   _p->transport_root_link_frame(pose);
 }
@@ -769,6 +785,46 @@ std::vector<std::string> makeMasslessJointsFixed(RobotTree &parser) {
   urdf::MakeMasslessJointsFixedVisitor vis(parser);
   parser.traverse_joints(vis);
   return vis.names;
+}
+
+// internal helper class
+class ListJointsToRemoveVisitor : public JointConstVisitor {
+ private:
+  using Pred = std::function<bool(const ptree &joint)>;
+  Pred pred;
+  int level = 0; // prune if level >0
+ public:
+  ListJointsToRemoveVisitor(Pred pred)
+    : pred(pred) {}
+  std::vector<std::string> names; // names of joints to remove
+
+  bool discover(const ptree &joint_pt) {
+    if (pred(joint_pt)) {
+      level += 1;
+    }
+    auto n = name(joint_pt);
+    if (level > 0)
+      names.push_back(n);
+    return true;
+  }
+
+  void finish(const ptree &joint_pt) {
+    if (pred(joint_pt))
+      level -= 1;
+    assert(level >= 0);
+  }
+};
+
+std::vector<std::string> removeSubTreeIfJoint(
+    RobotTree &parser,
+    std::function<bool(const ptree &joint)> pred) {
+  ListJointsToRemoveVisitor vis(std::move(pred));
+  parser.traverse_joints(vis);
+  // we iterate over the joint in reverse order to remove the leaves first.
+  for (auto it = vis.names.rbegin(); it != vis.names.rend(); ++it) {
+    parser.rm_leaf_joint(*it);
+  }
+  return std::move(vis.names);
 }
 
 namespace robot {

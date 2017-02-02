@@ -635,6 +635,26 @@ TEST(Urdf, rm_root_joint) {
   EXPECT_ANY_THROW(parser.joint("ab"));
 }
 
+TEST(Urdf, rm_leaf_joint) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addJoint(robot, "a", "b", "ab");
+  addJoint(robot, "b", "c", "bc");
+  urdf::RobotTree parser(robot);
+  EXPECT_ANY_THROW(parser.rm_leaf_joint("ab"));
+
+  parser.rm_leaf_joint("bc");
+
+  EXPECT_NO_THROW(parser.link("a"));
+  EXPECT_NO_THROW(parser.link("b"));
+  EXPECT_NO_THROW(parser.joint("ab"));
+
+  EXPECT_ANY_THROW(parser.link("c"));
+  EXPECT_ANY_THROW(parser.joint("bc"));
+}
+
 class my_visitor : public urdf::JointConstVisitor {
  public:
   std::vector<std::string> joints;
@@ -852,6 +872,38 @@ TEST(Urdf, makeMasslessJointsFixed) {
   EXPECT_EQ(urdf::Joint::fixed, urdf::Joint(de).type());
 
   EXPECT_EQ(std::vector<std::string>({"de"}), names);
+}
+
+TEST(Urdf, removeSubTreeIfJoint) {
+  ptree robot;
+
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addLink(robot, "e");
+  addJoint(robot, "a", "b", "ab_useless");
+  addJoint(robot, "b", "c", "bc_useless");
+  addJoint(robot, "b", "d", "bd");
+  addJoint(robot, "a", "e", "ae");
+
+  urdf::RobotTree parser(robot);
+  auto pred = [](const ptree &joint) {
+    return boost::regex_match(urdf::name(joint), boost::regex(".*_useless$"));
+  };
+  auto names = removeSubTreeIfJoint(parser, pred);
+
+  EXPECT_ANY_THROW(parser.joint("ab_useless")); // removed because it matches
+  EXPECT_ANY_THROW(parser.link("b"));
+  EXPECT_ANY_THROW(parser.joint("bc_useless")); // removed because it matches
+  EXPECT_ANY_THROW(parser.link("c"));
+  EXPECT_ANY_THROW(parser.joint("bd")); // removed because an ancestor matches
+  EXPECT_ANY_THROW(parser.link("d"));
+  EXPECT_NO_THROW(parser.joint("ae")); // no removed
+  EXPECT_NO_THROW(parser.link("e"));
+
+  EXPECT_EQ(std::vector<std::string>({"ab_useless", "bc_useless", "bd"}),
+            names);
 }
 
 TEST(Urdf, dot_printer) {

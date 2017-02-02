@@ -140,7 +140,16 @@ class ALMATH_API RobotTree {
 
   const std::string &root_link() const;
 
+  // If there is a single root joint, remove it and its parent link, throw otherwise.
+  //
+  // References and iterators to the removed link and joint are invalidated.
   void rm_root_joint();
+
+  // If the given joint is a leaf in the kinematic tree,
+  // remove it and its child link, throw otherwise.
+  //
+  // References and iterators to the removed link and joint are invalidated.
+  void rm_leaf_joint(const std::string &name);
 
   // Change the root link frame of reference.
   //
@@ -435,6 +444,23 @@ ALMATH_API void squashFixedJointsMass(RobotTree &parser);
 // meaning.
 // Return the names of the joints whose type was changed.
 ALMATH_API std::vector<std::string> makeMasslessJointsFixed(RobotTree &parser);
+
+// Remove kinematic tree subtrees starting at joints for which predicate
+// returns true.
+//
+// Return the names of the removed joints.
+//
+// For instance, to cut the tree at joints whose name ends with "_useless",
+// one could do:
+//
+//   ptree robot = ...
+//   auto pred = [](const ptree &joint) {
+//     return boost::regex_match(urdf::name(joint), boost::regex(".*_useless$"));
+//   };
+//   urdf::removeSubTreeIfJoint(urdf::RobotTree(robot), pred);
+ALMATH_API std::vector<std::string> removeSubTreeIfJoint(
+    RobotTree &parser,
+    std::function<bool(const ptree &joint)> pred);
 
 // a visitor which prints the URDF kinematic tree as a dot graph
 // when visiting its joints.
