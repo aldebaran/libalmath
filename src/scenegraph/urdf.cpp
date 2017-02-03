@@ -491,22 +491,33 @@ void RobotTreeP::rm_root_joint() {
   if (joints.get<ParentLink>().count(root_link) != 1) {
     throw std::runtime_error("rm_root_joint: there is not a single root joint");
   }
-  ptree::const_iterator new_root_joint = *joints.get<ParentLink>().find(root_link);
-  joints.get<ParentLink>().erase(root_link);
-  links.erase(root_link);
-  root_link = ::child_link_it(new_root_joint);
+  auto root_joint_it2 = joints.get<ParentLink>().find(root_link);
+  auto root_link_it2 = links.find(root_link);
+
+  root_link = ::child_link_it(*root_joint_it2);
+
+  robot.erase(root_link_it2->second);
+  robot.erase(*root_joint_it2);
+
+  joints.get<ParentLink>().erase(root_joint_it2);
+  links.erase(root_link_it2);
 }
 
 void RobotTreeP::rm_leaf_joint(const std::string &name) {
-  auto joint_it = checked_find(joints.get<Name>(), name);
-  const auto child_link = ::child_link_it(*joint_it);
+  auto joint_it2 = checked_find(joints.get<Name>(), name);
+  const auto child_link = ::child_link_it(*joint_it2);
   // joints whose parent link is child_link_name
   if (joints.get<ParentLink>().count(child_link) > 0) {
     throw std::runtime_error("rm_leaf_joint: the joint \"" + name +
                              "\" is not a leaf in the kinematic tree");
   }
-  joints.get<Name>().erase(name);
-  links.erase(child_link);
+  auto link_it2 = links.find(child_link);
+
+  robot.erase(*joint_it2);
+  robot.erase(link_it2->second);
+
+  joints.get<Name>().erase(joint_it2);
+  links.erase(link_it2);
 }
 
 // premultiply the rhs with lhs. So that

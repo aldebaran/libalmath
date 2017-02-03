@@ -714,9 +714,19 @@ TEST(Urdf, rm_root_joint) {
   urdf::RobotTree parser(robot);
   EXPECT_EQ("a", parser.root_link());
   parser.rm_root_joint();
-  EXPECT_EQ("b", parser.root_link());
-  EXPECT_ANY_THROW(parser.link("a"));
-  EXPECT_ANY_THROW(parser.joint("ab"));
+  {
+    // check the index was updated
+    EXPECT_EQ("b", parser.root_link());
+    EXPECT_ANY_THROW(parser.link("a"));
+    EXPECT_ANY_THROW(parser.joint("ab"));
+  }
+  {
+    // check the XML tree was updated, using a new index
+    urdf::RobotTree nrtree(robot);
+    EXPECT_EQ("b", nrtree.root_link());
+    EXPECT_ANY_THROW(nrtree.link("a"));
+    EXPECT_ANY_THROW(nrtree.joint("ab"));
+  }
 }
 
 TEST(Urdf, rm_leaf_joint) {
@@ -731,12 +741,26 @@ TEST(Urdf, rm_leaf_joint) {
 
   parser.rm_leaf_joint("bc");
 
-  EXPECT_NO_THROW(parser.link("a"));
-  EXPECT_NO_THROW(parser.link("b"));
-  EXPECT_NO_THROW(parser.joint("ab"));
+  {
+    // check the index was updated
+    EXPECT_NO_THROW(parser.link("a"));
+    EXPECT_NO_THROW(parser.link("b"));
+    EXPECT_NO_THROW(parser.joint("ab"));
 
-  EXPECT_ANY_THROW(parser.link("c"));
-  EXPECT_ANY_THROW(parser.joint("bc"));
+    EXPECT_ANY_THROW(parser.link("c"));
+    EXPECT_ANY_THROW(parser.joint("bc"));
+  }
+  {
+    // check the XML tree was updated, using a new index
+    urdf::RobotTree nrtree(robot);
+    EXPECT_NO_THROW(nrtree.link("a"));
+    EXPECT_NO_THROW(nrtree.link("b"));
+    EXPECT_NO_THROW(nrtree.joint("ab"));
+
+    EXPECT_ANY_THROW(nrtree.link("c"));
+    EXPECT_ANY_THROW(nrtree.joint("bc"));
+  }
+
 }
 
 class my_visitor : public urdf::JointConstVisitor {
