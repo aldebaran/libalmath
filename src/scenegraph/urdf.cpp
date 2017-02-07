@@ -5,6 +5,7 @@
 #include <almath/scenegraph/urdf.h>
 #include <boost/property_tree/xml_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
+#include <boost/range/iterator_range.hpp>
 #include <boost/optional.hpp>
 #include <boost/foreach.hpp>
 #include <boost/tokenizer.hpp>
@@ -22,12 +23,21 @@
 namespace {
 
 using namespace boost::property_tree;
-std::string namep(const ptree *pt) { return AL::urdf::name(*pt); }
-std::string child_linkp(const ptree *pt) { return AL::urdf::child_link(*pt); }
-std::string parent_linkp(const ptree *pt) { return AL::urdf::parent_link(*pt); }
-boost::optional<std::string> mimicp(const ptree *pt) {
+
+std::string name_it(ptree::const_iterator pt) {
+  return AL::urdf::name(pt->second);
+}
+
+std::string child_link_it(ptree::const_iterator pt) {
+  return AL::urdf::child_link(pt->second);
+}
+
+std::string parent_link_it(ptree::const_iterator pt) {
+  return AL::urdf::parent_link(pt->second); }
+
+boost::optional<std::string> mimic_it(ptree::const_iterator pt) {
   boost::optional<std::string> ret;
-  if (boost::optional<const ptree &> child = pt->get_child_optional("mimic")) {
+  if (auto child = pt->second.get_child_optional("mimic")) {
     ret = child->get<std::string>("<xmlattr>.joint");
   }
   return ret;
@@ -338,24 +348,24 @@ class RobotTreeP {
   struct Mimic {};
 
   typedef boost::multi_index_container<
-      ptree *,
+      ptree::iterator,
       indexed_by<
           sequenced<>,               // used to keep the original joint ordering
           ordered_unique<tag<Name>,  // joint name
-                         global_fun<const ptree *, std::string, &::namep> >,
-          ordered_unique<tag<ChildLink>, global_fun<const ptree *, std::string,
-                                                    &::child_linkp> >,
+                         global_fun<ptree::const_iterator, std::string, &::name_it> >,
+          ordered_unique<tag<ChildLink>, global_fun<ptree::const_iterator, std::string,
+                                                    &::child_link_it> >,
           ordered_non_unique<
               tag<ParentLink>,
-              global_fun<const ptree *, std::string, &::parent_linkp> >,
+              global_fun<ptree::const_iterator, std::string, &::parent_link_it> >,
           ordered_non_unique<
               tag<Mimic>,
-              global_fun<const ptree *, boost::optional<std::string>,
-                         &::mimicp> > > > Joints;
+              global_fun<ptree::const_iterator, boost::optional<std::string>,
+                         &::mimic_it> > > > Joints;
 
-  typedef std::map<std::string, ptree *> Links;
+  typedef std::map<std::string, ptree::iterator> Links;
 
-  typedef std::function<bool(const ptree *)> donotprune_fct;
+  typedef std::function<bool(ptree::const_iterator)> donotprune_fct;
 
   ptree &robot;
   Links links;
@@ -366,7 +376,7 @@ class RobotTreeP {
   void rm_leaf_joint(const std::string &name);
   void transport_root_link_frame(
       const Pose &pose,
-      const donotprune_fct &noprune = [](const ptree *) { return false; });
+      const donotprune_fct &noprune = [](ptree::const_iterator) { return false; });
   void flip_root_link_joint(const std::string &joint_name,
                             bool add_prune_exception);
   void define_as_root_link(const std::string &link_name);
@@ -377,16 +387,16 @@ class RobotTreeP {
   // return true if lhs mimics rhs or a joint which itself mimics rhs.
   // This function is defined static so that it can be used from the ctor.
   static bool transitively_mimics(const Joints &joints,
-                                  const ptree *lhs_joint_pt,
+                                  ptree::const_iterator lhs_joint_it,
                                   const std::string &rhs_joint_name);
 };
 
 bool RobotTreeP::transitively_mimics(const Joints &joints,
-                                    const ptree *lhs_joint_pt,
-                                    const std::string &rhs_joint_name) {
-  BOOST_FOREACH (ptree *joint,
-                 joints.get<Mimic>().equal_range(rhs_joint_name)) {
-    if ((joint == lhs_joint_pt) ||
+                                     ptree::const_iterator lhs_joint_it,
+                                     const std::string &rhs_joint_name) {
+  BOOST_FOREACH(ptree::const_iterator joint,
+                joints.get<Mimic>().equal_range(rhs_joint_name)) {
+    if ((joint == lhs_joint_it) ||
         transitively_mimics(joints, joint, rhs_joint_name))
       return true;
   }
@@ -397,41 +407,45 @@ RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
   std::set<std::string> root_links;
 
   // list all the links
-  BOOST_FOREACH (ptree::value_type &joint_kv, robot.equal_range("link")) {
-    const std::string name = urdf::name(joint_kv.second);
-
-    if (!links.insert(Links::value_type(name, &joint_kv.second)).second)
+  for(auto it = robot.begin(); it != robot.end(); ++it) {
+    if (it->first != "link")
+      continue;
+    const std::string name = ::name_it(it);
+    if (!links.emplace(name, it).second) {
       throw std::runtime_error("cannot add link \"" + name +
                                "\": duplicate link name");
-
+    }
     root_links.insert(name);
   }
   if (links.empty()) throw std::runtime_error("this urdf file has no link");
 
   // list all the joints and check the kinematic tree consistency
-  BOOST_FOREACH (ptree::value_type &joint_kv, robot.equal_range("joint")) {
-    Joint joint(joint_kv.second);
-    const std::string name = joint.name();
+  for(auto it = robot.begin(); it != robot.end(); ++ it) {
+    if (it->first != "joint")
+      continue;
+    const auto name = ::name_it(it);
 
     if (joints.get<Name>().find(name) != joints.get<Name>().end())
       throw std::runtime_error("cannot add joint \"" + name +
                                "\": duplicate joint name");
 
-    if (links.find(joint.parent_link()) == links.end())
+    const auto parent_link = ::parent_link_it(it);
+    if (links.find(parent_link) == links.end())
       throw std::runtime_error("cannot add joint \"" + name +
                                "\": non-existing parent link \"" +
-                               joint.parent_link() + "\"");
+                               parent_link + "\"");
 
-    if (links.find(joint.child_link()) == links.end())
+    const auto child_link = ::child_link_it(it);
+    if (links.find(child_link) == links.end())
       throw std::runtime_error("cannot add joint \"" + name +
                                "\": non-existing child link \"" +
-                               joint.child_link() + "\"");
+                               child_link + "\"");
 
-    if (joints.get<ChildLink>().find(joint.child_link()) !=
+    if (joints.get<ChildLink>().find(child_link) !=
         joints.get<ChildLink>().end())
       throw std::runtime_error("cannot add joint \"" + name +
                                "\": there is a loop in the kinematic tree");
-    if (boost::optional<std::string> source_name = ::mimicp(&joint_kv.second)) {
+    if (boost::optional<std::string> source_name = ::mimic_it(it)) {
       // joint_kv mimics source_name, let check that adding it won't
       // create a "mimicking loop":
       if (name == *source_name) {
@@ -446,10 +460,10 @@ RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
         throw std::runtime_error("cannot add joint \"" + name +
                                  "\": there is a loop in the mimic tree");
     }
-    joints.push_back(&joint_kv.second);
-    std::set<std::string>::iterator it = root_links.find(joint.child_link());
-    assert(it != root_links.end());
-    root_links.erase(it);
+    joints.push_back(it);
+    auto link_it = root_links.find(child_link);
+    assert(link_it != root_links.end());
+    root_links.erase(link_it);
     if (root_links.empty())
       throw std::runtime_error("cannot add joint \"" + name +
                                "\": there is a loop in the kinematic tree");
@@ -459,11 +473,11 @@ RobotTreeP::RobotTreeP(ptree &robot) : robot(robot) {
     throw std::runtime_error("kinematic tree has several roots");
   // Now that all the joints have been added, let check that there is not any
   // mimicking a non-existent joint.
-  BOOST_FOREACH (auto joint_pt, joints.get<Name>()) {
-    if (boost::optional<std::string> source_name = ::mimicp(joint_pt)) {
+  for(auto joint_it: joints.get<Name>()) {
+    if (boost::optional<std::string> source_name = ::mimic_it(joint_it)) {
       if (joints.get<Name>().find(*source_name) == joints.get<Name>().end()) {
         throw std::runtime_error("cannot add joint \"" +
-                                 Joint(*joint_pt).name() +
+                                 ::name_it(joint_it) +
                                  "\": it mimics a non-existent joint named \"" +
                                  *source_name + "\"");
       }
@@ -477,15 +491,15 @@ void RobotTreeP::rm_root_joint() {
   if (joints.get<ParentLink>().count(root_link) != 1) {
     throw std::runtime_error("rm_root_joint: there is not a single root joint");
   }
-  const ptree *new_root_joint = *joints.get<ParentLink>().find(root_link);
+  ptree::const_iterator new_root_joint = *joints.get<ParentLink>().find(root_link);
   joints.get<ParentLink>().erase(root_link);
   links.erase(root_link);
-  root_link = ::child_linkp(new_root_joint);
+  root_link = ::child_link_it(new_root_joint);
 }
 
 void RobotTreeP::rm_leaf_joint(const std::string &name) {
   auto joint_it = checked_find(joints.get<Name>(), name);
-  const auto child_link = ::child_linkp(*joint_it);
+  const auto child_link = ::child_link_it(*joint_it);
   // joints whose parent link is child_link_name
   if (joints.get<ParentLink>().count(child_link) > 0) {
     throw std::runtime_error("rm_leaf_joint: the joint \"" + name +
@@ -531,17 +545,23 @@ void premul(const Pose &lhs, const Pose &ilhs, ptree::assoc_iterator rhs_parent,
   premul(lhs, ilhs, &(rhs_parent->second), noprune);
 }
 
+void premul(const Pose &lhs, const Pose &ilhs, ptree::iterator rhs_parent,
+            bool noprune) {
+  premul(lhs, ilhs, &(rhs_parent->second), noprune);
+}
+
 void RobotTreeP::transport_root_link_frame(
-    const Pose &pose, const std::function<bool(const ptree *)> &noprune) {
+    const Pose &pose, const std::function<bool(ptree::const_iterator)> &noprune) {
   Pose ipose = pose.inverse();
   // relocate the joints origins
-  BOOST_FOREACH (ptree *child_joint_pt,
-                 joints.get<ParentLink>().equal_range(root_link)) {
-    premul(ipose, pose, child_joint_pt, noprune(child_joint_pt));
+  for(ptree::iterator child_joint_it :
+      boost::make_iterator_range(
+        joints.get<ParentLink>().equal_range(root_link))) {
+    premul(ipose, pose, child_joint_it, noprune(child_joint_it));
   }
-  ptree *root_link_pt = links.at(root_link);
+  auto root_link_it = links.at(root_link);
   for (const std::string &key : {"inertial", "visual", "collision"}) {
-    auto range = root_link_pt->equal_range(key);
+    auto range = root_link_it->second.equal_range(key);
     for (auto it = range.first; it != range.second; ++it) {
       premul(ipose, pose, it, false);
     }
@@ -549,12 +569,11 @@ void RobotTreeP::transport_root_link_frame(
 }
 
 struct flip_joint_links_fctor {
-  void operator()(ptree *joint_pt) {
-    Joint joint(*joint_pt);
-    std::string parent_link = joint.parent_link();
-    std::string child_link = joint.child_link();
-    joint_pt->put<std::string>("parent.<xmlattr>.link", child_link);
-    joint_pt->put<std::string>("child.<xmlattr>.link", parent_link);
+  void operator()(ptree::iterator joint_it) {
+    std::string parent_link = ::parent_link_it(joint_it);
+    std::string child_link = ::child_link_it(joint_it);
+    joint_it->second.put<std::string>("parent.<xmlattr>.link", child_link);
+    joint_it->second.put<std::string>("child.<xmlattr>.link", parent_link);
   }
 };
 
@@ -587,8 +606,8 @@ struct joint_has_name_fctor {
 
   joint_has_name_fctor(const std::string &name) : name(name) {}
 
-  bool operator()(const ptree *joint_pt) {
-    return name == Joint(*joint_pt).name();
+  bool operator()(ptree::const_iterator joint_it) {
+    return name == ::name_it(joint_it);
   }
 };
 
@@ -605,9 +624,9 @@ struct joint_has_name_fctor {
 // described.
 void RobotTreeP::flip_root_link_joint(const std::string &joint_name,
                                       bool add_prune_exception) {
-  auto joint_it = checked_find(joints.get<Name>(), joint_name);
-  ptree *joint_pt = *joint_it;
-  Joint joint(*joint_pt);
+  auto joint_it2 = checked_find(joints.get<Name>(), joint_name);
+  ptree::iterator joint_it = *joint_it2;
+  Joint joint(joint_it->second);
   assert(joint.parent_link() == root_link);
   // The root link frame can be defined anywhere. But this is not the
   // case for other links, whose frame is defined by their parent joint,
@@ -619,7 +638,7 @@ void RobotTreeP::flip_root_link_joint(const std::string &joint_name,
   // future parent joint when this joint is at the zero pose.
   // Note: maybe we should instead do a pure translation?
   boost::optional<const ptree &> opt_origin =
-      const_cast<const ptree *>(joint_pt)->get_child_optional("origin");
+      const_cast<const ptree &>(joint_it->second).get_child_optional("origin");
   if (opt_origin) {
     Pose origin = Pose::from_ptree(opt_origin);
     if (add_prune_exception) {
@@ -630,17 +649,17 @@ void RobotTreeP::flip_root_link_joint(const std::string &joint_name,
     }
   }
   // update kinematic tree
-  bool ok = joints.get<Name>().modify(joint_it, flip_joint_links_fctor());
+  bool ok = joints.get<Name>().modify(joint_it2, flip_joint_links_fctor());
   assert(ok);
   root_link = joint.parent_link();
-  flip_joint_axis(*joint_pt);
+  flip_joint_axis(joint_it->second);
 }
 
 void RobotTreeP::define_as_root_link(const std::string &link_name) {
   std::vector<std::string> joints_path;
   std::string cur_link_name = link_name;
   while (cur_link_name != root_link) {
-    Joint joint(**checked_find(joints.get<ChildLink>(), cur_link_name));
+    Joint joint((*checked_find(joints.get<ChildLink>(), cur_link_name))->second);
     if ((joint.type() == Joint::floating) || (joint.type() == Joint::planar))
       throw std::runtime_error(
           "define_as_root_link: there is a multi-dof"
@@ -657,27 +676,30 @@ void RobotTreeP::define_as_root_link(const std::string &link_name) {
 
 void RobotTreeP::walk_joint(RobotTree::JointConstVisitor &vis,
                             const std::string &link) const {
-  BOOST_FOREACH (const ptree *joint,
+  BOOST_FOREACH (ptree::const_iterator joint,
                  joints.get<ParentLink>().equal_range(link)) {
-    if (vis.discover(*joint)) walk_joint(vis, Joint(*joint).child_link());
-    vis.finish(*joint);
+    if (vis.discover(joint->second))
+      walk_joint(vis, ::child_link_it(joint));
+    vis.finish(joint->second);
   }
 }
 
 void RobotTreeP::walk_joint(RobotTree::JointVisitor &vis,
                             const std::string &link) {
-  BOOST_FOREACH (ptree *joint, joints.get<ParentLink>().equal_range(link)) {
-    if (vis.discover(*joint)) walk_joint(vis, Joint(*joint).child_link());
-    vis.finish(*joint);
+  BOOST_FOREACH (ptree::iterator joint,
+                 joints.get<ParentLink>().equal_range(link)) {
+    if (vis.discover(joint->second))
+      walk_joint(vis, ::child_link_it(joint));
+    vis.finish(joint->second);
   }
 }
 
 bool RobotTreeP::is_mimic_tree_flat() const {
-  BOOST_FOREACH (auto joint_pt, joints.get<Name>()) {
-    if (auto opt_mimic = Joint(*joint_pt).mimic()) {
-      auto it = joints.get<Name>().find(opt_mimic->joint());
+  BOOST_FOREACH (auto joint_it, joints.get<Name>()) {
+    if (auto opt_mimic = ::mimic_it(joint_it)) {
+      auto it = joints.get<Name>().find(*opt_mimic);
       assert(it != joints.get<Name>().end());
-      if (Joint(**it).mimic()) {
+      if (::mimic_it(*it)) {
         // the mimic source is itself a mimic target, we should flatten the
         // tree.
         return false;
@@ -692,14 +714,19 @@ RobotTree::RobotTree(ptree &robot) : _p(new detail::RobotTreeP(robot)) {}
 RobotTree::~RobotTree() {}
 
 const ptree &RobotTree::link(const std::string &name) const {
-  return *_p->links.at(name);
+  return _p->links.at(name)->second;
 }
-ptree &RobotTree::link(const std::string &name) { return *_p->links.at(name); }
+ptree &RobotTree::link(const std::string &name) {
+  return _p->links.at(name)->second;
+}
+
 const ptree &RobotTree::joint(const std::string &name) const {
-  return **checked_find(_p->joints.get<detail::RobotTreeP::Name>(), name);
+  auto it2 = checked_find(_p->joints.get<detail::RobotTreeP::Name>(), name);
+  return (**it2).second;
 }
 ptree &RobotTree::joint(const std::string &name) {
-  return **checked_find(_p->joints.get<detail::RobotTreeP::Name>(), name);
+  auto it2 = checked_find(_p->joints.get<detail::RobotTreeP::Name>(), name);
+  return (**it2).second;
 }
 
 const std::string &RobotTree::root_link() const { return _p->root_link; }
