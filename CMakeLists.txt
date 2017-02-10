@@ -9,7 +9,7 @@ find_package(qibuild)
 enable_testing()
 
 option(ALMATH_WITH_QIGEOMETRY
-  "if true, qigeometry and geometry_module are built and almath is built with qigeometry support"
+  "if true, qigeometry and geometry_module are built"
   ON)
 option(ALMATH_AS_STATIC_LIBRARY
   "if true, almath is built as a static library"
@@ -75,9 +75,6 @@ set(ALMATH_SRCS
     src/types/aldisplacement.cpp
     src/types/occupancymapparams.cpp
 )
-if (ALMATH_WITH_QIGEOMETRY)
-  list(APPEND ALMATH_SRCS src/geometry/tools.cpp)
-endif()
 
 # list of the public headers which are wrapped
 # check it against swig -MM almath.i
@@ -109,8 +106,8 @@ set(ALMATH_H
     ${ALMATH_H_WRAPPED}
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
-    almath/geometry/tools.hpp
     almath/scenegraph/almatheigen.h
+    almath/scenegraph/almathqigeometry.hpp
     almath/scenegraph/qianim.h
     almath/scenegraph/qianim/unit.h
     almath/scenegraph/bodymass.h
@@ -118,13 +115,13 @@ set(ALMATH_H
     almath/scenegraph/colladascenebuilder.h
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
+    almath/scenegraph/qigeometry.h
     almath/scenegraph/rigidbodysystembuilder.h
     almath/scenegraph/qirostime.h
     almath/scenegraph/scenebuilder.h
     almath/scenegraph/urdf.h
     almath/scenegraph/urdfeigen.h
     almath/scenegraph/urdfrigidbodysystemtraverser.h
-    almath/scenegraph/almathqigeometry.hpp
     almath/tools/almathio.h
 )
 
@@ -137,10 +134,6 @@ endif()
 
 qi_use_lib(almath BOOST EIGEN3)
 
-if(ALMATH_WITH_QIGEOMETRY)
-  qi_use_lib(almath QIGEOMETRY)
-endif()
-
 # generate a header that will define the symbol visibility/deprecation macros:
 #  ALMATH_API
 #  ALMATH_DEPRECATED
@@ -151,12 +144,6 @@ generate_export_header(almath
   STATIC_DEFINE almath_STATIC_BUILD
   EXPORT_FILE_NAME ${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h)
 qi_install_header(${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h SUBFOLDER almath)
-
-# generate a header that will define which compile options have been used
-configure_file(almath/config.h.in
-               ${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/config.h
-               @ONLY)
-qi_install_header(${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/config.h SUBFOLDER almath)
 
 # ensure generated headers are found
 include_directories(${QI_SDK_DIR}/${QI_SDK_INCLUDE})

@@ -2,7 +2,8 @@
  * Copyright 2016 Aldebaran. All rights reserved.
  */
 
-#include <almath/geometry/tools.hpp>
+#include <qi/geometry/geometry.hpp>
+#include <almath/scenegraph/qigeometry.h>
 #include <qi/anymodule.hpp>
 
 namespace qi

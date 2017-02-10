@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 #include <almath/scenegraph/almathqigeometry.hpp>
-#include <almath/geometry/tools.hpp>
+#include <almath/scenegraph/qigeometry.h>
 
 TEST(ALMathQiGeometry, transformFromQiTransform)
 {

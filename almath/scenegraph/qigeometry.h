@@ -1,15 +1,21 @@
 /**
  * Copyright 2016 Aldebaran. All rights reserved.
  */
+#pragma once
+#ifndef LIBALMATH_SCENEGRAPH_QIGEOMETRY_H
+#define LIBALMATH_SCENEGRAPH_QIGEOMETRY_H
 
-#include <almath/geometry/tools.hpp>
+// the user is expected to
+//  #include <qi/geometry/geometry.hpp>
+// and link with qigeometry
+
 #include <Eigen/Geometry>
 
 namespace qi
 {
 namespace geometry
 {
-Vector3 makeVector3(double x, double y, double z)
+inline Vector3 makeVector3(double x, double y, double z)
 {
   // TODO: #34174 qilang does not let us define our constructors
   Vector3 v;
@@ -19,7 +25,13 @@ Vector3 makeVector3(double x, double y, double z)
   return v;
 }
 
-Quaternion makeQuaternion(double x, double y, double z, double w)
+inline std::ostream& operator<<(std::ostream &o, const Vector3 &t)
+{
+  return o << "Vector3(" << t.x << ", " << t.y << ", " << t.z << ")";
+}
+
+
+inline Quaternion makeQuaternion(double x, double y, double z, double w)
 {
   // TODO: #34174 qilang does not let us define our constructors
   Quaternion q;
@@ -30,24 +42,53 @@ Quaternion makeQuaternion(double x, double y, double z, double w)
   return q;
 }
 
-bool isNormalized(const Quaternion &r, double epsilon)
+inline std::ostream& operator<<(std::ostream &o, const Quaternion &r)
+{
+  return o << "Quaternion(" << r.x << ", " << r.y << ", " << r.z << ", "
+           << r.w << ")";
+}
+
+inline double norm(const Quaternion &r)
+{
+  return Eigen::Map<const Eigen::Quaterniond>(&r.x).norm();
+}
+
+inline bool isNormalized(const Quaternion &r, double epsilon)
 {
   return std::abs(norm(r) - 1.0) < epsilon;
 }
 
+
+// Check if the quaternion made out of x, y, z, w is normalized, and
+// throw if it is not the case.
+inline
 Quaternion makeNormalizedQuaternion(double x, double y, double z, double w)
 {
   auto q = makeQuaternion(x, y, z, w);
   if (!isNormalized(q, 1e-5f))
   {
     std::stringstream err;
-    err << "Quaternion(" << x << ", " << y << ", " << z << ", " << w
-        << ") is not normalized";
+    err << q << " is not normalized";
     throw std::runtime_error(err.str());
   }
   return q;
 }
 
+// Normalize a quaternion in place
+inline void normalize(Quaternion &r)
+{
+  Eigen::Map<Eigen::Quaterniond>(&r.x).normalize();
+}
+
+// Return a normalized copy of a quaternion
+inline Quaternion normalized(const Quaternion &r)
+{
+  Quaternion result = r;
+  normalize(result);
+  return result;
+}
+
+inline
 Transform makeTransform(const Quaternion &rotation, const Vector3 &translation)
 {
   // TODO: #34174 qilang does not let us define our constructors
@@ -57,22 +98,12 @@ Transform makeTransform(const Quaternion &rotation, const Vector3 &translation)
   return tf;
 }
 
-double norm(const Quaternion &r)
+
+inline std::ostream& operator<<(std::ostream &o, const Transform &tf)
 {
-  return Eigen::Map<const Eigen::Quaterniond>(&r.x).norm();
+  return o << "Transform(" << tf.rotation << ", " << tf.translation << ")";
 }
 
-void normalize(Quaternion &r)
-{
-  Eigen::Map<Eigen::Quaterniond>(&r.x).normalize();
-}
-
-Quaternion normalized(const Quaternion &r)
-{
-  Quaternion result = r;
-  normalize(result);
-  return result;
-}
 
 inline Eigen::Affine3d toEigenAffine3d(const Transform &tf)
 {
@@ -83,34 +114,41 @@ inline Eigen::Affine3d toEigenAffine3d(const Transform &tf)
                          Eigen::Quaterniond(r.w, r.x, r.y, r.z));
 }
 
-Transform operator*(const Transform &lhs, const Transform &rhs)
+// assumes lhs and rhs have normalized quaternions
+inline Transform operator*(const Transform &lhs, const Transform &rhs)
 {
+  Transform result;
   assert(isNormalized(lhs.rotation, 1e-5));
   assert(isNormalized(rhs.rotation, 1e-5));
   auto lv = Eigen::Map<const Eigen::Vector3d>(&lhs.translation.x);
   auto rv = Eigen::Map<const Eigen::Vector3d>(&rhs.translation.x);
   auto lq = Eigen::Map<const Eigen::Quaterniond>(&lhs.rotation.x);
   auto rq = Eigen::Map<const Eigen::Quaterniond>(&rhs.rotation.x);
-  Transform result;
   Eigen::Map<Eigen::Quaterniond>(&result.rotation.x) = lq * rq;
   Eigen::Map<Eigen::Vector3d>(&result.translation.x) = lv + lq * rv;
   return result;
 }
 
-bool isNear(const Transform &lhs, const Transform &rhs, double epsilon)
+// assumes lhs and rhs have normalized quaternions
+inline bool isNear(const Transform &lhs, const Transform &rhs, double epsilon)
 {
   auto la = toEigenAffine3d(lhs);
   auto ra = toEigenAffine3d(rhs);
   return la.isApprox(ra, epsilon);
 }
 
-Transform inverse(const Transform &tf)
+
+// assumes tf has normalized quaternion
+inline Transform inverse(const Transform &tf)
 {
-  auto inv = toEigenAffine3d(tf).inverse();
   Transform result;
+  auto inv = toEigenAffine3d(tf).inverse();
   Eigen::Map<Eigen::Quaterniond>(&result.rotation.x) = inv.rotation();
   Eigen::Map<Eigen::Vector3d>(&result.translation.x) = inv.translation();
   return result;
 }
+
 }
 }
+
+#endif

@@ -6,7 +6,7 @@
 
 #include <almath/tools/altransformhelpers.h>
 #include <qi/geometry/geometry.hpp>
-#include <almath/geometry/tools.hpp>
+#include <almath/scenegraph/qigeometry.h>
 
 namespace AL
 {
