@@ -4,6 +4,10 @@
  *
  */
 
+#pragma once
+#ifndef LIBALMATH_SCENEGRAPH_ALMATHQIGEOMETRY_HPP
+#define LIBALMATH_SCENEGRAPH_ALMATHQIGEOMETRY_HPP
+
 #include <almath/tools/altransformhelpers.h>
 #include <qi/geometry/geometry.hpp>
 #include <almath/scenegraph/qigeometry.h>
@@ -41,3 +45,4 @@ namespace Math
 
 }
 }
+#endif
