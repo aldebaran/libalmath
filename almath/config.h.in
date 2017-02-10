@@ -5,7 +5,7 @@
  */
 
 #pragma once
-#ifndef LIBALMATH_ALMATH_CONFIG_H_
+#ifndef LIBALMATH_ALMATH_CONFIG_H
 #define LIBALMATH_ALMATH_CONFIG_H
 
 #cmakedefine ALMATH_WITH_QIGEOMETRY
