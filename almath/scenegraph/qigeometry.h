@@ -17,12 +17,7 @@ namespace geometry
 {
 inline Vector3 makeVector3(double x, double y, double z)
 {
-  // TODO: #34174 qilang does not let us define our constructors
-  Vector3 v;
-  v.x = x;
-  v.y = y;
-  v.z = z;
-  return v;
+  return Vector3{x, y, z};
 }
 
 inline std::ostream& operator<<(std::ostream &o, const Vector3 &t)
@@ -33,13 +28,7 @@ inline std::ostream& operator<<(std::ostream &o, const Vector3 &t)
 
 inline Quaternion makeQuaternion(double x, double y, double z, double w)
 {
-  // TODO: #34174 qilang does not let us define our constructors
-  Quaternion q;
-  q.x = x;
-  q.y = y;
-  q.z = z;
-  q.w = w;
-  return q;
+  return Quaternion{x, y, z, w};
 }
 
 inline std::ostream& operator<<(std::ostream &o, const Quaternion &r)
@@ -75,11 +64,7 @@ inline Quaternion normalized(const Quaternion &r)
 inline
 Transform makeTransform(const Quaternion &rotation, const Vector3 &translation)
 {
-  // TODO: #34174 qilang does not let us define our constructors
-  Transform tf;
-  tf.translation = translation;
-  tf.rotation = rotation;
-  return tf;
+  return Transform{rotation, translation};
 }
 
 
