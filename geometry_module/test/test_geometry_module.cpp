@@ -2,6 +2,7 @@
 #include <qi/anymodule.hpp>
 #include <qi/geometry/geometry.hpp>
 #include <qi/application.hpp>
+#include <boost/math/constants/constants.hpp>
 
 using namespace qi::geometry;
 
@@ -32,6 +33,22 @@ TEST_F(GeometryModuleTest, makeQuaternion) {
   EXPECT_DOUBLE_EQ(q.y/n, qn.y);
   EXPECT_DOUBLE_EQ(q.z/n, qn.z);
   EXPECT_DOUBLE_EQ(q.w/n, qn.w);
+}
+
+TEST_F(GeometryModuleTest, makeQuaternionFromAngleAxis) {
+  auto axis = gm.call<Vector3>("makeVector3", 1., 1., 1.);
+  auto norm = sqrt(3.);
+
+  auto angle = 2 * boost::math::constants::pi<double>()/3;
+  auto sin_ha = sin(angle/2);
+  auto cos_ha = cos(angle/2);
+  auto q = gm.call<Quaternion>("makeQuaternionFromAngleAxis", angle, axis);
+  EXPECT_DOUBLE_EQ(sin_ha * axis.x/norm, q.x);
+  EXPECT_DOUBLE_EQ(sin_ha * axis.y/norm, q.y);
+  EXPECT_DOUBLE_EQ(sin_ha * axis.z/norm, q.z);
+  EXPECT_DOUBLE_EQ(cos_ha, q.w);
+
+  EXPECT_DOUBLE_EQ(1., gm.call<double>("norm", q));
 }
 
 // TODO: duplicate this test using quaternion which is not normalized

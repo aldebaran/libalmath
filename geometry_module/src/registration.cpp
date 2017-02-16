@@ -14,9 +14,11 @@ void register_geometry_module(qi::ModuleBuilder* mb)
 {
   mb->advertiseMethod("makeVector3", &makeVector3);
   mb->advertiseMethod("makeQuaternion", &makeQuaternion);
+  mb->advertiseMethod("makeQuaternionFromAngleAxis", &makeQuaternionFromAngleAxis,
+                      std::string("Return a quaternion corresponding to the rotation of an angle (in radians) around an axis."));
   mb->advertiseMethod("makeTransform", &makeTransform);
   mb->advertiseMethod("inverse", &inverse);
-  mb->advertiseMethod("multiply", &operator *);
+  mb->advertiseMethod("multiply", &operator*);
   mb->advertiseMethod("norm", &norm);
   mb->advertiseMethod("normalized", &normalized);
 }

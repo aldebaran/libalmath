@@ -25,10 +25,18 @@ inline std::ostream& operator<<(std::ostream &o, const Vector3 &t)
   return o << "Vector3(" << t.x << ", " << t.y << ", " << t.z << ")";
 }
 
-
 inline Quaternion makeQuaternion(double x, double y, double z, double w)
 {
   return Quaternion{x, y, z, w};
+}
+
+inline Quaternion makeQuaternionFromAngleAxis(double angle, const Vector3 &axis)
+{
+  Quaternion result;
+  Eigen::Map<Eigen::Quaterniond>(&result.x) =
+      Eigen::AngleAxisd(angle,
+                        Eigen::Map<const Eigen::Vector3d>(&axis.x).normalized());
+  return result;
 }
 
 inline std::ostream& operator<<(std::ostream &o, const Quaternion &r)
