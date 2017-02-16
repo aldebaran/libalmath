@@ -14,7 +14,6 @@ void register_geometry_module(qi::ModuleBuilder* mb)
 {
   mb->advertiseMethod("makeVector3", &makeVector3);
   mb->advertiseMethod("makeQuaternion", &makeQuaternion);
-  mb->advertiseMethod("makeNormalizedQuaternion", &makeNormalizedQuaternion);
   mb->advertiseMethod("makeTransform", &makeTransform);
   mb->advertiseMethod("inverse", &inverse);
   mb->advertiseMethod("multiply", &operator *);

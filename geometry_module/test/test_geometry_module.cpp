@@ -24,26 +24,15 @@ TEST_F(GeometryModuleTest, makeQuaternion) {
   EXPECT_EQ(3., q.z);
   EXPECT_EQ(4., q.w);
 
-  EXPECT_GT(gm.call<double>("norm", q), 1.);
-}
-
-TEST_F(GeometryModuleTest, makeNormalizedQuaternion) {
-  EXPECT_ANY_THROW(gm.call<Quaternion>("makeNormalizedQuaternion",
-                                       1., 2., 3., 4.));
-  auto q = gm.call<Quaternion>("makeNormalizedQuaternion",
-                               0.5, 0.5, 0.5, 0.5);
-  EXPECT_EQ(0.5, q.x);
-  EXPECT_EQ(0.5, q.y);
-  EXPECT_EQ(0.5, q.z);
-  EXPECT_EQ(0.5, q.w);
-
-  EXPECT_DOUBLE_EQ(1., gm.call<double>("norm", q));
+  auto n = gm.call<double>("norm", q);
+  EXPECT_DOUBLE_EQ(sqrt(1. + 4. + 9. + 16.), n);
 
   auto qn = gm.call<Quaternion>("normalized", q);
-  EXPECT_DOUBLE_EQ(q.x, qn.x);
-  EXPECT_DOUBLE_EQ(q.y, qn.y);
-  EXPECT_DOUBLE_EQ(q.z, qn.z);
-  EXPECT_DOUBLE_EQ(q.w, qn.w);}
+  EXPECT_DOUBLE_EQ(q.x/n, qn.x);
+  EXPECT_DOUBLE_EQ(q.y/n, qn.y);
+  EXPECT_DOUBLE_EQ(q.z/n, qn.z);
+  EXPECT_DOUBLE_EQ(q.w/n, qn.w);
+}
 
 // TODO: duplicate this test using quaternion which is not normalized
 TEST_F(GeometryModuleTest, transform) {
@@ -51,7 +40,6 @@ TEST_F(GeometryModuleTest, transform) {
   auto rotation = gm.call<Quaternion>("makeQuaternion", 0.5, 0.5, 0.5, 0.5);
   auto translation = gm.call<Vector3>("makeVector3", 1., 2., 3.);
   auto transform = gm.call<Transform>("makeTransform", rotation, translation);
-
 
   EXPECT_EQ(rotation.x, transform.rotation.x);
   EXPECT_EQ(rotation.y, transform.rotation.y);

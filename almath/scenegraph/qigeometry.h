@@ -58,22 +58,6 @@ inline bool isNormalized(const Quaternion &r, double epsilon)
   return std::abs(norm(r) - 1.0) < epsilon;
 }
 
-
-// Check if the quaternion made out of x, y, z, w is normalized, and
-// throw if it is not the case.
-inline
-Quaternion makeNormalizedQuaternion(double x, double y, double z, double w)
-{
-  auto q = makeQuaternion(x, y, z, w);
-  if (!isNormalized(q, 1e-5f))
-  {
-    std::stringstream err;
-    err << q << " is not normalized";
-    throw std::runtime_error(err.str());
-  }
-  return q;
-}
-
 // Normalize a quaternion in place
 inline void normalize(Quaternion &r)
 {
