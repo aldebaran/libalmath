@@ -1,13 +1,14 @@
 /**
  * Copyright 2016 Aldebaran. All rights reserved.
+ *
+ * the user is expected to
+ *  #include <qi/geometry/geometry.hpp>
+ * and link with qigeometry
  */
 #pragma once
 #ifndef LIBALMATH_SCENEGRAPH_QIGEOMETRY_H
 #define LIBALMATH_SCENEGRAPH_QIGEOMETRY_H
 
-// the user is expected to
-//  #include <qi/geometry/geometry.hpp>
-// and link with qigeometry
 
 #include <Eigen/Geometry>
 

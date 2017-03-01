@@ -5,6 +5,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <qi/geometry/geometry.hpp>
 #include <almath/scenegraph/almathqigeometry.hpp>
 #include <almath/scenegraph/qigeometry.h>
 

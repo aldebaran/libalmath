@@ -2,6 +2,9 @@
  * @author Lucas Souchet - lsouchet@aldebaran.com
  * Aldebaran Robotics (c) 2016 All Rights Reserved - This file is confidential.
  *
+ * the user is expected to
+ *  #include <qi/geometry/geometry.hpp>
+ * and link with qigeometry
  */
 
 #pragma once
@@ -9,7 +12,6 @@
 #define LIBALMATH_SCENEGRAPH_ALMATHQIGEOMETRY_HPP
 
 #include <almath/tools/altransformhelpers.h>
-#include <qi/geometry/geometry.hpp>
 #include <almath/scenegraph/qigeometry.h>
 
 namespace AL
