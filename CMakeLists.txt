@@ -8,6 +8,16 @@ find_package(qibuild)
 
 enable_testing()
 
+# disable boost circular buffer "debug helper"
+# note that by default the helper is:
+# * disabled in release build
+# * enabled on debug build for boost < 1.62
+# * disabled on debug build for boost >= 1.62
+# see also:
+#  https://svn.boost.org/trac/boost/ticket/6277
+#  https://redmine.aldebaran.lan/issues/19739
+add_definitions("-DBOOST_CB_DISABLE_DEBUG")
+
 option(ALMATH_WITH_QIGEOMETRY
   "if true, qigeometry and geometry_module are built"
   ON)
