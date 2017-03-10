@@ -26,6 +26,24 @@ TEST(ALMathQiGeometry, transformFromQiTransform)
   EXPECT_NEAR(p.z, 7.0f, 1e-5f);
 }
 
+TEST(ALMathQiGeometry, qiTransformFromALMath)
+{
+  AL::Math::Position3D p(5.0f, 6.0f, 7.0f);
+  AL::Math::Quaternion q(0.149f, 0.129f, 0.170f, 0.965f);
+  const auto tf = AL::Math::transformFromDisplacement(
+        AL::Math::Displacement(p, q));
+
+  const auto result = AL::Math::qiTransformFromALMath(tf);
+  const float epsilon = 1e-5f;
+  EXPECT_NEAR(result.translation.x, p.x, epsilon);
+  EXPECT_NEAR(result.translation.y, p.y, epsilon);
+  EXPECT_NEAR(result.translation.z, p.z, epsilon);
+  EXPECT_NEAR(result.rotation.x, q.x, epsilon);
+  EXPECT_NEAR(result.rotation.y, q.y, epsilon);
+  EXPECT_NEAR(result.rotation.z, q.z, epsilon);
+  EXPECT_NEAR(result.rotation.w, q.w, epsilon);
+}
+
 TEST(ALMathQiGeometry, pose2DFromQiTransformSimple)
 {
   qi::geometry::Transform t = qi::geometry::makeTransform(

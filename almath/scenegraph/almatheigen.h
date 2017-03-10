@@ -29,6 +29,12 @@ inline Eigen::Matrix3f toEigenMatrix3(const AL::Math::Transform &tr) {
       Eigen::Map<const Matrix34frm>(&tr.r1_c1).block<3, 3>(0, 0));
 }
 
+template <typename T>
+inline Eigen::Quaternion<T> toEigenQuaternion(const AL::Math::Transform &tr) {
+  return Eigen::Quaternion<T>(
+      Eigen::Map<const Matrix34frm>(&tr.r1_c1).block<3, 3>(0, 0));
+}
+
 inline Eigen::Vector3f toEigenVector3(const AL::Math::Position3D &v) {
   return Eigen::Vector3f(Eigen::Map<const Eigen::Vector3f>(&v.x));
 }
