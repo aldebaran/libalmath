@@ -66,7 +66,7 @@ namespace Math {
   /// \ingroup Types
 struct ALMATH_API OccupancyMapParams {
   explicit OccupancyMapParams(int size, float metersPerPixel,
-                              const Position2D &mapCenter);
+      const Position2D &mapCenter, float obstacleThreshold = 0.25f);
 
   /// <summary>
   /// Set the origin offset accordingly to the given desired metrical
@@ -125,12 +125,18 @@ struct ALMATH_API OccupancyMapParams {
   /// <returns> Point2Di of the corresponding pixel difference. </returns>
   Point2Di getDeltaPixelFromDeltaPosition(const Position2D& position) const;
 
+  /// <summary> Get the maximum pixel value of an obstacle in the map.
+  /// </summary>
+  float getObstacleProbabilityThreshold() const;
+
   /// <summary> Pixel size of the associated squared occupancy map. </summary>
   int size;
   /// <summary> Factor representing the metrical size of each pixel.</summary>
   float metersPerPixel;
   /// <summary> Metrical coordinate of the (0, 0) pixel.</summary>
   Position2D originOffset;
+  /// <summary> Maximum pixel value of an obstacle in the map </summary>
+  float obstacleProbabilityThreshold;
 };
 } // Math
 } // AL
