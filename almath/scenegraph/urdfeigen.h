@@ -91,7 +91,6 @@ void squashInertial(Scalar mass_a, const EPose &pose_a,
   EIGEN_STATIC_ASSERT(
       (Eigen::internal::is_same<Scalar, typename Derived1::Scalar>::value),
       YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
-  typedef Eigen::Transform<Scalar, 3, Eigen::AffineCompact, Eigen::DontAlign> T;
   typedef Eigen::Matrix<Scalar, 3, 3> Matrix3;
   typedef Eigen::Matrix<Scalar, 3, 1> Vector3;
 
@@ -129,7 +128,6 @@ void urdfInertialToEigen(const AL::urdf::Inertial &inertial, Scalar &mass,
       YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
   typedef Eigen::Transform<Scalar, 3, Eigen::AffineCompact, Eigen::DontAlign> T;
   typedef Eigen::Matrix<Scalar, 3, 3> Matrix3;
-  typedef Eigen::Matrix<Scalar, 3, 1> Vector3;
 
   mass = inertial.mass();
   T t_ab = toEigenTransform(inertial.origin()).cast<Scalar>();

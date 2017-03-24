@@ -609,7 +609,7 @@ void flip_joint_axis(ptree &joint_pt) {
     case Joint::Type::fixed:
     case Joint::Type::floating:
       break;
-  };
+  }
 }
 
 struct joint_has_name_fctor {
