@@ -491,6 +491,9 @@ class ALMATH_API UrdfDotPrinterVisitor : public RobotTree::JointConstVisitor {
   void finish(const ptree &joint);
 };
 
+
+ALMATH_API void put_name(ptree &pt, const std::string &name);
+
 namespace robot {
 
 // Replace each mesh and texture filename by the result of applying op() to it.

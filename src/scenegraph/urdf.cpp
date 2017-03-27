@@ -964,6 +964,10 @@ std::vector<std::string> removeSubTreeIfJoint(
   return std::move(vis.names);
 }
 
+void put_name(ptree &pt, const std::string &name) {
+  pt.put("<xmlattr>.name", name);
+}
+
 namespace robot {
 void transform_filenames(
     ptree &robot, std::function<std::string(std::string)> op) {
