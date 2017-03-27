@@ -261,9 +261,48 @@ check_cubic_bezier(const ptree &pt) {
 }
 }
 
+namespace Label {
+// return true if the argument is a Label element
+ALMATH_API bool is_label(const ptree::value_type &val);
+
+using Key::get_frame;
+using Key::put_frame;
+
+ALMATH_API std::string get_value(const ptree &pt);
+}
+
+namespace Labels {
+// return true if the argument is a Labels element
+ALMATH_API bool is_labels(const ptree::value_type &val);
+
+using ActuatorCurve::get_fps;
+using ActuatorCurve::put_fps;
+
+// Add a Label at the given frame, with the given value.
+// Note that the specification requires the value to be UTF-8 encoded.
+ALMATH_API ptree &add_label(ptree &pt, int frame, const std::string value);
+
+// return the range of child Label elements, in document order.
+// If the document is conforming, the Label elements are sorted by increasing
+// frame.
+inline auto get_labels(const ptree &pt)
+-> boost::select_second_const_range<
+      decltype(boost::adaptors::filter(pt, Label::is_label))>
+{
+  return boost::adaptors::values(boost::adaptors::filter(pt, Label::is_label));
+}
+
+// return the range of child Label elements, in document order.
+inline auto get_labels(ptree &pt)
+-> boost::select_second_mutable_range<
+       decltype(boost::adaptors::filter(pt, Label::is_label))> {
+  auto kv = boost::adaptors::filter(pt, Label::is_label);
+  return boost::adaptors::values(kv);
+}
+}
+
 namespace Animation {
 // return the range of child ActuatorCurve elements, in document order.
-// If the document is conforming, the keys are sorted by increasing frame.
 inline auto get_actuatorcurves(const ptree &pt)
 -> boost::select_second_const_range<
       decltype(boost::adaptors::filter(pt, ActuatorCurve::is_actuatorcurve))> {
@@ -286,6 +325,16 @@ ALMATH_API void check_all(const ptree &pt);
 
 ALMATH_API ptree &require_actuatorcurve(ptree &pt,
                                         const std::string &actuator);
+
+// return the range of child Labels elements, in document order.
+inline auto get_labels(const ptree &pt)
+-> boost::select_second_const_range<
+      decltype(boost::adaptors::filter(pt, Labels::is_labels))> {
+  return boost::adaptors::values(
+             boost::adaptors::filter(pt, Labels::is_labels));
+}
+
+ALMATH_API ptree &add_labels(ptree &pt);
 
 }
 
