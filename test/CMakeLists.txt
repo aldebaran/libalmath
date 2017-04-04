@@ -63,9 +63,13 @@ qi_create_gtest(test_almath_rigidbodysystembuilder
   SRC scenegraph/test_rigidbodysystembuilder.cpp
   DEPENDS ALMATH)
 
+qi_create_gtest(test_almath_qianim
+  SRC scenegraph/test_qianim.cpp
+  DEPENDS ALMATH)
+
 qi_create_gtest(test_almath_urdf
   SRC scenegraph/test_urdf.cpp
-  DEPENDS ALMATH BOOST_FILESYSTEM)
+  DEPENDS ALMATH BOOST_FILESYSTEM BOOST_REGEX)
 
 qi_create_gtest(test_almath_urdfeigen
   SRC scenegraph/test_urdfeigen.cpp
@@ -75,9 +79,11 @@ qi_create_gtest(test_almath_visualization3d
   SRC scenegraph/test_visualization3d.cpp
   DEPENDS ALMATH BOOST_FILESYSTEM)
 
-qi_create_gtest(test_almathqigeometry
-  SRC scenegraph/test_almathqigeometry.cpp
-  DEPENDS almath qigeometry)
+if(ALMATH_WITH_QIGEOMETRY)
+  qi_create_gtest(test_almathqigeometry
+    SRC scenegraph/test_almathqigeometry.cpp
+    DEPENDS almath qigeometry)
+endif()
 
 if (WITH_PYTHON AND NOT WIN32)
   find_program(_PYTHON_EXECUTABLE python REQUIRED)

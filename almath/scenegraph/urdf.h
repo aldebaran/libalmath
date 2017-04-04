@@ -11,8 +11,11 @@
 #include <iosfwd>
 #include <memory>
 #include <array>
-#include <boost/property_tree/ptree_fwd.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <boost/optional.hpp>
+#include <boost/variant.hpp>
+#include <boost/range/adaptor/map.hpp>
+#include <boost/range/adaptor/filtered.hpp>
 #include <boost/function/function_fwd.hpp>
 #include <boost/ref.hpp>
 #include <boost/multi_index_container.hpp>
@@ -56,13 +59,17 @@ namespace urdf {
 typedef boost::property_tree::ptree ptree;
 
 namespace detail {
-class UrdfTreeP;
+class RobotTreeP;
 }
 
 typedef std::array<double, 3> Array3d;
 
 inline bool is_zero(const Array3d &a) {
   return (a[0] == 0) && (a[1] == 0) && (a[2] == 0);
+}
+
+inline bool is_ones(const Array3d &a) {
+  return (a[0] == 1) && (a[1] == 1) && (a[2] == 1);
 }
 
 class Pose;
@@ -76,7 +83,7 @@ ALMATH_API std::string parent_link(const ptree &pt);
 // return the child link of a joint element
 ALMATH_API std::string child_link(const ptree &pt);
 
-// a parser for urdf xml files [1].
+// A parser for urdf xml files [1].
 //
 // Contrary to the urdf parser from ROS [2], [3], this parser:
 //
@@ -99,30 +106,31 @@ ALMATH_API std::string child_link(const ptree &pt);
 //
 // The UrdfTree class acts as an index for the boost::property_tree of the
 // (URDF) XML document.
-// Given the ptree of the root XML element, it walks the document and
+// Given the ptree of the robot XML element, it traverses the tree and
 // indexes the ptree elements for the URDF joints and links.
 //
 // The class is akin to a set of iterators: it does not copy nor own the
 // XML tree, and may be invalidated if the XML tree changes.
 //
 // The user shall ensure that the XML root and the joint and link ptree
-// elements stays alive and valid for the lifetime of this UrdfTree.
+// elements stay alive and valid for the lifetime of this RobotTree.
 // For instance the user may use direct access to the ptree elements to alter
 // the mass of a link, but shall no delete the link, otherwise calls to
-// UrdfTree::link("my_link_name") would use dandling pointers and return
+// RobotTree::link("my_link_name") would use dandling pointers and return
 // invalid references.
 //
-// On the other hand, some UrdfTree functions enable the safe modification or
+// On the other hand, some RobotTree functions enable the safe modification or
 // removal of joints and links.
-class ALMATH_API UrdfTree {
+class ALMATH_API RobotTree {
  public:
-  // read a XML tree given the XML root element.
-  // The XML tree is not copied, the user shall ensure that the reference
-  // is valid for the whole life of the UrdfTree object.
-  UrdfTree(ptree &pt);
-  ~UrdfTree();
-  UrdfTree(UrdfTree const &) = delete;
-  void operator=(UrdfTree const &other) = delete;
+  // Read a XML tree given the robot element.
+  // The ptree is not copied, a reference is kept instead.
+  // The user shall ensure that the reference is valid for the whole life
+  // of the RobotTree object.
+  RobotTree(ptree &robot);
+  ~RobotTree();
+  RobotTree(RobotTree const &) = delete;
+  void operator=(RobotTree const &other) = delete;
 
   const ptree &link(const std::string &name) const;
   ptree &link(const std::string &name);
@@ -132,7 +140,16 @@ class ALMATH_API UrdfTree {
 
   const std::string &root_link() const;
 
+  // If there is a single root joint, remove it and its parent link, throw otherwise.
+  //
+  // References and iterators to the removed link and joint are invalidated.
   void rm_root_joint();
+
+  // If the given joint is a leaf in the kinematic tree,
+  // remove it and its child link, throw otherwise.
+  //
+  // References and iterators to the removed link and joint are invalidated.
+  void rm_leaf_joint(const std::string &name);
 
   // Change the root link frame of reference.
   //
@@ -223,7 +240,7 @@ class ALMATH_API UrdfTree {
 
   class JointConstVisitor {
    public:
-    // a false return value stops the walk for the current branch
+    // a false return value stops the traversal for the current branch
     virtual bool discover(const ptree &) { return true; }
     virtual void finish(const ptree &) {}
   };
@@ -238,12 +255,14 @@ class ALMATH_API UrdfTree {
   void traverse_joints(JointConstVisitor &visitor) const;
   void traverse_joints(JointVisitor &visitor);
 
+  bool is_mimic_tree_flat() const;
+
  private:
-  std::unique_ptr<detail::UrdfTreeP> _p;
+  std::unique_ptr<detail::RobotTreeP> _p;
 };
 
-typedef UrdfTree::JointConstVisitor JointConstVisitor;
-typedef UrdfTree::JointVisitor JointVisitor;
+typedef RobotTree::JointConstVisitor JointConstVisitor;
+typedef RobotTree::JointVisitor JointVisitor;
 
 // Convenience wrapper classes around URDF ptree elements
 
@@ -286,6 +305,16 @@ inline bool is_identity(const Pose &p) {
   return is_zero(p.xyz()) && is_zero(p.rpy());
 }
 
+// Convenience wrapper around an URDF mimic XML element
+class ALMATH_API Mimic {
+ public:
+  const ptree &pt;
+  Mimic(const ptree &pt);
+  std::string joint() const;
+  double multiplier() const;
+  double offset() const;
+};
+
 // Convenience wrapper around an URDF joint XML element
 class ALMATH_API Joint {
  public:
@@ -298,6 +327,18 @@ class ALMATH_API Joint {
   std::string child_link() const;
   Pose origin() const;
   Array3d axis() const;
+
+  // Return the (lower, upper) limits pair.
+  //
+  // If both limits are missing, the pair is uninitialized
+  // If one of them is missing, it is defaulted to 0.
+  // This behavior is slightly different from the
+  // http://wiki.ros.org/urdf/XML/joint spec.
+  // Beware, there is no warranty that lower <= upper.
+  boost::optional<std::pair<double, double>> limit_lower_upper() const;
+  boost::optional<double> limit_effort() const;
+  boost::optional<double> limit_velocity() const;
+  boost::optional<Mimic> mimic() const;
 };
 
 // Convenience wrapper around an URDF inertial XML element
@@ -315,6 +356,50 @@ class ALMATH_API Inertial {
   double izz() const;
 };
 
+class ALMATH_API Box {
+ public:
+  const ptree &pt;
+  Box(const ptree &pt);
+  Array3d size();
+};
+
+// z-axis cylinder, centered at the origin
+class ALMATH_API Cylinder {
+ public:
+  const ptree &pt;
+  Cylinder(const ptree &pt);
+  double radius();
+  double length();
+};
+
+class ALMATH_API Sphere {
+ public:
+  const ptree &pt;
+  Sphere(const ptree &pt);
+  double radius();
+};
+
+class ALMATH_API Mesh {
+ public:
+  const ptree &pt;
+  Mesh(const ptree &pt);
+  std::string filename() const;
+  // Note: scale element is optional. When absent, we return (1, 1, 1)
+  Array3d scale() const;
+};
+
+using Geometry = boost::variant<Box, Cylinder, Sphere, Mesh>;
+
+class ALMATH_API Visual {
+public:
+  const ptree &pt;
+  Visual(const ptree &pt);
+  Pose origin() const;
+  Geometry geometry() const;
+
+  static bool is_visual(const ptree::value_type &val);
+};
+
 // Convenience wrapper around an URDF link XML element
 class ALMATH_API Link {
  public:
@@ -322,40 +407,77 @@ class ALMATH_API Link {
   Link(const ptree &pt);
   std::string name() const;
   boost::optional<Inertial> inertial() const;
+
+ private:
+  // helper: return the range of visual ptree children
+  inline auto _visual_ptrees() const
+  -> boost::select_second_const_range<
+        decltype(boost::adaptors::filter(pt, Visual::is_visual))> {
+  return boost::adaptors::values(
+        boost::adaptors::filter(pt, Visual::is_visual));
+  }
+  // helper, call the Visual ctor
+  static inline Visual _makeVisual(const ptree &pt) { return Visual(pt); }
+
+ public:
+  // return the range of Visual children
+  inline auto visuals() const
+  -> boost::transformed_range<
+        decltype(&_makeVisual),
+        const decltype(_visual_ptrees())> {
+    return boost::adaptors::transform(_visual_ptrees(), &_makeVisual);
+  }
 };
 
 // Utils
 
 // make the type of the joint named "name" equal to "fixed",
 // and erase the joint axis, if any.
-ALMATH_API void makeJointFixed(UrdfTree &parser, const std::string &name);
+ALMATH_API void makeJointFixed(RobotTree &parser, const std::string &name);
 
 // make the type of the joint named "name" equal to "floating",
 // and erase the joint axis, if any.
-ALMATH_API void makeJointFloating(UrdfTree &parser, const std::string &name);
+ALMATH_API void makeJointFloating(RobotTree &parser, const std::string &name);
 
 // apply makeJointFixed to all joints of type "continuous".
 // Return the names of the joints whose type was changed.
 ALMATH_API
-std::vector<std::string> makeContinuousJointsFixed(UrdfTree &parser);
+std::vector<std::string> makeContinuousJointsFixed(RobotTree &parser);
 
 // Squash a joint's child link mass into its parent link mass.
 // The child link mass element (if any) is erased.
-ALMATH_API void squashJointMass(UrdfTree &parser, const std::string &name);
+ALMATH_API void squashJointMass(RobotTree &parser, const std::string &name);
 
 // apply squashJointMass to all fixed joints.
-ALMATH_API void squashFixedJointsMass(UrdfTree &parser);
+ALMATH_API void squashFixedJointsMass(RobotTree &parser);
 
 // Squash all fixed joint's child link mass into their parent link mass and
 // then convert all massless joints into fixed joints.
 // The point is to avoid massless mobile joints, which have no physical
 // meaning.
 // Return the names of the joints whose type was changed.
-ALMATH_API std::vector<std::string> makeMasslessJointsFixed(UrdfTree &parser);
+ALMATH_API std::vector<std::string> makeMasslessJointsFixed(RobotTree &parser);
+
+// Remove kinematic tree subtrees starting at joints for which predicate
+// returns true.
+//
+// Return the names of the removed joints.
+//
+// For instance, to cut the tree at joints whose name ends with "_useless",
+// one could do:
+//
+//   ptree robot = ...
+//   auto pred = [](const ptree &joint) {
+//     return boost::regex_match(urdf::name(joint), boost::regex(".*_useless$"));
+//   };
+//   urdf::removeSubTreeIfJoint(urdf::RobotTree(robot), pred);
+ALMATH_API std::vector<std::string> removeSubTreeIfJoint(
+    RobotTree &parser,
+    std::function<bool(const ptree &joint)> pred);
 
 // a visitor which prints the URDF kinematic tree as a dot graph
 // when visiting its joints.
-class ALMATH_API UrdfDotPrinterVisitor : public UrdfTree::JointConstVisitor {
+class ALMATH_API UrdfDotPrinterVisitor : public RobotTree::JointConstVisitor {
   const char tab;
   int depth;
   bool do_indent;
@@ -368,6 +490,21 @@ class ALMATH_API UrdfDotPrinterVisitor : public UrdfTree::JointConstVisitor {
   bool discover(const ptree &joint);
   void finish(const ptree &joint);
 };
+
+namespace robot {
+
+// Replace each mesh and texture filename by the result of applying op() to it.
+//
+// For instance, to replace .mesh extensions by .dae, one could do:
+//
+//   ptree robot = ...
+//   auto op = [](std::string in) {
+//     return boost::regex_replace(in, boost::regex("\\.mesh$"), ".dae");};
+//   urdf::robot::transform_filenames(robot, op);
+ALMATH_API void transform_filenames(
+    ptree &robot, std::function<std::string(std::string)> op);
 }
 }
+}
+
 #endif

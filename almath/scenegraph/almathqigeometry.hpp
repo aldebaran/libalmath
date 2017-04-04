@@ -2,11 +2,18 @@
  * @author Lucas Souchet - lsouchet@aldebaran.com
  * Aldebaran Robotics (c) 2016 All Rights Reserved - This file is confidential.
  *
+ * the user is expected to
+ *  #include <qi/geometry/geometry.hpp>
+ * and link with qigeometry
  */
 
+#pragma once
+#ifndef LIBALMATH_SCENEGRAPH_ALMATHQIGEOMETRY_HPP
+#define LIBALMATH_SCENEGRAPH_ALMATHQIGEOMETRY_HPP
+
 #include <almath/tools/altransformhelpers.h>
-#include <qi/geometry/geometry.hpp>
-#include <almath/geometry/tools.hpp>
+#include <almath/scenegraph/qigeometry.h>
+#include <almath/scenegraph/almatheigen.h>
 
 namespace AL
 {
@@ -23,6 +30,16 @@ namespace Math
     almathTf.r3_c4 = r.translation.z;
     return almathTf;
   }
+
+  inline qi::geometry::Transform qiTransformFromALMath(const Transform &tf)
+  {
+    Eigen::Map<const Matrix34frm> atfm (&tf.r1_c1);
+    qi::geometry::Transform result;
+    Eigen::Map<Eigen::Quaterniond>(&result.rotation.x) = atfm.block<3, 3>(0, 0).cast<double>();
+    Eigen::Map<Eigen::Vector3d>(&result.translation.x) = atfm.block<3, 1>(0, 3).cast<double>();
+    return result;
+  };
+
 
   inline AL::Math::Pose2D pose2DFromQiTransform(
       const qi::geometry::Transform& r)
@@ -41,3 +58,4 @@ namespace Math
 
 }
 }
+#endif

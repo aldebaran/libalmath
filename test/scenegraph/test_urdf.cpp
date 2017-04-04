@@ -16,6 +16,13 @@
 #include <array>
 #include <memory>
 #include "myrigidbodysystembuilder.h"
+#include <boost/regex.hpp>
+
+namespace std {
+::std::ostream& operator<<(::std::ostream& os, const std::pair<double, double>& v) {
+  return os << "(" << v.first << ", " << v.second << ")";
+}
+}
 
 using namespace AL;
 typedef AL::urdf::ptree ptree;
@@ -368,6 +375,33 @@ TEST(Urdf, Joint) {
 
   pt.put("axis.<xmlattr>.xyz", "1. 2.2 3.3");
   EXPECT_EQ(exp0, urdf::Joint(pt).axis());
+
+  EXPECT_FALSE(urdf::Joint(pt).limit_lower_upper());
+  pt.put("limit.<xmlattr>.lower", "2.2");
+  EXPECT_EQ(std::make_pair(2.2, 0.), urdf::Joint(pt).limit_lower_upper());
+  pt.put("limit.<xmlattr>.upper", "3.3");
+  EXPECT_EQ(std::make_pair(2.2, 3.3), urdf::Joint(pt).limit_lower_upper());
+
+  EXPECT_FALSE(urdf::Joint(pt).limit_effort());
+  pt.put("limit.<xmlattr>.effort", "4.2");
+  EXPECT_EQ(4.2, urdf::Joint(pt).limit_effort());
+
+  EXPECT_FALSE(urdf::Joint(pt).limit_velocity());
+  pt.put("limit.<xmlattr>.velocity", "2.4");
+  EXPECT_EQ(2.4, urdf::Joint(pt).limit_velocity());
+
+  EXPECT_FALSE(urdf::Joint(pt).mimic());
+  pt.put("mimic.<xmlattr>.joint", "another");
+  boost::optional<urdf::Mimic> m = urdf::Joint(pt).mimic();
+  EXPECT_EQ("another", m->joint());
+  EXPECT_TRUE(urdf::Joint(pt).mimic());
+  EXPECT_EQ("another", urdf::Joint(pt).mimic()->joint());
+  EXPECT_EQ(1., urdf::Joint(pt).mimic()->multiplier());
+  pt.put("mimic.<xmlattr>.multiplier", "2.0");
+  EXPECT_EQ(2., urdf::Joint(pt).mimic()->multiplier());
+  EXPECT_EQ(0., urdf::Joint(pt).mimic()->offset());
+  pt.put("mimic.<xmlattr>.offset", "0.5");
+  EXPECT_EQ(0.5, urdf::Joint(pt).mimic()->offset());
 }
 
 TEST(Urdf, Inertial) {
@@ -398,6 +432,61 @@ TEST(Urdf, Inertial) {
   EXPECT_EQ(2.2, urdf::Inertial(pt).izz());
 }
 
+TEST(Urdf, Box) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Box(pt).size());
+  urdf::Array3d exp0 = {{1, 2.2, 3.3}};
+  pt.put("<xmlattr>.size", "1 2.2 3.3");
+  EXPECT_EQ(exp0, urdf::Box(pt).size());
+}
+
+TEST(Urdf, Cylinder) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Cylinder(pt).radius());
+  EXPECT_ANY_THROW(urdf::Cylinder(pt).length());
+
+  pt.put("<xmlattr>.radius", "2.2");
+  pt.put("<xmlattr>.length", "3.3");
+  EXPECT_EQ(2.2, urdf::Cylinder(pt).radius());
+  EXPECT_EQ(3.3, urdf::Cylinder(pt).length());
+}
+
+TEST(Urdf, Sphere) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Sphere(pt).radius());
+  pt.put("<xmlattr>.radius", "2.2");
+  EXPECT_EQ(2.2, urdf::Sphere(pt).radius());
+}
+
+TEST(Urdf, Mesh) {
+  ptree pt;
+  EXPECT_ANY_THROW(urdf::Mesh(pt).filename());
+  urdf::Array3d ones = {{1, 1, 1}};
+  EXPECT_EQ(ones, urdf::Mesh(pt).scale());
+
+  pt.put("<xmlattr>.filename", "hello");
+  EXPECT_EQ("hello", urdf::Mesh(pt).filename());
+
+  pt.put("<xmlattr>.scale", "1 2.2 3.3");
+  urdf::Array3d exp0 = {{1, 2.2, 3.3}};
+  EXPECT_EQ(exp0, urdf::Mesh(pt).scale());
+}
+
+TEST(Urdf, Visual) {
+  ptree pt;
+  urdf::Array3d zeros = {{0, 0, 0}};
+  EXPECT_EQ(zeros, urdf::Visual(pt).origin().xyz());
+  EXPECT_EQ(zeros, urdf::Visual(pt).origin().rpy());
+  EXPECT_ANY_THROW(urdf::Visual(pt).geometry());
+
+  pt.put("geometry.sphere.<xmlattr>.radius", "2.2");
+  urdf::Geometry g = urdf::Visual(pt).geometry();
+  EXPECT_ANY_THROW(boost::get<urdf::Box>(g));
+
+  EXPECT_NO_THROW(boost::get<urdf::Sphere>(g));
+  EXPECT_EQ(2.2, boost::get<urdf::Sphere>(g).radius());
+}
+
 TEST(Urdf, Link) {
   ptree pt;
   EXPECT_ANY_THROW(urdf::Link(pt).name());
@@ -409,117 +498,193 @@ TEST(Urdf, Link) {
 
   pt.put("inertial.mass.<xmlattr>.value", "2.2");
   EXPECT_EQ(2.2, urdf::Link(pt).inertial()->mass());
+
+  auto visuals = urdf::Link(pt).visuals();
+  EXPECT_TRUE(empty(visuals));
+  pt.add_child("visual", ptree()).put("geometry.sphere.<xmlattr>.radius", "2.2");
+  visuals = urdf::Link(pt).visuals();
+  ASSERT_EQ(1u, size(visuals));
+
+  pt.add_child("visual", ptree()).put("geometry.mesh.<xmlattr>.filename", "hello");
+  visuals = urdf::Link(pt).visuals();
+  ASSERT_EQ(2u, size(visuals));
+
+  auto it = begin(visuals);
+  EXPECT_NO_THROW(boost::get<urdf::Sphere>(it->geometry()));
+  ++it;
+  EXPECT_NO_THROW(boost::get<urdf::Mesh>(it->geometry()));
 }
 
 TEST(Urdf, read_no_link) {
   ptree pt;
   addRobot(pt);
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(pt)));
 }
 
 TEST(Urdf, read_dupe_link) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "a");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 }
 
 TEST(Urdf, read_dupe_joint) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addLink(robot, "c");
   addJoint(robot, "a", "b", "j");
   addJoint(robot, "a", "c", "j");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 }
 
 TEST(Urdf, read_non_existing_child_link) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addJoint(robot, "a", "b", "j");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 }
 
 TEST(Urdf, read_non_existing_parent_link) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addJoint(robot, "b", "a", "j");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 
 }
 
 TEST(Urdf, read_kinematic_loop_0) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "a", "b", "ab_bis");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 
 }
 
 TEST(Urdf, read_kinematic_loop_1) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "b", "a", "ba");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 }
 
 TEST(Urdf, read_kinematic_loop_2) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addLink(robot, "c");
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "b", "c", "bc");
   addJoint(robot, "a", "c", "ac");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 }
 
 TEST(Urdf, read_several_roots) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_ANY_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(robot)));
 }
 
 TEST(Urdf, read_joint_and_link_names_do_not_collide) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addJoint(robot, "a", "b", "b");
-  std::unique_ptr<urdf::UrdfTree> utree;
-  EXPECT_NO_THROW(utree.reset(new urdf::UrdfTree(pt)));
+  std::unique_ptr<urdf::RobotTree> utree;
+  EXPECT_NO_THROW(utree.reset(new urdf::RobotTree(robot)));
+}
+
+TEST(Urdf, read_mimic_self) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "ab");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, read_mimic_loop0) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "ac");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, read_mimic_loop1) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "ad");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  addJoint(robot, "a", "d", "ad").put("mimic.<xmlattr>.joint", "ac");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, read_mimic_nonexistent) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addJoint(robot, "a", "b", "ab").put("mimic.<xmlattr>.joint", "nonexistent");
+  EXPECT_ANY_THROW(new urdf::RobotTree(robot));
+}
+
+TEST(Urdf, is_mimic_tree_flat_empty) {
+  ptree robot;
+  addLink(robot, "a");
+  urdf::RobotTree tree(robot);
+  EXPECT_TRUE(tree.is_mimic_tree_flat());
+}
+
+TEST(Urdf, is_mimic_tree_flat_ok) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addJoint(robot, "a", "b", "ab");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  addJoint(robot, "a", "d", "ad").put("mimic.<xmlattr>.joint", "ab");
+  urdf::RobotTree tree(robot);
+  EXPECT_TRUE(tree.is_mimic_tree_flat());
+}
+
+TEST(Urdf, is_mimic_tree_flat_ko) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addJoint(robot, "a", "b", "ab");
+  addJoint(robot, "a", "c", "ac").put("mimic.<xmlattr>.joint", "ab");
+  addJoint(robot, "a", "d", "ad").put("mimic.<xmlattr>.joint", "ac");
+  urdf::RobotTree tree(robot);
+  EXPECT_FALSE(tree.is_mimic_tree_flat());
 }
 
 TEST(Urdf, getters) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addJoint(robot, "a", "b", "ab");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   EXPECT_EQ("a", parser.link("a").get<std::string>("<xmlattr>.name"));
   EXPECT_EQ("b", parser.link("b").get<std::string>("<xmlattr>.name"));
   EXPECT_EQ("ab", parser.joint("ab").get<std::string>("<xmlattr>.name"));
@@ -529,31 +694,73 @@ TEST(Urdf, getters) {
 }
 
 TEST(Urdf, rm_root_joint_throw) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addLink(robot, "c");
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "a", "c", "ac");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   EXPECT_ANY_THROW(parser.rm_root_joint());
 }
 
 TEST(Urdf, rm_root_joint) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addLink(robot, "c");
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "b", "c", "bc");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   EXPECT_EQ("a", parser.root_link());
   parser.rm_root_joint();
-  EXPECT_EQ("b", parser.root_link());
-  EXPECT_ANY_THROW(parser.link("a"));
-  EXPECT_ANY_THROW(parser.joint("ab"));
+  {
+    // check the index was updated
+    EXPECT_EQ("b", parser.root_link());
+    EXPECT_ANY_THROW(parser.link("a"));
+    EXPECT_ANY_THROW(parser.joint("ab"));
+  }
+  {
+    // check the XML tree was updated, using a new index
+    urdf::RobotTree nrtree(robot);
+    EXPECT_EQ("b", nrtree.root_link());
+    EXPECT_ANY_THROW(nrtree.link("a"));
+    EXPECT_ANY_THROW(nrtree.joint("ab"));
+  }
+}
+
+TEST(Urdf, rm_leaf_joint) {
+  ptree robot;
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addJoint(robot, "a", "b", "ab");
+  addJoint(robot, "b", "c", "bc");
+  urdf::RobotTree parser(robot);
+  EXPECT_ANY_THROW(parser.rm_leaf_joint("ab"));
+
+  parser.rm_leaf_joint("bc");
+
+  {
+    // check the index was updated
+    EXPECT_NO_THROW(parser.link("a"));
+    EXPECT_NO_THROW(parser.link("b"));
+    EXPECT_NO_THROW(parser.joint("ab"));
+
+    EXPECT_ANY_THROW(parser.link("c"));
+    EXPECT_ANY_THROW(parser.joint("bc"));
+  }
+  {
+    // check the XML tree was updated, using a new index
+    urdf::RobotTree nrtree(robot);
+    EXPECT_NO_THROW(nrtree.link("a"));
+    EXPECT_NO_THROW(nrtree.link("b"));
+    EXPECT_NO_THROW(nrtree.joint("ab"));
+
+    EXPECT_ANY_THROW(nrtree.link("c"));
+    EXPECT_ANY_THROW(nrtree.joint("bc"));
+  }
+
 }
 
 class my_visitor : public urdf::JointConstVisitor {
@@ -577,8 +784,7 @@ class my_visitor : public urdf::JointConstVisitor {
 };
 
 TEST(Urdf, walk_joints) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "b");
   addLink(robot, "c");
   addLink(robot, "d");
@@ -592,7 +798,7 @@ TEST(Urdf, walk_joints) {
   addJoint(robot, "a", "b", "y_ab");
   addJoint(robot, "a", "f", "x_af");
 
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   EXPECT_EQ("a", parser.root_link());
   // visitor should visit joint "bc" but not the joints below.
   my_visitor visitor("bc");
@@ -608,37 +814,34 @@ TEST(Urdf, walk_joints) {
 }
 
 TEST(Urdf, makeJointFixed_continuous) {
-  ptree xml;
-  ptree &robot = addRobot(xml);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   ptree &pt = addJoint(robot, "a", "b", "ab", "continuous");
   pt.put("axis.<xmlattr>.xyz", "1. 2.2 3.3");
-  urdf::UrdfTree parser(xml);
+  urdf::RobotTree parser(robot);
   urdf::makeJointFixed(parser, "ab");
   EXPECT_EQ("fixed", pt.get<std::string>("<xmlattr>.type"));
   EXPECT_EQ(0u, pt.count("axis"));
 }
 
 TEST(Urdf, makeJointFixed_floating) {
-  ptree xml;
-  ptree &robot = addRobot(xml);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   ptree &pt = addJoint(robot, "a", "b", "ab", "floating");
-  urdf::UrdfTree parser(xml);
+  urdf::RobotTree parser(robot);
   urdf::makeJointFixed(parser, "ab");
   EXPECT_EQ("fixed", pt.get<std::string>("<xmlattr>.type"));
 }
 
 TEST(Urdf, makeContinuousJointsFixed) {
-  ptree xml;
-  ptree &robot = addRobot(xml);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   ptree &pt = addJoint(robot, "a", "b", "ab", "continuous");
   pt.put("axis.<xmlattr>.xyz", "1. 2.2 3.3");
-  urdf::UrdfTree parser(xml);
+  urdf::RobotTree parser(robot);
   std::vector<std::string> names = urdf::makeContinuousJointsFixed(parser);
   EXPECT_EQ("fixed", pt.get<std::string>("<xmlattr>.type"));
   EXPECT_EQ(0u, pt.count("axis"));
@@ -646,20 +849,18 @@ TEST(Urdf, makeContinuousJointsFixed) {
 }
 
 TEST(Urdf, squashJointMass_no_mass) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   ptree &a = addLink(robot, "a");
   ptree &b = addLink(robot, "b");
   addJoint(robot, "a", "b", "ab", "fixed");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   squashJointMass(parser, "ab");
   EXPECT_EQ(0u, a.count("inertial"));
   EXPECT_EQ(0u, b.count("inertial"));
 }
 
 TEST(Urdf, squashJointMass_massless_parent) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   ptree &a = addLink(robot, "a");
   ptree &b = addLink(robot, "b", 1.);
   b.put("inertial.origin.<xmlattr>.xyz", "1 0 0");
@@ -667,7 +868,7 @@ TEST(Urdf, squashJointMass_massless_parent) {
   ptree &ab = addJoint(robot, "a", "b", "ab", "fixed");
   ab.put("origin.<xmlattr>.xyz", "10 0 0");
   ab.put("origin.<xmlattr>.rpy", "1 0 0");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   squashJointMass(parser, "ab");
   EXPECT_EQ(1u, a.count("inertial"));
   EXPECT_EQ("1", a.get<std::string>("inertial.mass.<xmlattr>.value"));
@@ -681,15 +882,14 @@ TEST(Urdf, squashJointMass_massless_parent) {
 TEST(Urdf, squashJointMass_mass) {
   // this model is defined such that the two center of mass are at the same
   // point.
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   ptree &a = addLink(robot, "a", 1.);
   a.put("inertial.origin.<xmlattr>.xyz", "1 0 0");
   ptree &b = addLink(robot, "b", 10.);
   b.put("inertial.origin.<xmlattr>.xyz", "10 0 0");
   ptree &ab = addJoint(robot, "a", "b", "ab", "fixed");
   ab.put("origin.<xmlattr>.xyz", "-9 0 0");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   squashJointMass(parser, "ab");
   EXPECT_EQ(1u, a.count("inertial"));
   EXPECT_EQ("11", a.get<std::string>("inertial.mass.<xmlattr>.value"));
@@ -701,8 +901,7 @@ TEST(Urdf, squashJointMass_mass) {
 
 TEST(Urdf, squashFixedJointsMass_wheels) {
   // create a model describing a Juliette base with wheels.
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   urdf::Array3d xyz = {{0.00220451, 0, -0.185729}};
   urdf::Array3d rpy = {{0, 0, 0}};
   ptree &knee_pt =
@@ -730,7 +929,7 @@ TEST(Urdf, squashFixedJointsMass_wheels) {
            xyz, rpy);
 
   // the squash the wheels inertia
-  urdf::UrdfTree result(pt);
+  urdf::RobotTree result(robot);
   squashFixedJointsMass(result);
 
   // and check the resulting base inertia
@@ -754,8 +953,7 @@ TEST(Urdf, squashFixedJointsMass_wheels) {
 TEST(Urdf, makeMasslessJointsFixed) {
   // this model is defined such that the two center of mass are at the same
   // point.
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   ptree &a = addLink(robot, "a", 1.);
   ptree &b = addLink(robot, "b", 1.);
   ptree &c = addLink(robot, "c");
@@ -765,7 +963,7 @@ TEST(Urdf, makeMasslessJointsFixed) {
   ptree &bc = addJoint(robot, "b", "c", "bc", "floating");
   ptree &cd = addJoint(robot, "c", "d", "cd", "fixed");
   ptree &de = addJoint(robot, "d", "e", "de", "floating");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   std::vector<std::string> names = makeMasslessJointsFixed(parser);
 
   // mass moved from link "d" to link "c"
@@ -784,9 +982,40 @@ TEST(Urdf, makeMasslessJointsFixed) {
   EXPECT_EQ(std::vector<std::string>({"de"}), names);
 }
 
+TEST(Urdf, removeSubTreeIfJoint) {
+  ptree robot;
+
+  addLink(robot, "a");
+  addLink(robot, "b");
+  addLink(robot, "c");
+  addLink(robot, "d");
+  addLink(robot, "e");
+  addJoint(robot, "a", "b", "ab_useless");
+  addJoint(robot, "b", "c", "bc_useless");
+  addJoint(robot, "b", "d", "bd");
+  addJoint(robot, "a", "e", "ae");
+
+  urdf::RobotTree parser(robot);
+  auto pred = [](const ptree &joint) {
+    return boost::regex_match(urdf::name(joint), boost::regex(".*_useless$"));
+  };
+  auto names = removeSubTreeIfJoint(parser, pred);
+
+  EXPECT_ANY_THROW(parser.joint("ab_useless")); // removed because it matches
+  EXPECT_ANY_THROW(parser.link("b"));
+  EXPECT_ANY_THROW(parser.joint("bc_useless")); // removed because it matches
+  EXPECT_ANY_THROW(parser.link("c"));
+  EXPECT_ANY_THROW(parser.joint("bd")); // removed because an ancestor matches
+  EXPECT_ANY_THROW(parser.link("d"));
+  EXPECT_NO_THROW(parser.joint("ae")); // no removed
+  EXPECT_NO_THROW(parser.link("e"));
+
+  EXPECT_EQ(std::vector<std::string>({"ab_useless", "bc_useless", "bd"}),
+            names);
+}
+
 TEST(Urdf, dot_printer) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addLink(robot, "c");
@@ -794,7 +1023,7 @@ TEST(Urdf, dot_printer) {
   addJoint(robot, "a", "b", "ab");
   addJoint(robot, "b", "c", "bc");
   addJoint(robot, "a", "d", "ad");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   EXPECT_EQ("a", parser.root_link());
   std::ostringstream ss;
   {
@@ -818,20 +1047,18 @@ TEST(Urdf, dot_printer) {
 }
 
 TEST(Urdf, define_as_root_link_ko_floating) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   addLink(robot, "c");
   addJoint(robot, "a", "b", "ab", "floating");
   addJoint(robot, "b", "c", "bc", "revolute");
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   EXPECT_ANY_THROW(parser.define_as_root_link("c"));
 }
 
 TEST(Urdf, define_as_root_link) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");  // initial root
   addLink(robot, "c");
@@ -842,7 +1069,7 @@ TEST(Urdf, define_as_root_link) {
   addJoint(robot, "c", "d", "cd", "revolute");
   addJoint(robot, "d", "e", "de", "revolute");
 
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
 
   parser.define_as_root_link("d");
 
@@ -888,13 +1115,12 @@ TEST(Urdf, define_as_root_link) {
 }
 
 TEST(Urdf, define_as_root_link_axis_unitx) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   ptree &ab = addJoint(robot, "a", "b", "ab", "revolute");
 
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   parser.define_as_root_link("b");
 
   urdf::Array3d flipped_axis{{-1, 0, 0}};
@@ -902,15 +1128,14 @@ TEST(Urdf, define_as_root_link_axis_unitx) {
 }
 
 TEST(Urdf, define_as_root_link_axis_munitx) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   addLink(robot, "a");
   addLink(robot, "b");
   ptree &ab = addJoint(robot, "a", "b", "ab", "revolute");
   urdf::Array3d axis{{-1, 0, 0}};
   ab.put("axis.<xmlattr>.xyz", axis, urdf::Array3dTranslator());
 
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   parser.define_as_root_link("b");
 
   urdf::Array3d flipped_axis{{1, 0, 0}};
@@ -919,8 +1144,7 @@ TEST(Urdf, define_as_root_link_axis_munitx) {
 }
 
 TEST(Urdf, define_as_root_link_transport) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   urdf::Array3d zero = {{0, 0, 0}};
   urdf::Array3d xyz_ia = {{1, 2, 3}};
   urdf::Array3d xyz_ib = {{4, 5, 6}};
@@ -931,7 +1155,7 @@ TEST(Urdf, define_as_root_link_transport) {
   ptree &b = addLink(robot, "b", 1, 1, 0, 0, 1, 0, 1, xyz_ib, zero);
   ptree &ab = addJoint(robot, "a", "b", "ab", "revolute", xyz_j, zero);
 
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   parser.define_as_root_link("b");
 
   // link b's frame is unchanged
@@ -952,8 +1176,7 @@ TEST(Urdf, define_as_root_link_transport) {
 }
 
 TEST(Urdf, transport_root_link_frame) {
-  ptree pt;
-  ptree &robot = addRobot(pt);
+  ptree robot;
   urdf::Array3d xyz = {{1, 2, 3}};
   urdf::Array3d rpy = {{0, 0, 0.5}};
   urdf::Pose tr(xyz, rpy);
@@ -967,7 +1190,7 @@ TEST(Urdf, transport_root_link_frame) {
   a.put("visual.origin.<xmlattr>.xyz", "1 2 3");
   a.put("collision.origin.<xmlattr>.xyz", "1 2 3");
 
-  urdf::UrdfTree parser(pt);
+  urdf::RobotTree parser(robot);
   parser.transport_root_link_frame(tr);
 
   EXPECT_EQ(identity, urdf::Link(a).inertial()->origin());
@@ -978,6 +1201,66 @@ TEST(Urdf, transport_root_link_frame) {
   urdf::Pose exp = itr * urdf::Pose{xyz, {{0, 0, 0}}};
   EXPECT_EQ(exp, urdf::Pose::from_ptree(a.get_child("visual.origin")));
   EXPECT_EQ(exp, urdf::Pose::from_ptree(a.get_child("collision.origin")));
+}
+
+TEST(Urdf, transform_filenames) {
+  auto lmpath = "link.visual.geometry.mesh.<xmlattr>.filename";
+  auto lmbefore = "file:///usr/share/local/juliette/KneePitch.mesh";
+  auto lmafter = "file:///juliette/KneePitch.dae";
+
+  auto rtpath = "material.texture.<xmlattr>.filename";
+  auto ltpath = "link.visual.material.texture.<xmlattr>.filename";
+  auto tbefore = "file:///usr/share/local/mytexture.png";
+  auto tafter = "file:///mytexture.png";
+
+  ptree robot;
+  robot.put(lmpath, lmbefore);
+  robot.put(rtpath, tbefore);
+  robot.put(ltpath, tbefore);
+
+  auto op = [](std::string in) {
+    // Beware of double '\' escaping: one for C++, one for regex
+    // Note: I don't know why I need to escape the ':' in the format
+    return boost::regex_replace(
+          in,
+          boost::regex("(^file:///usr/share/local/)|(\\.mesh$)"),
+          "(?1file\\:///)(?2\\.dae)",
+          boost::match_default | boost::format_all);
+  };
+
+  urdf::robot::transform_filenames(robot, op);
+
+  EXPECT_EQ(lmafter, robot.get<std::string>(lmpath));
+  EXPECT_EQ(tafter, robot.get<std::string>(rtpath));
+  EXPECT_EQ(tafter, robot.get<std::string>(ltpath));
+}
+
+TEST(Urdf, transform_filenames_tolerate_the_ros_parser_output) {
+  // check we're tolerant with the ros parser which creates "illegal"
+  // texture elements with no filename
+  ptree robot;
+  robot.put_child("material.texture", ptree());
+  robot.put_child("link.visual.material.texture", ptree());
+  robot.put_child("link.visual.geometry", ptree());
+  auto op = [](std::string in) { return in; };
+  EXPECT_NO_THROW(urdf::robot::transform_filenames(robot, op));
+}
+
+TEST(Urdf, transform_filenames_example) {
+  auto lmpath = "link.visual.geometry.mesh.<xmlattr>.filename";
+  auto lmbefore = "file:///usr/share/local/juliette/KneePitch.mesh";
+  auto lmafter = "file:///usr/share/local/juliette/KneePitch.dae";
+
+  ptree robot;
+  robot.put(lmpath, lmbefore);
+
+  auto op = [](std::string in) {
+    // Beware of double '\' escaping: one for C++, one for regex
+    return boost::regex_replace(in, boost::regex("\\.mesh$"), ".dae");
+  };
+  urdf::robot::transform_filenames(robot, op);
+
+  EXPECT_EQ(lmafter, robot.get<std::string>(lmpath));
 }
 
 TEST_F(RigidBodySystemBuilderTest, buildFromUrdf_none) {

@@ -8,24 +8,44 @@ find_package(qibuild)
 
 enable_testing()
 
-find_package(qilang-tools)
+# disable boost circular buffer "debug helper"
+# note that by default the helper is:
+# * disabled in release build
+# * enabled on debug build for boost < 1.62
+# * disabled on debug build for boost >= 1.62
+# see also:
+#  https://svn.boost.org/trac/boost/ticket/6277
+#  https://redmine.aldebaran.lan/issues/19739
+add_definitions("-DBOOST_CB_DISABLE_DEBUG")
 
-# generate all the new files
-qi_gen_idl(geometry_idl CPP "qigeometry" "${CMAKE_CURRENT_BINARY_DIR}"
-  qi/geometry/geometry.idl.qi)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+option(ALMATH_WITH_QIGEOMETRY
+  "if true, qigeometry and geometry_module are built"
+  ON)
+option(ALMATH_AS_STATIC_LIBRARY
+  "if true, almath is built as a static library"
+  OFF)
 
-# install the headers so that people can use your proxies
-qi_install_header(
-  ${geometry_idl_INTERFACE}
-  qi/geometry/api.hpp)
-# create a lib with the proxies only
-qi_create_lib(qigeometry
-  ${geometry_idl_INTERFACE}
-  ${geometry_idl_LOCAL}
-  ${geometry_idl_REMOTE}
-  DEPENDS QI)
-qi_stage_lib(qigeometry)
+if (ALMATH_WITH_QIGEOMETRY)
+  find_package(qilang-tools)
+
+  # generate all the new files
+  qi_gen_idl(geometry_idl CPP "qigeometry" "${CMAKE_CURRENT_BINARY_DIR}"
+    qi/geometry/geometry.idl.qi)
+  include_directories(${CMAKE_CURRENT_BINARY_DIR})
+
+  # install the headers so that people can use your proxies
+  qi_install_header(
+    ${geometry_idl_INTERFACE}
+    qi/geometry/api.hpp
+    SUBFOLDER qi/geometry)
+  # create a lib with the proxies only
+  qi_create_lib(qigeometry
+    ${geometry_idl_INTERFACE}
+    ${geometry_idl_LOCAL}
+    ${geometry_idl_REMOTE}
+    DEPENDS QI)
+  qi_stage_lib(qigeometry)
+endif()
 
 # Add BEFORE keyword so that we can rebuild almath against a sdk
 # without getting conflicts.
@@ -36,7 +56,7 @@ set(ALMATH_SRCS
     src/dsp/pidcontroller.cpp
     src/geometrics/shapes3d.cpp
     src/geometrics/shapes3d_utils.cpp
-    src/geometry/tools.cpp
+    src/scenegraph/qianim.cpp
     src/scenegraph/colladabuilder.cpp
     src/scenegraph/colladascenebuilder.cpp
     src/scenegraph/mesh.cpp
@@ -94,29 +114,49 @@ set(ALMATH_H_WRAPPED
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
-    almath/api.h
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
-    almath/geometry/tools.hpp
     almath/scenegraph/almatheigen.h
+    almath/scenegraph/almathqigeometry.hpp
+    almath/scenegraph/qianim.h
+    almath/scenegraph/qianim/unit.h
     almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
+    almath/scenegraph/qigeometry.h
     almath/scenegraph/rigidbodysystembuilder.h
     almath/scenegraph/qirostime.h
     almath/scenegraph/scenebuilder.h
     almath/scenegraph/urdf.h
     almath/scenegraph/urdfeigen.h
     almath/scenegraph/urdfrigidbodysystemtraverser.h
-    almath/scenegraph/almathqigeometry.hpp
     almath/tools/almathio.h
 )
 
-qi_create_lib(almath SHARED ${ALMATH_SRCS} ${ALMATH_H})
-set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
-qi_use_lib(almath BOOST EIGEN3 QI QIGEOMETRY)
+if(ALMATH_AS_STATIC_LIBRARY)
+  qi_create_lib(almath STATIC ${ALMATH_SRCS} ${ALMATH_H})
+else()
+  qi_create_lib(almath SHARED ${ALMATH_SRCS} ${ALMATH_H})
+  set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
+endif()
+
+qi_use_lib(almath BOOST EIGEN3)
+
+# generate a header that will define the symbol visibility/deprecation macros:
+#  ALMATH_API
+#  ALMATH_DEPRECATED
+# tweak it so that it behaves like QI_LIB_API from qi/macro.hpp
+include(GenerateExportHeader)
+generate_export_header(almath
+  EXPORT_MACRO_NAME ALMATH_API
+  STATIC_DEFINE almath_STATIC_BUILD
+  EXPORT_FILE_NAME ${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h)
+qi_install_header(${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h SUBFOLDER almath)
+
+# ensure generated headers are found
+include_directories(${QI_SDK_DIR}/${QI_SDK_INCLUDE})
 
 # we publish SWIG_MODULE_almathswig_DEPS together with the lib.
 # It is useful when extending almathswig.
@@ -149,13 +189,8 @@ if(WITH_PYTHON)
   )
 endif()
 
-find_package(qimodule)
-qi_create_module(geometry_module
-  SRC
-  "src/geometry/registration.cpp"
-
-  DEPENDS
-  almath
-)
-
 add_subdirectory(test)
+
+if(ALMATH_WITH_QIGEOMETRY)
+  add_subdirectory(geometry_module)
+endif()

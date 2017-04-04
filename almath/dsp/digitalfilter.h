@@ -11,6 +11,10 @@
 
 #include <vector>
 #include <almath/api.h>
+#include <boost/version.hpp>
+#if (BOOST_VERSION < 106200) && !defined(BOOST_CB_DISABLE_DEBUG)
+# define BOOST_CB_DISABLE_DEBUG
+#endif
 #include <boost/circular_buffer.hpp>
 
 namespace AL
