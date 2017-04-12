@@ -214,6 +214,10 @@ TEST(ALMathQiAnimTest, ActuatorCurve_fps)
   EXPECT_ANY_THROW(V2::ActuatorCurve::put_fps(pt, 0));
   pt.put("<xmlattr>.fps", 0);
   EXPECT_ANY_THROW(V2::ActuatorCurve::get_fps(pt));
+
+  // check it works for Labels elements too
+  EXPECT_NO_THROW(V2::Labels::put_fps(pt, 2));
+  EXPECT_EQ(2, V2::Labels::get_fps(pt));
 }
 
 TEST(ALMathQiAnimTest, ActuatorCurve_mute)
@@ -492,6 +496,89 @@ TEST(ALMathQiAnimTest, ActuatorCurve_adjacent_for_each)
   EXPECT_EQ(0.f, intervals.data[1].p1_dvalue);
   EXPECT_EQ(-10.f, intervals.data[1].p2_dframe);
   EXPECT_EQ(0.f, intervals.data[1].p2_dvalue);
+}
+
+
+TEST(ALMathQiAnimTest, Labels_add_label)
+{
+  ptree pt;
+  ptree &k10 = V2::Labels::add_label(pt, 10, "my label");
+  EXPECT_EQ(10, V2::Label::get_frame(k10));
+  EXPECT_EQ("my label", V2::Label::get_value(k10));
+}
+
+TEST(ALMathQiAnimTest, Labels_label_sorted)
+{
+  ptree pt;
+  ptree &a = pt.put_child("a", ptree());
+  ptree &f20 = pt.put_child("Label", ptree("label_a"));
+  f20.put("<xmlattr>.frame", 20);
+  ptree &b = pt.put_child("b", ptree());
+
+  print(pt);
+  // insert labels out of order
+  ptree &f10 = V2::Labels::add_label(pt, 10, "label_b");
+  print(pt);
+  ptree &f40 = V2::Labels::add_label(pt, 40, "label_c");
+  print(pt);
+  ptree &f10d = V2::Labels::add_label(pt, 10, "label_d");
+  print(pt);
+  ptree &f30 = V2::Labels::add_label(pt, 30, "label_e");
+  print(pt);
+
+  // then iterate and check they are ordered
+  auto cit = pt.begin();
+  ASSERT_NE(cit, pt.end());
+  EXPECT_EQ(&a, &cit->second);
+  ++cit;
+
+  auto labels = V2::Labels::get_labels(pt);
+  auto kit = labels.begin();
+
+  ASSERT_NE(kit, labels.end());
+  EXPECT_EQ(10, V2::Label::get_frame(*kit));
+  EXPECT_EQ(&f10, &*kit);
+  ++kit;
+  ASSERT_NE(cit, pt.end());
+  EXPECT_EQ(&f10, &cit->second);
+  ++cit;
+
+  ASSERT_NE(kit, labels.end());
+  EXPECT_EQ(10, V2::Label::get_frame(*kit));
+  EXPECT_EQ(&f10d, &*kit);
+  ++kit;
+  ASSERT_NE(cit, pt.end());
+  EXPECT_EQ(&f10d, &cit->second);
+  ++cit;
+
+  ASSERT_NE(kit, labels.end());
+  EXPECT_EQ(&f20, &*kit);
+  ++kit;
+  ASSERT_NE(cit, pt.end());
+  EXPECT_EQ(&f20, &cit->second);
+  ++cit;
+
+  ASSERT_NE(cit, pt.end());
+  EXPECT_EQ(&b, &cit->second);
+  ++cit;
+
+  ASSERT_NE(kit, labels.end());
+  EXPECT_EQ(30, V2::Label::get_frame(*kit));
+  EXPECT_EQ(&f30, &*kit);
+  ++kit;
+  ASSERT_NE(cit, pt.end());
+  EXPECT_EQ(&f30, &cit->second);
+  ++cit;
+
+  ASSERT_NE(kit, labels.end());
+  EXPECT_EQ(&f40, &*kit);
+  ++kit;
+  ASSERT_NE(cit, pt.end());
+  EXPECT_EQ(&f40, &cit->second);
+  ++cit;
+
+  ASSERT_EQ(kit, labels.end());
+  ASSERT_EQ(cit, pt.end());
 }
 
 TEST(ALMathQiAnimTest, Animation_check_version)

@@ -11,6 +11,8 @@
 #include <almath/types/altransform.h>
 #include <almath/types/alposition3d.h>
 #include <almath/types/alvelocity6d.h>
+#include <boost/range/begin.hpp>
+#include <boost/range/size.hpp>
 #include <Eigen/Dense>
 
 namespace AL {
@@ -101,6 +103,46 @@ Velocity6D toALMathVelocity6D(const Eigen::MatrixBase<Derived0> &in) {
       YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
   EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived0, 6, 1)
   return Velocity6D(in[0], in[1], in[2], in[3], in[4], in[5]);
+}
+
+// Compute the average of a range of AL::Math::Transform.
+// From: http://wiki.unity3d.com/index.php/Averaging_Quaternions_and_Vectors
+// Throw if the range is empty.
+template <class RandomAccessRange>
+AL::Math::Transform averageTransforms(const RandomAccessRange &range)
+{
+  const int numCumulated = boost::size(range);
+  if (numCumulated == 0)
+  {
+    throw std::runtime_error("Invalid empty range");
+  }
+  float averageFactor = 1.f / static_cast<float>(numCumulated);
+
+  const auto firstQuat = AL::Math::toEigenQuaternion<float>(*boost::begin(range));
+  Eigen::Vector3f cumulatedPosition = Eigen::Vector3f::Zero();
+  Eigen::Quaternion<float> cumulatedQuaternion{0.f, 0.f, 0.f, 0.f};
+  for (const auto &tf : range)
+  {
+    // If the new quaternion is not close enough to the first rotation
+    // of the range of transforms, they cannot be averaged, so we consider -q
+    // instead of q.
+    auto newRotation = AL::Math::toEigenQuaternion<float>(tf);
+    const auto areQuaternionsClose = newRotation.dot(firstQuat) >= 0.f;
+    if (!areQuaternionsClose)
+    {
+      // Consider -q instead of q.
+      newRotation.coeffs() = -newRotation.coeffs();
+    }
+    cumulatedQuaternion.coeffs() += newRotation.coeffs();
+    cumulatedPosition +=
+        Eigen::Map<const AL::Math::Matrix34frm>(&tf.r1_c1).block<3, 1>(0, 3);
+  }
+  cumulatedQuaternion.normalize();
+  AL::Math::Transform ret;
+  Eigen::Map<Matrix34frm> retm(&ret.r1_c1);
+  retm.block<3, 3>(0, 0) = cumulatedQuaternion.toRotationMatrix();
+  retm.block<3, 1>(0, 3) = cumulatedPosition * averageFactor;
+  return ret;
 }
 }
 }

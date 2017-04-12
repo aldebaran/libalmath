@@ -190,25 +190,25 @@ class ALMATH_API RobotTree {
   // Let consider a root link "a" with children links "b" and "c" and
   // joints "ab" and "bc".
   //
-  // The linematic tree can be written as:  a --ab--> b
+  // The kinematic tree can be written as:  a --ab--> b
   //                                          +-ac--> c
   //
   // The frame may look like:
-  //                                                / \
-  //                                               /   \
-  //                                      / \     /    /
-  //                                     /   \   /    /
-  //                                  --/ \/ /--/ \/ /--
-  //                         __________/ ab /   \ b /
-  //                        /              /     \ /
-  //                       /     a |_     /
-  //              / \     /    __________/
-  //             /   \   /    /
-  //          --/ \/ /--/ \/ /--
-  //           /  c /   \ ac/
-  //          /    /     \ /
-  //          \   /
-  //           \ /
+  //                                                / \    .
+  //                                               /   \   .
+  //                                      / \     /    /   .
+  //                                     /   \   /    /    .
+  //                                  --/ \/ /--/ \/ /--   .
+  //                         __________/ ab /   \ b /      .
+  //                        /              /     \ /       .
+  //                       /     a |_     /                .
+  //              / \     /    __________/                 .
+  //             /   \   /    /                            .
+  //          --/ \/ /--/ \/ /--                           .
+  //           /  c /   \ ac/                              .
+  //          /    /     \ /                               .
+  //          \   /                                        .
+  //           \ /                                         .
   //
   // After calling define_as_root_link("b")
   // * the kinematic tree can be written as
@@ -221,21 +221,21 @@ class ALMATH_API RobotTree {
   // * joint "ac" origin pose has been updated to acount fot the
   //
   // The frames look like:
-  //                                                / \
-  //                                               /   \
-  //                                      / \     /    /
-  //                                     /   \   /    /
-  //                                  --/ \/ /--/ \/ /--
-  //                         __________/  a /   \ b / == ba
-  //                        /              /     \ /
-  //                       /              /
-  //              / \     /    __________/
-  //             /   \   /    /
-  //          --/ \/ /--/ \/ /--
-  //           /  c /   \ ac/
-  //          /    /     \ /
-  //          \   /
-  //           \ /
+  //                                                / \       .
+  //                                               /   \      .
+  //                                      / \     /    /      .
+  //                                     /   \   /    /       .
+  //                                  --/ \/ /--/ \/ /--      .
+  //                         __________/  a /   \ b / == ba   .
+  //                        /              /     \ /          .
+  //                       /              /                   .
+  //              / \     /    __________/                    .
+  //             /   \   /    /                               .
+  //          --/ \/ /--/ \/ /--                              .
+  //           /  c /   \ ac/                                 .
+  //          /    /     \ /                                  .
+  //          \   /                                           .
+  //           \ /                                            .
   void define_as_root_link(const std::string &name);
 
   class JointConstVisitor {
@@ -490,6 +490,9 @@ class ALMATH_API UrdfDotPrinterVisitor : public RobotTree::JointConstVisitor {
   bool discover(const ptree &joint);
   void finish(const ptree &joint);
 };
+
+
+ALMATH_API void put_name(ptree &pt, const std::string &name);
 
 namespace robot {
 

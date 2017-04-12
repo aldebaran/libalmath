@@ -193,6 +193,38 @@ ptree &require_key(ptree &pt, int frame) {
 }
 } // namespace ActuatorCurve
 
+namespace Label {
+
+// private
+bool label_comp(int frame, const ptree::value_type &label) {
+  return (label.first == "Label") && (frame < Label::get_frame(label.second));
+}
+
+
+bool is_label(const ptree::value_type &val) {
+  return val.first == "Label";
+}
+
+std::string get_value(const ptree &pt) {
+  return pt.get_value<std::string>();
+}
+} // namespace Label
+
+namespace Labels {
+
+bool is_labels(const ptree::value_type &val) {
+  return val.first == "Labels";
+}
+
+ptree &add_label(ptree &pt, int frame, const std::string value) {
+  auto it = std::upper_bound(pt.begin(), pt.end(), frame, Label::label_comp);
+  ptree &newkey = pt.insert(it, std::make_pair("Label", ptree{value}))->second;
+  Key::put_frame(newkey, frame);
+  return newkey;
+}
+} // namespace Labels
+
+
 namespace Animation {
 
 void check_version(const ptree& pt) {
@@ -223,6 +255,11 @@ ptree &require_actuatorcurve(ptree &pt, const std::string &actuator) {
   ActuatorCurve::put_actuator(newactuator, actuator);
   return newactuator;
 }
+
+ptree &add_labels(ptree &pt) {
+  return pt.add_child("Labels", ptree{});
+}
+
 } // namespace Animation
 
 

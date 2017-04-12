@@ -609,7 +609,7 @@ void flip_joint_axis(ptree &joint_pt) {
     case Joint::Type::fixed:
     case Joint::Type::floating:
       break;
-  };
+  }
 }
 
 struct joint_has_name_fctor {
@@ -962,6 +962,10 @@ std::vector<std::string> removeSubTreeIfJoint(
     parser.rm_leaf_joint(*it);
   }
   return std::move(vis.names);
+}
+
+void put_name(ptree &pt, const std::string &name) {
+  pt.put("<xmlattr>.name", name);
 }
 
 namespace robot {
