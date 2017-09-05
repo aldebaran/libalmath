@@ -8,7 +8,6 @@
 #include <boost/range/iterator_range.hpp>
 #include <boost/optional.hpp>
 #include <boost/foreach.hpp>
-#include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 #include <Eigen/Geometry>
 
@@ -62,39 +61,6 @@ typename T::iterator checked_find(T &t, const K &k) {
 namespace AL {
 
 namespace urdf {
-
-boost::optional<Array3dTranslator::external_type> Array3dTranslator::get_value(
-    const Array3dTranslator::internal_type &str) {
-  // str is expected to hold 3 floating point numbers.
-  // let split it into 3 strings, then use the usual boost::property_tree
-  // translator to convert each substring into a double.
-  // In case of failure, return an uninitialized boost::optional, like
-  // boost::property_tree does itself.
-  boost::tokenizer<> tok(
-      str, boost::char_delimiters_separator<char>(false, "", " \t\n\v\f\r"));
-  boost::optional<double> d;
-  boost::property_tree::translator_between<internal_type, double>::type tr;
-  external_type x;  // Array3d
-  boost::tokenizer<>::iterator beg = tok.begin();
-  size_t i = 0;
-  for (; beg != tok.end() && i < 3; ++beg, ++i) {
-    d = tr.get_value(*beg);
-    if (!d) return boost::optional<external_type>();
-    x[i] = *d;
-  }
-  if (i != 3 || beg != tok.end())
-    return boost::optional<external_type>();  // todo: maybe throw
-  return boost::optional<external_type>(x);
-}
-
-boost::optional<Array3dTranslator::internal_type> Array3dTranslator::put_value(
-    const Array3dTranslator::external_type &v) {
-  boost::property_tree::translator_between<internal_type, double>::type tr;
-  std::ostringstream ss;
-  ss << *tr.put_value(v[0]) << " " << *tr.put_value(v[1]) << " "
-     << *tr.put_value(v[2]);
-  return ss.str();
-}
 
 std::string name(const ptree &pt) {
   return pt.get<std::string>("<xmlattr>.name");
