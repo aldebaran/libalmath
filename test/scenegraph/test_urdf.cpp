@@ -500,7 +500,7 @@ TEST(Urdf, Link) {
   EXPECT_EQ(2.2, urdf::Link(pt).inertial()->mass());
 
   auto visuals = urdf::Link(pt).visuals();
-  EXPECT_TRUE(empty(visuals));
+  EXPECT_TRUE(boost::empty(visuals));
   pt.add_child("visual", ptree()).put("geometry.sphere.<xmlattr>.radius", "2.2");
   visuals = urdf::Link(pt).visuals();
   ASSERT_EQ(1u, size(visuals));
