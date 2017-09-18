@@ -25,8 +25,9 @@ namespace std {
 }
 
 using namespace AL;
+using namespace AL::Math;
 typedef AL::urdf::ptree ptree;
-using namespace AL::RigidBodySystemBuilder;
+using namespace AL::Math::RigidBodySystemBuilder;
 
 namespace {
 // small experimentation with boost::multi_index

@@ -10,7 +10,7 @@
 namespace AL {
 namespace Math {
 
-// Mass of a rigid body, described in an implcitly-defined "body frame".
+// Mass of a rigid body, described in an implicitly-defined "body frame".
 template <typename T>
 struct BodyMass {
   typedef T Scalar;
@@ -20,9 +20,13 @@ struct BodyMass {
   Scalar mass;
   // center of mass, expressed in the body frame.
   Vector3 center_of_mass;
-  // rotational inertia, expressed at the body center of mass, the body frame
-  // basis.
+  // rotational inertia, expressed at the body center of mass,
+  // in the body frame basis.
   Matrix3 rotational_inertia;
+
+  static BodyMass Zero() {
+    return BodyMass{0, Vector3::Zero(), Matrix3::Zero()};
+  }
 
   template <typename S>
   BodyMass<S> cast() const {

@@ -8,14 +8,14 @@
 #include "myrigidbodysystembuilder.h"
 
 using namespace AL;
-using namespace AL::RigidBodySystemBuilder;
+using namespace AL::Math::RigidBodySystemBuilder;
 
-typedef MyBuilder::Pose Pose;
+typedef MyBuilder::AffineCompact3 AffineCompact3;
 typedef MyBuilder::Vector3 Vector3;
 typedef MyBuilder::Matrix3 Matrix3;
 typedef MyBuilder::BodyMass BodyMass;
 
-Pose H_parent_joint = Pose::Identity();
+AffineCompact3 H_parent_joint = AffineCompact3::Identity();
 JointType joint_type = JointType::FreeFlyer;
 BodyMass body_mass = {1, Vector3::Zero(), Matrix3::Identity()};
 

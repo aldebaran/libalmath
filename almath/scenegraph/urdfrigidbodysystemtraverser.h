@@ -12,7 +12,7 @@
 #include <iosfwd>
 
 namespace AL {
-
+namespace Math {
 // Walk an URDF kinematic tree calling the provided builder.
 //
 // notes:
@@ -26,5 +26,6 @@ ALMATH_API void buildRigidBodySystemFromUrdf(
 ALMATH_API void buildRigidBodySystemFromUrdf(
     RigidBodySystemBuilder::Interface<double> &builder, std::istream &is,
     bool remove_root_joint = false, bool make_continuous_joints_fixed = false);
+}
 }
 #endif
