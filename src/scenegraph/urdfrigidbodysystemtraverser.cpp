@@ -63,7 +63,7 @@ bool UrdfRigidBodySystemTraverser::discover(const urdf::ptree &joint_el) {
   switch (joint.type()) {
     case urdf::Joint::fixed: {
       builder.add(joint.parent_link(), joint.child_link(),
-                  Math::toEigenTransform(joint.origin()), joint.name());
+                  Math::toEigenAffineCompact3(joint.origin()), joint.name());
       return true;
     }
     case urdf::Joint::prismatic:
@@ -92,7 +92,7 @@ bool UrdfRigidBodySystemTraverser::discover(const urdf::ptree &joint_el) {
     }
   }
   _discover(joint.parent_link(), joint.child_link(),
-            Math::toEigenTransform(joint.origin()), type,
+            Math::toEigenAffineCompact3(joint.origin()), type,
             parser.link(joint.child_link()), joint.name());
   return true;
 }

@@ -22,27 +22,32 @@ typedef Eigen::Matrix<float, 3, 4> Matrix34f;
 typedef Eigen::Matrix<float, 3, 4, Eigen::RowMajor> Matrix34frm;
 typedef Eigen::Matrix<float, 6, 1> Vector6f;
 
-inline Matrix34f toEigenMatrix34(const AL::Math::Transform &tr) {
+inline
+Eigen::Map<const Matrix34frm> toEigenMapMatrix34(const Math::Transform &tr) {
+  return Eigen::Map<const Matrix34frm>(&tr.r1_c1);
+}
+
+inline Matrix34f toEigenMatrix34(const Math::Transform &tr) {
   return Matrix34f(Eigen::Map<const Matrix34frm>(&tr.r1_c1));
 }
 
-inline Eigen::Matrix3f toEigenMatrix3(const AL::Math::Transform &tr) {
+inline Eigen::Matrix3f toEigenMatrix3(const Math::Transform &tr) {
   return Eigen::Matrix3f(
       Eigen::Map<const Matrix34frm>(&tr.r1_c1).block<3, 3>(0, 0));
 }
 
 template <typename T>
-inline Eigen::Quaternion<T> toEigenQuaternion(const AL::Math::Transform &tr) {
+inline Eigen::Quaternion<T> toEigenQuaternion(const Math::Transform &tr) {
   return Eigen::Quaternion<T>(
       Eigen::Map<const Matrix34frm>(&tr.r1_c1).block<3, 3>(0, 0));
 }
 
-inline Eigen::Vector3f toEigenVector3(const AL::Math::Position3D &v) {
+inline Eigen::Vector3f toEigenVector3(const Math::Position3D &v) {
   return Eigen::Vector3f(Eigen::Map<const Eigen::Vector3f>(&v.x));
 }
 
 inline Eigen::AffineCompact3f toEigenAffineCompact3(
-    const AL::Math::Transform &tr) {
+    const Math::Transform &tr) {
   return Eigen::AffineCompact3f(Eigen::Map<const Matrix34frm>(&tr.r1_c1));
 }
 
@@ -71,7 +76,7 @@ void toALMathTransform(const Eigen::Transform<float, 3, _Mode, _Options> &in,
 template <int _Mode, int _Options>
 Transform toALMathTransform(
     const Eigen::Transform<float, 3, _Mode, _Options> &tr) {
-  AL::Math::Transform out;
+  Math::Transform out;
   toALMathTransform(tr, out);
   return out;
 }
@@ -109,7 +114,7 @@ Velocity6D toALMathVelocity6D(const Eigen::MatrixBase<Derived0> &in) {
 // From: http://wiki.unity3d.com/index.php/Averaging_Quaternions_and_Vectors
 // Throw if the range is empty.
 template <class RandomAccessRange>
-AL::Math::Transform averageTransforms(const RandomAccessRange &range)
+Math::Transform averageTransforms(const RandomAccessRange &range)
 {
   const int numCumulated = boost::size(range);
   if (numCumulated == 0)
@@ -118,7 +123,7 @@ AL::Math::Transform averageTransforms(const RandomAccessRange &range)
   }
   float averageFactor = 1.f / static_cast<float>(numCumulated);
 
-  const auto firstQuat = AL::Math::toEigenQuaternion<float>(*boost::begin(range));
+  const auto firstQuat = Math::toEigenQuaternion<float>(*boost::begin(range));
   Eigen::Vector3f cumulatedPosition = Eigen::Vector3f::Zero();
   Eigen::Quaternion<float> cumulatedQuaternion{0.f, 0.f, 0.f, 0.f};
   for (const auto &tf : range)
@@ -126,7 +131,7 @@ AL::Math::Transform averageTransforms(const RandomAccessRange &range)
     // If the new quaternion is not close enough to the first rotation
     // of the range of transforms, they cannot be averaged, so we consider -q
     // instead of q.
-    auto newRotation = AL::Math::toEigenQuaternion<float>(tf);
+    auto newRotation = Math::toEigenQuaternion<float>(tf);
     const auto areQuaternionsClose = newRotation.dot(firstQuat) >= 0.f;
     if (!areQuaternionsClose)
     {
@@ -135,10 +140,10 @@ AL::Math::Transform averageTransforms(const RandomAccessRange &range)
     }
     cumulatedQuaternion.coeffs() += newRotation.coeffs();
     cumulatedPosition +=
-        Eigen::Map<const AL::Math::Matrix34frm>(&tf.r1_c1).block<3, 1>(0, 3);
+        Eigen::Map<const Math::Matrix34frm>(&tf.r1_c1).block<3, 1>(0, 3);
   }
   cumulatedQuaternion.normalize();
-  AL::Math::Transform ret;
+  Math::Transform ret;
   Eigen::Map<Matrix34frm> retm(&ret.r1_c1);
   retm.block<3, 3>(0, 0) = cumulatedQuaternion.toRotationMatrix();
   retm.block<3, 1>(0, 3) = cumulatedPosition * averageFactor;

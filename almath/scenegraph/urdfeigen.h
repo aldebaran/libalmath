@@ -31,6 +31,25 @@ inline Eigen::Isometry3d toEigenTransform(const AL::urdf::Pose &p) {
          eigenQuaternionFromUrdfRpy(p.rpy());
 }
 
+inline Eigen::AffineCompact3d toEigenAffineCompact3(const AL::urdf::Pose &p) {
+  typedef Eigen::Map<const Eigen::Vector3d> Vector3dMap;
+  return Eigen::Translation3d(Vector3dMap(p.xyz().data())) *
+         eigenQuaternionFromUrdfRpy(p.rpy());
+}
+
+inline Eigen::Isometry3d toEigenIsometry3(const AL::urdf::Pose &p) {
+  typedef Eigen::Map<const Eigen::Vector3d> Vector3dMap;
+  return Eigen::Translation3d(Vector3dMap(p.xyz().data())) *
+         eigenQuaternionFromUrdfRpy(p.rpy());
+}
+
+template <typename T>
+AL::urdf::Pose urdfPoseFromEigenTransform(const T &t) {
+  return AL::urdf::Pose({t.translation()[0], t.translation()[1], t.translation()[2]},
+                        urdfRpyFromEigenMatrix3(t.linear()));
+}
+
+
 inline Eigen::Matrix3d toEigenMatrix3(const AL::urdf::Inertial &inertial) {
   Eigen::Matrix3d m;
   m(0, 0) = inertial.ixx();

@@ -782,8 +782,7 @@ std::vector<std::string> makeContinuousJointsFixed(RobotTree &parser) {
 void squashJointMass(RobotTree &parser, ptree &joint_pt) {
   typedef Eigen::Matrix3d Matrix3;
   typedef Eigen::Vector3d Vector3;
-  typedef Eigen::Transform<double, 3, Eigen::AffineCompact, Eigen::DontAlign>
-      EPose;
+  typedef Eigen::AffineCompact3d AffineCompact3;
 
   Joint joint(joint_pt);
   ptree &child_pt = parser.link(joint.child_link());
@@ -792,11 +791,11 @@ void squashJointMass(RobotTree &parser, ptree &joint_pt) {
   if (!child_inertial) return;  // nothing to squash
 
   // pose ot the child inertial in the parent frame.
-  const EPose child_inertial_pose =
-      Math::toEigenTransform(joint.origin()) *
-      Math::toEigenTransform(child_inertial->origin());
+  const AffineCompact3 child_inertial_pose =
+      Math::toEigenAffineCompact3(joint.origin()) *
+      Math::toEigenAffineCompact3(child_inertial->origin());
 
-  EPose new_inertial_pose;
+  AffineCompact3 new_inertial_pose;
   ptree new_inertial;
 
   ptree &parent_pt = parser.link(joint.parent_link());
@@ -808,8 +807,8 @@ void squashJointMass(RobotTree &parser, ptree &joint_pt) {
     new_inertial = child_inertial->pt;
     new_inertial_pose = child_inertial_pose;
   } else {
-    const EPose parent_inertial_pose =
-        Math::toEigenTransform(parent_inertial->origin());
+    const AffineCompact3 parent_inertial_pose =
+        Math::toEigenAffineCompact3(parent_inertial->origin());
     double new_mass;
     Matrix3 new_inertia;
 
