@@ -22,8 +22,10 @@ namespace Math
 
   inline Transform transformFromQiTransform(const qi::geometry::Transform& r)
   {
-    Quaternion almathQuat(r.rotation.w, r.rotation.x, r.rotation.y,
-                          r.rotation.z);
+    Quaternion almathQuat(static_cast<float>(r.rotation.w),
+                          static_cast<float>(r.rotation.x),
+                          static_cast<float>(r.rotation.y),
+                          static_cast<float>(r.rotation.z));
     Transform almathTf = transformFromQuaternion(almathQuat);
     almathTf.r1_c4 = r.translation.x;
     almathTf.r2_c4 = r.translation.y;
