@@ -210,7 +210,7 @@ ALMATH_API void put_unit(ptree &pt, Unit unit);
 // This function assumes the Key elements are sorted by increasing frame,
 // which should be the case if the document is conforming.
 ALMATH_API optional<const ptree &> get_key_optional(const ptree &pt,
-                                                       int frame);
+                                                    int frame);
 ALMATH_API optional<ptree &> get_key_optional(ptree &pt, int frame);
 
 // Search for a Key element with the given frame.

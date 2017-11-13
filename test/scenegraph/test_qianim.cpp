@@ -4,18 +4,32 @@
 
 #include <gtest/gtest.h>
 #include <almath/scenegraph/qianim.h>
+#include <almath/scenegraph/qianim/bezierautotangent.h>
+#include <almath/scenegraph/qianim/surgeon.h>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
+#include <boost/filesystem/fstream.hpp>
+
 #include <boost/range/adaptor/map.hpp>
 #include <iterator>
 
 using namespace AL::qianim;
+namespace bfs = boost::filesystem;
+
+static bfs::path gDataPath;
 
 void print(const ptree &pt) {
-  using namespace boost::property_tree;
-  xml_parser::write_xml(std::cout, pt,
-                        xml_writer_settings<std::string>(' ', 2));
+  boost::property_tree::xml_writer_settings<std::string> settings(' ', 2);
+  boost::property_tree::xml_parser::write_xml(std::cout, pt, settings);
   std::cout << std::endl;
+}
+
+boost::property_tree::ptree open_xml(const bfs::path path) {
+  boost::property_tree::ptree docroot;
+  bfs::ifstream in(path);
+  boost::property_tree::xml_parser::read_xml(
+      in, docroot, boost::property_tree::xml_parser::trim_whitespace);
+  return docroot;
 }
 
 TEST(ALMathQiAnimTest, Tangent_abscissa)
@@ -665,4 +679,131 @@ TEST(ALMathQiAnimTest, Animation_require_actuatorcurve) {
 
   ++it;
   EXPECT_EQ(it, curves.end());
+}
+
+TEST(computeBezierAutoTangents, first_key_at_time_zero) {
+  float dt1 = 0.f, da1 = 0.f;
+  float dt2 = 3.f, da2 = 1.f;
+  auto tangents = computeBezierAutoTangents(dt1, dt2, da1, da2);
+  // this is an extremum
+  EXPECT_FLOAT_EQ(-dt1/3, tangents.first.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.first.second);
+  EXPECT_FLOAT_EQ(dt2/3, tangents.second.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.second.second);
+}
+
+TEST(computeBezierAutoTangents, last_key_dt2_infinite) {
+  // first key, at time zero
+  float dt1 = 3.f, da1 = 1.f;
+  float dt2 = std::numeric_limits<float>::infinity(), da2 = 0.f;
+  auto tangents = computeBezierAutoTangents(dt1, dt2, da1, da2);
+  // this is an extremum
+  EXPECT_FLOAT_EQ(-dt1/3, tangents.first.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.first.second);
+  // right tangent is not really meaningful:
+  // since it is out of the function domain it should not be used.
+  EXPECT_FLOAT_EQ(dt2/3, tangents.second.first);
+  EXPECT_FLOAT_EQ(std::numeric_limits<float>::infinity(),
+                  tangents.second.first);
+  EXPECT_TRUE(std::isnan(tangents.second.second));
+}
+
+TEST(computeBezierAutoTangents, last_key_dt2_zero) {
+  // first key, at time zero
+  float dt1 = 3.f, da1 = 1.f;
+  float dt2 = 0.f, da2 = 0.f;
+  auto tangents = computeBezierAutoTangents(dt1, dt2, da1, da2);
+  // this is an extremum
+  EXPECT_FLOAT_EQ(-dt1/3, tangents.first.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.first.second);
+  // right tangent is not really meaningful:
+  // since it is out of the function domain it should not be used.
+  EXPECT_FLOAT_EQ(dt2/3, tangents.second.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.second.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.second.second);
+}
+
+TEST(computeBezierAutoTangents, single_key_at_time_zero) {
+  // first key, at time zero
+  float dt1 = 0.f, da1 = 0.f;
+  float dt2 = 0.f, da2 = 0.f;
+  auto tangents = computeBezierAutoTangents(dt1, dt2, da1, da2);
+  // this is an extremum
+  EXPECT_FLOAT_EQ(-dt1/3, tangents.first.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.first.second);
+  // right tangent is not really meaningful:
+  // since it is out of the function domain it should not be used.
+  EXPECT_FLOAT_EQ(dt2/3, tangents.second.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.second.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.second.second);
+}
+
+TEST(computeBezierAutoTangents, middle_key_minimum) {
+  float dt1 = 3.f, da1 = -1.f;
+  float dt2 = 3.f, da2 = 1.f;
+  auto tangents = computeBezierAutoTangents(dt1, dt2, da1, da2);
+  // this is an extremum
+  EXPECT_FLOAT_EQ(-dt1/3, tangents.first.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.first.second);
+  EXPECT_FLOAT_EQ(dt2/3, tangents.second.first);
+  EXPECT_FLOAT_EQ(0.f, tangents.second.second);
+}
+
+TEST(computeBezierAutoTangents, middle_key_increasing) {
+  float dt1 = 3.f, da1 = 1.f;
+  float dt2 = 3.f, da2 = 1.f;
+  auto tangents = computeBezierAutoTangents(dt1, dt2, da1, da2);
+  // this is an extremum
+  auto slope = (da1 + da2)/(dt1 + dt2);
+  EXPECT_FLOAT_EQ(-dt1/3, tangents.first.first);
+  EXPECT_FLOAT_EQ(-dt1/3 * slope, tangents.first.second);
+  EXPECT_FLOAT_EQ(dt2/3, tangents.second.first);
+  EXPECT_FLOAT_EQ(dt2/3 * slope, tangents.second.second);
+}
+
+
+TEST(AnimationSurgeonTest, check) {
+  auto docroot = open_xml(gDataPath/"hello.qianim");
+  EXPECT_NO_THROW(
+      V2::Animation::check_all(AL::qianim::V2::get_animation(docroot)));
+  // a v1 qianim is not a valid v2 qianim
+  docroot = open_xml(gDataPath/"hello_v1.qianim");
+  EXPECT_ANY_THROW(
+      V2::Animation::check_all(AL::qianim::V2::get_animation(docroot)));
+}
+
+TEST(AnimationSurgeonTest, migrate_v1) {
+  auto docroot2 = (open_xml(gDataPath/"hello_v1.qianim"));
+  auto docroot = v2_root_from_v1_root(open_xml(gDataPath/"hello_v1.qianim"));
+  // kind of smoke test:
+  // check we get the expected converted animation is valid
+  EXPECT_NO_THROW(
+      V2::Animation::check_all(AL::qianim::V2::get_animation(docroot)));
+}
+
+TEST(AnimationSurgeonTest, migrate_xar) {
+  // kind of smoke test:
+  // check we get the expected number of animations and that they are valid
+  const auto inputs = {std::make_pair("behavior.xar", 1u),
+                       std::make_pair("behavior2.xar", 3u),
+                       std::make_pair("box.xar", 1u)};
+  for (auto && input : inputs)
+  {
+    auto docs = v2_roots_from_xar(open_xml(gDataPath/input.first));
+    EXPECT_EQ(input.second, docs.size()) << input.first;
+    for (auto && doc: docs) {
+      EXPECT_NO_THROW(V2::Animation::check_all(
+                        AL::qianim::V2::get_animation(doc)));
+    }
+  }
+}
+
+int main(int argc, char* argv[]) {
+  ::testing::InitGoogleTest(&argc, argv);
+  if (argc < 2) {
+    std::cerr << "Usage: test_animationsurgeon path/to/testdata" << std::endl;
+    return 2;
+  }
+  gDataPath = bfs::path(argv[1]);
+  return RUN_ALL_TESTS();
 }

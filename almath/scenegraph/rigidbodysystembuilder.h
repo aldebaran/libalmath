@@ -22,6 +22,7 @@
 #include <almath/scenegraph/bodymass.h>
 
 namespace AL {
+namespace Math {
 namespace RigidBodySystemBuilder {
 
 enum struct JointType { FreeFlyer, Rx, Ry, Rz };
@@ -42,15 +43,18 @@ class Config {
 template <typename T>
 struct LinkData {
   typedef T Scalar;
-  typedef Eigen::Transform<T, 3, Eigen::AffineCompact, Eigen::DontAlign> Pose;
+
   typedef Math::BodyMass<Scalar> BodyMass;
   typedef typename BodyMass::Vector3 Vector3;
   typedef typename BodyMass::Matrix3 Matrix3;
-
+  // use Eigen::DontAlign because  otherwise, when Scalar is double, Eigen
+  // would require a 16 bytes alignement constraint on LinkData
+  typedef Eigen::Transform<Scalar, 3, Eigen::AffineCompact, Eigen::DontAlign>
+          AffineCompact3;
   std::string parent_body;
   std::string new_body;
   std::string new_joint;
-  Pose pose_parent_new;
+  AffineCompact3 pose_parent_new;
   JointType joint_type;
   BodyMass body_mass;
 
@@ -65,12 +69,14 @@ struct LinkData {
 template <typename T>
 struct StaticFrameData {
   typedef T Scalar;
-  typedef Eigen::Transform<T, 3, Eigen::AffineCompact, Eigen::DontAlign> Pose;
-
+  // use Eigen::DontAlign because  otherwise, when Scalar is double, Eigen
+  // would require a 16 bytes alignement constraint on LinkData
+  typedef Eigen::Transform<Scalar, 3, Eigen::AffineCompact, Eigen::DontAlign>
+          AffineCompact3;
   std::string parent_frame;
   std::string new_static_frame;
   std::string new_static_transform;
-  Pose pose_parent_new;
+  AffineCompact3 pose_parent_new;
 
   template <typename S>
   StaticFrameData<S> cast() const {
@@ -90,7 +96,7 @@ class Interface {
   typedef typename BodyMass::Vector3 Vector3;
   typedef typename BodyMass::Matrix3 Matrix3;
   typedef StaticFrameData<Scalar> StaticFrame;
-  typedef typename StaticFrame::Pose Pose;
+  typedef typename StaticFrame::AffineCompact3 AffineCompact3;
   virtual ~Interface() {}
 
   virtual const Config &config() const = 0;
@@ -99,28 +105,31 @@ class Interface {
 
   // add a link
   void add(const std::string &parent_body, const std::string &new_body,
-           const Pose &H_parent_joint, JointType joint_type,
+           const AffineCompact3 &H_parent_joint, JointType joint_type,
            const BodyMass &mass, const std::string &new_joint) {
     addLink(Link{parent_body, new_body, new_joint, H_parent_joint, joint_type,
                  mass});
   }
   void add(const std::string &parent_body, const std::string &new_body,
-           const Pose &H_parent_joint, JointType joint_type,
+           const AffineCompact3 &H_parent_joint, JointType joint_type,
            const BodyMass &mass) {
     add(parent_body, new_body, H_parent_joint, joint_type, mass,
         this->config().joint_name(new_body));
   }
 
   // add a static frame
-  void add(const std::string &parent_frame, const std::string &new_static_frame,
-           const Pose &H_parent_new, const std::string &new_static_transform) {
+  void add(const std::string &parent_frame,
+           const std::string &new_static_frame,
+           const AffineCompact3 &H_parent_new,
+           const std::string &new_static_transform) {
     if (this->config().no_static_frame) return;
     addStaticFrame(StaticFrame{parent_frame, new_static_frame,
                                new_static_transform, H_parent_new});
   }
 
-  void add(const std::string &parent_frame, const std::string &new_static_frame,
-           const Pose &H_parent_new) {
+  void add(const std::string &parent_frame,
+           const std::string &new_static_frame,
+           const AffineCompact3 &H_parent_new) {
     add(parent_frame, new_static_frame, H_parent_new,
         this->config().joint_name(new_static_frame));
   }
@@ -133,7 +142,7 @@ class Interface {
   typedef typename Interface<T>::Vector3 Vector3;         \
   typedef typename Interface<T>::Matrix3 Matrix3;         \
   typedef typename Interface<T>::StaticFrame StaticFrame; \
-  typedef typename Interface<T>::Pose Pose
+  typedef typename Interface<T>::AffineCompact3 AffineCompact3
 
 // Interface for a rigid body system builder.
 template <typename T>
@@ -271,5 +280,5 @@ class InertiaEraser : public Decorator<T> {
 #undef TYPEDEF_Interface_TYPES
 }
 }
-
+}
 #endif

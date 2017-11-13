@@ -83,11 +83,23 @@ TEST(UrdfEigen, pose) {
   typedef Eigen::Transform<Scalar, 3, Eigen::AffineCompact, Eigen::DontAlign> T;
   urdf::Pose p{{{1, 2.2, 3.3}}, {{0, -pi / 2, 0}}};
 
-  T t = Math::toEigenTransform(p);
+  T t = Math::toEigenAffineCompact3(p);
   EXPECT_EQ(1, t(0, 3));
   EXPECT_EQ(2.2, t(1, 3));
   EXPECT_EQ(3.3, t(2, 3));
 
   EXPECT_IS_APPROX(Eigen::AngleAxisd(-pi / 2, Eigen::Vector3d::UnitY()),
                    t.linear());
+  urdf::Pose pp = Math::urdfPoseFromEigenTransform(t);
+  EXPECT_EQ(p.xyz(), pp.xyz());
+
+  // Note: the following test is too restrictive:
+  // different (but equivalent) rpy values would be ok too:
+  EXPECT_DOUBLE_EQ(p.rpy()[0], pp.rpy()[0]);
+  EXPECT_DOUBLE_EQ(p.rpy()[1], pp.rpy()[1]);
+  EXPECT_DOUBLE_EQ(p.rpy()[2], pp.rpy()[2]);
+
+  // this test is general: T representation is unique
+  T tt = Math::toEigenAffineCompact3(pp);
+  EXPECT_IS_APPROX(t, tt);
 }

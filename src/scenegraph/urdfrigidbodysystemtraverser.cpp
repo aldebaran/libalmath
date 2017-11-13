@@ -8,11 +8,14 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/xml_parser.hpp>
 
-namespace Builder = AL::RigidBodySystemBuilder;
-typedef Builder::Interface<double>::Pose Pose;
-typedef Builder::Interface<double>::BodyMass BodyMass;
+namespace {
+namespace Builder = AL::Math::RigidBodySystemBuilder;
+using AffineCompact3 = Builder::Interface<double>::AffineCompact3;
+using BodyMass = Builder::Interface<double>::BodyMass;
+}
 
 namespace AL {
+namespace Math {
 
 static const urdf::Array3d unit_x = {{1., 0., 0.}};
 static const urdf::Array3d unit_y = {{0., 1., 0.}};
@@ -25,7 +28,7 @@ class UrdfRigidBodySystemTraverser : public urdf::RobotTree::JointConstVisitor {
       : builder(builder), parser(parser), removed_root_link(false) {}
 
   bool _discover(const std::string &parent_link_name,
-                 const std::string &link_name, const Pose &origin,
+                 const std::string &link_name, const AffineCompact3 &origin,
                  Builder::JointType type, const urdf::ptree &link_pt,
                  const boost::optional<std::string> &joint_name);
   bool discover(const urdf::ptree &joint_el);
@@ -39,12 +42,12 @@ class UrdfRigidBodySystemTraverser : public urdf::RobotTree::JointConstVisitor {
 
 bool UrdfRigidBodySystemTraverser::_discover(
     const std::string &parent_link_name, const std::string &link_name,
-    const Pose &origin, Builder::JointType type, const urdf::ptree &link_pt,
+    const AffineCompact3 &origin, Builder::JointType type, const urdf::ptree &link_pt,
     const boost::optional<std::string> &joint_name =
         boost::optional<std::string>()) {
   urdf::Link link(link_pt);
   if (!link.inertial()) return false;  // stop exploring this branch
-  BodyMass mass;
+  ::BodyMass mass;
   Math::urdfInertialToEigen(*(link.inertial()), mass.mass, mass.center_of_mass,
                             mass.rotational_inertia);
   if (joint_name)
@@ -60,7 +63,7 @@ bool UrdfRigidBodySystemTraverser::discover(const urdf::ptree &joint_el) {
   switch (joint.type()) {
     case urdf::Joint::fixed: {
       builder.add(joint.parent_link(), joint.child_link(),
-                  Math::toEigenTransform(joint.origin()), joint.name());
+                  Math::toEigenAffineCompact3(joint.origin()), joint.name());
       return true;
     }
     case urdf::Joint::prismatic:
@@ -70,26 +73,26 @@ bool UrdfRigidBodySystemTraverser::discover(const urdf::ptree &joint_el) {
     case urdf::Joint::continuous: {
       const urdf::Array3d axis = joint.axis();
       if (axis == unit_x) {
-        type = Builder::JointType::Rx;
+        type = ::Builder::JointType::Rx;
         break;
       }
       if (axis == unit_y) {
-        type = Builder::JointType::Ry;
+        type = ::Builder::JointType::Ry;
         break;
       }
       if (axis == unit_z) {
-        type = Builder::JointType::Rz;
+        type = ::Builder::JointType::Rz;
         break;
       }
       throw std::runtime_error("unsupported joint axis");
     }
     case urdf::Joint::floating: {
-      type = Builder::JointType::FreeFlyer;
+      type = ::Builder::JointType::FreeFlyer;
       break;
     }
   }
   _discover(joint.parent_link(), joint.child_link(),
-            Math::toEigenTransform(joint.origin()), type,
+            Math::toEigenAffineCompact3(joint.origin()), type,
             parser.link(joint.child_link()), joint.name());
   return true;
 }
@@ -102,7 +105,7 @@ void buildRigidBodySystemFromUrdf(
   if (make_continuous_joints_fixed) makeContinuousJointsFixed(parser);
   makeMasslessJointsFixed(parser);
   UrdfRigidBodySystemTraverser visitor(builder, parser);
-  visitor._discover("", parser.root_link(), Pose::Identity(),
+  visitor._discover("", parser.root_link(), AffineCompact3::Identity(),
                     Builder::JointType::FreeFlyer,
                     parser.link(parser.root_link()));
   parser.traverse_joints(visitor);
@@ -115,5 +118,6 @@ void buildRigidBodySystemFromUrdf(
   boost::property_tree::xml_parser::read_xml(is, pt);
   buildRigidBodySystemFromUrdf(builder, pt, remove_root_joint,
                                make_continuous_joints_fixed);
+}
 }
 }

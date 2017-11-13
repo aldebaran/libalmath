@@ -18,6 +18,7 @@
 #include <boost/range/adaptor/filtered.hpp>
 #include <boost/function/function_fwd.hpp>
 #include <boost/ref.hpp>
+#include <boost/tokenizer.hpp>
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/ordered_index.hpp>
 #include <boost/multi_index/identity.hpp>
@@ -26,7 +27,7 @@
 #include <boost/multi_index/sequenced_index.hpp>
 #include <set>
 #include <vector>
-
+#include <type_traits>
 #include <boost/property_tree/stream_translator.hpp>
 
 namespace boost {
@@ -266,14 +267,53 @@ typedef RobotTree::JointVisitor JointVisitor;
 
 // Convenience wrapper classes around URDF ptree elements
 
-// helper to convert ptree to/from Array3d
-struct ALMATH_API Array3dTranslator {
+// helper to convert ptree to/from an array of floating point numbers
+template <typename Scalar, std::size_t N>
+struct ScalarArrayTranslator {
   typedef std::string internal_type;
-  typedef std::array<double, 3> external_type;
+  typedef std::array<Scalar, N> external_type;
+  static_assert(std::is_scalar<Scalar>::value,
+                "ScalarArrayTranslator requires a scalar");
+  boost::optional<external_type> get_value(const internal_type &str) {
+    // str is expected to hold N floating point numbers.
+    // let split it into N strings, then use the usual boost::property_tree
+    // translator to convert each substring into a Scalar.
+    // In case of failure, return an uninitialized boost::optional, like
+    // boost::property_tree does itself.
+    boost::tokenizer<> tok(
+        str, boost::char_delimiters_separator<char>(false, "", " \t\n\v\f\r"));
+    boost::optional<Scalar> d;
+    // note: maybe the tr variable could be made static const?
+    typename
+    boost::property_tree::translator_between<internal_type, Scalar>::type tr;
+    external_type x;
+    boost::tokenizer<>::iterator beg = tok.begin();
+    size_t i = 0;
+    for (; beg != tok.end() && i < N; ++beg, ++i) {
+      d = tr.get_value(*beg);
+      if (!d) return boost::optional<external_type>();
+      x[i] = *d;
+    }
+    if (i != N || beg != tok.end())
+      return boost::optional<external_type>();
+    return boost::optional<external_type>(x);
+  }
 
-  boost::optional<external_type> get_value(const internal_type &str);
-  boost::optional<internal_type> put_value(const external_type &v);
+  boost::optional<internal_type> put_value(const external_type &v) {
+    // note: maybe the tr variable could be made static const?
+    typename
+    boost::property_tree::translator_between<internal_type, Scalar>::type tr;
+    std::ostringstream ss;
+    if (N > 0u)
+      ss << *tr.put_value(v[0]);
+    for (auto i=1u; i < N; ++i) {
+      ss << " " << *tr.put_value(v[i]);
+    }
+    return ss.str();
+  }
 };
+
+using Array3dTranslator = ScalarArrayTranslator<double, 3>;
 
 // Models an URDF pose/transform ("origin" XML element)
 class ALMATH_API Pose {

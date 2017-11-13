@@ -1,0 +1,43 @@
+<Animation typeVersion="1.0">
+    <ActuatorList>
+        <ActuatorCurve actuator="HeadYaw" mute="0" fps="25">
+            <Key frame="1" value="-13.6256" />
+            <Key frame="40" value="-1.0571" />
+            <Key frame="305" value="-3.78175" />
+        </ActuatorCurve>
+        <ActuatorCurve actuator="LShoulderPitch" mute="1" fps="25">
+            <Key frame="20" value="82.1764" />
+            <Key frame="36" value="85.692" />
+        </ActuatorCurve>
+        <ActuatorCurve actuator="LShoulderRoll" mute="0" fps="13">
+            <Key frame="20" value="5.97423" />
+            <Key frame="36" value="10.4567" />
+        </ActuatorCurve>
+        <ActuatorCurve actuator="LElbowYaw" mute="1" fps="15">
+            <Key frame="20" value="-53.88" />
+            <Key frame="51" value="-65.6575" />
+        </ActuatorCurve>
+        <ActuatorCurve actuator="LElbowRoll" mute="0" fps="25">
+            <Key frame="20" value="-34.3633" />
+            <Key frame="36" value="-29.6171" />
+            <Key frame="51" value="-29.9687" />
+        </ActuatorCurve>
+        <ActuatorCurve actuator="LHand" mute="0" fps="25">
+            <Key frame="36" value="0.262571" />
+            <Key frame="72" value="0.256025" />
+            <Key frame="102" value="0.256025" />
+        </ActuatorCurve>
+        <ActuatorCurve actuator="LKneePitch" mute="0" fps="25">
+            <Key frame="13" value="21.6979">
+                <Tangent side="left" interpType="linear" abscissaParam="0" ordinateParam="0" />
+                <Tangent side="right" interpType="linear" abscissaParam="0" ordinateParam="0" />
+            </Key>
+            <Key frame="25" value="46.4129">
+                <Tangent side="left" interpType="linear" abscissaParam="0" ordinateParam="0" />
+                <Tangent side="right" interpType="bezier" abscissaParam="10.2741" ordinateParam="-25.0982" />
+            </Key>
+            <Key frame="56" value="40.0905">
+            </Key>
+        </ActuatorCurve>
+    </ActuatorList>
+</Animation>

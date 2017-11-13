@@ -65,7 +65,8 @@ qi_create_gtest(test_almath_rigidbodysystembuilder
 
 qi_create_gtest(test_almath_qianim
   SRC scenegraph/test_qianim.cpp
-  DEPENDS ALMATH)
+  ARGUMENTS "${CMAKE_CURRENT_SOURCE_DIR}/scenegraph"
+  DEPENDS ALMATH BOOST BOOST_FILESYSTEM)
 
 qi_create_gtest(test_almath_urdf
   SRC scenegraph/test_urdf.cpp

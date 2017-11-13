@@ -5,13 +5,14 @@
 #include <almath/scenegraph/rigidbodysystembuilder.h>
 
 namespace AL {
+namespace Math {
 namespace RigidBodySystemBuilder {
 
-class MyBuilder : public AL::RigidBodySystemBuilder::Interface<double> {
+class MyBuilder : public AL::Math::RigidBodySystemBuilder::Interface<double> {
  public:
   using Interface<double>::Link;
   using Interface<double>::StaticFrame;
-  using Interface<double>::Pose;
+  using Interface<double>::AffineCompact3;
   using Interface<double>::BodyMass;
   using Interface<double>::Vector3;
   using Interface<double>::Matrix3;
@@ -32,6 +33,7 @@ class RigidBodySystemBuilderTest : public ::testing::Test {
   MyBuilder b;                // back of the builders pipe
   NamesChecker<double> f{b};  // front
 };
+}
 }
 }
 #endif

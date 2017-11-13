@@ -56,11 +56,12 @@ set(ALMATH_SRCS
     src/dsp/pidcontroller.cpp
     src/geometrics/shapes3d.cpp
     src/geometrics/shapes3d_utils.cpp
-    src/scenegraph/qianim.cpp
     src/scenegraph/colladabuilder.cpp
     src/scenegraph/colladascenebuilder.cpp
     src/scenegraph/mesh.cpp
     src/scenegraph/meshfactory.cpp
+    src/scenegraph/qianim.cpp
+    src/scenegraph/qianim/surgeon.cpp
     src/scenegraph/scenebuilder.cpp
     src/scenegraph/urdf.cpp
     src/scenegraph/urdfrigidbodysystemtraverser.cpp
@@ -119,7 +120,10 @@ set(ALMATH_H
     almath/scenegraph/almatheigen.h
     almath/scenegraph/almathqigeometry.hpp
     almath/scenegraph/qianim.h
+    almath/scenegraph/qianim/bezierautotangent.h
     almath/scenegraph/qianim/unit.h
+    almath/scenegraph/qianim/unitutils.h
+    almath/scenegraph/qianim/surgeon.h
     almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
@@ -188,6 +192,12 @@ if(WITH_PYTHON)
     "${QI_SDK_DIR}/${QI_SDK_LIB}/almath.py"
   )
 endif()
+
+qi_create_bin(
+  animationsurgeon
+  bin/animationsurgeon.cpp
+  DEPENDS ALMATH BOOST BOOST_PROGRAM_OPTIONS BOOST_FILESYSTEM
+  NO_INSTALL)
 
 add_subdirectory(test)
 

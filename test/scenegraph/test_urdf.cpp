@@ -25,8 +25,9 @@ namespace std {
 }
 
 using namespace AL;
+using namespace AL::Math;
 typedef AL::urdf::ptree ptree;
-using namespace AL::RigidBodySystemBuilder;
+using namespace AL::Math::RigidBodySystemBuilder;
 
 namespace {
 // small experimentation with boost::multi_index
@@ -191,6 +192,17 @@ TEST(Urdf, Array3d) {
   {
     ptree pt("");
     EXPECT_ANY_THROW(pt.get_value<urdf::Array3d>(urdf::Array3dTranslator()));
+  }
+  {
+    ptree pt("");
+    pt.put_value(urdf::Array3d({1., 2.2 ,3.3}), urdf::Array3dTranslator());
+    // check the serialized data
+    EXPECT_EQ(pt.data(), "1 2.2000000000000002 3.2999999999999998");
+    // check it round-trips
+    urdf::Array3d xyz = pt.get_value<urdf::Array3d>(urdf::Array3dTranslator());
+    EXPECT_EQ(xyz[0], 1.);
+    EXPECT_EQ(xyz[1], 2.2);
+    EXPECT_EQ(xyz[2], 3.3);
   }
 }
 
