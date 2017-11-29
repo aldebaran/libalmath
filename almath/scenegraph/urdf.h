@@ -472,11 +472,11 @@ class ALMATH_API Link {
 // Utils
 
 // make the type of the joint named "name" equal to "fixed",
-// and erase the joint axis, if any.
+// and erase the joint axis and limits, if any.
 ALMATH_API void makeJointFixed(RobotTree &parser, const std::string &name);
 
 // make the type of the joint named "name" equal to "floating",
-// and erase the joint axis, if any.
+// and erase the joint axis and limits, if any.
 ALMATH_API void makeJointFloating(RobotTree &parser, const std::string &name);
 
 // apply makeJointFixed to all joints of type "continuous".

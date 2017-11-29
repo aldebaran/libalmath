@@ -831,10 +831,12 @@ TEST(Urdf, makeJointFixed_continuous) {
   addLink(robot, "b");
   ptree &pt = addJoint(robot, "a", "b", "ab", "continuous");
   pt.put("axis.<xmlattr>.xyz", "1. 2.2 3.3");
+  pt.put("limit.<xmlattr>.effort", "1.");
   urdf::RobotTree parser(robot);
   urdf::makeJointFixed(parser, "ab");
   EXPECT_EQ("fixed", pt.get<std::string>("<xmlattr>.type"));
   EXPECT_EQ(0u, pt.count("axis"));
+  EXPECT_EQ(0u, pt.count("limit"));
 }
 
 TEST(Urdf, makeJointFixed_floating) {
@@ -845,6 +847,8 @@ TEST(Urdf, makeJointFixed_floating) {
   urdf::RobotTree parser(robot);
   urdf::makeJointFixed(parser, "ab");
   EXPECT_EQ("fixed", pt.get<std::string>("<xmlattr>.type"));
+  EXPECT_EQ(0u, pt.count("axis"));
+  EXPECT_EQ(0u, pt.count("limit"));
 }
 
 TEST(Urdf, makeContinuousJointsFixed) {
