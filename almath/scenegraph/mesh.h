@@ -84,7 +84,7 @@ namespace AL {
 // {3, 3}
 //
 //
-// The data sctructures were loosely adapted from:
+// The data structures were loosely adapted from:
 // http://www.ics.com/blog/qt-and-opengl-part-1-loading-3d-model-open-asset-import-library-assimp
 class ALMATH_API Mesh {
  public:

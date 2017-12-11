@@ -127,6 +127,7 @@ set(ALMATH_H
     almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
+    almath/scenegraph/gltf.h
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
     almath/scenegraph/qigeometry.h

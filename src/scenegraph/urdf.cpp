@@ -746,6 +746,7 @@ void UrdfDotPrinterVisitor::finish(const ptree &joint) { --depth; }
 void makeJointFixed(ptree &joint_pt) {
   joint_pt.put("<xmlattr>.type", "fixed");
   joint_pt.erase("axis");
+  joint_pt.erase("limit");
 }
 
 void makeJointFixed(RobotTree &parser, const std::string &name) {
@@ -756,6 +757,7 @@ void makeJointFloating(RobotTree &parser, const std::string &name) {
   ptree &joint = parser.joint(name);
   joint.put("<xmlattr>.type", "floating");
   joint.erase("axis");
+  joint.erase("limit");
 }
 
 // internal helper class

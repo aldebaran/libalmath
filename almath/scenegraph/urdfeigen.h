@@ -8,6 +8,7 @@
 
 #include <almath/scenegraph/urdf.h>
 #include <Eigen/Geometry>
+#include <almath/scenegraph/bodymass.h>
 
 namespace AL {
 namespace Math {
@@ -59,35 +60,6 @@ inline Eigen::Matrix3d toEigenMatrix3(const AL::urdf::Inertial &inertial) {
   m(1, 2) = m(2, 1) = inertial.iyz();
   m(2, 2) = inertial.izz();
   return m;
-}
-
-// TODO: implement this algorithm on Mass type?
-template <typename Scalar, typename Derived0, typename Derived1>
-void addPointMassInertia(Scalar mass,
-                         const Eigen::MatrixBase<Derived0> &position,
-                         Eigen::MatrixBase<Derived1> &output) {
-  EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived0, 3, 1)
-  EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived1, 3, 3)
-  EIGEN_STATIC_ASSERT(
-      (Eigen::internal::is_same<Scalar, typename Derived0::Scalar>::value),
-      YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
-  EIGEN_STATIC_ASSERT(
-      (Eigen::internal::is_same<Scalar, typename Derived1::Scalar>::value),
-      YOU_MIXED_DIFFERENT_NUMERIC_TYPES__YOU_NEED_TO_USE_THE_CAST_METHOD_OF_MATRIXBASE_TO_CAST_NUMERIC_TYPES_EXPLICITLY)
-  typedef Eigen::Array<Scalar, 3, 1> Array3;
-  Array3 position2 = position.array().square();
-  output(0, 0) += mass * (position2[1] + position2[2]);
-  output(1, 1) += mass * (position2[0] + position2[2]);
-  output(2, 2) += mass * (position2[0] + position2[1]);
-
-  output(0, 1) += -mass * position[0] * position[1];
-  output(1, 0) += -mass * position[0] * position[1];
-
-  output(0, 2) += -mass * position[0] * position[2];
-  output(2, 0) += -mass * position[0] * position[2];
-
-  output(1, 2) += -mass * position[1] * position[2];
-  output(2, 1) += -mass * position[1] * position[2];
 }
 
 // squash inertial `a` and `b` to create inertial `c`.

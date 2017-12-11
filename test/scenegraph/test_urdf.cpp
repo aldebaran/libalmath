@@ -80,16 +80,10 @@ TEST(Urdf, MultiIndexContainer) {
 }
 
 // utils to create and manipulate urdf files
-void write(std::ostream &os, const ptree &pt) {
-#if BOOST_VERSION >= 105600
+void print(const ptree &pt) {
   boost::property_tree::xml_writer_settings<std::string> settings(' ', 4);
-#else
-  boost::property_tree::xml_writer_settings<char> settings(' ', 4);
-#endif
-  write_xml(os, pt, settings);
+  write_xml(std::cout, pt, settings);
 }
-
-void print(const ptree &pt) { write(std::cout, pt); }
 
 ptree &addRobot(ptree &pt) { return pt.add_child("robot", ptree()); }
 
@@ -529,7 +523,6 @@ TEST(Urdf, Link) {
 
 TEST(Urdf, read_no_link) {
   ptree pt;
-  addRobot(pt);
   std::unique_ptr<urdf::RobotTree> utree;
   EXPECT_ANY_THROW(utree.reset(new urdf::RobotTree(pt)));
 }
@@ -831,10 +824,12 @@ TEST(Urdf, makeJointFixed_continuous) {
   addLink(robot, "b");
   ptree &pt = addJoint(robot, "a", "b", "ab", "continuous");
   pt.put("axis.<xmlattr>.xyz", "1. 2.2 3.3");
+  pt.put("limit.<xmlattr>.effort", "1.");
   urdf::RobotTree parser(robot);
   urdf::makeJointFixed(parser, "ab");
   EXPECT_EQ("fixed", pt.get<std::string>("<xmlattr>.type"));
   EXPECT_EQ(0u, pt.count("axis"));
+  EXPECT_EQ(0u, pt.count("limit"));
 }
 
 TEST(Urdf, makeJointFixed_floating) {
@@ -845,6 +840,8 @@ TEST(Urdf, makeJointFixed_floating) {
   urdf::RobotTree parser(robot);
   urdf::makeJointFixed(parser, "ab");
   EXPECT_EQ("fixed", pt.get<std::string>("<xmlattr>.type"));
+  EXPECT_EQ(0u, pt.count("axis"));
+  EXPECT_EQ(0u, pt.count("limit"));
 }
 
 TEST(Urdf, makeContinuousJointsFixed) {
@@ -1273,6 +1270,34 @@ TEST(Urdf, transform_filenames_example) {
   urdf::robot::transform_filenames(robot, op);
 
   EXPECT_EQ(lmafter, robot.get<std::string>(lmpath));
+}
+
+TEST(Urdf, xml_altering_example) {
+  // get an istream to xml content
+  std::stringstream is(
+        "<robot name=\"my robot\">\n"
+        "  <link name=\"Torso_link\"/>\n"
+        "  <link name=\"HeadYaw_link\"/>\n"
+        "  <joint name=\"HeadYaw\" type=\"revolute\">\n"
+        "    <origin xyz=\"0 0 0.1265\" rpy=\"0 0 0\" />\n"
+        "    <axis xyz=\"0 0 1\" />\n"
+        "    <parent link=\"Torso_link\" />\n"
+        "    <child link=\"HeadYaw_link\" />\n"
+        "    <limit effort=\"1.547\" velocity=\"8.26797\" lower=\"-2.08567\" upper=\"2.08567\" />\n"
+        "  </joint>\n"
+        "</robot>\n");
+  // parse it to a ptree
+  boost::property_tree::ptree root;
+  boost::property_tree::read_xml(is, root, boost::property_tree::xml_parser::trim_whitespace);
+  // find the robot node
+  boost::property_tree::ptree &robot = root.get_child("robot");
+  // create the kinematic tree index
+  urdf::RobotTree robotTree(robot);
+  // use the index to alter the ptree in memory
+  urdf::makeJointFixed(robotTree, "HeadYaw");
+  // write the modified ptree back as xml
+  boost::property_tree::xml_writer_settings<std::string> settings(' ', 4);
+  boost::property_tree::write_xml(std::cout, root, settings);
 }
 
 TEST_F(RigidBodySystemBuilderTest, buildFromUrdf_none) {
