@@ -27,9 +27,9 @@ namespace Math
                           static_cast<float>(r.rotation.y),
                           static_cast<float>(r.rotation.z));
     Transform almathTf = transformFromQuaternion(almathQuat);
-    almathTf.r1_c4 = r.translation.x;
-    almathTf.r2_c4 = r.translation.y;
-    almathTf.r3_c4 = r.translation.z;
+    almathTf.r1_c4 = static_cast<float>(r.translation.x);
+    almathTf.r2_c4 = static_cast<float>(r.translation.y);
+    almathTf.r3_c4 = static_cast<float>(r.translation.z);
     return almathTf;
   }
 
