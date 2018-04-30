@@ -25,12 +25,13 @@ option(ALMATH_AS_STATIC_LIBRARY
   "if true, almath is built as a static library"
   OFF)
 
+qi_stage_dir(".")
 if (ALMATH_WITH_QIGEOMETRY)
   find_package(qilang-tools)
 
   # generate all the new files
   qi_gen_idl(geometry_idl CPP "qigeometry" "${CMAKE_CURRENT_BINARY_DIR}"
-    qi/geometry/geometry.idl.qi)
+    share/qi/idl/qi/geometry/geometry.idl.qi)
   include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
   # install the headers so that people can use your proxies
