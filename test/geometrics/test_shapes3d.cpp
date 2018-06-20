@@ -3,12 +3,9 @@
  * Aldebaran Robotics (c) 2014 All Rights Reserved
  */
 
+#include <memory>
 #include <gtest/gtest.h>
 #include <almath/geometrics/shapes3d.h>
-#include <almath/tools/altrigonometry.h>
-#include <boost/scoped_ptr.hpp>
-
-#include <almath/tools/almathio.h>
 
 using namespace AL;
 using namespace Math;
@@ -38,32 +35,32 @@ class DummyVisitor : public Shape3DVisitor {
 TEST(Shape3DTest, dummyVisitor) {
   DummyVisitor visitor;
 
-  boost::scoped_ptr<Shape3D> pill(new Pill(0.f, 0.f));
+  std::unique_ptr<Shape3D> pill(new Pill(0.f, 0.f));
   pill->accept(visitor);
   EXPECT_EQ("Pill", visitor.getVisited());
 
-  boost::scoped_ptr<Shape3D> sphere(new Sphere(0.f));
+  std::unique_ptr<Shape3D> sphere(new Sphere(0.f));
   sphere->accept(visitor);
   EXPECT_EQ("Sphere", visitor.getVisited());
 
-  boost::scoped_ptr<Shape3D> roundedRectangle(
+  std::unique_ptr<Shape3D> roundedRectangle(
       new RoundedRectangle(0.f, 0.f, 0.f));
   roundedRectangle->accept(visitor);
   EXPECT_EQ("RoundedRectangle", visitor.getVisited());
 
-  boost::scoped_ptr<Shape3D> plane(new Plane());
+  std::unique_ptr<Shape3D> plane(new Plane());
   plane->accept(visitor);
   EXPECT_EQ("Plane", visitor.getVisited());
 
-  boost::scoped_ptr<Shape3D> halfSpace(new HalfSpace());
+  std::unique_ptr<Shape3D> halfSpace(new HalfSpace());
   halfSpace->accept(visitor);
   EXPECT_EQ("HalfSpace", visitor.getVisited());
 
-  boost::scoped_ptr<Shape3D> rectangle(new Rectangle(0.0f, 0.0f));
+  std::unique_ptr<Shape3D> rectangle(new Rectangle(0.0f, 0.0f));
   rectangle->accept(visitor);
   EXPECT_EQ("Rectangle", visitor.getVisited());
 
-  boost::scoped_ptr<Shape3D> halfLine(new HalfLine());
+  std::unique_ptr<Shape3D> halfLine(new HalfLine());
   halfLine->accept(visitor);
   EXPECT_EQ("HalfLine", visitor.getVisited());
 }
