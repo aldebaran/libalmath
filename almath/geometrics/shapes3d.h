@@ -26,6 +26,14 @@ class ALMATH_API Shape3D {
 class ALMATH_API Sphere : public Shape3D {
  public:
   Sphere(float pRadius);
+  friend bool operator==(const Sphere &lhs, const Sphere &rhs)
+  {
+    return lhs.fRadius == rhs.fRadius;
+  }
+  friend bool operator!=(const Sphere &lhs, const Sphere &rhs)
+  {
+    return !(lhs == rhs);
+  }
   virtual void accept(const Shape3DVisitor &v) const;
   float getRadius() const;
 
@@ -39,6 +47,18 @@ class ALMATH_API Sphere : public Shape3D {
 class ALMATH_API RoundedRectangle : public Shape3D {
  public:
   RoundedRectangle(float pHalfExtentX, float pHalfExtentY, float pRadius);
+  friend bool operator==(const RoundedRectangle &lhs,
+                         const RoundedRectangle &rhs)
+  {
+    return lhs.fHalfExtentX == rhs.fHalfExtentX &&
+           lhs.fHalfExtentY == rhs.fHalfExtentY &&
+           lhs.fRadius == rhs.fRadius;
+  }
+  friend bool operator!=(const RoundedRectangle &lhs,
+                         const RoundedRectangle &rhs)
+  {
+    return !(lhs == rhs);
+  }
   virtual void accept(const Shape3DVisitor &v) const;
   float getHalfExtentX() const;
   float getHalfExtentY() const;
@@ -56,24 +76,52 @@ class ALMATH_API RoundedRectangle : public Shape3D {
 class ALMATH_API Pill : public Shape3D {
  public:
   Pill(float pHalfExtent, float pRadius);
-  virtual void accept(const Shape3DVisitor &v) const;
+  friend bool operator==(const Pill &lhs, const Pill &rhs)
+  {
+    return lhs.fHalfExtent == rhs.fHalfExtent &&
+           lhs.fRadius == rhs.fRadius;
+  }
+  friend bool operator!=(const Pill &lhs, const Pill &rhs)
+  {
+    return !(lhs == rhs);
+  }
   float getHalfExtent() const;
   float getRadius() const;
+  virtual void accept(const Shape3DVisitor &v) const;
 
  private:
   float fHalfExtent;
   float fRadius;
+
 };
+
+
 
 // Equation z = 0, normal (0, 0, 1).
 class ALMATH_API Plane : public Shape3D {
  public:
+  friend bool operator==(const Plane &lhs, const Plane &rhs)
+  {
+    return true;
+  }
+  friend bool operator!=(const Plane &lhs, const Plane &rhs)
+  {
+    return false;
+  }
   virtual void accept(const Shape3DVisitor &v) const;
 };
 
 // Equation z <= 0, normal (0, 0, 1). (z > 0 is free space).
 class ALMATH_API HalfSpace : public Shape3D {
  public:
+  friend bool operator==(const HalfSpace &lhs, const HalfSpace &rhs)
+  {
+    return true;
+  }
+  friend bool operator!=(const HalfSpace &lhs, const HalfSpace &rhs)
+  {
+    return false;
+  }
   virtual void accept(const Shape3DVisitor &v) const;
 };
 
@@ -81,6 +129,15 @@ class ALMATH_API HalfSpace : public Shape3D {
 class ALMATH_API Rectangle : public Shape3D {
  public:
   Rectangle(float pHalfExtentX, float pHalfExtentY);
+  friend bool operator==(const Rectangle &lhs, const Rectangle &rhs)
+  {
+    return lhs.fHalfExtentX == rhs.fHalfExtentX &&
+           lhs.fHalfExtentY == rhs.fHalfExtentY;
+  }
+  friend bool operator!=(const Rectangle &lhs, const Rectangle &rhs)
+  {
+    return !(lhs == rhs);
+  }
   virtual void accept(const Shape3DVisitor &v) const;
   float getHalfExtentX() const;
   float getHalfExtentY() const;
@@ -93,6 +150,14 @@ class ALMATH_API Rectangle : public Shape3D {
 // Half line oriented along z axis, equation z >= 0, x = 0, y = 0.
 class ALMATH_API HalfLine : public Shape3D {
  public:
+  friend bool operator==(const HalfLine &lhs, const HalfLine &rhs)
+  {
+    return true;
+  }
+  friend bool operator!=(const HalfLine &lhs, const HalfLine &rhs)
+  {
+    return false;
+  }
   virtual void accept(const Shape3DVisitor &v) const;
 };
 
