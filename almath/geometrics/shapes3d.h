@@ -170,35 +170,35 @@ class ALMATH_API Shape3DVisitor {
   virtual void visit(const HalfSpace &pShape) const = 0;
   virtual void visit(const Rectangle &pShape) const = 0;
   virtual void visit(const HalfLine &pShape) const = 0;
-  virtual ~Shape3DVisitor() {}
+  virtual ~Shape3DVisitor() = default;
 };
 
 class ALMATH_API NotImplementedShape3DVisitor : public Shape3DVisitor {
  public:
   NotImplementedShape3DVisitor(const std::string msg = "not implemented")
       : fMsg(msg) {}
-  virtual void visit(const Pill &pShape) const {
+  virtual void visit(const Pill &) const override {
     throw std::runtime_error(fMsg);
   }
-  virtual void visit(const Sphere &pShape) const {
+  virtual void visit(const Sphere &) const override {
     throw std::runtime_error(fMsg);
   }
-  virtual void visit(const RoundedRectangle &pShape) const {
+  virtual void visit(const RoundedRectangle &) const override {
     throw std::runtime_error(fMsg);
   }
-  virtual void visit(const Plane &pShape) const {
+  virtual void visit(const Plane &) const override {
     throw std::runtime_error(fMsg);
   }
-  virtual void visit(const HalfSpace &pShape) const {
+  virtual void visit(const HalfSpace &) const override {
     throw std::runtime_error(fMsg);
   }
-  virtual void visit(const Rectangle &pShape) const {
+  virtual void visit(const Rectangle &) const override {
     throw std::runtime_error(fMsg);
   }
-  virtual void visit(const HalfLine &pShape) const {
+  virtual void visit(const HalfLine &) const override {
     throw std::runtime_error(fMsg);
   }
-  virtual ~NotImplementedShape3DVisitor() {}
+  virtual ~NotImplementedShape3DVisitor() = default;
 
  private:
   std::string fMsg;
