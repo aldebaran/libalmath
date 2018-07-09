@@ -34,7 +34,7 @@ class ALMATH_API Sphere : public Shape3D {
   {
     return !(lhs == rhs);
   }
-  virtual void accept(const Shape3DVisitor &v) const;
+  void accept(const Shape3DVisitor &v) const override;
   float getRadius() const;
 
  private:
@@ -59,7 +59,7 @@ class ALMATH_API RoundedRectangle : public Shape3D {
   {
     return !(lhs == rhs);
   }
-  virtual void accept(const Shape3DVisitor &v) const;
+  void accept(const Shape3DVisitor &v) const override;
   float getHalfExtentX() const;
   float getHalfExtentY() const;
   float getRadius() const;
@@ -87,7 +87,7 @@ class ALMATH_API Pill : public Shape3D {
   }
   float getHalfExtent() const;
   float getRadius() const;
-  virtual void accept(const Shape3DVisitor &v) const;
+  void accept(const Shape3DVisitor &v) const override;
 
  private:
   float fHalfExtent;
@@ -108,7 +108,7 @@ class ALMATH_API Plane : public Shape3D {
   {
     return false;
   }
-  virtual void accept(const Shape3DVisitor &v) const;
+  void accept(const Shape3DVisitor &v) const override;
 };
 
 // Equation z <= 0, normal (0, 0, 1). (z > 0 is free space).
@@ -122,7 +122,7 @@ class ALMATH_API HalfSpace : public Shape3D {
   {
     return false;
   }
-  virtual void accept(const Shape3DVisitor &v) const;
+  void accept(const Shape3DVisitor &v) const override;
 };
 
 // Equation z = 0, abs(x) < fHalfExtentX, abs(y) < fHalfExtentY,
@@ -138,7 +138,7 @@ class ALMATH_API Rectangle : public Shape3D {
   {
     return !(lhs == rhs);
   }
-  virtual void accept(const Shape3DVisitor &v) const;
+  void accept(const Shape3DVisitor &v) const override;
   float getHalfExtentX() const;
   float getHalfExtentY() const;
 
@@ -158,7 +158,7 @@ class ALMATH_API HalfLine : public Shape3D {
   {
     return false;
   }
-  virtual void accept(const Shape3DVisitor &v) const;
+  void accept(const Shape3DVisitor &v) const override;
 };
 
 class ALMATH_API Shape3DVisitor {
