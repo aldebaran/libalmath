@@ -1,5 +1,5 @@
 /*
- *  Copyright 2015 Aldebaran. All rights reserved.
+ *  Copyright 2015-2018 Aldebaran. All rights reserved.
  *
  */
 
@@ -69,8 +69,8 @@ TEST(ALMathglTFTest, buffer_put) {
 // error C2280: 'boost::iterators::function_output_iterator<ALMathglTFTest_buffer_put_and_iterators_Test::TestBody::<lambda_21f3be3679d7a5749adb7664a139bf79>> &
 //   boost::iterators::function_output_iterator<ALMathglTFTest_buffer_put_and_iterators_Test::TestBody::<lambda_21f3be3679d7a5749adb7664a139bf79>>::operator =(
 //   const boost::iterators::function_output_iterator<ALMathglTFTest_buffer_put_and_iterators_Test::TestBody::<lambda_21f3be3679d7a5749adb7664a139bf79>> &)': attempting to reference a deleted function
-// Maybe Visual Studio 15 will fix it?
-#if !(defined BOOST_COMP_MSVC) || (BOOST_COMP_MSVC >= BOOST_VERSION_NUMBER(15, 0, 0))
+// Still broken on Visual Studio 15
+#if !(defined BOOST_COMP_MSVC)
 TEST(ALMathglTFTest, buffer_put_and_iterators) {
   std::ostringstream os;
   std::vector<float> values({1.f, 2.f});
