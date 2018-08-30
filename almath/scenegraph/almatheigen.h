@@ -116,7 +116,7 @@ Velocity6D toALMathVelocity6D(const Eigen::MatrixBase<Derived0> &in) {
 template <class RandomAccessRange>
 Math::Transform averageTransforms(const RandomAccessRange &range)
 {
-  const int numCumulated = boost::size(range);
+  const auto numCumulated = boost::size(range);
   if (numCumulated == 0)
   {
     throw std::runtime_error("Invalid empty range");

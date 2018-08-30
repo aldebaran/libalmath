@@ -58,12 +58,12 @@ int main(int argc, char *argv[])
 {
   std::vector<std::string> files;
 
-  po::options_description generic("");
-  generic.add_options()
+  po::options_description hidden;
+  hidden.add_options()
   ("file", po::value< std::vector<std::string> >(&files),
    "path to input file");
 
-  po::options_description command("Commands");
+  po::options_description command;
   command.add_options()
   ("help",
    "display help message")
@@ -92,19 +92,35 @@ int main(int argc, char *argv[])
   po::positional_options_description positional;
   positional.add("file", -1);
 
+  // a group for options to be shown in help, which are all options except the
+  // positional ones, because the automatically generated doc for positional
+  // options is quite confusing.
   po::options_description visible(
       "Modify animation xml files.\n\n"
-      "Usage:\n animationsurgeon --migrate-xar --check --print file0 file1\n\n"
-      "Options");
-  visible.add(generic);
+      "Usage:\n animationsurgeon [commands] file0 file1 ...\n\n"
+      "Examples:\n\n"
+      " check some qi animations are valid:\n"
+      "  animationsurgeon --check file0.qianim file1.qianim\n\n"
+      " make a copy of a qi animation, using degrees instead of radians:\n"
+      "  animationsurgeon --to-degree --print file0.qianim > /tmp/file0_degree.qianim\n\n"
+      " convert several qi animations to degrees, in place:\n"
+      "  animationsurgeon --to-degree --inplace file0.qianim file1.qianim\n\n"
+      " convert animations from xar files to qi animations:\n"
+      "  animationsurgeon --migrate-xar --check --print file0.xar file1.xar > /tmp/concatenated_qianims\n\n"
+      "Commands");
+  //visible.add(hidden);// do not add the hidden options, otherwise they are not hidden!
   visible.add(command);
 
+  // a group for all actually parsed options
+  po::options_description cli;
+  cli.add(hidden);
+  cli.add(command);
   int skippedFiles = 0;
   try
   {
     po::variables_map vm;
     po::store(po::command_line_parser(argc, argv).
-              options(visible).positional(positional).run(), vm);
+              options(cli).positional(positional).run(), vm);
     if (vm.count("help"))
     {
       std::cout << visible << "\n";
@@ -122,7 +138,13 @@ int main(int argc, char *argv[])
 
         // first deal with conversions to v2
         if (vm.count("migrate-xar")) {
+          if (vm.count("inplace")) {
+            std::cerr << "Ignoring \"--inplace\" option, which is incompatible with "
+                         "\"--migrate-xar\"\n";
+          }
           for (auto && root : v2_roots_from_xar(docroot)) {
+            // do not forward the path argument, in order to disable the handling
+            // of the "--inplace" option.
             apply_commands(vm, root);
           }
         } else if (vm.count("migrate-v1")) {
