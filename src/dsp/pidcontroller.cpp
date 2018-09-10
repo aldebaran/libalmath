@@ -128,7 +128,7 @@ float PIDController::computeFeedback(const float pCommand,
   float period = fPeriod;
   if (pPeriod > 0.0)
   {
-    period = fPeriod;
+    period = pPeriod;
   }
 
   fPreviousErr = fErr;
