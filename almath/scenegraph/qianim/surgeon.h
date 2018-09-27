@@ -114,11 +114,18 @@ ALMATH_API void convert_unit(ptree &curve, Unit to, Unit from);
 // "LHand" or "RHand", "degree" otherwise.
 //
 // Note: maybe we could implement it another way when migrating a xar:
-//   from http://opengrok.aldebaran.lan/xref/gui/lib/desktop/behavior/behaviormodel/behaviormodel/timeline/actuator_curve.h#48
-//   and http://opengrok.aldebaran.lan/xref/behavior/framemanager/src/fmActuatorCurve.h#30
+// from
+// enum AL::ActuatorCurve::CurveUnit { UNKNOWN_UNIT = -1, DEGREE_UNIT, PERCENT_UNIT };
+// defined line 48 in
+// desktop/libraries/behavior/behaviormodel/behaviormodel/timeline/actuator_curve.h
+// and
+// enum AL::FMActuatorCurve::CurveUnit { UNKNOWN_UNIT = -1, DEGREE_UNIT, PERCENT_UNIT };
+// defined line 30 in behavior/framemanager/src/fmActuatorCurve.h
 // one sees that 0 means degrees and 1 means dimensionless.
-// Yet, they hardcode the names LHAnd and RHand there too:
-//    http://opengrok.aldebaran.lan/xref/gui/lib/desktop/behavior/behavior_utils/behavior_utils/box_utils.h#45
+//
+// Yet, the names LHAnd and RHand are hardcoded in AR::BoxUtils::behaviorToAnimFile(...)
+// defined line 45 in
+// desktop/libraries/behavior/behavior_utils/behavior_utils/box_utils.h
 ALMATH_API void fix_missing_unit(ptree &curve, bool verbose=false);
 
 inline void migrate_v1_to_v2(ptree &curve) {
