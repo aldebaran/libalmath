@@ -1,28 +1,29 @@
-""" Helper module to make sure
-almath.py works in a relocatable Python
-SDK
-
-"""
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+""" ALMath """
+from __future__ import print_function
+from __future__ import absolute_import
 
 import os
 import sys
 import ctypes
 
-
-def load_almath():
-    this_dir = os.path.abspath(os.path.dirname(__file__))
-    libalmath = os.path.join(this_dir, "..", "..", "libalmath.so")
-    if os.path.exists(libalmath):
-        # we are likely to be in a relocatable SDK,
-        # load the library so that setting LD_LIBRARY_PATH
-        # is not necessary
-        ctypes.cdll.LoadLibrary(libalmath)
-
+# Get the Absolute Path of the Package
+PATH_PACKAGE = os.path.dirname(os.path.realpath(__file__))
 
 if sys.platform.startswith("linux"):
     try:
-        load_almath()
-    except Exception, e:
-        print e
+        ctypes.cdll.LoadLibrary(os.path.join(PATH_PACKAGE, "libalmath.so"))
+    except Exception as exc:
+        print(exc)
+elif "darwin" in sys.platform:
+    sys.path.insert(1, os.path.join(PATH_PACKAGE, "python2.7", "site-packages"))
 
-from almathswig import *
+# Update LD_LIBRARY_PATH if needed
+path_library = os.environ.get("LD_LIBRARY_PATH", "")
+if PATH_PACKAGE not in path_library:
+    if path_library:
+        path_library += os.path.pathsep
+    os.environ["LD_LIBRARY_PATH"] = path_library + PATH_PACKAGE
+
+from .almathswig import *

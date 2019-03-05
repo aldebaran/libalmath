@@ -1,8 +1,7 @@
-## Copyright (c) 2012 Aldebaran Robotics. All rights reserved.
-## Use of this source code is governed by a BSD-style license that can be
-## found in the COPYING file.
+## Copyright (c) 2019 Aldebaran Robotics. All rights reserved.
+## Use of this source code is governed by a BSD-style license (can be found in COPYING file)
 
-cmake_minimum_required(VERSION 2.6.4)
+cmake_minimum_required(VERSION 3.11.0)
 project(ALMATH)
 find_package(qibuild)
 
@@ -160,39 +159,34 @@ generate_export_header(almath
   STATIC_DEFINE almath_STATIC_BUILD
   EXPORT_FILE_NAME ${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h)
 qi_install_header(${QI_SDK_DIR}/${QI_SDK_INCLUDE}/almath/api.h SUBFOLDER almath)
+qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
 
 # ensure generated headers are found
 include_directories(${QI_SDK_DIR}/${QI_SDK_INCLUDE})
 
-# we publish SWIG_MODULE_almathswig_DEPS together with the lib.
-# It is useful when extending almathswig.
-set(SWIG_MODULE_almathswig_DEPS "almath.i")
-foreach(dep IN LISTS ALMATH_H_WRAPPED)
-  list(APPEND SWIG_MODULE_almathswig_DEPS "${dep}")
-endforeach()
-qi_stage_lib(almath ALMATH
-  CUSTOM_CODE
-  "set(SWIG_MODULE_almathswig_DEPS \"${SWIG_MODULE_almathswig_DEPS}\" CACHE INTERNAL \"\" FORCE)")
-qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
-
-qi_add_optional_package(PYTHON)
-if(WITH_PYTHON)
-  include(qibuild/swig/python)
+find_package(Python2 COMPONENTS Development QUIET)
+if (Python2_Development_FOUND)
+  message("-- Python ${Python2_VERSION} Found")
+  include("python-almath/swig_py2.cmake")
+  set(SWIG_MODULE_almathswig_DEPS "almath.i")
+  foreach(dep IN LISTS ALMATH_H_WRAPPED)
+    list(APPEND SWIG_MODULE_almathswig_DEPS "${dep}")
+  endforeach()
+  qi_stage_lib(almath ALMATH
+    CUSTOM_CODE
+    "set(SWIG_MODULE_almathswig_DEPS \"${SWIG_MODULE_almathswig_DEPS}\" CACHE INTERNAL \"\" FORCE)")
   set(SWIG_MODULE_almathswig_EXTRA_DEPS ${ALMATH_H_WRAPPED})
-  qi_swig_wrap_python(almathswig almath.i DEPENDS ALMATH)
-  # we install the swig interface file since it is needed to wrap extensions
-  # of almath, such as almathinternal.
+  qi_swig_wrap_python2(almathswig almath.i DEPENDS ALMATH)
   qi_install_header(almath.i KEEP_RELATIVE_PATHS)
   qi_install_python(almath.py)
-
-  # Hack for the python interpreter to find the python module even at
-  # build time, using qi::path::librariesPath().
   add_custom_target(copy-python-almath ALL
     COMMAND ${CMAKE_COMMAND}
     -E copy
     "${CMAKE_SOURCE_DIR}/almath.py"
     "${QI_SDK_DIR}/${QI_SDK_LIB}/almath.py"
   )
+else()
+  message("-- Python 2 Libs not found, bypass ALMath Python 2 bindings")
 endif()
 
 qi_create_bin(
