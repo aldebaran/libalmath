@@ -38,8 +38,6 @@ def find_file(filename):
     if not search_folder or not os.path.isdir(search_folder):
         search_folder = os.path.join(PATH_HERE, "..")
     for directory, _folders, content in os.walk(search_folder):
-        if "build" not in directory:
-            continue
         if filename not in content:
             continue
         return os.path.join(directory, filename)
@@ -102,7 +100,7 @@ setuptools.setup(
         SETUP_PROJECT: [PLATFORM_FILES.get(filename) for filename in PLATFORM_FILES]
     },
     include_package_data=True,
-    install_requires=["qi"],
+    install_requires=[],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
