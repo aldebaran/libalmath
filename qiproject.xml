@@ -1,5 +1,4 @@
 <project version="3">
-  <maintainer email="jmillet@softbankrobotics.com">Jerome Millet</maintainer>
   <qibuild name="libalmath">
     <depends buildtime="true" runtime="true" names="boost eigen3 python libqi rosbag" />
     <depends buildtime="true" names="gtest" />
