@@ -38,8 +38,6 @@ def find_file(filename):
     if not search_folder or not os.path.isdir(search_folder):
         search_folder = os.path.join(PATH_HERE, "..")
     for directory, _folders, content in os.walk(search_folder):
-        if "build" not in directory:
-            continue
         if filename not in content:
             continue
         return os.path.join(directory, filename)
