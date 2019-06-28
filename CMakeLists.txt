@@ -24,6 +24,16 @@ option(ALMATH_WITH_QIGEOMETRY
 option(ALMATH_AS_STATIC_LIBRARY
   "if true, almath is built as a static library"
   OFF)
+if (I_AM_A_ROBOT AND NOT ENABLE_NAO)
+  # we don't install almath python bindings on robots, except NAO
+  set(_almath_with_pythonbindings_default OFF)
+else()
+  qi_add_optional_package(PYTHON)
+  set(_almath_with_pythonbindings_default ${WITH_PYTHON})
+endif()
+option(ALMATH_WITH_PYTHONBINDINGS
+  "if true, build almath's python bindings."
+  ${_almath_with_pythonbindings_default})
 
 qi_stage_dir(".")
 if (ALMATH_WITH_QIGEOMETRY)
@@ -179,8 +189,7 @@ qi_stage_lib(almath ALMATH
   "set(SWIG_MODULE_almathswig_DEPS \"${SWIG_MODULE_almathswig_DEPS}\" CACHE INTERNAL \"\" FORCE)")
 qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
 
-qi_add_optional_package(PYTHON)
-if(WITH_PYTHON)
+if(ALMATH_WITH_PYTHONBINDINGS)
   include(qibuild/swig/python)
   set(SWIG_MODULE_almathswig_EXTRA_DEPS ${ALMATH_H_WRAPPED})
   qi_swig_wrap_python(almathswig almath.i DEPENDS ALMATH)
