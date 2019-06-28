@@ -37,9 +37,6 @@
 
 %{
 #include <sstream>
-#include "almath/dsp/digitalfilter.h"
-#include "almath/dsp/pidcontroller.h"
-
 #include "almath/types/alaxismask.h"
 
 #include "almath/types/alpose2d.h"
@@ -65,7 +62,6 @@
 #include "almath/tools/avoidfootcollision.h"
 #include "almath/tools/altransformhelpers.h"
 #include "almath/tools/almath.h"
-#include "almath/types/occupancymapparams.h"
 
 // forward-declare function that swig will create (thanks to the %extend
 // below) and that we use to print some std::vector
@@ -157,9 +153,6 @@ namespace std {
   }
 }
 
-%include "almath/dsp/digitalfilter.h"
-%include "almath/dsp/pidcontroller.h"
-
 %include "almath/types/alaxismask.h"
 
 %include "almath/types/alpose2d.h"
@@ -185,9 +178,6 @@ namespace std {
 %include "almath/tools/avoidfootcollision.h"
 %include "almath/tools/altransformhelpers.h"
 %include "almath/tools/almath.h"
-
-%include "almath/types/occupancymapparams.h"
-
 
 %extend AL::Math::Pose2D {
    char *__repr__() {
