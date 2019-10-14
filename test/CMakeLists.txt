@@ -39,6 +39,10 @@ qi_create_gtest(test_almath_shapes3d
   SRC geometrics/test_shapes3d.cpp
   DEPENDS ALMATH)
 
+qi_create_gtest(test_almath_shapes2d
+  SRC geometrics/test_shapes2d.cpp
+  DEPENDS ALMATH JSON-NLOHMANN)
+
 qi_create_gtest(test_almath_shapes3d_utils
   SRC geometrics/test_shapes3d_utils.cpp
   DEPENDS ALMATH)

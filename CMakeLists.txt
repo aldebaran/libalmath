@@ -55,6 +55,7 @@ include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ALMATH_SRCS
     src/dsp/digitalfilter.cpp
     src/dsp/pidcontroller.cpp
+    src/geometrics/shapes2d.cpp
     src/geometrics/shapes3d.cpp
     src/geometrics/shapes3d_utils.cpp
     src/scenegraph/colladabuilder.cpp
@@ -116,6 +117,8 @@ set(ALMATH_H_WRAPPED
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
+    almath/geometrics/shape.h
+    almath/geometrics/shapes2d.h
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
     almath/scenegraph/almatheigen.h
@@ -149,7 +152,7 @@ else()
   set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
 endif()
 
-qi_use_lib(almath BOOST EIGEN3)
+qi_use_lib(almath BOOST EIGEN3 JSON-NLOHMANN)
 
 # generate a header that will define the symbol visibility/deprecation macros:
 #  ALMATH_API
