@@ -210,7 +210,7 @@ bool isInsideConvexPolygon(
       b = outline.begin();
     ;
     const Eigen::Vector2d pb = (*b - point).normalized();
-    const float angleDet = pb[0] * pa[1] - pa[0] * pb[1];
+    const double angleDet = pb[0] * pa[1] - pa[0] * pb[1];
     if (angleDet > epsSinus) {
       if (orientation == OutlineOrientation::Indirect)
         return false;
