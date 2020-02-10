@@ -196,13 +196,20 @@ ptree v2_root_from_xar_timeline(const ptree &xar_timeline) {
   return root;
 }
 
-void _recurse_over_xar(const ptree::value_type & el,
-                       std::vector<ptree> &out) {
-  if (el.first == "Timeline" &&
-      el.second.get_child_optional("<xmlattr>.fps") &&
-      el.second.get_child_optional("ActuatorList")) {
-    out.push_back(v2_root_from_xar_timeline(el.second));
+void _recurse_over_xar(const ptree::value_type &el,
+    std::vector<std::pair<std::string, ptree>> &out) {
+  if(el.first == "Box") {
+    auto const &opt = el.second.get_child_optional("Timeline");
+    if(opt) {
+      auto const &timeline = *opt;
+      if(timeline.get_child_optional("<xmlattr>.fps") &&
+         timeline.get_child_optional("ActuatorList")) {
+        const auto name = el.second.get<std::string>("<xmlattr>.name");
+        out.push_back({name, v2_root_from_xar_timeline(timeline)});
+      }
+    }
   }
+
   if (el.first == "ChoregrapheProject" ||
       el.first == "ChoregrapheBox" ||
       el.first == "Timeline" ||
@@ -218,8 +225,9 @@ void _recurse_over_xar(const ptree::value_type & el,
   }
 }
 
-std::vector<ptree> v2_roots_from_xar(const ptree &docroot) {
-  std::vector<ptree> out;
+std::vector<std::pair<std::string, ptree>> v2_roots_from_xar(
+    const ptree &docroot) {
+  std::vector<std::pair<std::string, ptree>> out;
   for (const auto &el : docroot) {
     _recurse_over_xar(el, out);
   }

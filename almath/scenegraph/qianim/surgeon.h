@@ -13,6 +13,7 @@
 #include <boost/range/algorithm/for_each.hpp>
 #include <memory>
 #include <vector>
+#include <utility>
 
 namespace AL {
 namespace qianim {
@@ -147,8 +148,10 @@ inline void migrate_xar_to_v2(ptree &curve, int fps) {
 // create an animation document from a XAR timeline
 ALMATH_API ptree v2_root_from_xar_timeline(const ptree &xar_timeline);
 
-// create an animation document for each timeline in a XAR
-ALMATH_API std::vector<ptree> v2_roots_from_xar(const ptree &docroot);
+// create an animation document annotated with its original box name
+// for each timeline in a XAR
+ALMATH_API std::vector<std::pair<std::string, ptree>> v2_roots_from_xar(
+    const ptree &docroot);
 
 // create an animation document from a V1 .qianim document
 ALMATH_API ptree v2_root_from_v1_root(const ptree &v1_root);
