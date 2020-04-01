@@ -4,8 +4,8 @@
  *
  */
 
-#ifndef LIB_ALMATH_GEOMETRICS_SHAPES_H
-#define LIB_ALMATH_GEOMETRICS_SHAPES_H
+#ifndef LIB_ALMATH_GEOMETRICS_SHAPES3D_H
+#define LIB_ALMATH_GEOMETRICS_SHAPES3D_H
 
 #include <almath/api.h>
 #include <string>
@@ -207,4 +207,4 @@ class ALMATH_API NotImplementedShape3DVisitor : public Shape3DVisitor {
 }  // End namespace Math.
 }  // End namespace AL.
 
-#endif  // LIB_ALMATH_GEOMETRICS_SHAPE_H
+#endif  // LIB_ALMATH_GEOMETRICS_SHAPES3D_H

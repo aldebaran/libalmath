@@ -39,6 +39,10 @@ qi_create_gtest(test_almath_shapes3d
   SRC geometrics/test_shapes3d.cpp
   DEPENDS ALMATH)
 
+qi_create_gtest(test_almath_shapes2d
+  SRC geometrics/test_shapes2d.cpp
+  DEPENDS ALMATH JSON-NLOHMANN)
+
 qi_create_gtest(test_almath_shapes3d_utils
   SRC geometrics/test_shapes3d_utils.cpp
   DEPENDS ALMATH)
@@ -100,3 +104,7 @@ if (WITH_PYTHON AND NOT WIN32)
     ARGUMENTS ${CMAKE_CURRENT_SOURCE_DIR}/test_almathswig.py
     ENVIRONMENT PYTHONPATH=${QI_SDK_DIR}/lib:${QI_SDK_DIR}/lib/python2.7/site-packages)
 endif()
+
+qi_create_gtest(test_almath_eigen
+  SRC scenegraph/test_eigen.cpp
+  DEPENDS ALMATH)

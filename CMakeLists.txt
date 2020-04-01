@@ -24,6 +24,16 @@ option(ALMATH_WITH_QIGEOMETRY
 option(ALMATH_AS_STATIC_LIBRARY
   "if true, almath is built as a static library"
   OFF)
+if (I_AM_A_ROBOT AND NOT ENABLE_NAO)
+  # we don't install almath python bindings on robots, except NAO
+  set(_almath_with_pythonbindings_default OFF)
+else()
+  qi_add_optional_package(PYTHON)
+  set(_almath_with_pythonbindings_default ${WITH_PYTHON})
+endif()
+option(ALMATH_WITH_PYTHONBINDINGS
+  "if true, build almath's python bindings."
+  ${_almath_with_pythonbindings_default})
 
 qi_stage_dir(".")
 if (ALMATH_WITH_QIGEOMETRY)
@@ -55,6 +65,7 @@ include_directories(BEFORE "${CMAKE_CURRENT_SOURCE_DIR}")
 set(ALMATH_SRCS
     src/dsp/digitalfilter.cpp
     src/dsp/pidcontroller.cpp
+    src/geometrics/shapes2d.cpp
     src/geometrics/shapes3d.cpp
     src/geometrics/shapes3d_utils.cpp
     src/scenegraph/colladabuilder.cpp
@@ -116,6 +127,8 @@ set(ALMATH_H_WRAPPED
 )
 set(ALMATH_H
     ${ALMATH_H_WRAPPED}
+    almath/geometrics/shape.h
+    almath/geometrics/shapes2d.h
     almath/geometrics/shapes3d.h
     almath/geometrics/shapes3d_utils.h
     almath/scenegraph/almatheigen.h
@@ -128,6 +141,7 @@ set(ALMATH_H
     almath/scenegraph/bodymass.h
     almath/scenegraph/colladabuilder.h
     almath/scenegraph/colladascenebuilder.h
+    almath/scenegraph/eigen.h
     almath/scenegraph/gltf.h
     almath/scenegraph/meshfactory.h
     almath/scenegraph/mesh.h
@@ -148,7 +162,7 @@ else()
   set_target_properties(almath PROPERTIES CXX_VISIBILITY_PRESET hidden)
 endif()
 
-qi_use_lib(almath BOOST EIGEN3)
+qi_use_lib(almath BOOST EIGEN3 JSON-NLOHMANN)
 
 # generate a header that will define the symbol visibility/deprecation macros:
 #  ALMATH_API
@@ -175,8 +189,7 @@ qi_stage_lib(almath ALMATH
   "set(SWIG_MODULE_almathswig_DEPS \"${SWIG_MODULE_almathswig_DEPS}\" CACHE INTERNAL \"\" FORCE)")
 qi_install_header(${ALMATH_H} KEEP_RELATIVE_PATHS)
 
-qi_add_optional_package(PYTHON)
-if(WITH_PYTHON)
+if(ALMATH_WITH_PYTHONBINDINGS)
   include(qibuild/swig/python)
   set(SWIG_MODULE_almathswig_EXTRA_DEPS ${ALMATH_H_WRAPPED})
   qi_swig_wrap_python(almathswig almath.i DEPENDS ALMATH)

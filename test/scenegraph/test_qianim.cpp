@@ -784,16 +784,22 @@ TEST(AnimationSurgeonTest, migrate_v1) {
 TEST(AnimationSurgeonTest, migrate_xar) {
   // kind of smoke test:
   // check we get the expected number of animations and that they are valid
-  const auto inputs = {std::make_pair("behavior.xar", 1u),
-                       std::make_pair("behavior2.xar", 3u),
-                       std::make_pair("box.xar", 1u)};
+  using Input = std::pair<std::string, std::vector<std::string>>;
+  const auto inputs = {Input{"behavior.xar", {"Lost"}},
+                       Input{"behavior2.xar", {"LookUp", "LookUp (cut)", "LookDown"}},
+                       Input{"box.xar", {"root"}}};
   for (auto && input : inputs)
   {
     auto docs = v2_roots_from_xar(open_xml(gDataPath/input.first));
-    EXPECT_EQ(input.second, docs.size()) << input.first;
-    for (auto && doc: docs) {
+    const auto n = input.second.size();
+    EXPECT_EQ(input.second.size(), docs.size()) << input.first;
+    for (size_t i = 0u; i<n; i++) {
+      const auto &pair = docs.at(i);
+      EXPECT_EQ(input.second[i], pair.first)
+              << input.first << ": " << i;
       EXPECT_NO_THROW(V2::Animation::check_all(
-                        AL::qianim::V2::get_animation(doc)));
+                        AL::qianim::V2::get_animation(pair.second)))
+              << input.first << ": " << i;
     }
   }
 }

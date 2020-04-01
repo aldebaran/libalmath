@@ -142,10 +142,10 @@ int main(int argc, char *argv[])
             std::cerr << "Ignoring \"--inplace\" option, which is incompatible with "
                          "\"--migrate-xar\"\n";
           }
-          for (auto && root : v2_roots_from_xar(docroot)) {
+          for (auto && pair : v2_roots_from_xar(docroot)) {
             // do not forward the path argument, in order to disable the handling
             // of the "--inplace" option.
-            apply_commands(vm, root);
+            apply_commands(vm, pair.second);
           }
         } else if (vm.count("migrate-v1")) {
           docroot = v2_root_from_v1_root(docroot);
